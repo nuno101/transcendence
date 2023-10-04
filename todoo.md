@@ -9,6 +9,17 @@ Set up your project repository, create a directory structure to separate front-e
     README.md: Information about the project, how to set it up, build it, run it, etc.
     .gitignore: List of files and folders to ignore in git version control.
     docker-compose.yml: Configuration to run your entire stack with Docker Compose.
+
+    TODOO: mkdir when u need
+    /frontend/src/components: Reusable UI components.
+    /frontend/src/services: Services to manage API calls and other side effects.
+    /frontend/src/assets: Static assets like images, icons, etc.
+    /frontend/src/store: State management (if using Redux, Vuex, etc.).
+    /frontend/src/types: TypeScript type definitions and interfaces.
+    /backend/src/modules: Group related functionalities (controller, service, etc.) into modules to take advantage of NestJS's modular architecture.
+    /backend/src/config: Configuration files and setup.
+    /backend/src/middleware: Any middleware to manage HTTP requests and responses.
+    /backend/src/interfaces: TypeScript interfaces for structured data in your backend.
 }
 
 Initialize npm projects (npm init) in both frontend and backend directories.

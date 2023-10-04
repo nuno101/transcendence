@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Real-time NestJS backend enabling multiplayer ping pong games and chat, utilizing WebSockets for instant communication and a PostgreSQL database for data management",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nuno101/transcendence.git"
+  },
+  "keywords": [
+    "[\"nestjs\"",
+    "\"ping-pong\"",
+    "\"real-time\"",
+    "\"websocket\"",
+    "\"multiplayer\"]"
+  ],
+  "author": "42-crew",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/nuno101/transcendence/issues"
+  },
+  "homepage": "https://github.com/nuno101/transcendence#readme"
+}
