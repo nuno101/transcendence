@@ -1,5 +1,19 @@
 version: '3.8'
 
+networks:
+  transcendence-network:
+    name: transcendence-network
+    driver: bridge
+
+volumes:
+  frontend:
+    driver: local
+    name: frontend
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jj/data/transcendence/volumes/C
+
 services:
   backend:
     build: 
@@ -12,7 +26,7 @@ services:
     #  context: ./frontend
     #ports:
      # - "8080:8080"
-    
+
   database:
     image: postgres:latest
     environment: 
