@@ -22,7 +22,7 @@ Set up your project repository, create a directory structure to separate front-e
     /backend/src/interfaces: TypeScript interfaces for structured data in your backend.
 }
 
-Initialize npm projects (npm init) in both frontend and backend directories.
+Initialize npm projects (npm init) in both frontend and backend directories. (???Through docker-compose???)
 Set up .gitignore to exclude node_modules and other unnecessary files from your repository.
 
 

@@ -42,6 +42,7 @@ with a package.json in each of the frontend and backend directories:
   /backend
     package.json
 
+TODOO:
 Next Steps:
 Start installing the dependencies needed for each part of the project using npm install [package-name].
 If you are utilizing version control (like Git),
