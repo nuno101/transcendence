@@ -1,20 +1,26 @@
-FROM alpine:3.17
+# Use Alpine Linux as the base image
+FROM node:14-alpine
 
-RUN mkdir -p backend/app
+# Set the working directory
+WORKDIR /app
 
-RUN apk add --update \
-    nodejs \
-    npm 
+# Create the directory for your application code
+RUN mkdir -p /app/
 
-WORKDIR /backend/app
+# Copy your application code into the container
+COPY ./src/index.js /app/index.js
 
-COPY package.json /backend/app
+# Set the permissions of the copied file (755 for executable)
+RUN chmod 755 /app/index.js
+
+# Copy package.json and package-lock.json from your project directory into the container
+COPY package.json /app/package.json
 
 RUN npm install
 
-COPY tools/start.sh /backend/app/start.sh
-RUN chmod +x /backend/app/start.sh
+# Copy the generated package-lock.json into the /app directory
+#RUN cp package-lock.json /app/package-lock.json
+#RUN chmod 755 /app/package-lock.json
 
-ENTRYPOINT ["sh"]
-
+# Specify the command to start your application
 CMD ["npm", "start"]

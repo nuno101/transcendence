@@ -29,6 +29,7 @@ volumes:
       device: /home/jj/data/transcendence/volumes/E
 
 services:
+
   backend:
     container_name: backend
     image: backend
@@ -42,7 +43,7 @@ services:
       - transcendence-network
     volumes:
       - backend_device:/var/lib/C 
-
+    restart: always
   #frontend:
    # build: 
     #  context: ./frontend
@@ -50,12 +51,14 @@ services:
      # - "8080:8080"
 
   database:
+    container_name: postgres
     image: postgres
-    build:                                            <-------  #TODOOOO create Dockerfile for database
-      context: ./database/                            <-------  #TODOO create DOckerfile at this place
+    build:  
+      context: ./database/
     environment:
       POSTGRES_PASSWORD: example
     volumes:
       - database_device:/var/lib/postgresql/data
     networks:
       - transcendence-network
+    restart: always
