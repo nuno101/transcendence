@@ -20,6 +20,13 @@ volumes:
       type: none
       o: bind
       device: /home/jj/data/transcendence/volumes/D
+  database_device:
+    driver: local
+    name: database_device
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jj/data/transcendence/volumes/E
 
 services:
   backend:
@@ -43,6 +50,12 @@ services:
      # - "8080:8080"
 
   database:
-    image: postgres:latest
+    image: postgres
+    build:                                            <-------  #TODOOOO create Dockerfile for database
+      context: ./database/                            <-------  #TODOO create DOckerfile at this place
     environment:
       POSTGRES_PASSWORD: example
+    volumes:
+      - database_device:/var/lib/postgresql/data
+    networks:
+      - transcendence-network

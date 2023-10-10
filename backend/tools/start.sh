@@ -12,3 +12,5 @@
 
 #npm ERR! A complete log of this run can be found in:
 #npm ERR!     /root/.npm/_logs/2023-10-05T13_34_25_531Z-debug-0.log
+
+echo "hello World"
