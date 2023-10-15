@@ -3,7 +3,7 @@ Pong game as single-page web application
 
 ## Technologies
 - backend: use NestJS
-- frontend: choose a Typescript framework - react.js ?
+- frontend: choose a Typescript framework - vue.js? react.js ?
 - database: Postgres
   - protect against SQL injection
 

@@ -1,0 +1,48 @@
+version: '3.8'
+
+networks:
+  transcendence-network:
+    name: transcendence-network
+    driver: bridge
+
+volumes:
+  backend_device:
+    driver: local
+    name: backend_device
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jj/data/transcendence/volumes/C
+  frontend_device:
+    driver: local
+    name: frontend_device
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jj/data/transcendence/volumes/D
+
+services:
+  backend:
+    container_name: backend
+    image: backend
+    build: 
+      context: ./backend/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - transcendence-network
+    volumes:
+      - backend_device:/var/lib/C 
+
+  #frontend:
+   # build: 
+    #  context: ./frontend
+    #ports:
+     # - "8080:8080"
+
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
