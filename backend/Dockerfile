@@ -1,11 +1,19 @@
-FROM node:14.17.1-alpine
+FROM node:18
 
 WORKDIR /app
 
-COPY ./backend/tools/entrypoint.sh /app/
+COPY ./package.json /app/
 
-RUN apk update && apk add bash
+COPY ./package-lock.json /app/
+
+RUN npm install -g @nestjs/cli
+
+RUN npm install
+
+RUN npm fund
+
+COPY . /appdo
 
 EXPOSE 3000
 
-CMD ["bin/sh", "entrypoint.sh"] 
+CMD ["npm", "run", "start:dev"] 
