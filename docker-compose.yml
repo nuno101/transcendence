@@ -1,25 +1,29 @@
 version: '3.8'
 
 networks:
-  transcendence-network:
-    name: transcendence-network
+  database-network:
+    name: database-network
     driver: bridge
+  #transcendence-network:
+  #  name: transcendence-network
+  #  driver: bridge
+
 
 volumes:
-  backend_device:
-    driver: local
-    name: backend_device
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/jj/data/transcendence/volumes/C
-  frontend_device:
-    driver: local
-    name: frontend_device
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/jj/data/transcendence/volumes/D
+  #backend_device:
+  #  driver: local
+  #  name: backend_device
+  #  driver_opts:
+  #    type: none
+  #    o: bind
+  #    device: /home/jj/data/transcendence/volumes/C
+  #frontend_device:
+  #  driver: local
+  #  name: frontend_device
+  #  driver_opts:
+  #    type: none
+  #    o: bind
+  #    device: /home/jj/data/transcendence/volumes/D
   database_device:
     driver: local
     name: database_device
@@ -29,36 +33,38 @@ volumes:
       device: /home/jj/data/transcendence/volumes/E
 
 services:
-
-  backend:
-    container_name: backend
-    image: backend
-    build: 
-      context: ./backend/
-    ports:
-      - "3000:3000"
-    depends_on:
-      - database
+  database:
+    image: postgres:10.4
     networks:
-      - transcendence-network
+      - database-network
+    ports:
+      - '5432:5432'
+    env_file:
+      ./database/.env
     volumes:
-      - backend_device:/var/lib/C 
+      - /home/jj/data/transcendence/volumes/E:/var/lib/postgresql/data
+      - ./database/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
     restart: always
+    container_name: database
+    hostname: database
+
+#  backend:
+#    container_name: backend
+#    image: backend
+#    build: 
+#      context: ./backend/
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      - database
+#    networks:
+#      - transcendence-network
+#    volumes:
+#      - backend_device:/var/lib/C 
+#    restart: always
   #frontend:
    # build: 
     #  context: ./frontend
     #ports:
      # - "8080:8080"
 
-  database:
-    container_name: postgres
-    image: postgres
-    build:  
-      context: ./database/
-    environment:
-      POSTGRES_PASSWORD: example
-    volumes:
-      - database_device:/var/lib/postgresql/data
-    networks:
-      - transcendence-network
-    restart: always
