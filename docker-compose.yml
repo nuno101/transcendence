@@ -10,6 +10,13 @@ networks:
 
 
 volumes:
+  database_device:
+    driver: local
+    name: database_device
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jj/data/transcendence/volumes/E
   #backend_device:
   #  driver: local
   #  name: backend_device
@@ -24,13 +31,6 @@ volumes:
   #    type: none
   #    o: bind
   #    device: /home/jj/data/transcendence/volumes/D
-  database_device:
-    driver: local
-    name: database_device
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/jj/data/transcendence/volumes/E
 
 services:
   database:
