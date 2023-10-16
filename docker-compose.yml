@@ -1,31 +1,56 @@
 version: '3.8'
 
 networks:
+  database-network:
+    name: database-network
+    driver: bridge
   transcendence-network:
     name: transcendence-network
     driver: bridge
 
+
 volumes:
+  database_device:
+    driver: local
+    name: database_device
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/$USER/data/transcendence/volumes/E
   backend_device:
     driver: local
     name: backend_device
     driver_opts:
       type: none
       o: bind
-      device: /home/jj/data/transcendence/volumes/C
-  frontend_device:
-    driver: local
-    name: frontend_device
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/jj/data/transcendence/volumes/D
+      device: /home/$USER/data/transcendence/volumes/C
+  #frontend_device:
+  #  driver: local
+  #  name: frontend_device
+  #  driver_opts:
+  #    type: none
+  #    o: bind
+  #    device: /home/jj/data/transcendence/volumes/D
 
 services:
+  database:
+    image: postgres:10.4
+    networks:
+      - database-network
+    ports:
+      - '4000:4000'
+    env_file:
+      ./database/.env
+    volumes:
+      - /home/$USER/data/transcendence/volumes/E:/var/lib/postgresql/data
+      - ./database/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
+    restart: always
+    container_name: database
+    hostname: database
   backend:
     container_name: backend
     image: backend
-    build: 
+    build:
       context: ./backend/
     ports:
       - "3000:3000"
@@ -33,8 +58,9 @@ services:
       - database
     networks:
       - transcendence-network
+      - database-network
     volumes:
-      - backend_device:/var/lib/C 
+      - /home/$USER/data/transcendence/volumes/C:/var/lib/backend/data
 
   #frontend:
    # build: 
@@ -42,7 +68,3 @@ services:
     #ports:
      # - "8080:8080"
 
-  database:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example

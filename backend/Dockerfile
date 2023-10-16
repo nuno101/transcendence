@@ -1,17 +1,11 @@
-FROM alpine:3.17
+FROM node:14.17.1-alpine
 
-RUN mkdir -p /backend/app
+WORKDIR /app
 
-RUN apk add --update \
-    nodejs \
-    npm 
+COPY ./backend/tools/entrypoint.sh /app/
 
-WORKDIR /backend/app
+RUN apk update && apk add bash
 
-COPY package.json /backend/app
+EXPOSE 3000
 
-RUN npm install
-
-COPY . /app
-
-CMD ["npm", "start"]
+CMD ["bin/sh", "entrypoint.sh"] 
