@@ -4,9 +4,9 @@ networks:
   database-network:
     name: database-network
     driver: bridge
-  #transcendence-network:
-  #  name: transcendence-network
-  #  driver: bridge
+  transcendence-network:
+    name: transcendence-network
+    driver: bridge
 
 
 volumes:
@@ -17,13 +17,13 @@ volumes:
       type: none
       o: bind
       device: /home/$USER/data/transcendence/volumes/E
-  #backend_device:
-  #  driver: local
-  #  name: backend_device
-  #  driver_opts:
-  #    type: none
-  #    o: bind
-  #    device: /home/$USER/data/transcendence/volumes/C
+  backend_device:
+    driver: local
+    name: backend_device
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/$USER/data/transcendence/volumes/C
   #frontend_device:
   #  driver: local
   #  name: frontend_device
@@ -38,7 +38,7 @@ services:
     networks:
       - database-network
     ports:
-      - '5432:5432'
+      - '4000:4000'
     env_file:
       ./database/.env
     volumes:
@@ -47,21 +47,21 @@ services:
     restart: always
     container_name: database
     hostname: database
+  backend:
+    container_name: backend
+    image: backend
+    build:
+      context: ./backend/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - transcendence-network
+      - database-network
+    volumes:
+      - /home/$USER/data/transcendence/volumes/C:/var/lib/backend/data
 
-#  backend:
-#    container_name: backend
-#    image: backend
-#    build: 
-#      context: ./backend/
-#    ports:
-#      - "3000:3000"
-#    depends_on:
-#      - database
-#    networks:
-#      - transcendence-network
-#    volumes:
-#      - backend_device:/var/lib/C 
-#    restart: always
   #frontend:
    # build: 
     #  context: ./frontend
