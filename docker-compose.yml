@@ -61,10 +61,16 @@ services:
       - database-network
     volumes:
       - /home/$USER/data/transcendence/volumes/C:/var/lib/backend/data
-
-  #frontend:
-   # build: 
-    #  context: ./frontend
-    #ports:
-     # - "8080:8080"
+  frontend:
+    container_name: frontend
+    image: frontend
+    build: 
+      context: ./frontend
+    depends_on:
+      - backend
+      - database
+    volumes:
+      - /home/$USER/data/transcendence/volumes/D:/var/lib/frontend/data
+    ports:
+     - "80:80"
 
