@@ -16,4 +16,6 @@ COPY . /app
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start:dev"] 
+RUN chmod 777 ./entryscript.sh
+
+CMD ["bash", "./entryscript.sh"]
