@@ -12,7 +12,7 @@ RUN npm install
 
 RUN npm fund
 
-COPY . /appdo
+COPY . /app
 
 EXPOSE 3000
 
