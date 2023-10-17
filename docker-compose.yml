@@ -24,13 +24,13 @@ volumes:
       type: none
       o: bind
       device: /home/$USER/data/transcendence/volumes/C
-  #frontend_device:
-  #  driver: local
-  #  name: frontend_device
-  #  driver_opts:
-  #    type: none
-  #    o: bind
-  #    device: /home/jj/data/transcendence/volumes/D
+  frontend_device:
+    driver: local
+    name: frontend_device
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jj/data/transcendence/volumes/D
 
 services:
   database:
