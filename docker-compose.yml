@@ -8,7 +8,6 @@ networks:
     name: transcendence-network
     driver: bridge
 
-
 volumes:
   database_device:
     driver: local
