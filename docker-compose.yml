@@ -8,7 +8,6 @@ networks:
     name: transcendence-network
     driver: bridge
 
-
 volumes:
   database_device:
     driver: local
@@ -43,7 +42,6 @@ services:
       ./database/.env
     volumes:
       - /home/$USER/data/transcendence/volumes/E:/var/lib/postgresql/data
-      - ./database/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
     restart: always
     container_name: database
     hostname: database
