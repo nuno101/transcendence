@@ -12,6 +12,6 @@ RUN npm audit fix
 
 COPY . .
 
-RUN chmod 777 entryscript.sh
+RUN chmod 755 entryscript.sh
 
-CMD ["bash", "./entryscript.sh"]
+CMD ["./entryscript.sh"]
