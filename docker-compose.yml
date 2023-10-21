@@ -39,7 +39,7 @@ services:
     ports:
       - '5432:5432'
     env_file:
-      ./database/.env
+      ./.env
     volumes:
       - /home/$USER/data/transcendence/volumes/E:/var/lib/postgresql/data
     restart: always
@@ -52,6 +52,8 @@ services:
       context: ./backend/
     ports:
       - "3000:3000"
+    env_file:
+      ./.env
     depends_on:
       - database
     networks:
