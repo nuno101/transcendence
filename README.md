@@ -40,14 +40,14 @@ The project now required 7 major modules (2 minors is equals to 1 major) to be v
 🔺 Major module, 🔸 Minor module
 
 **Web**
-- 🔺 Use a Framework as backend.
-- 🔸 Use a front-end framework or toolkit.
-- 🔸 Use a database for the backend.
+- 🔺 **Use a Framework as backend.**
+- 🔸 **Use a front-end framework or toolkit.**
+- 🔸 **Use a database for the backend.**
 - 🔺 Store the score of a tournament in the Blockchain.
   
 **User management**
-- 🔺 Standard user management, authentication, users across tournaments.
-- 🔺 Implementing a remote authentication.
+- 🔺 **Standard user management, authentication, users across tournaments.**
+- 🔺 **Implementing a remote authentication.**
   
 **Gameplay and user experience**
 - 🔺 Remote players
@@ -62,13 +62,13 @@ The project now required 7 major modules (2 minors is equals to 1 major) to be v
 
 **Cybersecurity**
 - 🔺 Implement WAF/ModSecurity with Hardened Configuration and HashiCorp Vault for Secrets Management.
-- 🔸 GDPR Compliance options with user anonymizations, local data management and account deletion
-- 🔺 Implement Two-Factor Authentication (2FA) and JWT.
+- 🔸 **GDPR Compliance options with user anonymizations, local data management and account deletion**
+- 🔺 **Implement Two-Factor Authentication (2FA) and JWT.**
 
 **Devops**
 - 🔺 Infrastructure Setup for Log Management.
 - 🔸 Monitoring system.
-- 🔺 Designing the Backend as Microservices.
+- 🔺 **Designing the Backend as Microservices.**
 
 **Graphics**
 - 🔺 Use of advanced 3D techniques.
@@ -76,10 +76,10 @@ The project now required 7 major modules (2 minors is equals to 1 major) to be v
 **Accessibility**
 - 🔸 Support on all devices
 - 🔸 Expanding browser compatibility
-- 🔸 Multiple language supports.
+- 🔸 **Multiple language supports.**
 - 🔸 Add accessibility for Visually Impaired Users.
 - 🔸 Server-Side Rendering (SSR) Integration.
   
 **Object oriented**
-- 🔺 Replacing Basic Pong with Server-Side Pong and Implementing an API.
+- 🔺 **Replacing Basic Pong with Server-Side Pong and Implementing an API.**
 - 🔺 Enabling Pong Gameplay via CLI against Web Users with API Integration.
