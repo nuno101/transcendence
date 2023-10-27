@@ -1,17 +1,13 @@
-FROM node:18
+FROM node:16.20.2
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY ./package*.json /app/
+COPY ./nestjs-dockerized/package*.json ./
 
-RUN npm install -g @nestjs/cli
+RUN npm install
 
-RUN npm install @nestjs/typeorm typeorm pg
+COPY ./nestjs-dockerized/. .
 
-RUN npm audit fix
+RUN npm run build
 
-COPY . .
-
-RUN chmod 755 entryscript.sh
-
-CMD ["./entryscript.sh"]
+CMD ["node", "dist/main"]
