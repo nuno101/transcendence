@@ -2,12 +2,14 @@ FROM node:16.20.2
 
 WORKDIR /usr/src/app
 
-COPY ./nestjs-dockerized/package*.json ./
+COPY ./package*.json ./
 
 RUN npm install
 
-COPY ./nestjs-dockerized/. .
+RUN npm i -g @nestjs/cli
 
-RUN npm run build
+COPY ./entryscript.sh .
 
-CMD ["node", "dist/main"]
+#RUN npm run build
+
+CMD ["./entryscript.sh"]
