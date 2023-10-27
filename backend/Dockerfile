@@ -8,8 +8,8 @@ RUN npm install
 
 RUN npm i -g @nestjs/cli
 
-COPY ./entryscript.sh .
+COPY ./entryscript.sh ./script.sh
 
-#RUN npm run build
+RUN chmod 755 ./script.sh
 
-CMD ["./entryscript.sh"]
+CMD ["./script.sh"]

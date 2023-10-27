@@ -14,4 +14,6 @@ clean:#Todoo! Add a smaller cleaner
 clean-all:
 	docker-compose -f ./docker-compose.yml down --volumes --rmi all
 	docker system prune -f --volumes -a
-	sudo rm -rf /home/$(USER)/data/transcendence/volumes/C /home/$(USER)/data/transcendence/volumes/D /home/$(USER)/data/transcendence/volumes/E
+	sudo rm -rf /home/$(USER)/data/transcendence/volumes/C 
+	
+	#/home/$(USER)/data/transcendence/volumes/D /home/$(USER)/data/transcendence/volumes/E
