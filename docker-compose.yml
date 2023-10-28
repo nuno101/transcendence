@@ -15,21 +15,21 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/$USER/data/transcendence/volumes/E
+      device: $HOME/data/transcendence/volumes/E
   backend_device:
     driver: local
     name: backend_device
     driver_opts:
       type: none
       o: bind
-      device: /home/$USER/data/transcendence/volumes/C
+      device: $HOME/data/transcendence/volumes/C
   frontend_device:
     driver: local
     name: frontend_device
     driver_opts:
       type: none
       o: bind
-      device: /home/jj/data/transcendence/volumes/D
+      device: /$HOME/data/transcendence/volumes/D
 
 services:
   database:
@@ -46,7 +46,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_URL: ${POSTGRES_URL}
     volumes:
-      - /home/$USER/data/transcendence/volumes/E:/var/lib/postgresql/data
+      - $HOME/data/transcendence/volumes/E:/var/lib/postgresql/data
     restart: always
   backend:
     container_name: backend
@@ -66,7 +66,8 @@ services:
       - transcendence-network
       - database-network
     volumes:
-      - /home/$USER/data/transcendence/volumes/C:/var/lib/backend/data
+
+      - $HOME/data/transcendence/volumes/C:/var/lib/backend/data
   frontend:
     container_name: frontend
     image: frontend
