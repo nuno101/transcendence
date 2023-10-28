@@ -46,7 +46,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_URL: ${POSTGRES_URL}
     volumes:
-      - $HOME/data/transcendence/volumes/E:/var/lib/postgresql/data
+      - database_device:/var/lib/postgresql/data
     restart: always
   backend:
     container_name: backend
@@ -67,7 +67,7 @@ services:
       - transcendence-network
       - database-network
     volumes:
-      - $HOME/data/transcendence/volumes/C:/var/lib/backend/data
+      - backend_device:/var/lib/backend/data
   frontend:
     container_name: frontend
     image: frontend
@@ -77,7 +77,7 @@ services:
       - backend
       - database
     volumes:
-      - $HOME/data/transcendence/volumes/D:/var/lib/frontend/data
+      - frontend_device:/var/lib/frontend/data
     ports:
      - "80:80"
 
