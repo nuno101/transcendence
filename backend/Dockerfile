@@ -1,15 +1,29 @@
-FROM node:16.20.2
+FROM node:latest
 
 WORKDIR /usr/src/app
 
-COPY ./package*.json ./
+COPY ./nestjs-dockerized/package*.json ./
 
-RUN npm install
+RUN npm install -g npm@10.2.1
 
-RUN npm i -g @nestjs/cli
+COPY ./nestjs-dockerized/. .
 
-COPY ./entryscript.sh ./script.sh
 
-RUN chmod 755 ./script.sh
+#DEbug tools
+#RUN npm install postgresql-client --save
+#---------------------------------------
 
-CMD ["./script.sh"]
+#Prisma
+RUN npm install --save-dev prisma
+RUN npm install @prisma/client
+RUN npx prisma init
+COPY ./schema.prisma prisma/
+COPY .env .
+
+#need scripts because first npm build
+#RUN npx prisma migrate dev --name init
+#RUN npx prisma generate
+
+RUN npm run build
+
+CMD ["node", "dist/main"]
