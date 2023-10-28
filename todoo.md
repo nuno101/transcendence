@@ -1,3 +1,4 @@
+TODO: Delete .env 
 
 Step 1: Project Initialization
 Set up your project repository, create a directory structure to separate front-end and back-end code.

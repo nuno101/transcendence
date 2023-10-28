@@ -1,11 +1,13 @@
-FROM node:14.17.1-alpine
+FROM node:16.20.2
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY ./backend/tools/entrypoint.sh /app/
+COPY ./nestjs-dockerized/package*.json ./
 
-RUN apk update && apk add bash
+RUN npm install
 
-EXPOSE 3000
+COPY ./nestjs-dockerized/. .
 
-CMD ["bin/sh", "entrypoint.sh"] 
+RUN npm run build
+
+CMD ["node", "dist/main"]
