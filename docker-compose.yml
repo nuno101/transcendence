@@ -54,7 +54,8 @@ services:
     build:
       context: ./backend/
     ports:
-      - "3001:3001"
+      - "3000:3000"
+      - "5555:5555"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -66,7 +67,6 @@ services:
       - transcendence-network
       - database-network
     volumes:
-
       - $HOME/data/transcendence/volumes/C:/var/lib/backend/data
   frontend:
     container_name: frontend
