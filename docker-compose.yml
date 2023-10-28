@@ -67,7 +67,6 @@ services:
       - transcendence-network
       - database-network
     volumes:
-
       - $HOME/data/transcendence/volumes/C:/var/lib/backend/data
   frontend:
     container_name: frontend
