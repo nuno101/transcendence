@@ -16,14 +16,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/$USER/data/transcendence/volumes/E
+      device: $HOME/data/transcendence/volumes/E
   backend_device:
     driver: local
     name: backend_device
     driver_opts:
       type: none
       o: bind
-      device: /home/$USER/data/transcendence/volumes/C
+      device: $HOME/data/transcendence/volumes/C
   #frontend_device:
   #  driver: local
   #  name: frontend_device
@@ -42,7 +42,7 @@ services:
     env_file:
       ./database/.env
     volumes:
-      - /home/$USER/data/transcendence/volumes/E:/var/lib/postgresql/data
+      - $HOME/data/transcendence/volumes/E:/var/lib/postgresql/data
       - ./database/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
     restart: always
     container_name: database
@@ -60,7 +60,7 @@ services:
       - transcendence-network
       - database-network
     volumes:
-      - /home/$USER/data/transcendence/volumes/C:/var/lib/backend/data
+      - $HOME/data/transcendence/volumes/C:/var/lib/backend/data
 
   #frontend:
    # build: 
