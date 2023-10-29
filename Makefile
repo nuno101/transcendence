@@ -1,21 +1,26 @@
-ENV_FILE := .env
-include $(ENV_FILE)
-VOLUMES := $(BACKEND_VOLUME) $(DATABASE_VOLUME) $(FRONTEND_VOLUME)
-
-.PHONY: all build up clean clean-all
+.PHONY: all build up clean re clean-all
 
 all: build up
 
 build:
-	mkdir -p $(VOLUMES)
-	docker-compose -f ./docker-compose.yml build
+	mkdir -p  $(HOME)/data/transcendence/volumes/C
+	mkdir -p  $(HOME)/data/transcendence/volumes/D
+	mkdir -p  $(HOME)/data/transcendence/volumes/E
+	docker compose build
 
 up:
-	docker-compose -f ./docker-compose.yml up -d
+	docker compose up -d
 
-clean:#Todoo! Add a smaller cleaner
+down:
+	docker compose down
+
+clean: down
+	docker system prune -f
+	rm -rf $(HOME)/data/transcendence/volumes
+
+re: clean all
 
 clean-all:
-	docker-compose -f ./docker-compose.yml down --volumes --rmi all
+	docker compose -f ./docker-compose.yml down --volumes --rmi all
 	docker system prune -f --volumes -a
-	rm -rf $(VOLUMES)
+	rm -rf $(HOME)/data/transcendence/volumes
