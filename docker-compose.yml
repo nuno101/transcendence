@@ -75,7 +75,8 @@ services:
       context: ./frontend
     depends_on:
       - backend
-      - database
+    networks:
+      - transcendence-network
     volumes:
       - frontend_device:/var/lib/frontend/data
     ports:
