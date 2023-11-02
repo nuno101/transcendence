@@ -27,6 +27,9 @@ RUN ls -al /usr/src/app
 EXPOSE 3000
 
 # Run the WSGI server using gunicorn on port 3000
-#CMD ["ls", "-al", "/usr/src/app/django_backend"]
+
+#DEBUG:
+#CMD ["tail", "-f", "/dev/null"]
+
 
 CMD ["gunicorn", "--bind", "0.0.0.0:3000", "django_backend.wsgi:application"]
