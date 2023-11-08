@@ -47,6 +47,7 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
     volumes:
       - database_device:/var/lib/postgresql/data
+      - ./database/init-scripts/:/docker-entrypoint-initdb.d/
     restart: always
   backend:
     container_name: backend

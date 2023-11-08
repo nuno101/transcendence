@@ -1,0 +1,11 @@
+database-# \dt
+           List of relations
+ Schema |     Name     | Type  | Owner  
+--------+--------------+-------+--------
+ public | chatroom     | table | pguser
+ public | game_history | table | pguser
+ public | membership   | table | pguser
+ public | message      | table | pguser
+ public | players      | table | pguser
+ public | relation     | table | pguser
+(6 rows)
