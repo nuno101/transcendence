@@ -54,8 +54,7 @@ services:
     build:
       context: ./backend/
     ports:
-      - "3000:3000"
-      - "5555:5555"
+      - "8000:8000"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
