@@ -1,3 +1,7 @@
-django==4.2.6
-psycopg2==2.9.9
-gunicorn==21.2.0
+Django
+gunicorn
+psycopg
+djangorestframework
+PyYAML
+requests
+django-cors-headers
