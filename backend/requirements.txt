@@ -1,6 +1,6 @@
 Django
 gunicorn
-psycopg
+psycopg2-binary
 djangorestframework
 PyYAML
 requests
