@@ -6,6 +6,7 @@ WORKDIR /app
 COPY conf/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 RUN django-admin startproject transc 
+# updated allowed_ips and Postgres DB config
 COPY conf/settings.py /app/transc
 WORKDIR /app/transc
 # Run the application:
