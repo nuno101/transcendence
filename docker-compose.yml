@@ -13,13 +13,6 @@ volumes:
       type: none
       o: bind
       device: $HOME/data/transcendence/volumes/E
-  backend_device:
-    driver: local
-    name: backend_device
-    driver_opts:
-      type: none
-      o: bind
-      device: $HOME/data/transcendence/volumes/C
 
 services:
 
@@ -57,8 +50,6 @@ services:
       - database
     networks:
       - database-network
-    volumes:
-      - backend_device:/var/lib/backend/data
 
   frontend:
     container_name: frontend
