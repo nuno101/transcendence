@@ -13,18 +13,11 @@ volumes:
       type: none
       o: bind
       device: $HOME/data/transcendence/volumes/E
-  backend_device:
-    driver: local
-    name: backend_device
-    driver_opts:
-      type: none
-      o: bind
-      device: $HOME/data/transcendence/volumes/C
 
 services:
 
   database:
-    image: postgres
+    image: postgres:16.0-alpine3.18
     container_name: ${POSTGRES_DB}
     hostname: ${POSTGRES_DB}
     networks:
@@ -53,12 +46,13 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_URL: ${POSTGRES_URL}
+    #FIXME: for development only
+    volumes:
+      - ./backend/api_app:/app/transc/api_app
     depends_on:
       - database
     networks:
       - database-network
-    volumes:
-      - backend_device:/var/lib/backend/data
 
   frontend:
     container_name: frontend
