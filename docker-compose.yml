@@ -3,10 +3,7 @@ version: '3.8'
 networks:
   database-network:
     name: database-network
-    driver: bridge
-  transcendence-network:
-    name: transcendence-network
-    driver: bridge
+    #driver: bridge
 
 volumes:
   database_device:
@@ -23,15 +20,9 @@ volumes:
       type: none
       o: bind
       device: $HOME/data/transcendence/volumes/C
-  frontend_device:
-    driver: local
-    name: frontend_device
-    driver_opts:
-      type: none
-      o: bind
-      device: /$HOME/data/transcendence/volumes/D
 
 services:
+
   database:
     image: postgres
     container_name: ${POSTGRES_DB}
@@ -49,6 +40,7 @@ services:
       - database_device:/var/lib/postgresql/data
       - ./database/init-scripts/:/docker-entrypoint-initdb.d/
     restart: always
+
   backend:
     container_name: backend
     image: backend
@@ -64,10 +56,10 @@ services:
     depends_on:
       - database
     networks:
-      - transcendence-network
       - database-network
     volumes:
       - backend_device:/var/lib/backend/data
+
   frontend:
     container_name: frontend
     image: frontend
@@ -75,10 +67,5 @@ services:
       context: ./frontend
     depends_on:
       - backend
-    networks:
-      - transcendence-network
-    volumes:
-      - frontend_device:/var/lib/frontend/data
     ports:
      - "80:80"
-
