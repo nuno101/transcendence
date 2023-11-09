@@ -1,7 +1,0 @@
-Django
-gunicorn
-psycopg2-binary
-djangorestframework
-PyYAML
-requests
-django-cors-headers

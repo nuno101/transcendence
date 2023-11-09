@@ -1,18 +1,12 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9
-
-WORKDIR /usr/src/app
-
-COPY requirements.txt /usr/src/app/
-
+FROM python:3.11-alpine3.18
+RUN pip install --upgrade pip
+RUN mkdir /app
+WORKDIR /app
+COPY conf/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . /usr/src/app/
-
-WORKDIR /usr/src/app/django_docker/django_backend/
-
+RUN django-admin startproject transc 
+COPY conf/settings.py /app/transc
+WORKDIR /app/transc
 # Run the application:
-
-#CMD ["tail", "-f", "/dev/null"] debug
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
-#CMD ["python3", "manage.py", "runserver"] doesnt work?? get wrong ip... weird maybe change /etc/hosts
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
