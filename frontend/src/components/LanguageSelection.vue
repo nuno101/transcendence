@@ -13,6 +13,7 @@
 <script setup>
     import {ref, onMounted} from 'vue';
     import i18n from "../plugins/i18n";
+    import "../colors.css";
 
   const selected = ref('');
 
@@ -37,12 +38,18 @@
 
   // to preserve the selected language across all sites
   onMounted(() => {
-      const storedLang = localStorage.getItem('selected');
-      if(storedLang) {
-          selected.value = storedLang;
-          i18n.global.locale.value = storedLang;
-      }
-      console.log('Mounted phase - selectedLang in LanguageSelection:', selected.value);
+    const storedLang = localStorage.getItem('selected');
+    if (storedLang) {
+      selected.value = storedLang;
+      i18n.global.locale.value = storedLang;
+    } else {
+      // Set default language if not stored in localStorage
+      const defaultLang = 'en';
+      selected.value = defaultLang;
+      i18n.global.locale.value = defaultLang;
+      localStorage.setItem('selected', defaultLang);
+    }
+    console.log('Mounted phase - selectedLang in LanguageSelection:', selected.value);
   });
 </script>
 

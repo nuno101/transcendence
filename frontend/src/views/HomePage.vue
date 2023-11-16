@@ -1,6 +1,10 @@
+<script setup>
+import HomeSelection from '../components/HomeSelection.vue';
+</script>
+
 <template>
   <div class="home">
-    <h1>This is the HOME PAGE</h1>
+    <home-selection />
   </div>
 </template>
 
