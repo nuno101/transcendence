@@ -1,10 +1,14 @@
 # transcendence
 Pong game as single-page web application 
 
+The project requires 7🔺 major modules to be validated.
+🔺 Major module, 🔸 Minor module : 1🔺 = 2🔸
+
+
 ## Technologies
-- backend: use NestJS
-- frontend: choose a Typescript framework - vue.js? react.js ?
-- database: Postgres
+- backend: Django 4.2 🔺 use a Framework as backend. See https://docs.djangoproject.com/en/4.2/intro/
+- frontend: vue.js 🔸 use a Front-end framework or toolkit
+- database: Postgres 🔸 Use a database
   - protect against SQL injection
 
 ## Application overview/ required features
@@ -13,31 +17,31 @@ Pong game as single-page web application
 - store credentials in .env file and do not committ this file
 - support 2 browsers: Chrome and Firefox
 - docker-compose up --build
+- 🔺 Implementing a remote authentication.
+  - Password hashing using SHA512
 - Login using the OAuth system of 42 intranet
   - two-factor authentication. For instance, Google Authenticator or sending a text message to their phone
   - user login status
 
-- User accounts
-  - Password hashing using SHA512
+
+## User management
+  - 🔺 Standard user management, authentication, users across tournaments.
   - has contacts, blocked contacts
   - statistics
   - match history
 
-- Chat
-  - channels
-  - channel admin
-  - see contacts status
-  - invite to play Pong
-
-- Pong Game
+## Pong Game and user experience
   - matchmaking
   - queue
-  - customisation options
+  - 🔸 Game Customization Options
   - handle network issues
     - pause game?
+  - 🔺 Remote players?
+
    
-The project now required 7 major modules (2 minors is equals to 1 major) to be validated.
-🔺 Major module, 🔸 Minor module
+
+
+## Summary of scores
 
 **Web**
 - 🔺 **Use a Framework as backend.**
