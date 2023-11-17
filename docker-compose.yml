@@ -18,7 +18,7 @@ services:
 
   database:
     image: postgres:16.0-alpine3.18
-    container_name: ${POSTGRES_DB}
+    container_name: transc-db
     hostname: ${POSTGRES_DB}
     networks:
       - database-network
@@ -48,7 +48,7 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
     #FIXME: for development only
     volumes:
-      - ./backend/api_app:/app/transc/api_app
+      - ./backend/transc:/app/transc
     depends_on:
       - database
     networks:
