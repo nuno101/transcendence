@@ -1,3 +1,5 @@
 *.out
 volumes/*
 .env
+__pycache__
+*.swp
