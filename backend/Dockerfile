@@ -5,10 +5,16 @@ RUN mkdir /app
 WORKDIR /app
 COPY conf/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-RUN django-admin startproject transc 
+
+# Django project skeleton
+#RUN django-admin startproject transc 
+# Django api_app skeleton
+# python manage.py startapp api_app
+
+WORKDIR /app/transc
+COPY transc /app/transc
 # updated allowed_ips and Postgres DB config
 COPY conf/settings.py /app/transc
-WORKDIR /app/transc
-COPY api_app api_app
+
 # Run the application:
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

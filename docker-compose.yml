@@ -48,7 +48,7 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
     #FIXME: for development only
     volumes:
-      - ./backend/api_app:/app/transc/api_app
+      - ./backend/transc:/app/transc
     depends_on:
       - database
     networks:
