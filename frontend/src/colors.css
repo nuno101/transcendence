@@ -1,0 +1,11 @@
+:root {
+    --COLOR1: #070320ff;
+    --COLOR2: #071de4ff;
+    --COLOR3: #26ffe6ff;
+    --COLOR4: #caa7f5ff;
+    --COLOR5: #e6feffff;
+}
+
+html, #app {
+    background-color: var(--COLOR5);
+}
