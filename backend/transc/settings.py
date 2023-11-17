@@ -32,13 +32,13 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    "api_app.apps.ApiAppConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api_app',
 ]
 
 MIDDLEWARE = [
@@ -74,14 +74,13 @@ WSGI_APPLICATION = 'transc.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'database'),
-        'USER': os.environ.get('POSTGRES_USER', 'user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '123'),
-        'HOST': os.environ.get('POSTGRES_DB', 'database'),  # or the IP address of your database server
+        'NAME': os.environ.get('POSTGRES_DB', 'dummy'),
+        'USER': os.environ.get('POSTGRES_USER', 'dummy'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'dummy'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'dummy'),  # or the IP address of your database server
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
     }
 }
