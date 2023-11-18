@@ -13,6 +13,7 @@ import TournamentsView from '../views/TournamentsView.vue';
 import GameModesView from '../views/GameModesView.vue';
 import OnlineGameView from '../views/OnlineGameView.vue';
 import OnsiteGameView from '../views/OnsiteGameView.vue';
+import PongGameView from '../views/PongGameView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,7 +43,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('../views/CreateProfileView.vue')
+      component: () => import('../views/DashboardView.vue')
     },
     {
       path: '/profile',
@@ -85,6 +86,11 @@ const router = createRouter({
       path: '/game/onsite',
       name: 'game/onsite',
       component: () => import('../views/OnsiteGameView.vue')
+    },   
+    {
+      path: '/ponggame',
+      name: 'ponggame',
+      component: () => import('../views/PongGameView.vue')
     }
   ]
 })
