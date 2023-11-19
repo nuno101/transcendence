@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 set -x
@@ -9,10 +9,11 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 EOSQL
 
-if [ -f /docker-entrypoint-initdb.d/initialize.sql ]; then
-    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" -a -f /docker-entrypoint-initdb.d/initialize.sql
+if [ ! -f /.installed ]; then
+   
+   echo "host all all 0.0.0.0/0 md5
+host all all ::/0 md5" >> /var/lib/postgresql/data/pg_hba.conf 
+   touch /.installed
 fi
-
-echo "Script finished!"
 
 set +x
