@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,17 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nx2v9&!d(&!a40c8zdhxt(kj3*w&_0-66u=xyt1z5iobf3^1d!'
+SECRET_KEY = 'django-insecure-o#-u0^+c1x)k0q54emh!))+8#u)c$y(8$mrbhl9z_k)(p^g*54'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "api_app.apps.ApiAppConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -72,14 +74,16 @@ WSGI_APPLICATION = 'transc.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB', 'dummy'),
+        'USER': os.environ.get('POSTGRES_USER', 'dummy'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'dummy'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'dummy'),  # or the IP address of your database server
+        #'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

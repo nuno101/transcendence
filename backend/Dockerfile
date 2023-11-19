@@ -16,5 +16,8 @@ COPY transc /app/transc
 # updated allowed_ips and Postgres DB config
 COPY conf/settings.py /app/transc
 
-# Run the application:
+#FIXME: only for debugging
+RUN apk add postgresql15-client
+
+# Run the Django application:
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
