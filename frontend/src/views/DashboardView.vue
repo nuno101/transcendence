@@ -1,5 +1,5 @@
 <script setup>
-import HomeSelection from '../components/HomeSelection.vue';
+import HomeSelection from '../components/dashboard/DashboardChoice.vue';
 </script>
 
 <template>

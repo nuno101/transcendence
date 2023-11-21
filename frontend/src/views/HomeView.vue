@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue';
+import AuthChoice from '../components/auth/AuthChoice.vue';
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <AuthChoice />
   </main>
 </template>
