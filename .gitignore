@@ -3,4 +3,5 @@ volumes/*
 .env
 __pycache__
 backend/transc/__pycache__
+backend/transc/transc/__pycache__
 *.swp
