@@ -8,8 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Django project skeleton
 #RUN django-admin startproject transc 
-# Django api_app skeleton
-# python manage.py startapp api_app
+# Django api app skeleton
+# python manage.py startapp api
 
 WORKDIR /app/transc
 COPY transc /app/transc
