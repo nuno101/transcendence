@@ -11,8 +11,22 @@ def test(request):
 def user_list(request):
 	if request.method == 'GET':
 		users = User.objects.order_by("name")
-		data = serialize('json', list(users), fields=('id','name','fullname'))
-		return JsonResponse({'users': data})
+		#data = serialize('json', list(users), fields=('id','name','fullname'))
+        # '[{"model": "api.user", "pk": 2, "fields": {"name": "dummy", "fullname": "The Dummy"}}, {"model": "api.user", "pk": 1, "fields": {"name": "nuno", "fullname": "Nuno"}}]'
+		#return JsonResponse({'users': data})
+
+	users_data = []
+	for user in users:
+		users_data.append({
+			'id': user.id,
+			'name': user.name,
+			'fullname': user.fullname,
+	})
+	data = {
+		'users': users_data,
+		'count': users.count(),
+	}
+	return JsonResponse(data)
 
 	if request.method == 'POST':
 		# https://www.youtube.com/watch?v=i5JykvxUk_A
