@@ -6,6 +6,7 @@ from .models import Tournament
 #from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
+import datetime
 
 def index(request):
 	return HttpResponse("Hello, world. You're at the transcendence index.")
@@ -56,12 +57,9 @@ class TournamentView(View):
 			'created_at': datetime.datetime.now()
 		}
 
-		tournament_item = Tournament.objects.create(**tournament_data)
-
-		data = {
-			"message": "New item added to Cart with id: {tournament_item.id}"
-		}
-		return JsonResponse(data, status=201)
+		t = Tournament.objects.create(**tournament_data)
+		t = { "id": t.id }
+		return JsonResponse(t, status=201)
 
 	def get(self, request):
 		tournaments = Tournament.objects.all()
