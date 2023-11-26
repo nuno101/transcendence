@@ -3,7 +3,9 @@ from django.http import HttpResponse, JsonResponse, Http404
 #from django.core.serializers import serialize
 from .models import User
 from .models import Tournament
-#from django.views.decorators.csrf import csrf_exempt
+#from django.utils.decorators import method_decorator
+#from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+import json
 
 def index(request):
 	return HttpResponse("Hello, world. You're at the transcendence index.")
@@ -39,7 +41,6 @@ def user_detail(request, user_id):
 		raise Http404()
 	return JsonResponse({'user': data})
 
-#@csrf_exempt
 class TournamentView(View):
 	def post(self, request):
 		data = json.loads(request.body.decode("utf-8"))
