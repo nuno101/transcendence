@@ -2,6 +2,32 @@
   import { useI18n } from 'vue-i18n';
 </script>
 
+// <script>
+//   // GET REQUEST
+//   import axios from 'axios';
+//   export default {
+//     data() {
+//       return {
+//         data: [],
+//       };
+//     },
+//     mounted() {
+//       // Make a GET request to your Django backend endpoint
+//       // axios.get('http://your-django-backend-api/login')
+//       axios.get('/login')
+//         .then(response => {
+//           // Handle the successful response
+//           this.data = response.data;
+//           console.log(this.data);
+//         })
+//         .catch(error => {
+//           // Handle errors
+//           console.error('Error fetching data:', error);
+//         });
+//     },
+//   };
+// </script>
+
 <template>
   <div>
     <h1>{{useI18n().t('loginview.login')}}</h1>
