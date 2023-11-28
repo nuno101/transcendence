@@ -7,7 +7,6 @@ import { useI18n } from 'vue-i18n';
   <h1>ONLINE</h1>
   <h3>{{useI18n().t('onlinegameview.inviteuser')}}</h3>
   <h3>{{useI18n().t('onlinegameview.findopponent')}}</h3>
-  <router-link to="/ponggame">PONG GAME</router-link>
 </template>
 
 

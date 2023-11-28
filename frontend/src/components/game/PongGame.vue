@@ -17,11 +17,11 @@ export default {
             height: 300,
             playerLeft: 0,
             playerRight: 0,
-            vx: 5, //possibility to adjust x-velocity
-            vy: 5, //possibility to adjust y-velocity
+            vx: 10, //possibility to adjust x-velocity
+            vy: 10, //possibility to adjust y-velocity
             paddleDirectionLeft: 0,
             paddleDirectionRight: 0,
-            paddleSpeed: 5,
+            paddleSpeed: 7,
             paddleLeft: null, // Added reference for left paddle
             paddleRight: null, // Added reference for right paddle
             scoreLeft: null, // Added reference for left score
@@ -95,8 +95,13 @@ export default {
             }
             this.draw.on('click', () => {
                 if (this.vx === 0 && this.vy === 0) {
-                    this.vx = Math.random() * 300 - 150;
-                    this.vy = Math.random() * 300 - 150;
+                    // Set random direction with constant speed
+                    const maxAngle = 20 * (Math.PI / 180); // Convert degrees to radians
+                    const minAngle = -20 * (Math.PI / 180); // Convert degrees to radians
+                    let angle = Math.random() * (maxAngle - minAngle) + minAngle;
+                    const speed = 10; // Adjust the speed as needed
+                    this.vx = speed * Math.cos(angle);
+                    this.vy = speed * Math.sin(angle);
                 }
             });
         },
@@ -113,32 +118,33 @@ export default {
 
             const ballTop = this.ball.cy() - ballSize / 2;
             const ballBottom = this.ball.cy() + ballSize / 2;
+            const ballLeft = this.ball.cx() - ballSize / 2;
+            const ballRight = this.ball.cx() + ballSize / 2;
 
-            // CHECK FOR BORDERS HITTED
-            // Check for collisions with top and bottom walls
-            if (ballTop <= 0 || ballBottom >= this.height) {
-                this.vy = -this.vy;
-            }
-            else if((this.vx < 0 && this.ball.cx() <= 0)
-                || (this.vx > 0 && this.ball.cx() >= this.width)) {
+            // CHECK FOR HITTED BORDERS
+            if (ballLeft <= 0 || ballRight >= this.width) {
                 // Check if the ball is within the height range of the paddles
                 if (ballTop >= this.paddleLeft.y() && ballBottom <= this.paddleLeft.y() + 100) {
                     this.vx = -this.vx; // Reverse the horizontal velocity
                 } else {
-                    // If not within paddle height, consider it a scoring event
-                    // if x-velocity < 0 --> point for player 2, else player 1
-                    if (this.vx < 0) {
+                    // Scoring event
+                    // If the ball hits the left border, playerRight scores; if it hits the right border, playerLeft scores
+                    if (ballLeft <= 0) {
                         ++this.playerRight;
                     } else {
                         ++this.playerLeft;
                     }
 
-                // UPDATE SCORES
-                this.scoreLeft.text(this.playerLeft + '');
-                this.scoreRight.text(this.playerRight + '');
+                    // Update scores
+                    this.scoreLeft.text(this.playerLeft + '');
+                    this.scoreRight.text(this.playerRight + '');
 
-                this.reset();
+                    this.reset();
                 }
+            }
+            // Check for top and bottom borders hit
+            if (ballTop <= 0 || ballBottom >= this.height) {
+                this.vy = -this.vy; // Reverse the vertical velocity
             }
         },
         reset(){
@@ -185,8 +191,9 @@ export default {
             // Check collision with left paddle
             if (
                 ballLeft <= paddleWidth &&
-                ballTop >= this.paddleLeft.y() &&
-                ballBottom <= this.paddleLeft.y() + paddleHeight
+                ballRight >= 0 &&
+                ballTop <= this.paddleLeft.y() + paddleHeight &&
+                ballBottom >= this.paddleLeft.y()
             ) {
                 this.vx = -this.vx; // Reverse the horizontal velocity
             }
@@ -194,8 +201,9 @@ export default {
             // Check collision with right paddle
             if (
                 ballRight >= this.width - paddleWidth &&
-                ballTop >= this.paddleRight.y() &&
-                ballBottom <= this.paddleRight.y() + paddleHeight
+                ballLeft <= this.width &&
+                ballTop <= this.paddleRight.y() + paddleHeight &&
+                ballBottom >= this.paddleRight.y()
             ) {
                 this.vx = -this.vx; // Reverse the horizontal velocity
             }
@@ -208,6 +216,21 @@ export default {
             // Check collision with right paddle wall
             if (ballRight >= this.width) {
                 this.vx = -Math.abs(this.vx); // Ensure negative horizontal velocity
+            }
+            // Check collision with bottom or top of paddle
+            if (
+                ballTop <= this.paddleLeft.y() + paddleHeight &&
+                ballBottom >= this.paddleLeft.y() &&
+                ballLeft <= paddleWidth
+            ) {
+                this.vy = Math.abs(this.vy); // Reverse the vertical velocity
+            }
+            if (
+                ballTop <= this.paddleRight.y() + paddleHeight &&
+                ballBottom >= this.paddleRight.y() &&
+                ballRight >= this.width - paddleWidth
+            ) {
+                this.vy = -Math.abs(this.vy); // Reverse the vertical velocity
             }
         }
     }

@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
   <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
   <h1>Onsite game</h1>
   <h3>Second player authentication</h3>
+  <router-link to="/ponggame">PONG GAME</router-link>
 </template>
 
 <style>
