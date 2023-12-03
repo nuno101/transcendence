@@ -1,5 +1,79 @@
 {
-    "welcome": "Bienvenido",
-    "language": "es",
-    "register": "Registro"
-}
+    "language": "Español",
+    "gobacktodashboard": "Tablero",
+    "homeview": {
+      "register": "Registrarse",
+      "alreadyhaveanaccount": "¿Ya tienes una cuenta?"
+    },
+    "loginview": {
+        "login": "Iniciar sesión",
+        "email": "Correo electrónico",
+        "password": "Contraseña"
+    },
+    "registrationview": {
+  
+    },
+    "createprofileview": {
+        "createprofile": "Crear Perfil",
+        "nickname": "Apodo",
+        "uploadavatar": "Subir Avatar",
+        "createaccount": "Crear Cuenta"
+    },
+    "dashboardview": {
+        "dashboard": "Tablero",
+        "friends": "Amigos",
+        "playponggame": "Jugar Juego de Pong",
+        "tournaments": "Torneos",
+        "profile": "Perfil",
+        "settings": "Configuración",
+        "logout": "Cerrar sesión"
+    },
+    "profileview": {
+        "myprofile": "Mi Perfil",
+        "nickname": "Apodo",
+        "avatar": "Avatar",
+        "statistics": "Estadísticas",
+        "matchhistory": "Historial de Partidas",
+        "winsandlosses": "Victorias / Derrotas",
+        "numberofgames": "Número de Partidas"
+    },
+    "settingsview": {
+        "editprofile": "Editar Perfil",
+        "nickname": "Apodo",
+        "avatar": "Avatar",
+        "upload": "Subir",
+        "deletecurrent": "Eliminar el actual",
+        "savechanges": "Guardar Cambios"
+    },
+    "friendsview": {
+        "listoffriends": "Lista de Amigos",
+        "friendrequests": "Solicitudes de Amistad",
+        "pendingrequests": "Solicitudes Pendientes"
+    },
+    "friendstatsview": {
+        "profile": "Perfil",
+        "nickname": "Apodo",
+        "avatar": "Avatar",
+        "statistics": "Estadísticas",
+        "matchhistory": "Historial de Partidas",
+        "winsandlosses": "Victorias / Derrotas",
+        "numberofgames": "Número de Partidas"
+    },
+    "tournamentsview": {
+        "tournaments": "Torneos"
+    },
+    "gamemodesview": {
+        "online": "En línea",
+        "onsite": "En el lugar"
+    },
+    "onlinegameview": {
+        "inviteuser": "Invitar Usuario",
+        "findopponent": "Encontrar Oponente"
+    },
+    "onsitegameview": {
+  
+    },
+    "ponggameview": {
+  
+    }
+  }

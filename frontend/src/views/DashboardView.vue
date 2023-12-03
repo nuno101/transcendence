@@ -1,4 +1,5 @@
 <script setup>
+// import { useI18n } from 'vue-i18n';
 import HomeSelection from '../components/dashboard/DashboardChoice.vue';
 </script>
 

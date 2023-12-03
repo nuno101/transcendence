@@ -1,16 +1,21 @@
 <script setup>
-// import HomeSelection from '../components/dashboard/DashboardChoice.vue';
+import { useI18n } from 'vue-i18n';
 </script>
 
 <template>
   <div>
-    <h1>Create Profile</h1>
-    <h3>Nickname</h3>
+    <h1>{{useI18n().t('createprofileview.createprofile')}}</h1>
+    <h3>{{useI18n().t('createprofileview.nickname')}}</h3>
     <p>(must be unique)</p>
-    <h3>Upload Avatar</h3>
+    <input type="text" class="form-control" id="nickname">
+    <h3>{{useI18n().t('createprofileview.uploadavatar')}}</h3>
     <p>(default option must be provided)</p>
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Upload your avatar</label>
+      <input class="form-control" type="file" id="formFile" accept="image/*">
+    </div>
     <router-link to="/">
-      <button type="button" class="btn btn-success">Create Account</button>
+      <button type="button" class="btn btn-success">{{useI18n().t('createprofileview.createaccount')}}</button>
     </router-link>  </div>
 </template>
 

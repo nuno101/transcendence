@@ -1,5 +1,79 @@
 {
-    "welcome": "Willkommen",
-    "language": "de",
-    "register": "Registrieren"
-}
+    "language": "Deutsch",
+    "gobacktodashboard": "Dashboard",
+    "homeview": {
+      "register": "Registrieren",
+      "alreadyhaveanaccount": "Du bist bereits registriert?"
+    },
+    "loginview": {
+      "login": "Login",
+      "email": "E-Mail",
+      "password": "Passwort"
+    },
+    "registrationview": {
+  
+    },
+    "createprofileview": {
+      "createprofile": "Profil erstellen",
+      "nickname": "Nickname",
+      "uploadavatar": "Avatar hochladen",
+      "createaccount": "Account erstellen"
+    },
+    "dashboardview": {
+      "dashboard": "Dashboard",
+      "friends": "Freunde",
+      "playponggame": "Pong Game spielen",
+      "tournaments": "Turniere",
+      "profile": "Profil",
+      "settings": "Einstellungen",
+      "logout": "Abmelden"
+    },
+    "profileview": {
+      "myprofile": "Mein profil",
+      "nickname": "Nickname",
+      "avatar": "Avatar",
+      "statistics": "Statistiken",
+      "matchhistory": "Spieleprotokoll",
+      "winsandlosses": "Gewinne / Verluste",
+      "numberofgames": "Anzahl der Spiele"
+    },
+    "settingsview": {
+      "editprofile": "Profil bearbeiten",
+      "nickname": "Nickname",
+      "avatar": "Avatar",
+      "upload": "Hochladen",
+      "deletecurrent": "Aktuellen Avatar löschen",
+      "savechanges": "Änderungen speichern"
+    },
+    "friendsview": {
+      "listoffriends": "Freundesliste",
+      "friendrequests": "Freundschaftsanfragen",
+      "pendingrequests": "Ausstehende Anfragen"
+    },
+    "friendstatsview": {
+      "profile": "Profil",
+      "nickname": "Nickname",
+      "avatar": "Avatar",
+      "statistics": "Statistiken",
+      "matchhistory": "Spieleprotokoll",
+      "winsandlosses": "Gewinne / Verluste",
+      "numberofgames": "Anzahl der Spiele"
+    },
+    "tournamentsview": {
+      "tournaments": "Turniere"
+    },
+    "gamemodesview": {
+      "online": "Online",
+      "onsite": "Onsite"
+    },
+    "onlinegameview": {
+      "inviteuser": "Nutzer einladen",
+      "findopponent": "Gegner finden"
+    },
+    "onsitegameview": {
+  
+    },
+    "ponggameview": {
+  
+    }
+  }
