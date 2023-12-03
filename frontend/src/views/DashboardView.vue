@@ -4,15 +4,15 @@ import HomeSelection from '../components/dashboard/DashboardChoice.vue';
 </script>
 
 <template>
-  <div class="home">
-    <home-selection />
+  <div class="row home">
+      <home-selection />
   </div>
 </template>
 
 <style>
 @media (min-width: 1024px) {
   .home {
-    min-height: 100vh;
+    min-height: 20vh;
     display: flex;
     align-items: center;
   }
