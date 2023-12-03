@@ -6,7 +6,10 @@ import { useI18n } from 'vue-i18n';
 <template>
   <div>
     <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
-    <h1>{{useI18n().t('tournamentsview.tournaments')}}</h1>
+    <h1 class="display-1">{{useI18n().t('tournamentsview.tournaments')}}</h1>
+
+    <button type="button" class="btn btn-primary">New</button>
+
   </div>
 </template>
 
