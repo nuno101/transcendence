@@ -1,5 +1,79 @@
 {
-  "welcome": "Welcome",
-  "language": "en",
-  "register": "Register"
+  "language": "English",
+  "gobacktodashboard": "Dashboard",
+  "homeview": {
+    "register": "Register",
+    "alreadyhaveanaccount": "Already have an account?"
+  },
+  "loginview": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password"
+  },
+  "registrationview": {
+
+  },
+  "createprofileview": {
+    "createprofile": "Create Profile",
+    "nickname": "Nickname",
+    "uploadavatar": "Upload Avatar",
+    "createaccount": "Create Account"
+  },
+  "dashboardview": {
+    "dashboard": "Dashboard",
+    "friends": "Friends",
+    "playponggame": "Play Pong Game",
+    "tournaments": "Tournaments",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "profileview": {
+    "myprofile": "My Profile",
+    "nickname": "Nickname",
+    "avatar": "Avatar",
+    "statistics": "Statistics",
+    "matchhistory": "Match History",
+    "winsandlosses": "Wins / Losses",
+    "numberofgames": "Number of Games"
+  },
+  "settingsview": {
+    "editprofile": "Edit Profile",
+    "nickname": "Nickname",
+    "avatar": "Avatar",
+    "upload": "Uplad",
+    "deletecurrent": "Delete current one",
+    "savechanges": "Save Changes"
+  },
+  "friendsview": {
+    "listoffriends": "List of Friends",
+    "friendrequests": "Friend Requests",
+    "pendingrequests": "Pending Requests"
+  },
+  "friendstatsview": {
+    "profile": "Profile",
+    "nickname": "Nickname",
+    "avatar": "Avatar",
+    "statistics": "Statistics",
+    "matchhistory": "Match History",
+    "winsandlosses": "Win / Losses",
+    "numberofgames": "Number of Games"
+  },
+  "tournamentsview": {
+    "tournaments": "tournaments"
+  },
+  "gamemodesview": {
+    "online": "online",
+    "onsite": "onsite"
+  },
+  "onlinegameview": {
+    "inviteuser": "Invite User",
+    "findopponent": "Find Opponent"
+  },
+  "onsitegameview": {
+
+  },
+  "ponggameview": {
+
+  }
 }

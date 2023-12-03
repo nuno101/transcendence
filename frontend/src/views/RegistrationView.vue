@@ -1,3 +1,7 @@
+<script setup>
+  // import { useI18n } from 'vue-i18n';
+</script>
+
 <template>
   <div>
     <h1>42 API</h1>

@@ -1,15 +1,17 @@
 <script setup>
 // import HomeSelection from '../components/dashboard/DashboardChoice.vue';
+import { useI18n } from 'vue-i18n';
 </script>
 
 <template>
-  <router-link to="/dashboard">GO BACK TO MAIN MENU</router-link>
-  <h1>EDIT PROFILE</h1>
-  <h3>NICKNAME</h3>
+  <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
+  <h1>{{useI18n().t('settingsview.editprofile')}}</h1>
+  <h3>{{useI18n().t('settingsview.nickname')}}</h3>
   <p>(must be unique)</p>
-  <h3>Upload Avatar/Delete current one</h3>
+  <h1>{{useI18n().t('settingsview.avatar')}}</h1>
+  <h3>{{useI18n().t('settingsview.upload')}}/{{useI18n().t('settingsview.deletecurrent')}}</h3>
   <p>(default option must be provided)</p>
-  <button type="button" class="btn btn-success">SAVE CHANGES</button>
+  <button type="button" class="btn btn-success">{{useI18n().t('settingsview.savechanges')}}</button>
 </template>
 
 <style>
