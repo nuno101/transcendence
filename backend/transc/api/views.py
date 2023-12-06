@@ -42,6 +42,7 @@ def user_detail(request, user_id):
 		raise Http404()
 	return JsonResponse({'user': data})
 
+#tournaments/
 class TournamentView(View):
 	def post(self, request):
 		data = json.loads(request.body.decode("utf-8"))
@@ -78,4 +79,54 @@ class TournamentView(View):
 			'count': tournaments.count(),
 		}
 		return JsonResponse(data)
+
+#tournaments/<int:tournament_id>
+class TournamentDetail(View):
+	def get(self, request, tournament_id):
+		try:
+			t = Tournament.objects.get(pk=tournament_id)
+			data = {'id': t.id,
+					'title': t.title,
+					'description': t.description,
+					'creator_id': t.creator_id,
+					'status': t.status,
+					'created_at': t.created_at,
+					'updated_at': t.updated_at,
+					}
+		except Tournament.DoesNotExist:
+			raise Http404()
+		return JsonResponse({'tournament': data})
+
+	def patch(self, request, tournament_id):
+		try:
+			data = json.loads(request.body.decode("utf-8"))
+			t = Tournament.objects.get(pk=tournament_id)
+			t.title = data.get('title')
+			t.description = data.get('description')
+			#creator_id = data.get('creator_id')
+			t.updated_at = datetime.datetime.now()
+			t.save()
+
+			serialized = {
+				'id': t.id,
+				'title': t.title,
+				'description': t.description,
+				'creator_id': t.creator_id,
+				'status': t.status,
+				'created_at': t.created_at,
+				'updated_at': t.updated_at,
+			}
+
+			return JsonResponse(serialized, status=200, safe=False)
+		except Tournament.DoesNotExist:
+			raise Http404()
+
+	def delete(self, request, tournament_id):
+		try:
+			data = json.loads(request.body.decode("utf-8"))
+			t = Tournament.objects.get(pk=tournament_id)
+			t.delete();
+			return JsonResponse({}, status=202)
+		except Tournament.DoesNotExist:
+			raise Http404()
 
