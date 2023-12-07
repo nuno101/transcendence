@@ -7,6 +7,7 @@
   },
   "loginview": {
     "login": "Login",
+    "nickname": "Nickname",
     "email": "Email",
     "password": "Password"
   },
