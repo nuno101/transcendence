@@ -11,6 +11,8 @@ import datetime
 def index(request):
 	return HttpResponse("Hello, world. You're at the transcendence index.")
 
+# GET   /users
+# POST /users {"name": "dummy", "fullname": "Dummy user"}
 def user_list(request):
 	if request.method == 'GET':
 		users = User.objects.order_by("name")
@@ -27,17 +29,32 @@ def user_list(request):
 		}
 		return JsonResponse(data)
 
+	# https://www.youtube.com/watch?v=i5JykvxUk_A
 	if request.method == 'POST':
-		# https://www.youtube.com/watch?v=i5JykvxUk_A
-		return JsonResponse({'TODO':'1'})
+		data = json.loads(request.body.decode("utf-8"))
+		name = data.get('name')
+		fullname = data.get('fullname')
 
+		user_data = {
+			'name':name,
+			'fullname': fullname,
+			'created_at': datetime.datetime.now()
+			}
+
+		u = User.objects.create(**user_data)
+		u = { "id": u.id }
+		return JsonResponse(u, status=201)
+
+# GET    /users/<int:user_id>
+# PATCH  /users/<int:user_id>
+# DELETE /users/<int:user_id>
 def user_detail(request, user_id):
 	try:
 		user = User.objects.get(pk=user_id)
 		data = {'id': user.id,
-				'name': user.name,
-				'fullname': user.fullname,
-				}
+			'name': user.name,
+			'fullname': user.fullname,
+			}
 	except User.DoesNotExist:
 		raise Http404()
 	return JsonResponse({'user': data})
