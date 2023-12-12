@@ -70,13 +70,18 @@ const checkUser = () => {
     <h3>{{useI18n().t('loginview.password')}}</h3>
     <input type="password" class="form-control" v-model="passwordInput" id="password">
     <br>
-      <button @click="checkUser" type="button" class="btn btn-success">{{useI18n().t('loginview.login')}}</button>
+      <!-- <button @click="checkUser" type="button" class="btn btn-success">{{useI18n().t('loginview.login')}}</button>
     <div v-if="errorMessage" class="alert alert-danger mt-3" role="alert">
       {{ errorMessage }}
-    </div>
+    </div> -->
+    <router-link to="/dashboard">
+      <button type="button" class="btn btn-success">{{useI18n().t('loginview.login')}}</button>
+    </router-link>
   </div>
 </template>
 
 <style>
 </style>
+
+
 
