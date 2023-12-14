@@ -6,3 +6,4 @@ backend/transc/__pycache__
 backend/transc/transc/__pycache__
 backend/transc/transc/__pycache__/*
 *.swp
+tests/results/*
