@@ -88,8 +88,9 @@ class TournamentView(View):
 				'title': t.title,
 				'description': t.description,
 				'creator_id': t.creator_id,
-				#'status': t.status,
+				'status': t.status,
 				'created_at': t.created_at,
+				'updated_at': t.updated_at,
 			})
 		data = {
 			'tournaments': tournaments_data,
