@@ -7,6 +7,7 @@
     },
     "loginview": {
       "login": "Se connecter",
+      "nickname": "Pseudo",
       "email": "E-mail",
       "password": "Mot de passe"
     },
