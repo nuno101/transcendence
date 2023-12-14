@@ -7,7 +7,7 @@ class User(models.Model):
 	fullname = models.CharField(max_length=60, null=False)
 	avatar = models.BinaryField(max_length=900000, null=False)
 	password_hash = models.CharField(max_length=255, null=False) 
-	created_at = models.DateTimeField(auto_now=False)
+	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
 	def __str__(self):
@@ -16,13 +16,13 @@ class User(models.Model):
 
 class Session(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now=False)
+	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
 class Friend(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	#FIXME friend = models.ForeignKey(User, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now=False)
+	created_at = models.DateTimeField(auto_now_add=True)
 
 class Tournament(models.Model):
 	class TournamentStatus(models.TextChoices):
@@ -41,7 +41,7 @@ class Tournament(models.Model):
         choices=TournamentStatus.choices,
         default=TournamentStatus.CREATED,
 	)
-	created_at = models.DateTimeField(auto_now=False)
+	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
 	def __str__(self):
@@ -63,7 +63,7 @@ class Match(models.Model):
         default=MatchStatus.CREATED,
 	)
 	score = models.IntegerField(default=0)
-	created_at = models.DateTimeField(auto_now=False)
+	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
 	def __str__(self):
