@@ -1,12 +1,12 @@
 <script>
 import SVG from 'svg.js';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, nextTick, computed } from 'vue';
 
 export default {
   props: {
     draw : Object,
-    width : Number,
-    height : Number,
+    mapWidth : Number,
+    mapHeight : Number,
     paddleX : Number,
     keyUp : String,
     keyDown : String
@@ -15,7 +15,11 @@ export default {
     const paddleHeight = 80;
     const paddleWidth = 20;
     const paddle = ref(null);
-    const yMov = ref(props.height / 2);
+    const yMov = ref(props.mapHeight / 2);
+    const x = ref(props.paddleX);
+    const y = ref(props.mapHeight / 2);
+    const width = ref(16);
+    const height = ref(60);
 
     onMounted(() => {
       initializePaddle();
@@ -29,7 +33,10 @@ export default {
 
     const initializePaddle = () => {
       if (props.draw) {
-        paddle.value = props.draw.rect(paddleWidth, paddleHeight).x(props.paddleX).cy(props.height / 2).fill('#00ff99');
+        paddle.value = props.draw.rect(paddleWidth, paddleHeight)
+          .x(props.paddleX)
+          .cy(props.mapHeight / 2)
+          .fill('#00ff99');
       }
     };
 
@@ -52,10 +59,9 @@ export default {
       };
 
       const movePaddle = (dir) => {
-        // Ensure that the paddle stays within the height boundaries
         yMov.value += dir;
-        yMov.value = Math.max(paddleHeight / 2, Math.min(yMov.value, props.height - paddleHeight / 2));
-
+        // Ensure that the paddle stays within the height boundaries
+        yMov.value = Math.max(paddleHeight / 2, Math.min(yMov.value, props.mapHeight - paddleHeight / 2));
         if (paddle.value) {
           paddle.value.cy(yMov.value);
         }
@@ -63,12 +69,29 @@ export default {
 
       const update = () => {
         handleKeys();
+        logPaddleValues();
         requestAnimationFrame(update);
+      };
+
+      const logPaddleValues = () => {
+        nextTick(() => {
+          // console.log('PADDLE VALUE:', paddle.value);
+          // console.log('PADDLE X:', paddle.value.x());
+          // console.log('PADDLE CY:', paddle.value.cy());
+        });
       };
 
       update();
     };
-    return {};
+    // const x = computed(() => paddle.value?.x());
+    // const cy = computed(() => paddle.value?.cy());
+    return {
+      paddle,
+      x,
+      y,
+      width,
+      height
+    };
   }
 };
 </script>

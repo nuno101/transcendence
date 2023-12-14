@@ -35,6 +35,6 @@ export default {
 
 <style scoped>
 .pong {
-    min-height: 100vh;
+    max-height: 100vh;
 }
 </style>
