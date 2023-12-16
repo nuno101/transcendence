@@ -1,6 +1,5 @@
 from django.views import View
-from django.http import HttpResponse, JsonResponse, Http404
-#from django.core.serializers import serialize
+from django.http import JsonResponse, Http404
 from .models import User
 from .models import Tournament
 #from django.utils.decorators import method_decorator
@@ -9,7 +8,7 @@ import json
 import datetime
 
 def index(request):
-	return HttpResponse("Hello, world. You're at the transcendence index.")
+	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
 def serialize_user(u):
     return {
@@ -71,10 +70,7 @@ def serialize_tournament(t):
 		'updated_at': t.updated_at,
     }
 
-# GET   /users
-# POST /users {"name": "dummy", "fullname": "Dummy user"}
-
-#tournaments/
+# GET/POST  /tournaments
 class TournamentView(View):
 	def post(self, request):
 		data = json.loads(request.body.decode("utf-8"))
@@ -113,13 +109,15 @@ class TournamentDetail(View):
 			raise Http404()
 		return JsonResponse({'tournament': serialize_tournament(t)})
 
+	# allow only update of title and description
 	def patch(self, request, tournament_id):
 		try:
 			data = json.loads(request.body.decode("utf-8"))
 			t = Tournament.objects.get(pk=tournament_id)
-			t.title = data.get('title')
-			t.description = data.get('description')
-			#creator_id = data.get('creator_id')
+			if (data.get('title')):
+				t.title = data.get('title')
+			if (data.get('description')):
+				t.description = data.get('description')
 			t.updated_at = datetime.datetime.now()
 			t.save()
 
