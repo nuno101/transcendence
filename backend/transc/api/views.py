@@ -11,6 +11,15 @@ import datetime
 def index(request):
 	return HttpResponse("Hello, world. You're at the transcendence index.")
 
+def serialize_user(u):
+    return {
+        'id': u.id,
+        'name': u.name,
+        'fullname': u.fullname,
+		'created_at': u.created_at,
+		'updated_at': u.updated_at,
+    }
+
 # GET   /users
 # POST /users {"name": "dummy", "fullname": "Dummy user"}
 def user_list(request):
@@ -18,11 +27,7 @@ def user_list(request):
 		users = User.objects.order_by("name")
 		users_data = []
 		for user in users:
-			users_data.append({
-				'id': user.id,
-				'name': user.name,
-				'fullname': user.fullname,
-			})
+			users_data.append(serialize_user(user))
 		data = {
 			'users': users_data,
 			'count': users.count(),
@@ -42,7 +47,7 @@ def user_list(request):
 			}
 
 		u = User.objects.create(**user_data)
-		u = { "id": u.id }
+		u = serialize_user(user)
 		return JsonResponse(u, status=201)
 
 # GET    /users/<int:user_id>
@@ -50,14 +55,24 @@ def user_list(request):
 # DELETE /users/<int:user_id>
 def user_detail(request, user_id):
 	try:
-		user = User.objects.get(pk=user_id)
-		data = {'id': user.id,
-			'name': user.name,
-			'fullname': user.fullname,
-			}
+		u = User.objects.get(pk=user_id)
 	except User.DoesNotExist:
 		raise Http404()
-	return JsonResponse({'user': data})
+	return JsonResponse({'user': serialize_user(u)})
+
+def serialize_tournament(t):
+    return {
+        'id': t.id,
+		'title': t.title,
+		'description': t.description,
+		'creator_id': t.creator_id,
+		'status': t.status,
+		'created_at': t.created_at,
+		'updated_at': t.updated_at,
+    }
+
+# GET   /users
+# POST /users {"name": "dummy", "fullname": "Dummy user"}
 
 #tournaments/
 class TournamentView(View):
@@ -71,27 +86,18 @@ class TournamentView(View):
 			'title': title,
 			'description': description,
 			'creator_id': creator_id,
-			#'status': TournamentStatus::CREATED
+			#'status': TournamentStatus::CREATED - set at DB level
 			'created_at': datetime.datetime.now()
 		}
 
 		t = Tournament.objects.create(**tournament_data)
-		t = { "id": t.id }
-		return JsonResponse(t, status=201)
+		return JsonResponse(serialize_tournament(t), status=201)
 
 	def get(self, request):
 		tournaments = Tournament.objects.all()
 		tournaments_data = []
 		for t in tournaments:
-			tournaments_data.append({
-				'id': t.id,
-				'title': t.title,
-				'description': t.description,
-				'creator_id': t.creator_id,
-				'status': t.status,
-				'created_at': t.created_at,
-				'updated_at': t.updated_at,
-			})
+			tournaments_data.append(serialize_tournament(t))
 		data = {
 			'tournaments': tournaments_data,
 			'count': tournaments.count(),
@@ -103,17 +109,9 @@ class TournamentDetail(View):
 	def get(self, request, tournament_id):
 		try:
 			t = Tournament.objects.get(pk=tournament_id)
-			data = {'id': t.id,
-					'title': t.title,
-					'description': t.description,
-					'creator_id': t.creator_id,
-					'status': t.status,
-					'created_at': t.created_at,
-					'updated_at': t.updated_at,
-					}
 		except Tournament.DoesNotExist:
 			raise Http404()
-		return JsonResponse({'tournament': data})
+		return JsonResponse({'tournament': serialize_tournament(t)})
 
 	def patch(self, request, tournament_id):
 		try:
@@ -125,17 +123,7 @@ class TournamentDetail(View):
 			t.updated_at = datetime.datetime.now()
 			t.save()
 
-			serialized = {
-				'id': t.id,
-				'title': t.title,
-				'description': t.description,
-				'creator_id': t.creator_id,
-				'status': t.status,
-				'created_at': t.created_at,
-				'updated_at': t.updated_at,
-			}
-
-			return JsonResponse(serialized, status=200, safe=False)
+			return JsonResponse(serialize_tournament(t), status=200, safe=False)
 		except Tournament.DoesNotExist:
 			raise Http404()
 
