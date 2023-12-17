@@ -6,6 +6,7 @@ from .models import Tournament
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .serials import serialize_user, serialize_tournament
 from .views_tournaments import TournamentView, TournamentDetail
+from .views_games import GameView, GameDetail
 import json
 import datetime
 

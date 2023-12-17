@@ -13,7 +13,6 @@ class User(models.Model):
 	def __str__(self):
 		return self.name
 
-
 class Session(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -48,7 +47,7 @@ class Tournament(models.Model):
 		return self.title
 
 
-class Match(models.Model):
+class Game(models.Model):
 	class MatchStatus(models.TextChoices):
 			CREATED = "created"
 			ONGOING = "ongoing"
@@ -65,7 +64,4 @@ class Match(models.Model):
 	score = models.IntegerField(default=0)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-
-	def __str__(self):
-		return self.title
 
