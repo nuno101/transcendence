@@ -19,7 +19,6 @@ const sendData = async() => {
 onMounted(() => {
   sendData(); // Automatically send data when the component is mounted
 });
-
 </script>
 
 <template>

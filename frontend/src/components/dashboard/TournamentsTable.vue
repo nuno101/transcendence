@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import GetRequest from '../common/GetRequest.vue';
-import { ref } from 'vue';
+import { ref,watch } from 'vue';
 
 const data = ref({});
 
@@ -10,9 +10,9 @@ const updatedData = (newData) => {
 };
 
 // You can also watch for changes in data
-    // watch(data, (newData) => {
-    //   console.log('Data changed in parent component:', newData);
-    // });
+    watch(data, (newData) => {
+      console.log('Data changed in parent component:', newData);
+    });
 // GetRequest.fetchData("'/api/tournaments");
 </script>
 

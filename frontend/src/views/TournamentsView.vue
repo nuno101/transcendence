@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import PostRequest from '../components/common/PostRequest.vue';
+// import PostRequest from '../components/common/PostRequest.vue';
 import TournamentsTable from '../components/dashboard/TournamentsTable.vue';
 import AddTournament from '../components/dashboard/AddTournament.vue';
 // import { ref, onMounted } from 'vue';
@@ -10,6 +10,12 @@ import AddTournament from '../components/dashboard/AddTournament.vue';
 // onMounted(() => {
 //   data.value = GetRequest.data; //triggers getRequest component to fetch data
 // });
+
+// const formData = {
+//   "title": "testtournament",
+//   "description": "renadom descri",
+//   "creator_id": "1"
+// };
 </script>
 
 <template>
@@ -17,7 +23,7 @@ import AddTournament from '../components/dashboard/AddTournament.vue';
     <!-- <GetRequest :apiPath="'/api/tournaments/'"></GetRequest> -->
     <!-- <PostRequest
       :apiPath="'/api/tournaments/'"
-      :data='`{"title": "tournament5", "description": "Root user", "creator_id": "1"}`'>
+      :data='formData'>
     </PostRequest> -->
     <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
     <TournamentsTable />
