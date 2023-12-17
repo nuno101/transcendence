@@ -1,24 +1,15 @@
 from django.views import View
-from django.http import HttpResponse, JsonResponse, Http404
-#from django.core.serializers import serialize
+from django.http import JsonResponse, Http404
 from .models import User
 from .models import Tournament
 #from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from .serials import serialize_user, serialize_tournament
 import json
 import datetime
 
 def index(request):
-	return HttpResponse("Hello, world. You're at the transcendence index.")
-
-def serialize_user(u):
-    return {
-        'id': u.id,
-        'name': u.name,
-        'fullname': u.fullname,
-		'created_at': u.created_at,
-		'updated_at': u.updated_at,
-    }
+	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
 # GET   /users
 # POST /users {"name": "dummy", "fullname": "Dummy user"}
@@ -60,21 +51,7 @@ def user_detail(request, user_id):
 		raise Http404()
 	return JsonResponse({'user': serialize_user(u)})
 
-def serialize_tournament(t):
-    return {
-        'id': t.id,
-		'title': t.title,
-		'description': t.description,
-		'creator_id': t.creator_id,
-		'status': t.status,
-		'created_at': t.created_at,
-		'updated_at': t.updated_at,
-    }
-
-# GET   /users
-# POST /users {"name": "dummy", "fullname": "Dummy user"}
-
-#tournaments/
+# GET/POST  /tournaments
 class TournamentView(View):
 	def post(self, request):
 		data = json.loads(request.body.decode("utf-8"))
@@ -113,13 +90,15 @@ class TournamentDetail(View):
 			raise Http404()
 		return JsonResponse({'tournament': serialize_tournament(t)})
 
+	# allow only update of title and description
 	def patch(self, request, tournament_id):
 		try:
 			data = json.loads(request.body.decode("utf-8"))
 			t = Tournament.objects.get(pk=tournament_id)
-			t.title = data.get('title')
-			t.description = data.get('description')
-			#creator_id = data.get('creator_id')
+			if (data.get('title')):
+				t.title = data.get('title')
+			if (data.get('description')):
+				t.description = data.get('description')
 			t.updated_at = datetime.datetime.now()
 			t.save()
 
@@ -129,7 +108,6 @@ class TournamentDetail(View):
 
 	def delete(self, request, tournament_id):
 		try:
-			data = json.loads(request.body.decode("utf-8"))
 			t = Tournament.objects.get(pk=tournament_id)
 			t.delete();
 			return JsonResponse({}, status=202)
