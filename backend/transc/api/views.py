@@ -141,7 +141,6 @@ class TournamentDetail(View):
 
 	def delete(self, request, tournament_id):
 		try:
-			data = json.loads(request.body.decode("utf-8"))
 			t = Tournament.objects.get(pk=tournament_id)
 			t.delete();
 			return JsonResponse({}, status=202)
