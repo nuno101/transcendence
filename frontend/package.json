@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^1.6.2",
     "bootstrap": "^5.3.0",
+    "bootstrap-vue": "^2.23.1",
     "svg.js": "^2.7.1",
     "vue": "^3.3.4",
     "vue-i18n": "^9.0.0",
