@@ -20,8 +20,8 @@ class Session(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 
 class Friend(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	#FIXME friend = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dummy")
+	friend = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 
 class Tournament(models.Model):
@@ -55,8 +55,8 @@ class Match(models.Model):
 			DONE = "done"
 			CANCELLED = "cancelled"
 	tournament_id = models.ForeignKey(Tournament, on_delete=models.CASCADE)
-	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-	#FIXME user2_id = models.ForeignKey(User, on_delete=models.CASCADE)
+	player_id = models.ForeignKey(User, on_delete=models.CASCADE)
+	player2_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="visitor")
 	status = models.CharField(
         max_length=36,
         choices=MatchStatus.choices,
