@@ -4,20 +4,12 @@ from .models import User
 from .models import Tournament
 #from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from .serials import serialize_user, serialize_tournament
 import json
 import datetime
 
 def index(request):
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
-
-def serialize_user(u):
-    return {
-        'id': u.id,
-        'name': u.name,
-        'fullname': u.fullname,
-		'created_at': u.created_at,
-		'updated_at': u.updated_at,
-    }
 
 # GET   /users
 # POST /users {"name": "dummy", "fullname": "Dummy user"}
@@ -58,17 +50,6 @@ def user_detail(request, user_id):
 	except User.DoesNotExist:
 		raise Http404()
 	return JsonResponse({'user': serialize_user(u)})
-
-def serialize_tournament(t):
-    return {
-        'id': t.id,
-		'title': t.title,
-		'description': t.description,
-		'creator_id': t.creator_id,
-		'status': t.status,
-		'created_at': t.created_at,
-		'updated_at': t.updated_at,
-    }
 
 # GET/POST  /tournaments
 class TournamentView(View):
@@ -127,7 +108,6 @@ class TournamentDetail(View):
 
 	def delete(self, request, tournament_id):
 		try:
-			data = json.loads(request.body.decode("utf-8"))
 			t = Tournament.objects.get(pk=tournament_id)
 			t.delete();
 			return JsonResponse({}, status=202)
