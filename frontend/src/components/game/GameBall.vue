@@ -13,21 +13,14 @@ export default {
     const ball = ref(null);
     let x, y, radius, xSpeed, ySpeed;
     // Destructure reactive props
-    // const { paddle1, paddle2 } = toRefs(props);
+    const { paddle1, paddle2 } = toRefs(props);
 
     onMounted(() => {
-        initializeBall();
         ballMovement();
     });
 
     watch(() => props.draw, () => {
       initializeBall();
-    });
-
-    // Use watchEffect to watch reactive properties
-    watch(() => [props.paddle1?.y, props.paddle2?.y], ([paddle1Y, paddle2Y]) => {
-      console.log('IN BALL PADDLE1 Y:', paddle1Y);
-      console.log('IN BALL PADDLE2 Y:', paddle2Y);
     });
 
     const initializeBall = () => {
@@ -47,8 +40,8 @@ export default {
 
     const ballMovement = () => {
         const update = () => {
-            paddleCollision(props.paddle1);
-        paddleCollision(props.paddle2);
+            paddleCollision(paddle1.value);
+            paddleCollision(paddle2.value);
 
             // hits top or bottom border
             if(y < radius || y > props.height - radius) {
@@ -71,18 +64,32 @@ export default {
 
     const paddleCollision = (paddle) => {
         if(paddle) {
-            if(x - radius <= paddle.x + paddle.width && x > paddle.x) {
-                if(isSameHeight(paddle)) {
+            console.log("PADDLE Y: " + paddle.y);
+            console.log("PADDLE X: " + paddle.x);
+            console.log("PADDLE height: " + paddle.height);
+            console.log("PADDLE width: " + paddle.width);
+            console.log("BALL Y: " + ball.value.y());
+            if (paddle.x <= props.width / 2) {
+                // Collision with the left paddle (paddle1)
+                if (x - radius <= paddle.x + paddle.width && x > paddle.x) {
+                    if (isSameHeight(paddle)) {
                     xSpeed = -xSpeed;
+                    }
+                }
+                } else {
+                // Collision with the right paddle (paddle2)
+                if (x + radius >= paddle.x && x < paddle.x + paddle.width) {
+                    if (isSameHeight(paddle)) {
+                    xSpeed = -xSpeed;
+                    }
                 }
             }
         }
     };
 
     const isSameHeight = (paddle) => {
-        return y >= paddle.y && y <= paddle.y + paddle.height;
+        return y >= paddle.y - paddle.height / 2 && y <= paddle.y + paddle.height / 2;
     }
-    return {};
   }
 };
 </script>
