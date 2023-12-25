@@ -3,11 +3,13 @@ import { ref, onMounted, watch, toRefs } from 'vue';
 
 export default {
   props: {
-      draw : Object,
-      height : Number,
-      width : Number,
-      paddle1 : Object,
-      paddle2 : Object
+    draw : Object,
+    height : Number,
+    width : Number,
+    paddle1 : Object,
+    paddle2 : Object,
+    incrementRightScore: Function,
+    incrementLeftScore: Function
   },
   setup(props){
     const ball = ref(null);
@@ -48,7 +50,12 @@ export default {
                 ySpeed = -ySpeed;
             }
             // restart game, hits left or right border
-            if(x < radius || x > props.width + radius) {
+            if(x < radius) {
+                props.incrementRightScore();
+                resetBall();
+            }
+            else if(x > props.width + radius) {
+                props.incrementLeftScore();
                 resetBall();
             }
 
