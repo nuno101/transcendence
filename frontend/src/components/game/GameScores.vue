@@ -10,6 +10,7 @@ export default {
   setup(props) {
     const scoreLeft = ref(0);
     const scoreRight = ref(0);
+    const isGameOver = ref(false);
     let textLeft = null;
     let textRight = null;
 
@@ -46,23 +47,35 @@ export default {
       scoreRight.value++;
       // Update the text content
       textRight.text(scoreRight.value + '');
+      if (scoreRight.value === 3) {
+        isGameOver.value = true;
+      }
     };
 
     const incrementLeftScore = () => {
       scoreLeft.value++;
       // Update the text content
       textLeft.text(scoreLeft.value + '');
+      if (scoreLeft.value === 3) {
+        isGameOver.value = true;
+      }
     };
 
     return {
         incrementRightScore,
-        incrementLeftScore
+        incrementLeftScore,
+        isGameOver,
+        scoreLeft,
+        scoreRight
     }
   }
 };
 </script>
 
 <template>
+  <div v-if="isGameOver">
+      <p>{{ scoreLeft > scoreRight ? 'Player Left' : 'Player Right' }} Wins!</p>
+    </div>
 </template>
 
 <style scoped>

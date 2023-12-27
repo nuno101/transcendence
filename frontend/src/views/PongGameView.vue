@@ -10,7 +10,6 @@ import { ref } from 'vue';
   let draw = ref(null);
   let paddle1 = ref(null);
   let paddle2 = ref(null);
-  let ball = ref(null);
   let score = ref(null);
 
   const handleDrawUpdate = (updatedDraw) => {
@@ -33,7 +32,7 @@ import { ref } from 'vue';
   <Map @update:draw="handleDrawUpdate" :width="mapWidth" :height="mapHeight" />
   <Paddle ref="paddle1" :draw="draw" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="26" keyUp="w" keyDown="s"/>
   <Paddle ref="paddle2" :draw="draw" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="mapWidth - 48" keyUp="ArrowUp" keyDown="ArrowDown"/>
-  <Ball ref="ball" :draw="draw" :width="mapWidth" :height="mapHeight" :paddle1="paddle1" :paddle2="paddle2" :incrementRightScore="incrementRightScore" :incrementLeftScore="incrementLeftScore" />
+  <Ball :draw="draw" :width="mapWidth" :height="mapHeight" :paddle1="paddle1" :paddle2="paddle2" :incrementRightScore="incrementRightScore" :incrementLeftScore="incrementLeftScore" />
   <Scores ref="score" :draw="draw" :width="mapWidth" :height="mapHeight" />
   </div>
 </template>
