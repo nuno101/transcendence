@@ -13,15 +13,14 @@ class User(models.Model):
 	def __str__(self):
 		return self.name
 
-
 class Session(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
 class Friend(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	#FIXME friend = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dummy")
+	friend = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 
 class Tournament(models.Model):
@@ -48,15 +47,15 @@ class Tournament(models.Model):
 		return self.title
 
 
-class Match(models.Model):
+class Game(models.Model):
 	class MatchStatus(models.TextChoices):
 			CREATED = "created"
 			ONGOING = "ongoing"
 			DONE = "done"
 			CANCELLED = "cancelled"
 	tournament_id = models.ForeignKey(Tournament, on_delete=models.CASCADE)
-	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-	#FIXME user2_id = models.ForeignKey(User, on_delete=models.CASCADE)
+	player_id = models.ForeignKey(User, on_delete=models.CASCADE)
+	player2_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="visitor")
 	status = models.CharField(
         max_length=36,
         choices=MatchStatus.choices,
@@ -65,7 +64,4 @@ class Match(models.Model):
 	score = models.IntegerField(default=0)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-
-	def __str__(self):
-		return self.title
 

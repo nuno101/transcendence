@@ -1,15 +1,17 @@
 from django.views import View
-from django.http import HttpResponse, JsonResponse, Http404
-#from django.core.serializers import serialize
+from django.http import JsonResponse, Http404
 from .models import User
 from .models import Tournament
 #from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from .serials import serialize_user, serialize_tournament
+from .views_tournaments import TournamentView, TournamentDetail
+from .views_games import GameView, GameDetail
 import json
 import datetime
 
 def index(request):
-	return HttpResponse("Hello, world. You're at the transcendence index.")
+	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
 # GET   /users
 # POST /users {"name": "dummy", "fullname": "Dummy user"}
@@ -18,11 +20,7 @@ def user_list(request):
 		users = User.objects.order_by("name")
 		users_data = []
 		for user in users:
-			users_data.append({
-				'id': user.id,
-				'name': user.name,
-				'fullname': user.fullname,
-			})
+			users_data.append(serialize_user(user))
 		data = {
 			'users': users_data,
 			'count': users.count(),
@@ -42,7 +40,7 @@ def user_list(request):
 			}
 
 		u = User.objects.create(**user_data)
-		u = { "id": u.id }
+		u = serialize_user(user)
 		return JsonResponse(u, status=201)
 
 # GET    /users/<int:user_id>
@@ -50,14 +48,10 @@ def user_list(request):
 # DELETE /users/<int:user_id>
 def user_detail(request, user_id):
 	try:
-		user = User.objects.get(pk=user_id)
-		data = {'id': user.id,
-			'name': user.name,
-			'fullname': user.fullname,
-			}
+		u = User.objects.get(pk=user_id)
 	except User.DoesNotExist:
 		raise Http404()
-	return JsonResponse({'user': data})
+	return JsonResponse({'user': serialize_user(u)})
 
 #tournaments/
 class TournamentView(View):
