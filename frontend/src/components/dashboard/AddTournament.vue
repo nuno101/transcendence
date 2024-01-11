@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 import PostRequest from '../common/PostRequest.vue';
 
+const { fetchData } = defineProps(['fetchData']);
 const openModal = ref(false);
 const submittable = ref(false);
 const formData = ref({
@@ -17,6 +18,8 @@ const submitForm = () => {
     console.log('Form submitted with data:', formData.value);
     console.log('Request Payload:', JSON.stringify(formData.value));
     submittable.value = false;
+    // After successfully adding a tournament, update the tournamentsList
+    fetchData();
 };
 
 </script>

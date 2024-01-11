@@ -1,24 +1,25 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import GetRequest from '../common/GetRequest.vue';
-import { ref,watch } from 'vue';
+import { ref,watch, inject } from 'vue';
 
-const data = ref({});
 
-const updatedData = (newData) => {
-  data.value = newData;
-};
 
-// You can also watch for changes in data
-    watch(data, (newData) => {
-      console.log('Data changed in parent component:', newData);
-    });
-// GetRequest.fetchData("'/api/tournaments");
+const props = defineProps(['tournaments']);
+const reactiveTournaments = ref([]);
+
+// Use a reactive statement to ensure reactivity
+watch(() => props.tournaments, (newValue) => {
+  reactiveTournaments.value = [...newValue];
+});
+
+// Expose the reactive data to the template
+const tournaments = reactiveTournaments;
 </script>
 
 <template>
   <div>
-    <GetRequest :apiPath="'/api/tournaments/'" @update:data="updatedData"></GetRequest>
+    <!-- <GetRequest :apiPath="'/api/tournaments/'" @update:data="updatedData"></GetRequest> -->
     <table class="table table-hover">
         <thead>
             <tr>
@@ -28,7 +29,7 @@ const updatedData = (newData) => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="tournament in data.tournaments" :key="tournament.id">
+            <tr v-for="tournament in tournaments" :key="tournament.id">
                 <td>{{tournament.title}}</td>
                 <td>{{tournament.description}}</td>
                 <td v-if="tournament.status === 'registration_open'">
