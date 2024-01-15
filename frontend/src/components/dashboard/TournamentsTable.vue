@@ -1,25 +1,11 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import GetRequest from '../common/GetRequest.vue';
-import { ref,watch } from 'vue';
-
-
 
 const props = defineProps(['tournaments']);
-// const reactiveTournaments = ref([]);
-
-// // Use a reactive statement to ensure reactivity
-// watch(() => props.tournaments, (newValue) => {
-//   reactiveTournaments.value = [...newValue];
-// });
-
-// Expose the reactive data to the template
-// const tournaments = reactiveTournaments;
 </script>
 
 <template>
   <div>
-    <!-- <GetRequest :apiPath="'/api/tournaments/'" @update:data="updatedData"></GetRequest> -->
     <table class="table table-hover">
         <thead>
             <tr>
