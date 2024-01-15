@@ -1,20 +1,20 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import GetRequest from '../common/GetRequest.vue';
-import { ref,watch, inject } from 'vue';
+import { ref,watch } from 'vue';
 
 
 
 const props = defineProps(['tournaments']);
-const reactiveTournaments = ref([]);
+// const reactiveTournaments = ref([]);
 
-// Use a reactive statement to ensure reactivity
-watch(() => props.tournaments, (newValue) => {
-  reactiveTournaments.value = [...newValue];
-});
+// // Use a reactive statement to ensure reactivity
+// watch(() => props.tournaments, (newValue) => {
+//   reactiveTournaments.value = [...newValue];
+// });
 
 // Expose the reactive data to the template
-const tournaments = reactiveTournaments;
+// const tournaments = reactiveTournaments;
 </script>
 
 <template>
@@ -47,10 +47,6 @@ const tournaments = reactiveTournaments;
             </tr>
         </tbody>
     </table>
-    <!-- <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link> -->
-
-    <!-- <button type="button" class="btn btn-primary">New</button> -->
-
   </div>
 </template>
 

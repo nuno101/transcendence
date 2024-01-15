@@ -1,15 +1,11 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-// import PostRequest from '../components/common/PostRequest.vue';
 import TournamentsTable from '../components/dashboard/TournamentsTable.vue';
 import AddTournament from '../components/dashboard/AddTournament.vue';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 
-// Use a reactive variable as a key
-const tableKey = ref(0);
-
-const tournaments = ref(null);
+const tournaments = ref([]);
 
 const fetchData = async () => {
   try {
@@ -24,31 +20,17 @@ const fetchData = async () => {
   }
 };
 
-// Function to update tournaments and trigger a re-render
-const updateTournaments = () => {
-  // Fetch updated tournaments
-  // ...
-
-  // Update the reactive variable key to force a re-render
-  tableKey.value += 1;
-};
-
 onMounted(() => {
-  updateTournaments();
   fetchData();
 })
+
 </script>
 
 <template>
   <div>
-    <!-- <GetRequest :apiPath="'/api/tournaments/'"></GetRequest>
-    <PostRequest
-      :apiPath="'/api/tournaments/'"
-      :data='formData'>
-    </PostRequest> -->
     <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
-    <TournamentsTable :tournaments="tournaments" :key="tableKey.value" />
-    <AddTournament :fetchData="fetchData"/>
+    <TournamentsTable :tournaments="tournaments"/>
+    <AddTournament :updateData="fetchData"/>
   </div>
 </template>
 

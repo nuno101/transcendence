@@ -32,9 +32,10 @@ export default {
         if(props.draw) {
             radius = 10;
             ball.value = props.draw
-            .cx(props.width / 2)
-            .cy(props.height / 2)
-            .circle(radius * 2).fill('#eeeeeee');
+                .cx(props.width / 2)
+                .cy(props.height / 2)
+                .circle(radius * 2)
+                .fill('#eeeeeee');
             resetBall();
         }
     };
@@ -50,13 +51,11 @@ export default {
                 // Set random direction for the ball movement
                 xSpeed = Math.random() > 0.5 ? -Math.random() * 2 - 1 : Math.random() * 2 + 1;
                 ySpeed = Math.random() * 6 - 3;
-
                 // Remove the event listener after starting the ball movement
                 SVG.off(document, 'keydown', handleKeyPress);
                 isRoundStartMessageVisible.value = false;
             }
         };
-
         // Add the event listener for keydown events
         SVG.on(document, 'keydown', handleKeyPress);
         // Show the round start message
@@ -80,9 +79,9 @@ export default {
                     resetBall();
                 }
                 ball.value.cx(ball.value.cx() + xSpeed).cy(ball.value.cy() + ySpeed);
-                }
-                requestAnimationFrame(update);
-            };
+            }
+            requestAnimationFrame(update);
+        };
         update();
     };
 
