@@ -10,8 +10,8 @@ const props = defineProps(['tournaments']);
         <thead>
             <tr>
               <th scope="col">{{useI18n().t('tournamentsview.tournaments')}}</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
+              <th scope="col">{{useI18n().t('tournamentsview.description')}}</th>
+              <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
             </tr>
         </thead>
         <tbody>
@@ -19,13 +19,10 @@ const props = defineProps(['tournaments']);
                 <td>{{tournament.title}}</td>
                 <td>{{tournament.description}}</td>
                 <td v-if="tournament.status === 'registration_open'">
-                  <button type="button" class="btn btn-outline-success btn-sm">Register</button>
+                  <button type="button" class="btn btn-outline-success btn-sm">{{useI18n().t('tournamentsview.register')}}</button>
                 </td>
                 <td v-else-if="tournament.status === 'registration_closed'">
-                    registration closed
-                </td>
-                <td v-else-if="tournament.status === 'cancelled'">
-                    cancelled
+                    {{useI18n().t('tournamentsview.registrationclosed')}}
                 </td>
                 <td v-else>
                     {{tournament.status}}
