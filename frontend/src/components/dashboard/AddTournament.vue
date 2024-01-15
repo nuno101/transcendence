@@ -17,8 +17,8 @@ export default {
     const submitForm = () => {
         // Handle the form submission here, e.g., send the data to a server
         openModal.value = false;
-        console.log('Form submitted with data:', formData.value);
-        console.log('Request Payload:', JSON.stringify(formData.value));
+        // console.log('Form submitted with data:', formData.value);
+        // console.log('Request Payload:', JSON.stringify(formData.value));
         submit.value = true;
         props.updateData();
     };

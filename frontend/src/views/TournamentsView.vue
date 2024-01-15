@@ -12,7 +12,7 @@ const fetchData = async () => {
     const response = await axios.get('/api/tournaments/');
     console.log(response.data); // Log the response data to the console
     tournaments.value = response.data.tournaments; // Fill users variable with values
-    console.log('Tournaments updated:', tournaments.value);
+    // console.log('Tournaments updated:', tournaments.value);
     return response.data;  // Return the data to be used in the template
   } catch (error) {
     console.error('Error fetching data:', error);
