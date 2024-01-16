@@ -61,7 +61,16 @@
     "numberofgames": "Number of Games"
   },
   "tournamentsview": {
-    "tournaments": "Tournaments"
+    "tournaments": "Tournaments",
+    "titleoftournament": "Title of tournament",
+    "descriptionoftournament": "Description of tournament",
+    "cancel" : "cancel",
+    "addtournament" : "add tournament",
+    "addnewtournament" : "add new tournament",
+    "description" : "description",
+    "status" : "status",
+    "register" : "register",
+    "registrationclosed" : "registration closed"
   },
   "gamemodesview": {
     "online": "online",
