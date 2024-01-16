@@ -22,7 +22,7 @@ down:
 
 clean: down
 	docker system prune -f
-	docker volume rm database_device
+	docker volume rm database_device -f
 	rm -rf $(HOME)/data/transcendence/volumes
 
 re: clean all
