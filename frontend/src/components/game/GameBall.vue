@@ -1,19 +1,23 @@
 <script>
 import { ref, onMounted, watch, toRefs } from 'vue';
+import SVG from 'svg.js';
 
 export default {
   props: {
-      draw : Object,
-      height : Number,
-      width : Number,
-      paddle1 : Object,
-      paddle2 : Object
+    draw : Object,
+    height : Number,
+    width : Number,
+    paddle1 : Object,
+    paddle2 : Object,
+    incrementRightScore: Function,
+    incrementLeftScore: Function
   },
   setup(props){
     const ball = ref(null);
-    let x, y, radius, xSpeed, ySpeed;
+    let radius, xSpeed, ySpeed;
     // Destructure reactive props
-    // const { paddle1, paddle2 } = toRefs(props);
+    const { paddle1, paddle2 } = toRefs(props);
+    const isRoundStartMessageVisible = ref(false);
 
     onMounted(() => {
         initializeBall();
@@ -24,70 +28,96 @@ export default {
       initializeBall();
     });
 
-    // Use watchEffect to watch reactive properties
-    watch(() => [props.paddle1?.y, props.paddle2?.y], ([paddle1Y, paddle2Y]) => {
-      console.log('IN BALL PADDLE1 Y:', paddle1Y);
-      console.log('IN BALL PADDLE2 Y:', paddle2Y);
-    });
-
     const initializeBall = () => {
         if(props.draw) {
             radius = 10;
+            ball.value = props.draw
+            .cx(props.width / 2)
+            .cy(props.height / 2)
+            .circle(radius * 2).fill('#eeeeeee');
             resetBall();
-            ball.value = props.draw.circle(radius * 2).cx(x).cy(y).fill('#eeeeeee');
         }
     };
    
     const resetBall = () => {
-        x = props.width / 2;
-        y = props.height / 2;
-        xSpeed = Math.random() > 0.5 ? -Math.random() * 2 - 1 : Math.random() * 2 + 1;
-        ySpeed = Math.random() * 6 - 3;
+        xSpeed = 0;
+        ySpeed = 0;
+        ball.value.cx(props.width / 2).cy(props.height / 2);
+
+        const handleKeyPress = (event) => {
+            // Check if the key pressed is any key you want to use to start the ball
+            if (event.key === ' ') {
+                // Set random direction for the ball movement
+                xSpeed = Math.random() > 0.5 ? -Math.random() * 2 - 1 : Math.random() * 2 + 1;
+                ySpeed = Math.random() * 6 - 3;
+
+                // Remove the event listener after starting the ball movement
+                SVG.off(document, 'keydown', handleKeyPress);
+                isRoundStartMessageVisible.value = false;
+            }
+        };
+
+        // Add the event listener for keydown events
+        SVG.on(document, 'keydown', handleKeyPress);
+        // Show the round start message
+        isRoundStartMessageVisible.value = true;
     };
 
     const ballMovement = () => {
         const update = () => {
-            paddleCollision(props.paddle1);
-        paddleCollision(props.paddle2);
-
-            // hits top or bottom border
-            if(y < radius || y > props.height - radius) {
-                ySpeed = -ySpeed;
-            }
-            // restart game, hits left or right border
-            if(x < radius || x > props.width + radius) {
-                resetBall();
-            }
-
-            x += xSpeed;
-            y += ySpeed;
-            if (ball.value) {
-                ball.value.cx(x).cy(y);
-            }
-            requestAnimationFrame(update);
-        };
+            if (ball.value && ball.value.cx && ball.value.cy) {
+                paddleCollision();
+                // hits top or bottom border
+                if (ball.value.cy() < radius || ball.value.cy() > props.height - radius) {
+                    ySpeed = -ySpeed;
+                }
+                // restart game, hits left or right border
+                if (ball.value.cx() < radius) {
+                    props.incrementRightScore();
+                    resetBall();
+                } else if (ball.value.cx() > props.width + radius) {
+                    props.incrementLeftScore();
+                    resetBall();
+                }
+                ball.value.cx(ball.value.cx() + xSpeed).cy(ball.value.cy() + ySpeed);
+                }
+                requestAnimationFrame(update);
+            };
         update();
     };
 
-    const paddleCollision = (paddle) => {
-        if(paddle) {
-            if(x - radius <= paddle.x + paddle.width && x > paddle.x) {
-                if(isSameHeight(paddle)) {
+    const paddleCollision = () => {
+        // Collision with the left paddle (paddle1)
+        if(paddle1.value) {
+            if (ball.value.cx() - radius <= paddle1.value.x + paddle1.value.width &&
+                ball.value.cx() > paddle1.value.x) {
+                if (Math.abs(ball.value.cy() - paddle1.value.y) <= paddle1.value.height / 2) {
+                    xSpeed = -xSpeed;
+                }
+            }
+        }
+        // Collision with the right paddle (paddle2)
+        if(paddle2.value) {
+            if (ball.value.cx() + radius >= paddle2.value.x &&
+                ball.value.cx() < paddle2.value.x + paddle2.value.width) {
+                if (Math.abs(ball.value.cy() - paddle2.value.y) <= paddle2.value.height / 2) {
                     xSpeed = -xSpeed;
                 }
             }
         }
     };
 
-    const isSameHeight = (paddle) => {
-        return y >= paddle.y && y <= paddle.y + paddle.height;
-    }
-    return {};
+    return {
+      isRoundStartMessageVisible
+    };
   }
 };
 </script>
 
 <template>
+    <div v-if="isRoundStartMessageVisible">
+        <p>[ Press the space key to continue ]</p>
+    </div>
 </template>
 
 <style scoped>
