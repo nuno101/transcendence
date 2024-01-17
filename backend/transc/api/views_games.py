@@ -4,7 +4,6 @@ from .models import User
 from .models import Game
 #from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .serials import serialize_game
 import json
 import datetime
 
@@ -25,13 +24,13 @@ class GameView(View):
 		}
 
 		t = Game.objects.create(**game_data)
-		return JsonResponse(serialize_game(t), status=201)
+		return JsonResponse(t.serialize(), status=201)
 
 	def get(self, request):
 		games = Game.objects.all()
 		games_data = []
 		for t in games:
-			games_data.append(serialize_game(t))
+			games_data.append(t.serialize())
 		data = {
 			'games': games_data,
 			'count': games.count(),
@@ -45,7 +44,7 @@ class GameDetail(View):
 			t = Game.objects.get(pk=game_id)
 		except Game.DoesNotExist:
 			raise Http404()
-		return JsonResponse({'game': serialize_game(t)})
+		return JsonResponse({'game': t.serialize()})
 
 	# allow only update of title and description
 	def patch(self, request, game_id):
@@ -59,7 +58,7 @@ class GameDetail(View):
 			t.updated_at = datetime.datetime.now()
 			t.save()
 
-			return JsonResponse(serialize_game(t), status=200, safe=False)
+			return JsonResponse(t.serialize(), status=200, safe=False)
 		except Game.DoesNotExist:
 			raise Http404()
 

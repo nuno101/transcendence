@@ -4,7 +4,6 @@ from .models import User
 from .models import Tournament
 #from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .serials import serialize_user, serialize_tournament
 from .views_tournaments import TournamentView, TournamentDetail
 from .views_games import GameView, GameDetail
 import json
@@ -20,7 +19,7 @@ def user_list(request):
 		users = User.objects.order_by("name")
 		users_data = []
 		for user in users:
-			users_data.append(serialize_user(user))
+			users_data.append(user.serialize())
 		data = {
 			'users': users_data,
 			'count': users.count(),
@@ -40,8 +39,7 @@ def user_list(request):
 			}
 
 		u = User.objects.create(**user_data)
-		u = serialize_user(user)
-		return JsonResponse(u, status=201)
+		return JsonResponse(u.serialize(), status=201)
 
 # GET    /users/<int:user_id>
 # PATCH  /users/<int:user_id>
@@ -51,7 +49,7 @@ def user_detail(request, user_id):
 		u = User.objects.get(pk=user_id)
 	except User.DoesNotExist:
 		raise Http404()
-	return JsonResponse({'user': serialize_user(u)})
+	return JsonResponse({'user': u.serialize()})
 
 #tournaments/
 class TournamentView(View):

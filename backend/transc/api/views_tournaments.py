@@ -4,7 +4,6 @@ from .models import User
 from .models import Tournament
 #from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .serials import serialize_user, serialize_tournament
 import json
 import datetime
 
@@ -25,13 +24,13 @@ class TournamentView(View):
 		}
 
 		t = Tournament.objects.create(**tournament_data)
-		return JsonResponse(serialize_tournament(t), status=201)
+		return JsonResponse(t.serialize(), status=201)
 
 	def get(self, request):
 		tournaments = Tournament.objects.all()
 		tournaments_data = []
 		for t in tournaments:
-			tournaments_data.append(serialize_tournament(t))
+			tournaments_data.append(t.serialize())
 		data = {
 			'tournaments': tournaments_data,
 			'count': tournaments.count(),
@@ -45,7 +44,7 @@ class TournamentDetail(View):
 			t = Tournament.objects.get(pk=tournament_id)
 		except Tournament.DoesNotExist:
 			raise Http404()
-		return JsonResponse({'tournament': serialize_tournament(t)})
+		return JsonResponse({'tournament': t.serialize()})
 
 	# allow only update of title and description
 	def patch(self, request, tournament_id):
@@ -59,14 +58,14 @@ class TournamentDetail(View):
 			t.updated_at = datetime.datetime.now()
 			t.save()
 
-			return JsonResponse(serialize_tournament(t), status=200, safe=False)
+			return JsonResponse(t.serialize(), status=200, safe=False)
 		except Tournament.DoesNotExist:
 			raise Http404()
 
 	def delete(self, request, tournament_id):
 		try:
 			t = Tournament.objects.get(pk=tournament_id)
-			t.delete();
+			t.delete()
 			return JsonResponse({}, status=202)
 		except Tournament.DoesNotExist:
 			raise Http404()
