@@ -28,8 +28,8 @@ class UserCollection(View):
 		try:
 			u = User.objects.create(**user_data)
 		except:
-			return JsonResponse({"reason": f"User with name 
-													'{user_data.get('name')}' already exists"}, status=400)
+			return JsonResponse({"reason": "User with name " +
+													f"'{user_data.get('name')}' already exists"}, status=400)
 		return JsonResponse(u.serialize(), status=201)
 
 # GET    /users/<int:user_id>
@@ -52,8 +52,8 @@ class SingleUser(View):
 		try:
 			u.save()
 		except:
-			return JsonResponse({"reason": f"User with name 
-													 '{self.body.get('name')}' already exists"}, status=400)
+			return JsonResponse({"reason": "User with name " +
+													 f"'{self.body.get('name')}' already exists"}, status=400)
 		return JsonResponse(u.serialize(), status=200, safe=False)
 
 	def delete(self, request, user_id):
