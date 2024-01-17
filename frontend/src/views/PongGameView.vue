@@ -1,12 +1,12 @@
 <script setup>
 import Map from '../components/game/GameMap.vue';
 import Paddle from '../components/game/GamePaddle.vue';
-import Ball from '../components/game/GameBall.vue';
-import Scores from '../components/game/GameScores.vue';
+import BallandScores from '../components/game/GameBallandScores.vue';
 import { ref } from 'vue';
 
   const mapWidth = 624;
   const mapHeight = 351;
+  const isOver = ref(false);
   let draw = ref(null);
   let paddle1 = ref(null);
   let paddle2 = ref(null);
@@ -16,15 +16,6 @@ import { ref } from 'vue';
     draw.value = updatedDraw;
     console.log("Draw in handle it: " + draw.value);
   };
-
-  // Functions to pass to GameBall component
-  const incrementRightScore = () => {
-    score.value.incrementRightScore();
-  };
-
-  const incrementLeftScore = () => {
-    score.value.incrementLeftScore();
-  };
 </script>
 
 <template>
@@ -32,8 +23,7 @@ import { ref } from 'vue';
   <Map @update:draw="handleDrawUpdate" :width="mapWidth" :height="mapHeight" />
   <Paddle ref="paddle1" :draw="draw" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="26" keyUp="w" keyDown="s"/>
   <Paddle ref="paddle2" :draw="draw" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="mapWidth - 48" keyUp="ArrowUp" keyDown="ArrowDown"/>
-  <Ball :draw="draw" :width="mapWidth" :height="mapHeight" :paddle1="paddle1" :paddle2="paddle2" :incrementRightScore="incrementRightScore" :incrementLeftScore="incrementLeftScore" />
-  <Scores ref="score" :draw="draw" :width="mapWidth" :height="mapHeight" />
+  <BallandScores :draw="draw" :width="mapWidth" :height="mapHeight" :paddle1="paddle1" :paddle2="paddle2" />
   </div>
 </template>
 

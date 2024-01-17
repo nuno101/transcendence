@@ -61,7 +61,16 @@
         "numberofgames": "Nombre de Parties"
     },
     "tournamentsview": {
-        "tournaments": "Tournois"
+        "tournaments": "Tournois",
+        "titleoftournament": "Titre du tournoi",
+        "descriptionoftournament": "Description du tournoi",
+        "cancel" : "annuler",
+        "addtournament" : "ajouter ce tournoi",
+        "addnewtournament" : "ajouter un nouveau tournoi",
+        "description" : "description",
+        "status" : "statut",
+        "register" : "registre",
+        "registrationclosed" : "Inscription clôturée"
     },
     "gamemodesview": {
         "online": "En ligne",
