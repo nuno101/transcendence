@@ -28,7 +28,7 @@ class UserCollection(View):
 		try:
 			u = User.objects.create(**user_data)
 		except:
-			return JsonResponse({"reason": f"User with name '{user_data.get('name')}' already exists"}, code=400)
+			return JsonResponse({"reason": f"User with name '{user_data.get('name')}' already exists"}, status=400)
 		return JsonResponse(u.serialize(), status=201)
 
 # GET    /users/<int:user_id>
