@@ -5,6 +5,7 @@ from . import views_games
 
 urlpatterns = [
 	path("", views.index, name="index"),
+  path("login", views.Login.as_view()),
 	path("users", views.UserCollection.as_view()),
 	path("users/", views.UserCollection.as_view()),
 	path("users/<int:user_id>", views.SingleUser.as_view()),

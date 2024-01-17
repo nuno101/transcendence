@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from .decorators import login_required
 from django.views import View
 from django.http import JsonResponse, Http404
 from .models import User
@@ -8,9 +10,10 @@ import json
 import datetime
 
 # GET/POST  /games
+@method_decorator(login_required, name='dispatch')
 class GameView(View):
 	def post(self, request):
-		data = json.loads(request.body.decode("utf-8"))
+		data = json.loads(request.body.decode("utf-8")) # TODO: Add error checking
 		game_id = data.get('game_id')
 		player_id = data.get('player_id')
 		player2_id = data.get('player2_id')
@@ -28,16 +31,14 @@ class GameView(View):
 
 	def get(self, request):
 		games = Game.objects.all()
-		games_data = []
-		for t in games:
-			games_data.append(t.serialize())
 		data = {
-			'games': games_data,
+			'games': [g.serialize() for g in games],
 			'count': games.count(),
 		}
 		return JsonResponse(data)
 
 #games/<int:game_id>
+@method_decorator(login_required, name='dispatch')
 class GameDetail(View):
 	def get(self, request, game_id):
 		try:
@@ -48,7 +49,7 @@ class GameDetail(View):
 
 	# allow only update of title and description
 	def patch(self, request, game_id):
-		try:
+		try: # TODO: Improve error checking
 			data = json.loads(request.body.decode("utf-8"))
 			t = Game.objects.get(pk=game_id)
 			if (data.get('title')):
@@ -65,8 +66,7 @@ class GameDetail(View):
 	def delete(self, request, game_id):
 		try:
 			t = Game.objects.get(pk=game_id)
-			t.delete();
+			t.delete()
 			return JsonResponse({}, status=202)
 		except Game.DoesNotExist:
-			raise Http404()
-
+			raise Http404() # TODO: Improve error checking
