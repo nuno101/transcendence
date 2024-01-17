@@ -8,7 +8,8 @@ import json
 import datetime
 
 # GET/POST  /tournaments
-class TournamentView(View):
+# GET/POST  /tournaments/
+class TournamentCollection(View):
 	def post(self, request):
 		data = json.loads(request.body.decode("utf-8"))
 		title = data.get('title')
@@ -38,7 +39,7 @@ class TournamentView(View):
 		return JsonResponse(data)
 
 #tournaments/<int:tournament_id>
-class TournamentDetail(View):
+class TournamentSingle(View):
 	def get(self, request, tournament_id):
 		try:
 			t = Tournament.objects.get(pk=tournament_id)
@@ -69,4 +70,3 @@ class TournamentDetail(View):
 			return JsonResponse({}, status=202)
 		except Tournament.DoesNotExist:
 			raise Http404()
-
