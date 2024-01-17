@@ -1,5 +1,5 @@
 from django.utils.decorators import method_decorator
-from .decorators import login_required, check_body_syntax, check_tournament_exists
+from .decorators import login_required, check_body_syntax, check_object_exists
 from django.views import View
 from django.http import JsonResponse
 from .models import Tournament
@@ -34,7 +34,8 @@ class TournamentCollection(View):
 
 #tournaments/<int:tournament_id>
 @method_decorator(login_required, name='dispatch')
-@method_decorator(check_tournament_exists, name='dispatch')
+@method_decorator(check_object_exists(Tournament, 'tournament_id', 
+																			'Tournament does not exist'), name='dispatch')
 class TournamentSingle(View):
 	def get(self, request, tournament_id):
 		t = Tournament.objects.get(pk=tournament_id)

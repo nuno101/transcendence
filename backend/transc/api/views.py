@@ -2,9 +2,8 @@ from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
-from .decorators import login_required, check_body_syntax
+from .decorators import login_required, check_body_syntax, check_object_exists
 from .models import User
-#from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 import datetime
@@ -52,12 +51,11 @@ class UserCollection(View):
 # PATCH  /users/<int:user_id>
 # DELETE /users/<int:user_id>
 @method_decorator(login_required, name='dispatch')
+@method_decorator(check_object_exists(User, 'user_id', 
+																			'User does not exist'), name='dispatch')
 class SingleUser(View):
 	def get(self, request, user_id):
-		try:
-			u = User.objects.get(pk=user_id)
-		except User.DoesNotExist:
-			return JsonResponse({"reason": "User does not exist"}, status=404)
+		u = User.objects.get(pk=user_id)
 		return JsonResponse({'user': u.serialize()}) # TODO: Maybe add safe=false and one level of nesting?
 	
 	@check_body_syntax(['name', 'fullname'])
@@ -70,6 +68,6 @@ class SingleUser(View):
 		return JsonResponse(u.serialize(), status=200, safe=False)
 
 	def delete(self, request, user_id):
-		t = User.objects.get(pk=user_id)
-		t.delete()
+		u = User.objects.get(pk=user_id)
+		u.delete()
 		return JsonResponse({}, status=202)

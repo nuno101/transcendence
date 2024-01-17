@@ -25,21 +25,13 @@ def check_body_syntax(parameters):
     return wrapped_view
   return decorator
 
-
-def check_tournament_exists(view_func):
-  def wrapped_view(request, *args, **kwargs):
-    try:
-      models.Tournament.objects.get(id=kwargs["tournament_id"])
-    except:
-      return JsonResponse({"reason": "Tournament does not exist"}, status=404)
-    return view_func(request, *args, **kwargs)
-  return wrapped_view
-
-def check_game_exists(view_func):
-  def wrapped_view(request, *args, **kwargs):
-    try:
-      models.Game.objects.get(id=kwargs["game_id"])
-    except:
-      return JsonResponse({"reason": "Game does not exist"}, status=404)
-    return view_func(request, *args, **kwargs)
-  return wrapped_view
+def check_object_exists(object_type, id_name, error_string):
+  def decorator(view_func):
+    def wrapped_view(request, *args, **kwargs):
+      try:
+        object_type.objects.get(id=kwargs[id_name])
+      except:
+        return JsonResponse({"reason": error_string}, status=404)
+      return view_func(request, *args, **kwargs)
+    return wrapped_view
+  return decorator

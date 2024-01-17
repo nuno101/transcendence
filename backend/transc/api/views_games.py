@@ -1,5 +1,5 @@
 from django.utils.decorators import method_decorator
-from .decorators import login_required, check_body_syntax, check_game_exists
+from .decorators import login_required, check_body_syntax, check_object_exists
 from django.views import View
 from django.http import JsonResponse, Http404
 from .models import Game
@@ -33,26 +33,24 @@ class GameView(View):
 
 #games/<int:game_id>
 @method_decorator(login_required, name='dispatch')
-@method_decorator(check_game_exists, name='dispatch')
+@method_decorator(check_object_exists(Game, 'game_id', 
+																			'Game does not exist'), name='dispatch')
 class GameDetail(View):
 	def get(self, request, game_id):
-		try:
-			t = Game.objects.get(pk=game_id)
-		except Game.DoesNotExist:
-			raise Http404()
-		return JsonResponse({'game': t.serialize()})
+		g = Game.objects.get(pk=game_id)
+		return JsonResponse({'game': g.serialize()})
 
 	# allow only update of title and description
 	@check_body_syntax(['title', 'description'])
 	def patch(self, request, game_id):
-		t = Game.objects.get(pk=game_id)
-		t.title = self.body.get('title')
-		t.description = self.body.get('description')
-		t.updated_at = datetime.datetime.now()
-		t.save()
-		return JsonResponse(t.serialize(), status=200, safe=False)
+		g = Game.objects.get(pk=game_id)
+		g.title = self.body.get('title')
+		g.description = self.body.get('description')
+		g.updated_at = datetime.datetime.now()
+		g.save()
+		return JsonResponse(g.serialize(), status=200, safe=False)
 
 	def delete(self, request, game_id):
-		t = Game.objects.get(pk=game_id)
-		t.delete()
+		g = Game.objects.get(pk=game_id)
+		g.delete()
 		return JsonResponse({}, status=202)
