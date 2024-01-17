@@ -39,9 +39,8 @@ services:
           "CMD-SHELL",
           "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"
         ]
-      start_period: 30s
       interval: 10s
-      timeout: 10s
+      timeout: 30s
       retries: 30
 
   backend:
