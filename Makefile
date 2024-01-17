@@ -12,6 +12,7 @@ up:
 init: migrate superuser
 
 migrate:
+	docker exec -it backend python3 manage.py makemigrations
 	docker exec -it backend python3 manage.py migrate
 
 superuser:

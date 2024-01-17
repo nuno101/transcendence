@@ -1,73 +1,54 @@
+from django.utils.decorators import method_decorator
+from .decorators import login_required, check_body_syntax, check_object_exists
 from django.views import View
-from django.http import JsonResponse, Http404
-from .models import User
+from django.http import JsonResponse
 from .models import Game
-#from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .serials import serialize_game
-import json
 import datetime
 
 # GET/POST  /games
+@method_decorator(login_required, name='dispatch')
 class GameView(View):
-	def post(self, request):
-		data = json.loads(request.body.decode("utf-8"))
-		game_id = data.get('game_id')
-		player_id = data.get('player_id')
-		player2_id = data.get('player2_id')
-
-		game_data = {
-			'game_id': game_id,
-			'player_id': player_id,
-			'player2_id': player2_id,
-			#'status': GameStatus::CREATED - set at DB level
-			#'created_at': datetime.datetime.now()
-		}
-
-		t = Game.objects.create(**game_data)
-		return JsonResponse(serialize_game(t), status=201)
-
 	def get(self, request):
 		games = Game.objects.all()
-		games_data = []
-		for t in games:
-			games_data.append(serialize_game(t))
 		data = {
-			'games': games_data,
+			'games': [g.serialize() for g in games],
 			'count': games.count(),
 		}
 		return JsonResponse(data)
 
+	@check_body_syntax(['game_id', 'player_id', 'player2_id'])
+	def post(self, request):
+		game_data = {
+			'game_id': self.body.get('game_id'),
+			'player_id': self.body.get('player_id'),
+			'player2_id': self.body.get('player2_id'),
+			#'status': GameStatus::CREATED - set at DB level
+			#'created_at': datetime.datetime.now()
+		}
+		t = Game.objects.create(**game_data) # TODO: Check if creating is successful
+		return JsonResponse(t.serialize(), status=201)
+
 #games/<int:game_id>
+@method_decorator(login_required, name='dispatch')
+@method_decorator(check_object_exists(Game, 'game_id', 
+																			'Game does not exist'), name='dispatch')
 class GameDetail(View):
 	def get(self, request, game_id):
-		try:
-			t = Game.objects.get(pk=game_id)
-		except Game.DoesNotExist:
-			raise Http404()
-		return JsonResponse({'game': serialize_game(t)})
+		g = Game.objects.get(pk=game_id)
+		return JsonResponse({'game': g.serialize()})
 
 	# allow only update of title and description
+	@check_body_syntax(['title', 'description'])
 	def patch(self, request, game_id):
-		try:
-			data = json.loads(request.body.decode("utf-8"))
-			t = Game.objects.get(pk=game_id)
-			if (data.get('title')):
-				t.title = data.get('title')
-			if (data.get('description')):
-				t.description = data.get('description')
-			t.updated_at = datetime.datetime.now()
-			t.save()
-
-			return JsonResponse(serialize_game(t), status=200, safe=False)
-		except Game.DoesNotExist:
-			raise Http404()
+		g = Game.objects.get(pk=game_id)
+		g.title = self.body.get('title')
+		g.description = self.body.get('description')
+		g.updated_at = datetime.datetime.now()
+		g.save()
+		return JsonResponse(g.serialize(), status=200, safe=False)
 
 	def delete(self, request, game_id):
-		try:
-			t = Game.objects.get(pk=game_id)
-			t.delete();
-			return JsonResponse({}, status=202)
-		except Game.DoesNotExist:
-			raise Http404()
-
+		g = Game.objects.get(pk=game_id)
+		g.delete()
+		return JsonResponse({}, status=202)

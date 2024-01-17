@@ -1,16 +1,19 @@
 from django.urls import path
-from . import views
-from .views import TournamentView, TournamentDetail
-from .views import GameView, GameDetail
+from . import views, views_games, views_tournaments, views_users
 
 urlpatterns = [
 	path("", views.index, name="index"),
-	path("users", views.user_list),
-	path("users/", views.user_list),
-	path("users/<int:user_id>", views.user_detail),
-	path('tournaments/', TournamentView.as_view()),
-	path('tournaments/<int:tournament_id>', TournamentDetail.as_view()),
-	path('games/', GameView.as_view()),
-	path('games/<int:game_id>', GameDetail.as_view()),
-]
+  path("login", views.Login.as_view()),
+  
+	# User paths
+	path("users", views_users.UserCollection.as_view()),
+	path("users/<int:user_id>", views_users.SingleUser.as_view()),
 
+	# Tournament paths
+	path('tournaments', views_tournaments.TournamentCollection.as_view()),
+	path('tournaments/<int:tournament_id>', views_tournaments.TournamentSingle.as_view()),
+
+	# Game paths
+	path('games/', views_games.GameView.as_view()),
+	path('games/<int:game_id>', views_games.GameDetail.as_view()),
+]
