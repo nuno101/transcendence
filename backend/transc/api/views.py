@@ -14,8 +14,8 @@ def index(request):
 
 # GET   /users
 # POST /users {"name": "dummy", "fullname": "Dummy user"}
-def user_list(request):
-	if request.method == 'GET':
+class UserCollection(View):
+	def get(self, request):
 		users = User.objects.order_by("name")
 		users_data = []
 		for user in users:
@@ -27,7 +27,7 @@ def user_list(request):
 		return JsonResponse(data)
 
 	# https://www.youtube.com/watch?v=i5JykvxUk_A
-	if request.method == 'POST':
+	def post(self, request):
 		data = json.loads(request.body.decode("utf-8"))
 		name = data.get('name')
 		fullname = data.get('fullname')
@@ -44,12 +44,15 @@ def user_list(request):
 # GET    /users/<int:user_id>
 # PATCH  /users/<int:user_id>
 # DELETE /users/<int:user_id>
-def user_detail(request, user_id):
-	try:
-		u = User.objects.get(pk=user_id)
-	except User.DoesNotExist:
-		raise Http404()
-	return JsonResponse({'user': u.serialize()})
+class SingleUser(View):
+	def get(self, request, user_id):
+		try:
+			u = User.objects.get(pk=user_id)
+		except User.DoesNotExist:
+			return JsonResponse({"error": "404 Not found", "reason": "User does not exist"})
+		return JsonResponse({'user': u.serialize()})
+	
+	# TODO: Implement PATCH and POST
 
 #tournaments/
 class TournamentView(View):
@@ -134,8 +137,7 @@ class TournamentDetail(View):
 	def delete(self, request, tournament_id):
 		try:
 			t = Tournament.objects.get(pk=tournament_id)
-			t.delete();
+			t.delete()
 			return JsonResponse({}, status=202)
 		except Tournament.DoesNotExist:
 			raise Http404()
-
