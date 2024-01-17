@@ -1,11 +1,9 @@
 from django.utils.decorators import method_decorator
 from .decorators import login_required, check_body_syntax, check_object_exists
 from django.views import View
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from .models import Game
-#from django.utils.decorators import method_decorator
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-import json
 import datetime
 
 # GET/POST  /games
