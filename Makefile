@@ -9,11 +9,21 @@ build:
 up:
 	docker compose up -d
 
+init: migrate superuser
+
+migrate:
+	docker exec -it backend python3 manage.py makemigrations
+	docker exec -it backend python3 manage.py migrate
+
+superuser:
+	docker exec -it backend python3 manage.py createsuperuser
+
 down:
 	docker compose down
 
 clean: down
 	docker system prune -f
+	docker volume rm database_device -f
 	rm -rf $(HOME)/data/transcendence/volumes
 
 re: clean all

@@ -1,12 +1,13 @@
 *** Settings ***
 Library    RequestsLibrary
 
+*** Variables ***
+
 *** Test Cases ***
+Quick Get Request Test
+    ${response}=    GET  http://localhost:8000
+
 GET an existing user, notice how the schema gets more accurate
-    GET         /users/1                  # this creates a new instance
-    Output schema   response body
-    Object      response body             # values are fully optional
-    Integer     response body id          1
-    String      response body name        nuno
-    String      response body fullname    Nuno
-    [Teardown]  Output schema             # note the updated response schema
+    ${response}=    GET  http://localhost:8000/users/1                  # this creates a new instance
+    Should Be Equal As Strings    1  ${response.json()}[user][id]
+

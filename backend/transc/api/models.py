@@ -13,15 +13,38 @@ class User(models.Model):
 	def __str__(self):
 		return self.name
 
+	def serialize(self):
+		return {
+			'id': self.id,
+			'name': self.name,
+			'fullname': self.fullname,
+			'created_at': self.created_at,
+			'updated_at': self.updated_at,
+		}
+
 class Session(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
+	def serialize(self):
+		return {
+			'user_id': self.user_id,
+			'created_at': self.created_at,
+			'updated_at': self.updated_at,
+		}
+
 class Friend(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dummy")
 	friend = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
+	
+	def serialize(self):
+		return {
+			'user_id': self.user.id,
+			'friend_id': self.friend.id,
+			'created_at': self.created_at,
+		}
 
 class Tournament(models.Model):
 	class TournamentStatus(models.TextChoices):
@@ -45,7 +68,17 @@ class Tournament(models.Model):
 
 	def __str__(self):
 		return self.title
-
+	
+	def serialize(self):
+		return {
+        'id': self.id,
+        'title': self.title,
+        'description': self.description,
+        'creator_id': self.creator_id,
+        'status': self.status,
+        'created_at': self.created_at,
+        'updated_at': self.updated_at,
+    }
 
 class Game(models.Model):
 	class MatchStatus(models.TextChoices):
@@ -65,3 +98,14 @@ class Game(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
+	def serialize(self):
+		return {
+        'id': self.id,
+        'tournament_id': self.tournament_id.id,
+        'player_id': self.player_id.id,
+        'player2_id': self.player2_id.id,
+        'status': self.status,
+        'score': self.score,
+        'created_at': self.created_at,
+        'updated_at': self.updated_at,
+    }
