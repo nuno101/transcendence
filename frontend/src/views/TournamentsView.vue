@@ -9,7 +9,7 @@ const tournaments = ref([]);
 
 const fetchData = async () => {
   try {
-    const response = await axios.get('/api/tournaments/');
+    const response = await axios.get('/api/tournaments');
     console.log(response.data); // Log the response data to the console
     tournaments.value = response.data.tournaments; // Fill users variable with values
     // console.log('Tournaments updated:', tournaments.value);
