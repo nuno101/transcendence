@@ -2,7 +2,7 @@ from django.utils.decorators import method_decorator
 from .decorators import login_required, check_body_syntax, check_object_exists
 from django.views import View
 from django.http import JsonResponse
-from .models import Game
+from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
 
@@ -17,12 +17,21 @@ class GameView(View):
 		}
 		return JsonResponse(data)
 
-	@check_body_syntax(['game_id', 'player_id', 'player2_id'])
+	@check_body_syntax(['tournament_id', 'player_id', 'player2_id'])
 	def post(self, request):
+		try:
+			tournament = Tournament.objects.get(pk=self.body.get('tournament_id'))
+		except:
+			return JsonResponse({"reason": "Invalid tournament id"}, status=404)
+		try:
+			player = User.objects.get(pk=self.body.get('player_id'))
+			opponent = User.objects.get(pk=self.body.get('player2_id'))
+		except:
+			return JsonResponse({"reason": "Invalid user id"}, status=404)
 		game_data = {
-			'game_id': self.body.get('game_id'),
-			'player_id': self.body.get('player_id'),
-			'player2_id': self.body.get('player2_id'),
+			'tournament_id': tournament,
+			'player_id': player,
+			'player2_id': opponent,
 			#'status': GameStatus::CREATED - set at DB level
 			#'created_at': datetime.datetime.now()
 		}
