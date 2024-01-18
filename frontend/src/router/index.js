@@ -1,19 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-// IMPORT NEW VIEWS/PAGES HERE
 import HomeView from '../views/HomeView.vue';
-import LoginView from '../views/LoginView.vue';
-import RegistrationView from '../views/RegistrationView.vue';
-import CreateProfileView from '../views/CreateProfileView.vue';
-import DashboardView from '../views/DashboardView.vue';
-import ProfileView from '../views/ProfileView.vue';
-import SettingsView from '../views/SettingsView.vue';
-import FriendsView from '../views/FriendsView.vue';
-import FriendStatsView from '../views/FriendStatsView.vue';
-import TournamentsView from '../views/TournamentsView.vue';
-import GameModesView from '../views/GameModesView.vue';
-import OnlineGameView from '../views/OnlineGameView.vue';
-import OnsiteGameView from '../views/OnsiteGameView.vue';
-import PongGameView from '../views/PongGameView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -91,6 +77,12 @@ const router = createRouter({
       path: '/ponggame',
       name: 'ponggame',
       component: () => import('../views/PongGameView.vue')
+    },
+    // FALLBACK
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'pathnotfound',
+      component: () => import('../views/PageNotFoundView.vue')
     }
   ]
 })
