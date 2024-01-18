@@ -1,10 +1,10 @@
 <script>
-import SVG from 'svg.js';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 
 export default {
   props: {
-    draw : Object,
+    canvas : Object,
+    context : Object,
     mapWidth : Number,
     mapHeight : Number,
     paddleX : Number,
@@ -15,71 +15,80 @@ export default {
     const paddleHeight = 80;
     const paddleWidth = 20;
     const paddle = ref(null);
-    const x = ref(props.paddleX);
     const y = ref(props.mapHeight / 2);
-    const width = ref(16);
-    const height = ref(60);
+    const keys = new Set();
+
+    const handleKeys = () => {
+      const dir = keys.has(props.keyUp) ? -3 : keys.has(props.keyDown) ? 3 : 0;
+      movePaddle(dir);
+    };
+
+    const movePaddle = (dir) => {
+      y.value += dir;
+      y.value = Math.max(paddleHeight / 2, Math.min(y.value, props.mapHeight - paddleHeight / 2));
+    };
+
+    const handleKeyDown = (e) => {
+      keys.add(e.key);
+      handleKeys();
+    };
+
+    const handleKeyUp = (e) => {
+      keys.delete(e.key);
+      handleKeys();
+    };
 
     onMounted(() => {
       initializePaddle();
       paddleMovement();
     });
 
-    watch(() => props.draw, () => {
+    watch(() => props.canvas, () => {
       initializePaddle();
       paddleMovement();
     });
 
+    onUnmounted(() => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
+    });
+
     const initializePaddle = () => {
-      if (props.draw) {
-        paddle.value = props.draw.rect(paddleWidth, paddleHeight)
-          .x(props.paddleX)
-          .cy(props.mapHeight / 2)
-          .fill('#00ff99');
+      if (props.canvas) {
+        paddle.value = {
+          x: props.paddleX,
+          width: paddleWidth,
+          height: paddleHeight,
+          color: '#00ff99'
+        }
+        drawPaddle();
+      }
+    };
+    
+    const drawPaddle = () => {
+      if(props.canvas){
+        const context = props.canvas.getContext('2d');
+        context.clearRect(paddle.value.x, 0, paddle.value.width, props.mapHeight);
+        context.fillStyle = paddle.value.color;
+        context.fillRect(paddle.value.x, y.value - paddleHeight / 2, paddle.value.width, paddle.value.height);
       }
     };
 
-    const paddleMovement = () => {
-      const keys = new Set();
-
-      SVG.on(document, 'keydown', (e) => {
-        keys.add(e.key);
-        handleKeys();
-      });
-
-      SVG.on(document, 'keyup', (e) => {
-        keys.delete(e.key);
-        handleKeys();
-      });
-
-      const handleKeys = () => {
-        const dir = keys.has(props.keyUp) ? -2 : keys.has(props.keyDown) ? 2 : 0;
-        movePaddle(dir);
-      };
-
-      const movePaddle = (dir) => {
-        y.value += dir;
-        // Ensure that the paddle stays within the height boundaries
-        y.value = Math.max(paddleHeight / 2, Math.min(y.value, props.mapHeight - paddleHeight / 2));
-        if (paddle.value) {
-          paddle.value.cy(y.value);
-        }
-      };
-
+    const paddleMovement = () => {  
       const update = () => {
         handleKeys();
+        drawPaddle();
         requestAnimationFrame(update);
       };
+
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keyup', handleKeyUp);
 
       update();
     };
 
     return {
-      paddle,
-      x,
-      y,
-      width,
-      height
+      paddle
     };
   }
 };
