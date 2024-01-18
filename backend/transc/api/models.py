@@ -1,42 +1,28 @@
+from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
-
-class User(models.Model):
-	name = models.CharField(max_length=12, unique=True, null=False)
-	fullname = models.CharField(max_length=60, null=False)
-	avatar = models.BinaryField(max_length=900000, null=False)
-	password_hash = models.CharField(max_length=255, null=False) 
+class User(AbstractUser):
+	username = models.CharField(max_length=12, unique=True, null=False)
+	#avatar = models.ImageField(upload_to='avatars/', null=True, blank=True) # TODO
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+	avatar = models.BinaryField(max_length=900000, null=False)
 
-	def __str__(self):
-		return self.name
+	USERNAME_FIELD = 'username'
+	REQUIRED_FIELDS = []
 
 	def serialize(self):
 		return {
 			'id': self.id,
-			'name': self.name,
-			'fullname': self.fullname,
-			'created_at': self.created_at,
-			'updated_at': self.updated_at,
-		}
-
-class Session(models.Model):
-	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
-
-	def serialize(self):
-		return {
-			'user_id': self.user_id,
+			'username': self.username,
 			'created_at': self.created_at,
 			'updated_at': self.updated_at,
 		}
 
 class Friend(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dummy")
-	friend = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="dummy")
+	friend = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 	
 	def serialize(self):
@@ -87,8 +73,8 @@ class Game(models.Model):
 			DONE = "done"
 			CANCELLED = "cancelled"
 	tournament_id = models.ForeignKey(Tournament, on_delete=models.CASCADE)
-	player_id = models.ForeignKey(User, on_delete=models.CASCADE)
-	player2_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="visitor")
+	player_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	player2_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="visitor")
 	status = models.CharField(
         max_length=36,
         choices=MatchStatus.choices,
