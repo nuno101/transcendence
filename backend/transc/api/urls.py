@@ -14,6 +14,6 @@ urlpatterns = [
 	path('tournaments/<int:tournament_id>', views_tournaments.TournamentSingle.as_view()),
 
 	# Game paths
-	path('games/', views_games.GameView.as_view()),
+	path('games', views_games.GameView.as_view()),
 	path('games/<int:game_id>', views_games.GameDetail.as_view()),
 ]
