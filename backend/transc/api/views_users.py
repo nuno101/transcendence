@@ -6,7 +6,7 @@ from .models import User
 import datetime
 
 # GET   /users
-# POST /users {"name": "dummy", "fullname": "Dummy user"}
+# POST /users {"username": "dummy"}
 class UserCollection(View):
 	@method_decorator(login_required, name='dispatch')
 	def get(self, request):
