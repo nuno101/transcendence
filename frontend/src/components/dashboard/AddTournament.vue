@@ -56,13 +56,13 @@ export default {
                 <button type="button" class="btn btn-danger" @click="openModal = false">{{useI18n().t('tournamentsview.cancel')}}</button>
                 <button type="submit" class="btn btn-success" @click="submitForm">{{useI18n().t('tournamentsview.addtournament')}}</button>
             </div>   
-            <PostRequest v-if="submit" :apiPath="'/api/tournaments/'" :data='formData'></PostRequest>
-        </form>
-    </div>
-  </div>
+            <PostRequest v-if="submit" :apiPath="'/api/tournaments'" :data='formData'></PostRequest>
+        </form >
+    </div >
+  </div >
 
-</template>
+</template >
 
-<style>
+	<style>
 
-</style>
+	</style>

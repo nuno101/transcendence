@@ -1,9 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import TournamentsTable from '../components/dashboard/TournamentsTable.vue';
-import AddTournament from '../components/dashboard/AddTournament.vue';
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
 
 const tournaments = ref([]);
 
