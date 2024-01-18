@@ -6,7 +6,7 @@ from .models import User
 import datetime
 
 # GET   /users
-# POST /users {"username": "dummy"}
+# POST /users {"username": "dummy", "password": "dummy"}
 class UserCollection(View):
 	@method_decorator(login_required, name='dispatch')
 	def get(self, request):
@@ -18,18 +18,14 @@ class UserCollection(View):
 		return JsonResponse(data)
 
 	# https://www.youtube.com/watch?v=i5JykvxUk_A
-	@check_body_syntax(['username', 'fullname'])
-	def post(self, request): # TODO: Add way to specify password
-		user_data = {
-			'username': self.body.get('username'),
-			'fullname': self.body.get('fullname'),
-			'created_at': datetime.datetime.now()
-			}
+	@check_body_syntax(['username', 'password'])
+	def post(self, request):
 		try:
-			u = User.objects.create(**user_data)
+			u = User.objects.create_user(username=self.body.get('username'), 
+																	 password=self.body.get('password'))
 		except:
 			return JsonResponse({"reason": "User with username " +
-													f"'{user_data.get('username')}' already exists"}, status=400)
+													f"'{self.body.get('username')}' already exists"}, status=400)
 		return JsonResponse(u.serialize(), status=201)
 
 # GET    /users/<int:user_id>
