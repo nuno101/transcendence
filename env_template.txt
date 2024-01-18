@@ -1,3 +1,6 @@
+#DJANGO
+DJANGO_SECRET_KEY='django-insecure-o#-u0^+c1x)k0q54emh!))+8#u)c$y(8$mrbhl9z_k)(p^g*54'
+DJANGO_DEBUG=true
 #POSTGRES DB
 POSTGRES_USER=dummy
 POSTGRES_PASSWORD=dummy

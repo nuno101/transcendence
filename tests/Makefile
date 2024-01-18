@@ -1,10 +1,12 @@
 .PHONY: all build run re
 
-all:
-	echo "Robot testing Framework"
+all: build run
 
-build:
+build: .build
+
+.build:
 	docker build -t transc-robotfw .
+	touch .build
 
 run:
-	docker run -it --rm -v $(HOME)/projects/h42/projects/77_trans/tests:/tests transc-robotfw bash -c "robot --outputdir /tests/results  /tests/tests"
+	docker run -it --rm --network=host -v .:/tests transc-robotfw bash -c "robot --outputdir /tests/results  /tests/tests"
