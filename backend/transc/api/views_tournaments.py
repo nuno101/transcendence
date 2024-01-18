@@ -6,8 +6,7 @@ from .models import Tournament
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
 
-# GET /tournaments
-# POST /tournaments
+# /tournaments
 @method_decorator(login_required, name='dispatch')
 class TournamentCollection(View):
 	def get(self, request):
@@ -23,14 +22,13 @@ class TournamentCollection(View):
 		tournament_data = {
 				'title': self.body.get('title'),
 				'description': self.body.get('description'),
-				'creator_id': request.user.id,
+				'creator': request.user.id,
 				#'status': TournamentStatus::CREATED - set at DB level
-				'created_at': datetime.datetime.now()
 			}
 		t = Tournament.objects.create(**tournament_data) # TODO: Check if creating is successful
 		return JsonResponse(t.serialize(), status=201, safe=False)
 
-#tournaments/<int:tournament_id>
+# /tournaments/<int:tournament_id>
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(Tournament, 'tournament_id', 
 																			'Tournament does not exist'), name='dispatch')

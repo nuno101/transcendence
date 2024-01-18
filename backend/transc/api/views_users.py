@@ -5,8 +5,7 @@ from django.http import JsonResponse
 from .models import User
 import datetime
 
-# GET   /users
-# POST /users {"username": "dummy", "password": "dummy"}
+# /users
 class UserCollection(View):
 	@method_decorator(login_required, name='dispatch')
 	def get(self, request):
@@ -28,9 +27,7 @@ class UserCollection(View):
 													f"'{self.body.get('username')}' already exists"}, status=400)
 		return JsonResponse(u.serialize(), status=201)
 
-# GET    /users/<int:user_id>
-# PATCH  /users/<int:user_id>
-# DELETE /users/<int:user_id>
+# /users/<int:user_id>
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', 
 																			'User does not exist'), name='dispatch')

@@ -6,7 +6,7 @@ from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
 
-# GET/POST  /games
+# /games
 @method_decorator(login_required, name='dispatch')
 class GameView(View):
 	def get(self, request):
@@ -33,12 +33,11 @@ class GameView(View):
 			'player_id': player,
 			'player2_id': opponent,
 			#'status': GameStatus::CREATED - set at DB level
-			#'created_at': datetime.datetime.now()
 		}
 		t = Game.objects.create(**game_data) # TODO: Check if creating is successful
 		return JsonResponse(t.serialize(), status=201)
 
-#games/<int:game_id>
+# /games/<int:game_id>
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(Game, 'game_id', 
 																			'Game does not exist'), name='dispatch')
