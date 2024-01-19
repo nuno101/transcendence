@@ -10,6 +10,20 @@ def login_required(view_func):
     return view_func(request, *args, **kwargs)
   return wrapped_view
 
+def staff_required(view_func):
+  def wrapped_view(request, *args, **kwargs):
+    if not request.user.is_staff:
+      return JsonResponse({"reason": "Staff user required"}, status=403)
+    return view_func(request, *args, **kwargs)
+  return wrapped_view
+
+def superuser_required(view_func):
+  def wrapped_view(request, *args, **kwargs):
+    if not request.user.is_staff:
+      return JsonResponse({"reason": "Superuser user required"}, status=403)
+    return view_func(request, *args, **kwargs)
+  return wrapped_view
+
 # Checks for valid JSON syntax of the body and that the specified parameters are existing
 def check_body_syntax(parameters):
   def decorator(view_func):
