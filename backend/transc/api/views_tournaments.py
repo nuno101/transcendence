@@ -15,7 +15,7 @@ class TournamentCollection(View):
 			'tournaments': [t.serialize() for t in tournaments],
 			'count': tournaments.count(),
 		}
-		return JsonResponse(data) # TODO: Maybe add safe=false and one level of nesting?
+		return JsonResponse(data)
 
 	@check_body_syntax(["title", "description"])
 	def post(self, request):
@@ -25,7 +25,7 @@ class TournamentCollection(View):
 				'creator': request.user.id,
 				#'status': TournamentStatus::CREATED - set at DB level
 			}
-		t = Tournament.objects.create(**tournament_data) # TODO: Check if creating is successful
+		t = Tournament.objects.create(**tournament_data)
 		return JsonResponse(t.serialize(), status=201, safe=False)
 
 # /tournaments/<int:tournament_id>
@@ -35,7 +35,7 @@ class TournamentCollection(View):
 class TournamentSingle(View):
 	def get(self, request, tournament_id):
 		t = Tournament.objects.get(pk=tournament_id)
-		return JsonResponse({'tournament': t.serialize()}) # TODO: Maybe add safe=false and one level of nesting?
+		return JsonResponse({'tournament': t.serialize()})
 
 	# allow only update of title and description
 	@check_body_syntax(["title", "description"])
@@ -48,6 +48,5 @@ class TournamentSingle(View):
 		return JsonResponse(t.serialize(), status=200, safe=False)
 
 	def delete(self, request, tournament_id):
-		t = Tournament.objects.get(pk=tournament_id)
-		t.delete()
-		return JsonResponse({}, status=202)
+		Tournament.objects.get(pk=tournament_id).delete()
+		return JsonResponse({}, status=204)

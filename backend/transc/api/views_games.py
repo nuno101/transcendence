@@ -57,6 +57,5 @@ class GameDetail(View):
 		return JsonResponse(g.serialize(), status=200, safe=False)
 
 	def delete(self, request, game_id):
-		g = Game.objects.get(pk=game_id)
-		g.delete()
-		return JsonResponse({}, status=202)
+		Game.objects.get(pk=game_id).delete()
+		return JsonResponse({}, status=204)

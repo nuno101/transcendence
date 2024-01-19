@@ -31,10 +31,10 @@ class UserCollection(View):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', 
 																			'User does not exist'), name='dispatch')
-class SingleUser(View):
+class UserSingle(View):
 	def get(self, request, user_id):
 		u = User.objects.get(pk=user_id)
-		return JsonResponse({'user': u.serialize()}) # TODO: Maybe add safe=false and one level of nesting?
+		return JsonResponse({'user': u.serialize()})
 	
 	@check_body_syntax(['username'])
 	def patch(self, request, user_id):
@@ -49,6 +49,5 @@ class SingleUser(View):
 		return JsonResponse(u.serialize(), status=200, safe=False)
 
 	def delete(self, request, user_id):
-		u = User.objects.get(pk=user_id)
-		u.delete()
-		return JsonResponse({}, status=202)
+		User.objects.get(pk=user_id).delete()
+		return JsonResponse({}, status=204)
