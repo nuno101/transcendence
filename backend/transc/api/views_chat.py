@@ -21,21 +21,20 @@ class ChannelCollection(View):
     channel.members.add(request.user)
     return JsonResponse({'channel': channel.serialize()}, status=201)
 
+CHANNEL_ACCESS_DECORATORS = [login_required, 
+                             check_object_exists(Channel, 'channel_id', CHANNEL_404),
+                             check_channel_member]
+
 # Endpoint: /channels/<int:channel_id>
-@method_decorator(login_required, name='dispatch')
-@method_decorator(check_object_exists(Channel, 'channel_id', CHANNEL_404), name='dispatch')
+@method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
 class ChannelSingle(View):
   def get(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
-    if request.user is not channel.members.all():
-      return JsonResponse({ERROR_FIELD: MESSAGE_403}, status=403) # TODO: Maybe create decorator?
     return JsonResponse(channel.serialize())
   
   @check_body_syntax(['name'])
   def patch(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
-    if request.user is not channel.members.all():
-      return JsonResponse({ERROR_FIELD: MESSAGE_403}, status=403) # TODO: Maybe create decorator?
 
     channel.name = self.body.get('name')
     channel.updated_at = datetime.datetime.now()
@@ -44,28 +43,27 @@ class ChannelSingle(View):
 
   def delete(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
-    if request.user is not channel.members.all():
-      return JsonResponse({ERROR_FIELD: MESSAGE_403}, status=403) # TODO: Maybe create decorator?
     channel.delete()
     return HttpResponse(status=204)
 
+# TODO: Implement 
+# Endpoint: /channels/<int:channel_id>/members
+@method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
+
+# TODO: Implement 
+# Endpoint: /channels/<int:channel_id>/members/<int:user_id>
+@method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
+
 # Endpoint: /channels/<int:channel_id>/messages
-@method_decorator(login_required, name='dispatch')
-@method_decorator(check_object_exists(Channel, 'channel_id', CHANNEL_404), name='dispatch')
+@method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
 class MessageCollection(View):
   def get(self, request, channel_id):
-    channel = Channel.objects.get(id=channel_id)
-    if request.user is not channel.members.all():
-      return JsonResponse({ERROR_FIELD: MESSAGE_403}, status=403) # TODO: Maybe create decorator?
-
     messages = Message.objects.filter(channel=channel_id).order_by("-created_at")
     return JsonResponse({'messages': [m.serialize() for m in messages]})
 
   @check_body_syntax(['content'])
   def post(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
-    if request.user is not channel.members.all():
-      return JsonResponse({ERROR_FIELD: "No permission to send message"}, status=403) # TODO: Maybe create decorator?
     return create_message(channel, request.user, self.body)
 
 # Endpoint: /messages

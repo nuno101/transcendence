@@ -1,6 +1,7 @@
 from . import models
 from django.http import JsonResponse
 import json
+from .models import Channel
 from .errors import *
 
 # Not using django.contrib.auth.decorators.login_required because it redirects to /accounts/login/
@@ -52,3 +53,11 @@ def check_object_exists(object_type, id_name, error_string):
       return view_func(request, *args, **kwargs)
     return wrapped_view
   return decorator
+
+def check_channel_member(view_func):
+  def wrapped_view(request, *args, **kwargs):
+    channel = Channel.objects.get(id=kwargs["channel_id"])
+    if request.user is not channel.members.all():
+      return JsonResponse({ERROR_FIELD: CHANNEL_403}, status=403)
+    return view_func(request, *args, **kwargs)
+  return wrapped_view

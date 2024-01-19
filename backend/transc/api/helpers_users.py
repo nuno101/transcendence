@@ -5,7 +5,8 @@ from .errors import *
 def update_user(user, parameters: dict):
   if parameters.get('username') is not None:
     user.username = parameters.get('username')
-  # TODO: add option for password change
+  if parameters.get('password') is not None:
+    user.set_password(parameters.get('password'))
   user.updated_at = datetime.datetime.now()
   try:
     user.save()
