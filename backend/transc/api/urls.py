@@ -17,6 +17,8 @@ urlpatterns = [
   
   path("users/me/blocked", views_personal.BlockedCollection.as_view()),
   path("users/me/blocked/<int:user_id>", views_personal.BlockedSingle.as_view()),
+  
+	path("users/me/channels", views_personal.ChannelPersonal.as_view()),
 
 	# User paths
 	path("users", views_users.UserCollection.as_view()),
@@ -33,7 +35,7 @@ urlpatterns = [
 	# Chat paths
 	path('channels', views_chat.ChannelCollection.as_view()),
 	path('channels/<int:channel_id>', views_chat.ChannelSingle.as_view()),
-	path('channels/<int:channel_id>/messages', views_chat.MessageCollection.as_view()),
+	path('channels/<int:channel_id>/messages', views_chat.ChannelMessageCollection.as_view()),
 	path('messages', views_chat.MessageCollection.as_view()),
 	path('messages/<int:message_id>', views_chat.MessageSingle.as_view()),
 ]

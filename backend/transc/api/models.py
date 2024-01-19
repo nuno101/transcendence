@@ -68,7 +68,7 @@ class Tournament(models.Model):
         'id': self.id,
         'title': self.title,
         'description': self.description,
-        'creator_id': self.creator_id,
+        'creator_id': self.creator.id,
         'status': self.status,
         'created_at': self.created_at,
         'updated_at': self.updated_at,
@@ -96,8 +96,8 @@ class Game(models.Model):
 		return {
         'id': self.id,
         'tournament_id': self.tournament.id,
-        'player1_id': self.player_id.id,
-        'player2_id': self.player2_id.id,
+        'player1_id': self.player1.id,
+        'player2_id': self.player2.id,
         'status': self.status,
         'score': self.score,
         'created_at': self.created_at,
@@ -140,7 +140,7 @@ class Message(models.Model):
       return {
           'id': self.id,
           'content': self.content,
-					'author': self.author.serialize(),
+					'author_id': self.author.id,
           'channel_id': self.channel.id,
           'created_at': self.created_at,
           'updated_at': self.updated_at

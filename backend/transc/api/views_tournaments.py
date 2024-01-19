@@ -23,7 +23,7 @@ class TournamentCollection(View):
 		tournament_data = {
 				'title': self.body.get('title'),
 				'description': self.body.get('description'),
-				'creator': request.user.id,
+				'creator': request.user,
 				#'status': TournamentStatus::CREATED - set at DB level
 			}
 		t = Tournament.objects.create(**tournament_data)

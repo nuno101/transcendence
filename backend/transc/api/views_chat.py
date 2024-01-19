@@ -3,8 +3,8 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from .decorators import *
 from .models import Channel, Message
+from .helpers_channels import *
 from .helpers_chat import *
-import datetime
 
 # Endpoint: /channels
 @method_decorator(login_required, name='dispatch')
@@ -22,7 +22,6 @@ class ChannelCollection(View):
     return JsonResponse({'channel': channel.serialize()}, status=201)
 
 CHANNEL_ACCESS_DECORATORS = [login_required, 
-                             check_object_exists(Channel, 'channel_id', CHANNEL_404),
                              check_channel_member]
 
 # Endpoint: /channels/<int:channel_id>
@@ -30,21 +29,11 @@ CHANNEL_ACCESS_DECORATORS = [login_required,
 class ChannelSingle(View):
   def get(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
-    return JsonResponse(channel.serialize())
+    return JsonResponse({'channel': channel.serialize()})
   
   @check_body_syntax(['name'])
   def patch(self, request, channel_id):
-    channel = Channel.objects.get(id=channel_id)
-
-    channel.name = self.body.get('name')
-    channel.updated_at = datetime.datetime.now()
-    channel.save()
-    return JsonResponse(channel.serialize(), status=200)
-
-  def delete(self, request, channel_id):
-    channel = Channel.objects.get(id=channel_id)
-    channel.delete()
-    return HttpResponse(status=204)
+    return update_channel(Channel.objects.get(id=channel_id), self.body)
 
 # TODO: Implement 
 # Endpoint: /channels/<int:channel_id>/members
@@ -56,7 +45,7 @@ class ChannelSingle(View):
 
 # Endpoint: /channels/<int:channel_id>/messages
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
-class MessageCollection(View):
+class ChannelMessageCollection(View):
   def get(self, request, channel_id):
     messages = Message.objects.filter(channel=channel_id).order_by("-created_at")
     return JsonResponse({'messages': [m.serialize() for m in messages]})

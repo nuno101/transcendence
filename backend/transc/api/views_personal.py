@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from .decorators import *
 from django.http import JsonResponse, HttpResponse
 from .models import User, FriendRequest
-from .helpers_users import update_user
+from .helpers_users import *
 from .errors import *
 
 # Endpoint: /users/me
@@ -165,3 +165,10 @@ class BlockedSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not blocked"}, status=400)
     request.user.blocked.remove(blocked)
     return HttpResponse(status=204)
+
+# Endpoint /users/me/channels
+@method_decorator(login_required, name='dispatch')
+class ChannelPersonal(View):
+  def get(self, request):
+    channels = Channel.objects.filter(members=request.user).order_by("-updated_at")
+    return JsonResponse({'channels': [channel.serialize() for channel in channels]})
