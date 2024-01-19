@@ -121,7 +121,7 @@ class Channel(models.Model):
           'name': self.name,
           'created_at': self.created_at,
           'updated_at': self.updated_at,
-          'member_ids': [m.id for m in self.members.all()]
+          'member': [m.serialize() for m in self.members.all()]
       }
 
 class Message(models.Model):

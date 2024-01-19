@@ -11,4 +11,7 @@ def update_channel(channel: Channel, parameters):
     channel.save()
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update channel"}, status=500)
+  
+  # TODO: Implement websocket notification
+
   return JsonResponse({'channel': channel.serialize()}, status=200)

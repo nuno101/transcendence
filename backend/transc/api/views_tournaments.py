@@ -27,6 +27,9 @@ class TournamentCollection(View):
 				#'status': TournamentStatus::CREATED - set at DB level
 			}
 		t = Tournament.objects.create(**tournament_data)
+
+		# TODO: Implement websocket notification?
+
 		return JsonResponse(t.serialize(), status=201, safe=False)
 
 # Endpoint: /tournaments/<int:tournament_id>
@@ -46,9 +49,15 @@ class TournamentSingle(View):
 		t.description = self.body.get('description')
 		t.updated_at = datetime.datetime.now()
 		t.save()
+
+		# TODO: Implement websocket notification?
+
 		return JsonResponse(t.serialize(), status=200, safe=False)
 
 	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, tournament_id):
 		Tournament.objects.get(pk=tournament_id).delete()
+
+		# TODO: Implement websocket notification?
+
 		return HttpResponse(status=204)

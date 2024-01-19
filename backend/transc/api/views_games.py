@@ -33,6 +33,9 @@ class GameView(View):
 			return JsonResponse({ERROR_FIELD: "You can't play against yourself"}, status=400)
 		game = Game(tournament=tournament, player1=player1, player2=player2)
 		game.save()
+
+		# TODO: Implement websocket notification?
+
 		return JsonResponse({'game': game.serialize()}, status=201)
 
 # Endpoint: /games/<int:game_id>
@@ -51,4 +54,7 @@ class GameDetail(View):
 	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, game_id):
 		Game.objects.get(pk=game_id).delete()
+
+		# TODO: Implement websocket notification?
+
 		return HttpResponse(status=204)

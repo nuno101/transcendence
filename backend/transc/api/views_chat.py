@@ -2,7 +2,7 @@ from django.views import View
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from .decorators import *
-from .models import Channel, Message
+from .models import Channel, Message, User
 from .helpers_channels import *
 from .helpers_chat import *
 
@@ -35,13 +35,55 @@ class ChannelSingle(View):
   def patch(self, request, channel_id):
     return update_channel(Channel.objects.get(id=channel_id), self.body)
 
-# TODO: Implement 
 # Endpoint: /channels/<int:channel_id>/members
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
+class ChannelMemberCollection(View): # TODO: Test
+  def get(self, request, channel_id):
+    channel = Channel.objects.get(id=channel_id)
+    return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
+  
+  @check_body_syntax(['user_id'])
+  def patch(self, request, channel_id): # TODO: Refactor this mess?
+    channel = Channel.objects.get(id=channel_id)
 
-# TODO: Implement 
+    # Check if user exists
+    try:
+      user = User.objects.get(id=self.body.get('user_id'))
+    except:
+      return JsonResponse({ERROR_FIELD: USER_404}, status=404)
+
+    # Check if user is already member
+    if user in channel.members.all():
+      return JsonResponse({ERROR_FIELD: "User already member"}, status=400)
+
+    # Check if user is blocked by any member
+    for member in channel.members.all():
+      if user in member.blocked.all():
+        return JsonResponse({ERROR_FIELD: "User is blocked by a member"}, status=400)
+
+    # Add user to channel
+    channel.members.add(user)
+
+    # TODO: Implement websocket notification
+  
+    return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
+
 # Endpoint: /channels/<int:channel_id>/members/<int:user_id>
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
+@method_decorator(check_object_exists(User, "user_id", USER_404), name='dispatch')
+class ChannelMemberSingle(View):
+  def delete(self, request, channel_id, user_id):
+    channel = Channel.objects.get(id=channel_id)
+
+    # Check if user is member
+    user = User.objects.get(id=user_id)
+    if user not in channel.members.all():
+      return JsonResponse({ERROR_FIELD: "User is not a member"}, status=400)
+    channel.members.remove(user)
+
+    # TODO: Implement websocket notification
+
+    return HttpResponse(status=204)
 
 # Endpoint: /channels/<int:channel_id>/messages
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')

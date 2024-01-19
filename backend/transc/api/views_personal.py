@@ -38,6 +38,9 @@ class FriendSingle(View):
     if not request.user.friends.filter(id=user_id).exists():
       return JsonResponse({ERROR_FIELD: "User is not a friend"}, status=400)
     request.user.friends.remove(friend)
+
+    # TODO: Implement websocket notification
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
@@ -76,6 +79,9 @@ class FriendRequestCollection(View):
     # Create friend request
     request = FriendRequest(from_user=request.user, to_user=target)
     request.save()
+
+    # TODO: Implement websocket notification
+
     return JsonResponse({"request": request.serialize()}, status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
@@ -93,6 +99,9 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
       return JsonResponse({ERROR_FIELD: FRIEND_REQUEST_403}, status=403)
     
     request.delete()
+
+    # TODO: Implement websocket notification
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>/accept
@@ -114,6 +123,9 @@ class FriendRequestAccept(View):
     # Accept friend request
     request.user.friends.add(friend_request.from_user)
     friend_request.delete()
+
+    # TODO: Implement websocket notification
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked
@@ -151,8 +163,11 @@ class BlockedCollection(View):
     if incoming_request.exists():
       incoming_request.delete()
 
+    # TODO: Delete all channels with only the blocked user and the current user
+
     # Block user
     request.user.blocked.add(target_user)
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked/<int:user_id>
