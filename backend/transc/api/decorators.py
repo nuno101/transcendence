@@ -56,8 +56,9 @@ def check_object_exists(object_type, id_name, error_string):
 
 def check_channel_member(view_func):
   def wrapped_view(request, *args, **kwargs):
-    channel = Channel.objects.get(id=kwargs["channel_id"])
-    if channel is None:
+    try:
+      channel = Channel.objects.get(id=kwargs["channel_id"])
+    except:
       return JsonResponse({ERROR_FIELD: CHANNEL_404}, status=404)
     if request.user not in channel.members.all():
       return JsonResponse({ERROR_FIELD: CHANNEL_403}, status=403)

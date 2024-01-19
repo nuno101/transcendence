@@ -50,8 +50,9 @@ class FriendRequestCollection(View):
   @check_body_syntax(['user_id'])
   def post(self, request): # TODO: Refactor this mess
     # Check if user exists
-    target = User.objects.get(pk=self.body.get('user_id'))
-    if target is None:
+    try:
+      target = User.objects.get(pk=self.body.get('user_id'))
+    except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
     # Check if you are trying to add yourself
@@ -124,8 +125,9 @@ class BlockedCollection(View):
 
   @check_body_syntax(['user_id'])  
   def post(self, request): # TODO: Refactor this mess
-    target_user = User.objects.get(pk=self.body.get('user_id'))
-    if target_user is None:
+    try:
+      target_user = User.objects.get(pk=self.body.get('user_id'))
+    except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
     
     # Check if user is trying to block themselves
