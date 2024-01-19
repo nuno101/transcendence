@@ -3,14 +3,13 @@ import Map from '../components/game/GameMap.vue';
 import Paddle from '../components/game/GamePaddle.vue';
 import BallandScores from '../components/game/GameBallandScores.vue';
 // import Scores from '../components/game/OLDGameScores.vue';
-import { ref, watch, onMounted, reactive } from 'vue';
+import { ref, reactive } from 'vue';
 
   const mapWidth = 624;
   const mapHeight = 351;
-  const isOver = ref(false);
   let canvas = ref(null);
   let context = ref(null);
-let paddle1 = reactive({
+const paddle1 = reactive({
   x: 0,
   y: 0,
   width: 0,
@@ -26,39 +25,11 @@ const paddle2 = reactive({
   color: ''
 });
 
-  let score = ref(null);
-
   const handleCanvasUpdate = (updateCanvas) => {
     canvas.value = updateCanvas;
     context.value = canvas.value.getContext('2d');
     console.log("canvas in handle it: " + canvas.value);
-    console.log("paddle in parent: " + paddle1.value?.y);
   };
-watch([canvas, context], () => {
-  initializePaddles();
-});
-
-onMounted(() => {
-  initializePaddles();
-});
-
-const initializePaddles = () => {
-  // Now you can access canvas and context, and initialize paddle1 and paddle2
-  paddle1.x = 26;
-  paddle1.y = mapHeight / 2;
-  paddle1.width = 0;
-  paddle1.height = 0;
-  paddle1.color = '#00ff99';
-
-  paddle2.x = mapWidth - 48;
-  paddle2.y = mapHeight / 2;
-  paddle2.width = 0;
-  paddle2.height = 0;
-  paddle2.color = '#00ff99';
-  console.log("Paddle1 Y: " + paddle1.y);
-  console.log("Paddle2 Y: " + paddle2.y);
-};
-
 </script>
 
 <template>
