@@ -9,6 +9,10 @@ class User(AbstractUser):
 	updated_at = models.DateTimeField(auto_now=True)
 	avatar = models.BinaryField(max_length=900000, null=False)
 
+	# User relationships
+	friends = models.ManyToManyField('self', blank=True)
+	blocked = models.ManyToManyField("self", blank=True, symmetrical=False)
+
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = []
 
@@ -20,15 +24,17 @@ class User(AbstractUser):
 			'updated_at': self.updated_at,
 		}
 
-class Friend(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="dummy")
-	friend = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class FriendRequest(models.Model):
+	to_user = models.ForeignKey(User, on_delete=models.CASCADE)
+	from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dummy")
 	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return f'{self.from_user} to {self.to_user}'
 	
 	def serialize(self):
 		return {
-			'user_id': self.user.id,
-			'friend_id': self.friend.id,
+			'from_user': self.from_user.serialize(),
 			'created_at': self.created_at,
 		}
 

@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views, views_games, views_tournaments, views_users, views_chat
+from . import views, views_games, views_tournaments
+from . import views_users, views_chat, views_personal
 
 urlpatterns = [
 	path("", views.index, name="index"),
@@ -8,6 +9,13 @@ urlpatterns = [
 	# User paths
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
+  
+	# Personal paths
+  path("users/me", views_personal.UserPersonal.as_view()),
+  path("users/me/friends", views_personal.FriendCollection.as_view()),
+  path("users/me/friends/requests", views_personal.FriendRequestCollection.as_view()),
+  path("users/me/blocked", views_personal.BlockedCollection.as_view()),
+  path("users/me/blocked/<int:user_id>", views_personal.BlockedSingle.as_view()),
 
 	# Tournament paths
 	path('tournaments', views_tournaments.TournamentCollection.as_view()),
@@ -21,5 +29,5 @@ urlpatterns = [
 	path('channels', views_chat.ChannelCollection.as_view()),
 	path('channels/<int:channel_id>', views_chat.ChannelSingle.as_view()),
 	path('channels/<int:channel_id>/messages', views_chat.MessageCollection.as_view()),
-	path('channels/<int:channel_id>/messages/<int:message_id>', views_chat.MessageSingle.as_view()),
+	path('messages/<int:message_id>', views_chat.MessageSingle.as_view()),
 ]

@@ -1,5 +1,5 @@
 from django.utils.decorators import method_decorator
-from .decorators import login_required, check_body_syntax, check_object_exists
+from .decorators import *
 from django.views import View
 from django.http import JsonResponse
 from .models import Game, Tournament, User
@@ -9,6 +9,7 @@ import datetime
 # /games
 @method_decorator(login_required, name='dispatch')
 class GameView(View):
+	@staff_required
 	def get(self, request):
 		games = Game.objects.all()
 		data = {
@@ -46,7 +47,6 @@ class GameDetail(View):
 		g = Game.objects.get(pk=game_id)
 		return JsonResponse({'game': g.serialize()})
 
-	# allow only update of title and description
 	@check_body_syntax(['title', 'description'])
 	def patch(self, request, game_id):
 		g = Game.objects.get(pk=game_id)
@@ -56,6 +56,7 @@ class GameDetail(View):
 		g.save()
 		return JsonResponse(g.serialize(), status=200, safe=False)
 
+	@staff_required
 	def delete(self, request, game_id):
 		Game.objects.get(pk=game_id).delete()
 		return JsonResponse({}, status=204)

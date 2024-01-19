@@ -25,7 +25,7 @@ def superuser_required(view_func):
   return wrapped_view
 
 # Checks for valid JSON syntax of the body and that the specified parameters are existing
-def check_body_syntax(parameters):
+def check_body_syntax(parameters=[]):
   def decorator(view_func):
     def wrapped_view(self, request, *args, **kwargs):
       try:

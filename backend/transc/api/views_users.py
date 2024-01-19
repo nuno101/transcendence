@@ -1,13 +1,14 @@
 from django.views import View
 from django.utils.decorators import method_decorator
-from .decorators import login_required, check_body_syntax, check_object_exists
+from .decorators import *
 from django.http import JsonResponse
 from .models import User
-import datetime
+from .helpers_users import update_user
 
-# /users
+# Endpoint: /users
 class UserCollection(View):
-	@method_decorator(login_required, name='dispatch')
+	@login_required
+	@staff_required
 	def get(self, request):
 		users = User.objects.order_by("username")
 		data = {
@@ -16,7 +17,6 @@ class UserCollection(View):
 		}
 		return JsonResponse(data)
 
-	# https://www.youtube.com/watch?v=i5JykvxUk_A
 	@check_body_syntax(['username', 'password'])
 	def post(self, request):
 		try:
@@ -25,9 +25,9 @@ class UserCollection(View):
 		except:
 			return JsonResponse({"reason": "User with username " +
 													f"'{self.body.get('username')}' already exists"}, status=400)
-		return JsonResponse(u.serialize(), status=201)
+		return JsonResponse({'user': u.serialize()}, status=201)
 
-# /users/<int:user_id>
+# Endpoint: /users/<int:user_id>
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', 
 																			'User does not exist'), name='dispatch')
@@ -36,18 +36,12 @@ class UserSingle(View):
 		u = User.objects.get(pk=user_id)
 		return JsonResponse({'user': u.serialize()})
 	
-	@check_body_syntax(['username'])
+	@staff_required
+	@check_body_syntax([])
 	def patch(self, request, user_id):
-		u = User.objects.get(pk=user_id)
-		u.username = self.body.get('username')
-		u.updated_at = datetime.datetime.now()
-		try:
-			u.save()
-		except:
-			return JsonResponse({"reason": "User with username " +
-													 f"'{self.body.get('username')}' already exists"}, status=400)
-		return JsonResponse(u.serialize(), status=200, safe=False)
+		return update_user(User.objects.get(pk=user_id), request.body)
 
+	@staff_required
 	def delete(self, request, user_id):
 		User.objects.get(pk=user_id).delete()
 		return JsonResponse({}, status=204)
