@@ -12,6 +12,7 @@ TOURNAMENT_404 = "Tournament not found"
 
 # Games errors
 GAME_404 = "Game not found"
+GAME_403 = "No permission to access channel"
 
 # Channels errors
 CHANNEL_404 = "Channel not found"

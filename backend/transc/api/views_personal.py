@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from .decorators import *
 from django.http import JsonResponse, HttpResponse
 from .models import User, FriendRequest
-from .helpers_users import update_user
+from .helpers_users import *
 from .errors import *
 
 # Endpoint: /users/me
@@ -38,6 +38,9 @@ class FriendSingle(View):
     if not request.user.friends.filter(id=user_id).exists():
       return JsonResponse({ERROR_FIELD: "User is not a friend"}, status=400)
     request.user.friends.remove(friend)
+
+    # TODO: Implement websocket notification
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
@@ -50,8 +53,9 @@ class FriendRequestCollection(View):
   @check_body_syntax(['user_id'])
   def post(self, request): # TODO: Refactor this mess
     # Check if user exists
-    target = User.objects.get(pk=self.body.get('user_id'))
-    if target is None:
+    try:
+      target = User.objects.get(pk=self.body.get('user_id'))
+    except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
     # Check if you are trying to add yourself
@@ -75,6 +79,9 @@ class FriendRequestCollection(View):
     # Create friend request
     request = FriendRequest(from_user=request.user, to_user=target)
     request.save()
+
+    # TODO: Implement websocket notification
+
     return JsonResponse({"request": request.serialize()}, status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
@@ -92,6 +99,9 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
       return JsonResponse({ERROR_FIELD: FRIEND_REQUEST_403}, status=403)
     
     request.delete()
+
+    # TODO: Implement websocket notification
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>/accept
@@ -113,6 +123,9 @@ class FriendRequestAccept(View):
     # Accept friend request
     request.user.friends.add(friend_request.from_user)
     friend_request.delete()
+
+    # TODO: Implement websocket notification
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked
@@ -124,8 +137,9 @@ class BlockedCollection(View):
 
   @check_body_syntax(['user_id'])  
   def post(self, request): # TODO: Refactor this mess
-    target_user = User.objects.get(pk=self.body.get('user_id'))
-    if target_user is None:
+    try:
+      target_user = User.objects.get(pk=self.body.get('user_id'))
+    except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
     
     # Check if user is trying to block themselves
@@ -149,8 +163,11 @@ class BlockedCollection(View):
     if incoming_request.exists():
       incoming_request.delete()
 
+    # TODO: Delete all channels with only the blocked user and the current user
+
     # Block user
     request.user.blocked.add(target_user)
+
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked/<int:user_id>
@@ -165,3 +182,10 @@ class BlockedSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not blocked"}, status=400)
     request.user.blocked.remove(blocked)
     return HttpResponse(status=204)
+
+# Endpoint /users/me/channels
+@method_decorator(login_required, name='dispatch')
+class ChannelPersonal(View):
+  def get(self, request):
+    channels = Channel.objects.filter(members=request.user).order_by("-updated_at")
+    return JsonResponse({'channels': [channel.serialize() for channel in channels]})
