@@ -14,18 +14,24 @@ export default {
   setup(props){
     const paddleHeight = 80;
     const paddleWidth = 20;
-    const paddle = ref(null);
-    const y = ref(props.mapHeight / 2);
     const keys = new Set();
 
+    const paddle = ref({
+      x: props.paddleX,
+      y: props.mapHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      color: '#00ff99'
+    });
+    
     const handleKeys = () => {
       const dir = keys.has(props.keyUp) ? -3 : keys.has(props.keyDown) ? 3 : 0;
       movePaddle(dir);
     };
 
     const movePaddle = (dir) => {
-      y.value += dir;
-      y.value = Math.max(paddleHeight / 2, Math.min(y.value, props.mapHeight - paddleHeight / 2));
+      paddle.value.y += dir;
+      paddle.value.y = Math.max(paddleHeight / 2, Math.min(paddle.value.y, props.mapHeight - paddleHeight / 2));
     };
 
     const handleKeyDown = (e) => {
@@ -39,12 +45,7 @@ export default {
     };
 
     onMounted(() => {
-      initializePaddle();
-      paddleMovement();
-    });
-
-    watch(() => props.canvas, () => {
-      initializePaddle();
+      drawPaddle();
       paddleMovement();
     });
 
@@ -53,24 +54,27 @@ export default {
       document.removeEventListener('keyup', handleKeyUp);
     });
 
-    const initializePaddle = () => {
-      if (props.canvas) {
-        paddle.value = {
-          x: props.paddleX,
-          width: paddleWidth,
-          height: paddleHeight,
-          color: '#00ff99'
-        }
-        drawPaddle();
-      }
-    };
-    
+    watch(() => props.canvas, () => {
+      drawPaddle();
+      paddleMovement();
+    });
+
     const drawPaddle = () => {
       if(props.canvas){
         const context = props.canvas.getContext('2d');
-        context.clearRect(paddle.value.x, 0, paddle.value.width, props.mapHeight);
+        context.clearRect(
+          paddle.value.x,
+          paddle.value.y - paddleHeight / 2,
+          paddle.value.width,
+          paddleHeight
+        );
         context.fillStyle = paddle.value.color;
-        context.fillRect(paddle.value.x, y.value - paddleHeight / 2, paddle.value.width, paddle.value.height);
+        context.fillRect(
+          paddle.value.x,
+          paddle.value.y - paddleHeight / 2,
+          paddle.value.width,
+          paddle.value.height
+        );
       }
     };
 
@@ -80,13 +84,10 @@ export default {
         drawPaddle();
         requestAnimationFrame(update);
       };
-
       document.addEventListener('keydown', handleKeyDown);
       document.addEventListener('keyup', handleKeyUp);
-
       update();
     };
-
     return {
       paddle
     };
