@@ -4,6 +4,7 @@ all: build up
 
 build:
 	mkdir -p  $(HOME)/data/transcendence/volumes/E
+	mkdir -p  $(HOME)/docker-data/transcendence/redis
 	docker compose build
 
 up:
@@ -26,7 +27,9 @@ down:
 clean: down
 	docker system prune -f
 	docker volume rm database_device -f
+	docker volume rm redis_device -f
 	rm -rf $(HOME)/data/transcendence/volumes
+	rm -rf  $(HOME)/docker-data/transcendence/redis
 
 re: clean all
 
