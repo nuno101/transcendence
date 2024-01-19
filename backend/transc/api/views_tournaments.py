@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from .decorators import *
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Tournament
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
@@ -32,7 +32,7 @@ class TournamentCollection(View):
 # Endpoint: /tournaments/<int:tournament_id>
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(Tournament, 'tournament_id', 
-																			'Tournament does not exist'), name='dispatch')
+																			TOURNAMENT_404), name='dispatch')
 class TournamentSingle(View):
 	def get(self, request, tournament_id):
 		t = Tournament.objects.get(pk=tournament_id)
@@ -48,7 +48,7 @@ class TournamentSingle(View):
 		t.save()
 		return JsonResponse(t.serialize(), status=200, safe=False)
 
-	@staff_required
+	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, tournament_id):
 		Tournament.objects.get(pk=tournament_id).delete()
-		return JsonResponse({}, status=204)
+		return HttpResponse(status=204)

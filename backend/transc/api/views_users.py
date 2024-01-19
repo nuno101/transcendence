@@ -1,14 +1,14 @@
 from django.views import View
 from django.utils.decorators import method_decorator
 from .decorators import *
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import User
 from .helpers_users import update_user
 
 # Endpoint: /users
 class UserCollection(View):
-	@login_required
-	@staff_required
+	@method_decorator(login_required, name='dispatch')
+	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		users = User.objects.order_by("username")
 		data = {
@@ -19,29 +19,31 @@ class UserCollection(View):
 
 	@check_body_syntax(['username', 'password'])
 	def post(self, request):
+		user = User(username=self.body.get('username'), 
+								password=self.body.get('password'))
 		try:
-			u = User.objects.create_user(username=self.body.get('username'), 
-																	 password=self.body.get('password'))
-		except:
-			return JsonResponse({"reason": "User with username " +
-													f"'{self.body.get('username')}' already exists"}, status=400)
-		return JsonResponse({'user': u.serialize()}, status=201)
+			user.save()
+		except Exception as e:
+			if 'duplicate key' in str(e):
+				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
+			else:
+				return JsonResponse({ERROR_FIELD: "Undefined error"}, status=400)
+		return JsonResponse({'user': user.serialize()}, status=201)
 
 # Endpoint: /users/<int:user_id>
 @method_decorator(login_required, name='dispatch')
-@method_decorator(check_object_exists(User, 'user_id', 
-																			'User does not exist'), name='dispatch')
+@method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class UserSingle(View):
 	def get(self, request, user_id):
 		u = User.objects.get(pk=user_id)
 		return JsonResponse({'user': u.serialize()})
 	
-	@staff_required
+	@method_decorator(staff_required, name='dispatch')
 	@check_body_syntax([])
 	def patch(self, request, user_id):
-		return update_user(User.objects.get(pk=user_id), request.body)
+		return update_user(User.objects.get(pk=user_id), self.body)
 
-	@staff_required
+	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, user_id):
 		User.objects.get(pk=user_id).delete()
-		return JsonResponse({}, status=204)
+		return HttpResponse(status=204)

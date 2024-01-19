@@ -34,7 +34,9 @@ class FriendRequest(models.Model):
 	
 	def serialize(self):
 		return {
+			'id': self.id,
 			'from_user': self.from_user.serialize(),
+			'to_user_id': self.to_user.id,
 			'created_at': self.created_at,
 		}
 

@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from .decorators import *
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
@@ -9,7 +9,7 @@ import datetime
 # /games
 @method_decorator(login_required, name='dispatch')
 class GameView(View):
-	@staff_required
+	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		games = Game.objects.all()
 		data = {
@@ -23,12 +23,12 @@ class GameView(View):
 		try:
 			tournament = Tournament.objects.get(pk=self.body.get('tournament_id'))
 		except:
-			return JsonResponse({"reason": "Invalid tournament id"}, status=404)
+			return JsonResponse({ERROR_FIELD: "Invalid tournament id"}, status=404)
 		try:
 			player = User.objects.get(pk=self.body.get('player_id'))
 			opponent = User.objects.get(pk=self.body.get('player2_id'))
 		except:
-			return JsonResponse({"reason": "Invalid user id"}, status=404)
+			return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 		game_data = {
 			'tournament_id': tournament,
 			'player_id': player,
@@ -40,8 +40,7 @@ class GameView(View):
 
 # /games/<int:game_id>
 @method_decorator(login_required, name='dispatch')
-@method_decorator(check_object_exists(Game, 'game_id', 
-																			'Game does not exist'), name='dispatch')
+@method_decorator(check_object_exists(Game, 'game_id', GAME_404), name='dispatch')
 class GameDetail(View):
 	def get(self, request, game_id):
 		g = Game.objects.get(pk=game_id)
@@ -56,7 +55,7 @@ class GameDetail(View):
 		g.save()
 		return JsonResponse(g.serialize(), status=200, safe=False)
 
-	@staff_required
+	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, game_id):
 		Game.objects.get(pk=game_id).delete()
-		return JsonResponse({}, status=204)
+		return HttpResponse(status=204)

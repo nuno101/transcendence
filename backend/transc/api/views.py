@@ -14,6 +14,6 @@ class Login(View):
 		user = authenticate(username=self.body.get('username'), 
 												password=self.body.get('password'))
 		if user is None:
-			return JsonResponse({"reason": "Invalid login credentials"}, status=401)
+			return JsonResponse({ERROR_FIELD: "Invalid login credentials"}, status=401)
 		login(request, user)
 		return JsonResponse(user.serialize(), status=200)
