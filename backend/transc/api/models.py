@@ -80,9 +80,9 @@ class Game(models.Model):
 			ONGOING = "ongoing"
 			DONE = "done"
 			CANCELLED = "cancelled"
-	tournament_id = models.ForeignKey(Tournament, on_delete=models.CASCADE)
-	player_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	player2_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="visitor")
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+	player1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	player2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="visitor")
 	status = models.CharField(
         max_length=36,
         choices=MatchStatus.choices,
@@ -95,8 +95,8 @@ class Game(models.Model):
 	def serialize(self):
 		return {
         'id': self.id,
-        'tournament_id': self.tournament_id.id,
-        'player_id': self.player_id.id,
+        'tournament_id': self.tournament.id,
+        'player1_id': self.player_id.id,
         'player2_id': self.player2_id.id,
         'status': self.status,
         'score': self.score,
@@ -109,7 +109,7 @@ class Channel(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(default=None, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
     members = models.ManyToManyField(User, related_name="channels")
 
     def __str__(self):
@@ -131,7 +131,7 @@ class Message(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(default=None, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.content

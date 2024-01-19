@@ -19,10 +19,9 @@ class UserCollection(View):
 
 	@check_body_syntax(['username', 'password'])
 	def post(self, request):
-		user = User(username=self.body.get('username'), 
-								password=self.body.get('password'))
 		try:
-			user.save()
+			user = User.objects.create_user(username=self.body.get('username'), 
+																			password=self.body.get('password'))
 		except Exception as e:
 			if 'duplicate key' in str(e):
 				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
