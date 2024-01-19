@@ -23,20 +23,15 @@ class GameView(View):
 		try:
 			tournament = Tournament.objects.get(pk=self.body.get('tournament_id'))
 		except:
-			return JsonResponse({ERROR_FIELD: "Invalid tournament id"}, status=404)
+			return JsonResponse({ERROR_FIELD: TOURNAMENT_404}, status=404)
 		try:
-			player = User.objects.get(pk=self.body.get('player_id'))
-			opponent = User.objects.get(pk=self.body.get('player2_id'))
+			player1 = User.objects.get(pk=self.body.get('player_id'))
+			player2 = User.objects.get(pk=self.body.get('player2_id'))
 		except:
 			return JsonResponse({ERROR_FIELD: USER_404}, status=404)
-		game_data = {
-			'tournament_id': tournament,
-			'player_id': player,
-			'player2_id': opponent,
-			#'status': GameStatus::CREATED - set at DB level
-		}
-		t = Game.objects.create(**game_data) # TODO: Check if creating is successful
-		return JsonResponse(t.serialize(), status=201)
+		game = Game(tournament=tournament, player1=player1, player2=player2)
+		game.save()
+		return JsonResponse({'game': game.serialize()}, status=201)
 
 # /games/<int:game_id>
 @method_decorator(login_required, name='dispatch')
