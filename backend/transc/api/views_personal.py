@@ -4,7 +4,8 @@ from .decorators import *
 from django.http import JsonResponse, HttpResponse
 from .models import User, FriendRequest
 from .helpers_users import *
-from .errors import *
+from .constants_ws_notification import *
+from .constants_errors import *
 from . import helpers_websocket as websocket
 
 # Endpoint: /users/me
@@ -18,8 +19,7 @@ class UserPersonal(View):
     return update_user(request.user, self.body)
   
   def delete(self, request):
-    request.user.delete()
-    return HttpResponse(status=204)
+    return delete_user(request.user)
 
 # Endpoint: /users/me/friends
 @method_decorator(login_required, name='dispatch')
@@ -41,7 +41,7 @@ class FriendSingle(View):
     request.user.friends.remove(friend)
 
     websocket.send_user_notification(friend.id, { # TODO: Test websocket notification system
-      "event": "remove_friend",
+      "event": REMOVE_FRIEND,
       "data": {
         "user_id": request.user.id
       }
@@ -52,8 +52,17 @@ class FriendSingle(View):
 @method_decorator(login_required, name='dispatch')
 class FriendRequestCollection(View):
   def get(self, request):
-    requests = FriendRequest.objects.filter(to_user=request.user)
-    return JsonResponse({"requests": [r.serialize() for r in requests]})
+    request_type = request.GET.get('type', None)
+    if request_type == None:
+      return JsonResponse({ERROR_FIELD: "Missing query parameter 'type'"}, status=400)
+    
+    if request_type == 'sent':
+      friend_requests = FriendRequest.objects.filter(from_user=request.user)
+    elif request_type == 'received':
+      friend_requests = FriendRequest.objects.filter(to_user=request.user)
+    else:
+      return JsonResponse({ERROR_FIELD: "Invalid query parameter 'type'"}, status=400)
+    return JsonResponse({"requests": [r.serialize() for r in friend_requests]})
   
   @check_body_syntax(['user_id'])
   def post(self, request): # TODO: Refactor this mess
@@ -82,16 +91,16 @@ class FriendRequestCollection(View):
       return JsonResponse({ERROR_FIELD: "Friend request already sent"}, status=400)
 
     # Create friend request
-    request = FriendRequest(from_user=request.user, to_user=target)
-    request.save()
+    friend_request = FriendRequest(from_user=request.user, to_user=target)
+    friend_request.save()
 
     websocket.send_user_notification(target.id, { # TODO: Test websocket notification system
-      "event": "create_friend_request",
+      "event": SEND_FRIEND_REQUEST,
       "data": {
-        "request": request.serialize()
+        "request": friend_request.serialize()
       }
     })
-    return JsonResponse({"request": request.serialize()}, status=201)
+    return JsonResponse({"request": friend_request.serialize()}, status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
 @method_decorator(login_required, name='dispatch')
@@ -99,21 +108,23 @@ class FriendRequestCollection(View):
                                       FRIEND_REQUEST_404), name='dispatch')
 class FriendRequestSingle(View): # TODO: Refactor this mess?
   def delete(self, request, request_id):
-    request = FriendRequest.objects.get(pk=request_id)
+    friend_request = FriendRequest.objects.get(pk=request_id)
 
     # Check if user is the recipient or sender of the request
-    sender = request.from_user.id == request.user.id
-    recipient = request.to_user.id == request.user.id
+    sender = friend_request.from_user.id == request.user.id
+    recipient = friend_request.to_user.id == request.user.id
     if not sender and not recipient:
       return JsonResponse({ERROR_FIELD: FRIEND_REQUEST_403}, status=403)
     
-    request.delete()
+    friend_request_id = friend_request.id
+    friend_request.delete()
 
-    websocket_target = request.to_user if sender else request.from_user
+    websocket_target = friend_request.to_user if sender else friend_request.from_user
+
     websocket.send_user_notification(websocket_target.id, { # TODO: Test websocket notification system
-      "event": "delete_friend_request",
+      "event": CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST,
       "data": {
-        "request_id": request.id
+        "request_id": friend_request_id
       }
     })
     return HttpResponse(status=204)
@@ -136,11 +147,11 @@ class FriendRequestAccept(View):
 
     # Accept friend request
     request.user.friends.add(friend_request.from_user)
+    from_user_id = friend_request.from_user.id
     friend_request.delete()
 
-    
-    websocket.send_user_notification(friend_request.from_user.id, { # TODO: Test websocket notification system
-      "event": "accept_friend_request",
+    websocket.send_user_notification(from_user_id, { # TODO: Test websocket notification system
+      "event": ACCEPT_FRIEND_REQUEST,
       "data": {
         "user_id": request.user.id
       }
@@ -183,6 +194,7 @@ class BlockedCollection(View):
       incoming_request.delete()
 
     # TODO: Delete all channels with only the blocked user and the current user
+    # TODO: Implement websocket notifications for this type of event
 
     # Block user
     request.user.blocked.add(target_user)

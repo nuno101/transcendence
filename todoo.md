@@ -1,4 +1,5 @@
 TODO: Delete .env 
+TODO: Remove debug template html files in ./backend/transc/*/templates/*
 
 Step 1: Project Initialization
 Set up your project repository, create a directory structure to separate front-end and back-end code.

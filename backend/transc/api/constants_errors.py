@@ -1,3 +1,7 @@
+
+# Description: Constants for api errors
+
+# Field name for error description
 ERROR_FIELD = "reason"
 
 # Users errors

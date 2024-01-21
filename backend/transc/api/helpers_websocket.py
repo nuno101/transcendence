@@ -1,11 +1,11 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-def message_group(group, type, event): # TODO: Test consumer function triggers
+def message_group(group, type, event):
   channel_layer = get_channel_layer()
   async_to_sync(channel_layer.group_send)(group, {
     "type": type,
-    "event": event
+    "data": event
   })
 
 def send_user_notification(user_id, event): # TODO: Test websocket notification system

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Test</title>
+</head>
+
+<body>
+  <h1>WebSocket Test</h1>
+  <button onclick="sendPing()">Send Ping</button>
+  <div id="messages"></div>
+
+  <script>
+    // Function to log messages in the browser console
+    function logMessage(message) {
+      const messagesDiv = document.getElementById('messages');
+      const date = new Date();
+      const current_time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      messagesDiv.innerHTML += `<p>${current_time}: ${message}</p>`;
+      console.log(message);
+    }
+
+    // Establish WebSocket connection
+    const socket = new WebSocket('ws://localhost:8000/ws/notification'); // Replace 'your-server-address' with the actual server address
+
+    // Event listener for when the connection is opened
+    socket.addEventListener('open', (event) => {
+      logMessage('WebSocket connection opened');
+    });
+
+    // Event listener for when a message is received from the server
+    socket.addEventListener('message', (event) => {
+      logMessage(`Message from server: ${event.data}`);
+    });
+
+    // Event listener for when an error occurs
+    socket.addEventListener('error', (event) => {
+      logMessage('WebSocket error: ' + event.error);
+    });
+
+    // Event listener for when the connection is closed
+    socket.addEventListener('close', (event) => {
+      logMessage('WebSocket connection closed: ' + event.code + ' ' + event.reason);
+    });
+
+    // Function to send a message to the server
+    function sendMessage() {
+      const messageInput = prompt('Enter a message to send:');
+      if (messageInput) {
+        socket.send(messageInput);
+      }
+    }
+
+    // Function to send a ping message to the server
+    function sendPing() {
+      const pingMessage = '{"event": "ping", "data": {}}';
+      socket.send(pingMessage);
+    }
+  </script>
+</body>
+
+</html>

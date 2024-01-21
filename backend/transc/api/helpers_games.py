@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 import datetime
 from .models import Game
-from .errors import *
+from .constants_errors import *
 
 def update_game(game: Game, parameters):
   if parameters.get('title') is not None:
