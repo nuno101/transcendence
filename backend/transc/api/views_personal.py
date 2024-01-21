@@ -5,6 +5,7 @@ from django.http import JsonResponse, HttpResponse
 from .models import User, FriendRequest
 from .helpers_users import *
 from .errors import *
+from . import helpers_websocket as websocket
 
 # Endpoint: /users/me
 @method_decorator(login_required, name='dispatch')
@@ -39,8 +40,12 @@ class FriendSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not a friend"}, status=400)
     request.user.friends.remove(friend)
 
-    # TODO: Implement websocket notification
-
+    websocket.send_user_notification(friend.id, { # TODO: Test websocket notification system
+      "event": "remove_friend",
+      "data": {
+        "user_id": request.user.id
+      }
+    })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
@@ -80,8 +85,12 @@ class FriendRequestCollection(View):
     request = FriendRequest(from_user=request.user, to_user=target)
     request.save()
 
-    # TODO: Implement websocket notification
-
+    websocket.send_user_notification(target.id, { # TODO: Test websocket notification system
+      "event": "create_friend_request",
+      "data": {
+        "request": request.serialize()
+      }
+    })
     return JsonResponse({"request": request.serialize()}, status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
@@ -100,8 +109,13 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
     
     request.delete()
 
-    # TODO: Implement websocket notification
-
+    websocket_target = request.to_user if sender else request.from_user
+    websocket.send_user_notification(websocket_target.id, { # TODO: Test websocket notification system
+      "event": "delete_friend_request",
+      "data": {
+        "request_id": request.id
+      }
+    })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>/accept
@@ -124,8 +138,13 @@ class FriendRequestAccept(View):
     request.user.friends.add(friend_request.from_user)
     friend_request.delete()
 
-    # TODO: Implement websocket notification
-
+    
+    websocket.send_user_notification(friend_request.from_user.id, { # TODO: Test websocket notification system
+      "event": "accept_friend_request",
+      "data": {
+        "user_id": request.user.id
+      }
+    })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked

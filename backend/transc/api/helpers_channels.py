@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 import datetime
 from .models import Channel
+from . import helpers_websocket as websocket
 from .errors import *
 
 def update_channel(channel: Channel, parameters):
@@ -12,6 +13,10 @@ def update_channel(channel: Channel, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update channel"}, status=500)
   
-  # TODO: Implement websocket notification
-
+  websocket.send_channel_notification(channel.id, { # TODO: Test websocket notification system
+    "event": "update_channel",
+    "data": {
+      "channel": channel.serialize()
+    }
+  })
   return JsonResponse({'channel': channel.serialize()}, status=200)

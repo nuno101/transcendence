@@ -4,6 +4,7 @@ from django.utils.decorators import method_decorator
 from .decorators import *
 from .models import Channel, Message, User
 from .helpers_channels import *
+from . import helpers_websocket as websocket
 from .helpers_chat import *
 
 # Endpoint: /channels
@@ -37,7 +38,7 @@ class ChannelSingle(View):
 
 # Endpoint: /channels/<int:channel_id>/members
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
-class ChannelMemberCollection(View): # TODO: Test
+class ChannelMemberCollection(View): # TODO: Test endpoints more thoroughly
   def get(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
     return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
@@ -64,7 +65,13 @@ class ChannelMemberCollection(View): # TODO: Test
     # Add user to channel
     channel.members.add(user)
 
-    # TODO: Implement websocket notification
+    websocket.add_consumer_to_group(user.id, f'channel_{channel.id}') # TODO: Test websocket notification system
+    websocket.send_channel_notification(channel.id, { # TODO: Test websocket notification system
+      "event": "add_member",
+      "data": {
+        "user": user.serialize()
+      }
+    })
   
     return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
 
@@ -81,7 +88,7 @@ class ChannelMemberSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not a member"}, status=400)
     channel.members.remove(user)
 
-    # TODO: Implement websocket notification
+    websocket.remove_consumer_from_group(user.id, f'channel_{channel.id}')
 
     return HttpResponse(status=204)
 

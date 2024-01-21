@@ -27,6 +27,7 @@ urlpatterns = [
 	# User paths
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
+	
 	# TODO: Add endpoints to view user stats? 
 
 	# Tournament paths
