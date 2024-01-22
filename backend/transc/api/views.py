@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login
 from .decorators import *
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
+from django.shortcuts import render # TODO: Remove later
+
 def index(request):
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
@@ -17,3 +19,7 @@ class Login(View):
 			return JsonResponse({ERROR_FIELD: "Invalid login credentials"}, status=401)
 		login(request, user)
 		return JsonResponse(user.serialize(), status=200)
+
+# Endpoint: /websocket_log
+def websocket_log(request): # TODO: DEBUG: Remove later
+	return render(request, 'api/ws.html')

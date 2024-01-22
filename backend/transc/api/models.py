@@ -20,8 +20,8 @@ class User(AbstractUser):
 		return {
 			'id': self.id,
 			'username': self.username,
-			'created_at': self.created_at,
-			'updated_at': self.updated_at,
+			'created_at': str(self.created_at),
+			'updated_at': str(self.updated_at),
 		}
 
 class FriendRequest(models.Model):
@@ -37,7 +37,7 @@ class FriendRequest(models.Model):
 			'id': self.id,
 			'from_user': self.from_user.serialize(),
 			'to_user_id': self.to_user.id,
-			'created_at': self.created_at,
+			'created_at': str(self.created_at),
 		}
 
 class Tournament(models.Model):
@@ -70,8 +70,8 @@ class Tournament(models.Model):
         'description': self.description,
         'creator_id': self.creator.id,
         'status': self.status,
-        'created_at': self.created_at,
-        'updated_at': self.updated_at,
+        'created_at': str(self.created_at),
+        'updated_at': str(self.updated_at),
     }
 
 class Game(models.Model):
@@ -100,8 +100,8 @@ class Game(models.Model):
         'player2_id': self.player2.id,
         'status': self.status,
         'score': self.score,
-        'created_at': self.created_at,
-        'updated_at': self.updated_at,
+        'created_at': str(self.created_at),
+        'updated_at': str(self.updated_at),
     }
 
 class Channel(models.Model):
@@ -119,8 +119,8 @@ class Channel(models.Model):
       return {
           'id': self.id,
           'name': self.name,
-          'created_at': self.created_at,
-          'updated_at': self.updated_at,
+          'created_at': str(self.created_at),
+          'updated_at': str(self.updated_at),
           'member': [m.serialize() for m in self.members.all()]
       }
 
@@ -142,6 +142,6 @@ class Message(models.Model):
           'content': self.content,
 					'author_id': self.author.id,
           'channel_id': self.channel.id,
-          'created_at': self.created_at,
-          'updated_at': self.updated_at
+          'created_at': str(self.created_at),
+          'updated_at': str(self.updated_at)
       }

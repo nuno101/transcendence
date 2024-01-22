@@ -5,6 +5,8 @@ from . import views_users, views_chat, views_personal
 urlpatterns = [
 	path("", views.index, name="index"),
   path("login", views.Login.as_view()),
+  
+	path("test/websocket_log", views.websocket_log, name="websocket_log"), # TODO: Remove later
 
 	# Personal paths
   path("users/me", views_personal.UserPersonal.as_view()),
@@ -27,6 +29,7 @@ urlpatterns = [
 	# User paths
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
+	
 	# TODO: Add endpoints to view user stats? 
 
 	# Tournament paths

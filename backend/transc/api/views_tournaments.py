@@ -28,7 +28,7 @@ class TournamentCollection(View):
 			}
 		t = Tournament.objects.create(**tournament_data)
 
-		# TODO: Implement websocket notification?
+		# TODO: Implement websocket notification
 
 		return JsonResponse(t.serialize(), status=201, safe=False)
 
@@ -50,7 +50,7 @@ class TournamentSingle(View):
 		t.updated_at = datetime.datetime.now()
 		t.save()
 
-		# TODO: Implement websocket notification?
+		# TODO: Implement websocket notification
 
 		return JsonResponse(t.serialize(), status=200, safe=False)
 
@@ -58,6 +58,6 @@ class TournamentSingle(View):
 	def delete(self, request, tournament_id):
 		Tournament.objects.get(pk=tournament_id).delete()
 
-		# TODO: Implement websocket notification?
+		# TODO: Implement websocket notification
 
 		return HttpResponse(status=204)

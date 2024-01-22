@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 import datetime
 from .models import Game
-from .errors import *
+from .constants_errors import *
 
 def update_game(game: Game, parameters):
   if parameters.get('title') is not None:
@@ -14,6 +14,6 @@ def update_game(game: Game, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update game"}, status=500)
   
-  # TODO: Implement websocket notification?
+  # TODO: Implement websocket notification
 
   return JsonResponse({'game': game.serialize()}, status=200)

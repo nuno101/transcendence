@@ -29,12 +29,12 @@ class GameView(View):
 			player2 = User.objects.get(pk=self.body.get('player2_id'))
 		except:
 			return JsonResponse({ERROR_FIELD: USER_404}, status=404)
-		if player1 is player2: # TODO: Check why this not works
+		if player1.id is player2.id:
 			return JsonResponse({ERROR_FIELD: "You can't play against yourself"}, status=400)
 		game = Game(tournament=tournament, player1=player1, player2=player2)
 		game.save()
 
-		# TODO: Implement websocket notification?
+		# TODO: Implement websocket notification
 
 		return JsonResponse({'game': game.serialize()}, status=201)
 
@@ -55,6 +55,6 @@ class GameDetail(View):
 	def delete(self, request, game_id):
 		Game.objects.get(pk=game_id).delete()
 
-		# TODO: Implement websocket notification?
+		# TODO: Implement websocket notification
 
 		return HttpResponse(status=204)
