@@ -14,7 +14,7 @@ def update_channel(channel: Channel, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update channel"}, status=500)
   
-  websocket.send_channel_notification(channel.id, { # TODO: Test websocket notification system
+  websocket.send_channel_notification(channel.id, {
     "event": UPDATE_CHANNEL,
     "data": {
       "channel": channel.serialize()
@@ -26,7 +26,7 @@ def delete_channel(channel: Channel):
   channel_id = channel.id
   channel.delete()
 
-  websocket.send_channel_notification(channel_id, { # TODO: Test websocket notification system
+  websocket.send_channel_notification(channel_id, {
     "event": DELETE_CHANNEL,
     "data": {
       "channel_id": channel_id

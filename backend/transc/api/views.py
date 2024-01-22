@@ -21,5 +21,5 @@ class Login(View):
 		return JsonResponse(user.serialize(), status=200)
 
 # Endpoint: /websocket_log
-def websocket_log(request): # TODO: Remove later
+def websocket_log(request): # TODO: DEBUG: Remove later
 	return render(request, 'api/ws.html')

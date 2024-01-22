@@ -41,13 +41,13 @@ class ChannelSingle(View):
 
 # Endpoint: /channels/<int:channel_id>/members
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
-class ChannelMemberCollection(View): # TODO: Test endpoints more thoroughly
+class ChannelMemberCollection(View):
   def get(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
     return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
   
   @check_body_syntax(['user_id'])
-  def patch(self, request, channel_id): # TODO: Refactor this mess?
+  def patch(self, request, channel_id): # TODO: Refactor this mess? Move to helpers_channels.py?
     channel = Channel.objects.get(id=channel_id)
 
     # Check if user exists
@@ -68,13 +68,20 @@ class ChannelMemberCollection(View): # TODO: Test endpoints more thoroughly
     # Add user to channel
     channel.members.add(user)
 
-    websocket.add_consumer_to_group(user.id, f'channel_{channel.id}') # TODO: Test group management system
-    websocket.send_channel_notification(channel.id, { # TODO: Test websocket notification system
+    websocket.send_user_notification(user.id, {
+      "event": CREATE_CHANNEL,
+      "data": {
+        "channel": channel.serialize()
+      }
+    })
+    websocket.send_channel_notification(channel.id, {
       "event": ADD_CHANNEL_MEMBER,
       "data": {
+        "channel_id": channel.id,
         "user": user.serialize()
       }
     })
+    websocket.add_consumer_to_group(user.id, f'channel_{channel.id}')
     return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
 
 # Endpoint: /channels/<int:channel_id>/members/<int:user_id>
@@ -90,10 +97,17 @@ class ChannelMemberSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not a member"}, status=400)
     channel.members.remove(user)
 
-    websocket.remove_consumer_from_group(user.id, f'channel_{channel.id}') # TODO: Test group management system
-    websocket.send_channel_notification(channel.id, { # TODO: Test websocket notification system
+    websocket.remove_consumer_from_group(user.id, f'channel_{channel.id}')
+    websocket.send_user_notification(user.id, {
+      "event": DELETE_CHANNEL,
+      "data": {
+        "channel_id": channel.id
+      }
+    })
+    websocket.send_channel_notification(channel.id, {
       "event": REMOVE_CHANNEL_MEMBER,
       "data": {
+        "channel_id": channel.id,
         "user_id": user.id
       }
     })
@@ -123,7 +137,7 @@ MESSAGE_ACCESS_DECORATORS = [login_required,
                               check_message_author]
 
 # Endpoint: /messages/<int:message_id>
-@method_decorator(MESSAGE_ACCESS_DECORATORS, name='dispatch') # TODO: Test check_message_author decorator
+@method_decorator(MESSAGE_ACCESS_DECORATORS, name='dispatch')
 class MessageSingle(View):
   @check_body_syntax(['content'])
   def patch(self, request, message_id):

@@ -1,7 +1,7 @@
 # Description: Notification websocket constants
 
 # User events
-STATUS_UPDATE = "status_update" # TODO: Implement user events like online status, etc.
+USER_STATUS_UPDATE = "user_status_update" # TODO: Implement user events like online status, etc.
 UPDATE_USER = "update_user"
 DELETE_USER = "delete_user"
 
@@ -26,5 +26,5 @@ UPDATE_CHANNEL = "update_channel"
 DELETE_CHANNEL = "delete_channel"
 
 # Member events
-ADD_CHANNEL_MEMBER = "add_member"
-REMOVE_CHANNEL_MEMBER = "remove_member"
+ADD_CHANNEL_MEMBER = "add_channel_member"
+REMOVE_CHANNEL_MEMBER = "remove_channel_member"

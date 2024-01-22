@@ -40,7 +40,7 @@ class FriendSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not a friend"}, status=400)
     request.user.friends.remove(friend)
 
-    websocket.send_user_notification(friend.id, { # TODO: Test websocket notification system
+    websocket.send_user_notification(friend.id, {
       "event": REMOVE_FRIEND,
       "data": {
         "user_id": request.user.id
@@ -94,7 +94,7 @@ class FriendRequestCollection(View):
     friend_request = FriendRequest(from_user=request.user, to_user=target)
     friend_request.save()
 
-    websocket.send_user_notification(target.id, { # TODO: Test websocket notification system
+    websocket.send_user_notification(target.id, {
       "event": SEND_FRIEND_REQUEST,
       "data": {
         "request": friend_request.serialize()
@@ -121,7 +121,7 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
 
     websocket_target = friend_request.to_user if sender else friend_request.from_user
 
-    websocket.send_user_notification(websocket_target.id, { # TODO: Test websocket notification system
+    websocket.send_user_notification(websocket_target.id, {
       "event": CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST,
       "data": {
         "request_id": friend_request_id
@@ -150,7 +150,7 @@ class FriendRequestAccept(View):
     from_user_id = friend_request.from_user.id
     friend_request.delete()
 
-    websocket.send_user_notification(from_user_id, { # TODO: Test websocket notification system
+    websocket.send_user_notification(from_user_id, {
       "event": ACCEPT_FRIEND_REQUEST,
       "data": {
         "user_id": request.user.id
@@ -194,7 +194,7 @@ class BlockedCollection(View):
       incoming_request.delete()
 
     # TODO: Delete all channels with only the blocked user and the current user
-    # TODO: Implement websocket notifications for this type of event
+    # TODO: Implement websocket notification
 
     # Block user
     request.user.blocked.add(target_user)

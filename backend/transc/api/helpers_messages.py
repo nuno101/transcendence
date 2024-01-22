@@ -5,12 +5,6 @@ from . import helpers_websocket as websocket
 from .constants_ws_notification import *
 from .constants_errors import *
 
-# TODO: Implement functions (e.g. add_member_to_channel?, remove_member_from_channel?, etc.)
-# This can then be used in multiple places (e.g. views_chat.py, views_personal.py, etc.)
-# This also allows for easier implementation of websocket notifications since there is only one function that performs one action
-
-# TODO: Maybe find way or alternative to datetime which can be better serialized to JSON or something else?
-
 def create_message(channel: Channel, user, parameters):
   message = Message(channel=channel, author=user, content=parameters.get('content'))
   try:
@@ -18,7 +12,7 @@ def create_message(channel: Channel, user, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to create message"}, status=500)
 
-  websocket.send_channel_notification(channel.id, { # TODO: Test websocket notification system
+  websocket.send_channel_notification(channel.id, {
     "event": CREATE_MESSAGE,
     "data": {
       "message": message.serialize()
@@ -35,7 +29,7 @@ def update_message(message: Message, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update message"}, status=500)
 
-  websocket.send_channel_notification(message.channel.id, { # TODO: Test websocket notification system
+  websocket.send_channel_notification(message.channel.id, {
     "event": UPDATE_MESSAGE,
     "data": {
       "message": message.serialize()
@@ -48,7 +42,7 @@ def delete_message(message: Message):
   message_id = message.id
   message.delete()
 
-  websocket.send_channel_notification(channel_id, { # TODO: Test websocket notification system
+  websocket.send_channel_notification(channel_id, {
     "event": DELETE_MESSAGE,
     "data": {
       "message_id": message_id

@@ -10,15 +10,14 @@ class Consumer(AsyncWebsocketConsumer):
         self.user = self.scope.get('user')
         if self.user.is_anonymous:
             await self.close()
-        self.channel_name = f'user_{self.user.id}'
 
         # Add consumer to user specific group
-        await self.add_group({'group': f'user_{self.user.id}'})
+        await self._add_group(f'user_{self.user.id}')
 
         # Add consumer to channel specific groups
         user_channels = await sync_to_async(self.get_user_channels)()
         for channel in user_channels:
-            await self.add_group({'group': f'channel_{channel.id}'})
+            await self._remove_group(f'channel_{channel.id}')
 
         await self.accept()
 
@@ -27,12 +26,12 @@ class Consumer(AsyncWebsocketConsumer):
             return
 
         # Remove consumer from user specific group
-        await self.remove_group({'group': f'user_{self.user.id}'})
+        await self._add_group(f'user_{self.user.id}')
 
         # Remove consumer from channel specific groups
         user_channels = await sync_to_async(self.get_user_channels)()
         for channel in user_channels:
-            await self.remove_group({'group': f'channel_{channel.id}'})
+            await self._remove_group(f'channel_{channel.id}')
 
     async def receive(self, text_data):
         try:
@@ -54,19 +53,22 @@ class Consumer(AsyncWebsocketConsumer):
     # Group methods
 
     async def send_notification(self, event):
-        await self.send(text_data=json.dumps(event['data']))
+        try:
+            await self.send(text_data=json.dumps(event['data']))
+        except:
+            await self.send_error('Internal server error')
 
     async def add_group(self, event):
-        await self.channel_layer.group_add(
-            event['group'],
-            self.channel_name
-        )
+        try:
+            await self._add_group(event['data']['group'])
+        except:
+            await self.send_error('Internal server error')
 
     async def remove_group(self, event):
-        await self.channel_layer.group_discard(
-            event['group'],
-            self.channel_name
-        )
+        try:
+            await self._remove_group(event['data']['group'])
+        except:
+            await self.send_error('Internal server error')
 
     # Helper methods
 
@@ -80,3 +82,15 @@ class Consumer(AsyncWebsocketConsumer):
                 'message': message
             }
         }))
+
+    async def _add_group(self, group):
+        await self.channel_layer.group_add(
+            group,
+            self.channel_name
+        )
+
+    async def _remove_group(self, group):
+        await self.channel_layer.group_discard(
+            group,
+            self.channel_name
+        )

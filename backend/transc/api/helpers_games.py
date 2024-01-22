@@ -14,6 +14,6 @@ def update_game(game: Game, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update game"}, status=500)
   
-  # TODO: Implement websocket notification?
+  # TODO: Implement websocket notification
 
   return JsonResponse({'game': game.serialize()}, status=200)
