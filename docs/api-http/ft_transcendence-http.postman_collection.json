@@ -570,7 +570,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{base_url}}/users/me/friends/requests",
+											"raw": "{{base_url}}/users/me/friends/requests?type=sent",
 											"host": [
 												"{{base_url}}"
 											],
@@ -579,6 +579,13 @@
 												"me",
 												"friends",
 												"requests"
+											],
+											"query": [
+												{
+													"key": "type",
+													"value": "sent",
+													"description": "'sent' or 'recieved' to choose which request will be listed"
+												}
 											]
 										}
 									},
