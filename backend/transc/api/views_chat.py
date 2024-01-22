@@ -68,19 +68,11 @@ class ChannelMemberCollection(View):
     # Add user to channel
     channel.members.add(user)
 
-    websocket.send_user_notification(user.id, {
-      "event": CREATE_CHANNEL,
-      "data": {
-        "channel": channel.serialize()
-      }
-    })
-    websocket.send_channel_notification(channel.id, {
-      "event": ADD_CHANNEL_MEMBER,
-      "data": {
-        "channel_id": channel.id,
-        "user": user.serialize()
-      }
-    })
+    websocket.send_user_notification(user.id, CREATE_CHANNEL, {
+      "channel": channel.serialize() })
+    websocket.send_channel_notification(channel.id, ADD_CHANNEL_MEMBER, {
+      "channel_id": channel.id,
+      "user": user.serialize() })
     websocket.add_consumer_to_group(user.id, f'channel_{channel.id}')
     return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
 
@@ -98,19 +90,11 @@ class ChannelMemberSingle(View):
     channel.members.remove(user)
 
     websocket.remove_consumer_from_group(user.id, f'channel_{channel.id}')
-    websocket.send_user_notification(user.id, {
-      "event": DELETE_CHANNEL,
-      "data": {
-        "channel_id": channel.id
-      }
-    })
-    websocket.send_channel_notification(channel.id, {
-      "event": REMOVE_CHANNEL_MEMBER,
-      "data": {
-        "channel_id": channel.id,
-        "user_id": user.id
-      }
-    })
+    websocket.send_user_notification(user.id, DELETE_CHANNEL, {
+      "channel_id": channel.id })
+    websocket.send_channel_notification(channel.id, REMOVE_CHANNEL_MEMBER, {
+      "channel_id": channel.id,
+      "user_id": user.id })
     return HttpResponse(status=204)
 
 # Endpoint: /channels/<int:channel_id>/messages

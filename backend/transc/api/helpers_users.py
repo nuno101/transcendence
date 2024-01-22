@@ -21,12 +21,8 @@ def update_user(user: User, parameters: dict):
   # TODO: At the least send notifications to all friends of the user
   # TODO: Figure out how to do group notifications for this type of event
   # will also be usefull for imeplementation of the online status feature
-  # websocket.send_user_notification(user.id, {
-  #   "event": UPDATE_USER,
-  #   "data": {
-  #     "user": user.serialize()
-  #   }
-  # })
+  # websocket.send_user_notification(user.id, UPDATE_USER, {
+  #   "user": user.serialize() })
   return JsonResponse({'user': user.serialize()}, status=200)
 
 def delete_user(user: User):
@@ -36,10 +32,6 @@ def delete_user(user: User):
   # TODO: At the least send notifications to all friends of the user
   # TODO: Figure out how to do group notifications for this type of event
   # will also be usefull for imeplementation of the online status feature
-  # websocket.send_user_notification(user_id, {
-  #   "event": DELETE_USER,
-  #   "data": {
-  #     "user_id": user_id
-  #   }
-  # })
+  # websocket.send_user_notification(user_id, DELETE_USER, {
+  #   "user_id": user_id })
   return HttpResponse(status=204)

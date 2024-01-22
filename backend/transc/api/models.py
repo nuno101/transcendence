@@ -18,6 +18,9 @@ class User(AbstractUser):
 
 	def __str__(self):
 		return self.username
+	
+	def is_friend(self, user): # TODO: Needed?
+		return user in self.friends.all()
 
 	def serialize(self):
 		return {

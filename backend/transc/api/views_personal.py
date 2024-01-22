@@ -40,12 +40,8 @@ class FriendSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not a friend"}, status=400)
     request.user.friends.remove(friend)
 
-    websocket.send_user_notification(friend.id, {
-      "event": REMOVE_FRIEND,
-      "data": {
-        "user_id": request.user.id
-      }
-    })
+    websocket.send_user_notification(friend.id, REMOVE_FRIEND, {
+      "user_id": request.user.id })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
@@ -94,12 +90,8 @@ class FriendRequestCollection(View):
     friend_request = FriendRequest(from_user=request.user, to_user=target)
     friend_request.save()
 
-    websocket.send_user_notification(target.id, {
-      "event": SEND_FRIEND_REQUEST,
-      "data": {
-        "request": friend_request.serialize()
-      }
-    })
+    websocket.send_user_notification(target.id, SEND_FRIEND_REQUEST, {
+      "request": friend_request.serialize() })
     return JsonResponse({"request": friend_request.serialize()}, status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
@@ -123,12 +115,8 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
     from_user_id = friend_request.from_user.id
     friend_request.delete()
 
-    websocket.send_user_notification(from_user_id, {
-      "event": ACCEPT_FRIEND_REQUEST,
-      "data": {
-        "user_id": request.user.id
-      }
-    })
+    websocket.send_user_notification(from_user_id, ACCEPT_FRIEND_REQUEST, {
+      "user_id": request.user.id })
     return HttpResponse(status=204)
 
   def delete(self, request, request_id):
@@ -145,12 +133,9 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
 
     websocket_target = friend_request.to_user if sender else friend_request.from_user
 
-    websocket.send_user_notification(websocket_target.id, {
-      "event": CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST,
-      "data": {
-        "request_id": friend_request_id
-      }
-    })
+    event = CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST
+    websocket.send_user_notification(websocket_target.id, event, {
+      "request_id": friend_request_id })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked

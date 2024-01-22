@@ -1,5 +1,4 @@
-
-# Description: Constants for api errors
+# cCONF: Constants for http api error responses
 
 # Field name for error description
 ERROR_FIELD = "reason"

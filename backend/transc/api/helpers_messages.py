@@ -12,12 +12,8 @@ def create_message(channel: Channel, user, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to create message"}, status=500)
 
-  websocket.send_channel_notification(channel.id, {
-    "event": CREATE_MESSAGE,
-    "data": {
-      "message": message.serialize()
-    }
-  })
+  websocket.send_channel_notification(channel.id, CREATE_MESSAGE, {
+      "message": message.serialize() })
   return JsonResponse({'message': message.serialize()}, status=201)
 
 def update_message(message: Message, parameters):
@@ -29,12 +25,8 @@ def update_message(message: Message, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update message"}, status=500)
 
-  websocket.send_channel_notification(message.channel.id, {
-    "event": UPDATE_MESSAGE,
-    "data": {
-      "message": message.serialize()
-    }
-  })
+  websocket.send_channel_notification(message.channel.id, UPDATE_MESSAGE, {
+    "message": message.serialize() })
   return JsonResponse({'message': message.serialize()}, status=200)
 
 def delete_message(message: Message):
@@ -42,10 +34,6 @@ def delete_message(message: Message):
   message_id = message.id
   message.delete()
 
-  websocket.send_channel_notification(channel_id, {
-    "event": DELETE_MESSAGE,
-    "data": {
-      "message_id": message_id
-    }
-  })
+  websocket.send_channel_notification(channel_id, DELETE_MESSAGE, {
+      "message_id": message_id })
   return HttpResponse(status=204)
