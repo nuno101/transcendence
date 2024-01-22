@@ -17,7 +17,7 @@ class Consumer(AsyncWebsocketConsumer):
         # Add consumer to channel specific groups
         user_channels = await sync_to_async(self.get_user_channels)()
         for channel in user_channels:
-            await self._remove_group(f'channel_{channel.id}')
+            await self._add_group(f'channel_{channel.id}')
 
         await self.accept()
 
@@ -26,7 +26,7 @@ class Consumer(AsyncWebsocketConsumer):
             return
 
         # Remove consumer from user specific group
-        await self._add_group(f'user_{self.user.id}')
+        await self._remove_group(f'user_{self.user.id}')
 
         # Remove consumer from channel specific groups
         user_channels = await sync_to_async(self.get_user_channels)()

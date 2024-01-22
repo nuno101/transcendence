@@ -18,6 +18,7 @@ def update_user(user: User, parameters: dict):
     else:
       return JsonResponse({ERROR_FIELD: "Undefined error"}, status=500)
   
+  # TODO: At the least send notifications to all friends of the user
   # TODO: Figure out how to do group notifications for this type of event
   # will also be usefull for imeplementation of the online status feature
   # websocket.send_user_notification(user.id, {
@@ -32,6 +33,7 @@ def delete_user(user: User):
   # user_id = user.id
   user.delete()
 
+  # TODO: At the least send notifications to all friends of the user
   # TODO: Figure out how to do group notifications for this type of event
   # will also be usefull for imeplementation of the online status feature
   # websocket.send_user_notification(user_id, {

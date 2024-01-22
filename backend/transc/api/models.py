@@ -16,6 +16,9 @@ class User(AbstractUser):
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = []
 
+	def __str__(self):
+		return self.username
+
 	def serialize(self):
 		return {
 			'id': self.id,
@@ -36,7 +39,7 @@ class FriendRequest(models.Model):
 		return {
 			'id': self.id,
 			'from_user': self.from_user.serialize(),
-			'to_user_id': self.to_user.id,
+			'to_user': self.to_user.serialize(),
 			'created_at': str(self.created_at),
 		}
 
@@ -84,9 +87,9 @@ class Game(models.Model):
 	player1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	player2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="visitor")
 	status = models.CharField(
-        max_length=36,
-        choices=MatchStatus.choices,
-        default=MatchStatus.CREATED,
+		max_length=36,
+		choices=MatchStatus.choices,
+		default=MatchStatus.CREATED,
 	)
 	score = models.IntegerField(default=0)
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -94,18 +97,18 @@ class Game(models.Model):
 
 	def serialize(self):
 		return {
-        'id': self.id,
-        'tournament_id': self.tournament.id,
-        'player1_id': self.player1.id,
-        'player2_id': self.player2.id,
-        'status': self.status,
-        'score': self.score,
-        'created_at': str(self.created_at),
-        'updated_at': str(self.updated_at),
-    }
+			'id': self.id,
+			'tournament_id': self.tournament.id,
+			'player1_id': self.player1.id,
+			'player2_id': self.player2.id,
+			'status': self.status,
+			'score': self.score,
+			'created_at': str(self.created_at),
+			'updated_at': str(self.updated_at),
+		}
 
 class Channel(models.Model):
-		# TODO: Use UUIDs?
+    # TODO: Use UUIDs?
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -125,7 +128,7 @@ class Channel(models.Model):
       }
 
 class Message(models.Model):
-		# TODO: Use UUIDs?
+    # TODO: Use UUIDs?
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     content = models.TextField(max_length=2500)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -140,7 +143,7 @@ class Message(models.Model):
       return {
           'id': self.id,
           'content': self.content,
-					'author_id': self.author.id,
+          'author_id': self.author.id,
           'channel_id': self.channel.id,
           'created_at': str(self.created_at),
           'updated_at': str(self.updated_at)

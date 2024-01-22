@@ -107,33 +107,6 @@ class FriendRequestCollection(View):
 @method_decorator(check_object_exists(FriendRequest, 'request_id', 
                                       FRIEND_REQUEST_404), name='dispatch')
 class FriendRequestSingle(View): # TODO: Refactor this mess?
-  def delete(self, request, request_id):
-    friend_request = FriendRequest.objects.get(pk=request_id)
-
-    # Check if user is the recipient or sender of the request
-    sender = friend_request.from_user.id == request.user.id
-    recipient = friend_request.to_user.id == request.user.id
-    if not sender and not recipient:
-      return JsonResponse({ERROR_FIELD: FRIEND_REQUEST_403}, status=403)
-    
-    friend_request_id = friend_request.id
-    friend_request.delete()
-
-    websocket_target = friend_request.to_user if sender else friend_request.from_user
-
-    websocket.send_user_notification(websocket_target.id, {
-      "event": CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST,
-      "data": {
-        "request_id": friend_request_id
-      }
-    })
-    return HttpResponse(status=204)
-
-# Endpoint: /users/me/friends/requests/<int:request_id>/accept
-@method_decorator(login_required, name='dispatch')
-@method_decorator(check_object_exists(FriendRequest, 'request_id', 
-                                      FRIEND_REQUEST_404), name='dispatch')
-class FriendRequestAccept(View):
   def post(self, request, request_id): # TODO: Refactor this mess
     friend_request = FriendRequest.objects.get(pk=request_id)
 
@@ -154,6 +127,28 @@ class FriendRequestAccept(View):
       "event": ACCEPT_FRIEND_REQUEST,
       "data": {
         "user_id": request.user.id
+      }
+    })
+    return HttpResponse(status=204)
+
+  def delete(self, request, request_id):
+    friend_request = FriendRequest.objects.get(pk=request_id)
+
+    # Check if user is the recipient or sender of the request
+    sender = friend_request.from_user.id == request.user.id
+    recipient = friend_request.to_user.id == request.user.id
+    if not sender and not recipient:
+      return JsonResponse({ERROR_FIELD: FRIEND_REQUEST_403}, status=403)
+    
+    friend_request_id = friend_request.id
+    friend_request.delete()
+
+    websocket_target = friend_request.to_user if sender else friend_request.from_user
+
+    websocket.send_user_notification(websocket_target.id, {
+      "event": CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST,
+      "data": {
+        "request_id": friend_request_id
       }
     })
     return HttpResponse(status=204)
