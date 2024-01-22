@@ -9,7 +9,10 @@ class Consumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope.get('user')
         if self.user.is_anonymous:
+            await self.accept()
+            await self.send_error('Not logged in')
             await self.close()
+            return
 
         # Add consumer to user specific group
         await self._add_group(f'user_{self.user.id}')
