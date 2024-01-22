@@ -1,0 +1,990 @@
+{
+	"info": {
+		"_postman_id": "15a13d08-1ad9-4b33-b406-2b451e8f5ae6",
+		"name": "ft_transcendence-http",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32363177"
+	},
+	"item": [
+		{
+			"name": "Global",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get list of all users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
+							"name": "Create new user (register)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{user_name}}\",\r\n    \"password\": \"{{user_password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"New\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tournament",
+					"item": [
+						{
+							"name": "Get list of all tournaments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tournaments",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tournaments"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
+							"name": "Create new tournament",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Test\",\r\n    \"description\": \"Nothing to see here\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/tournaments",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tournaments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete tournament",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tournaments/{{tournament_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tournaments",
+										"{{tournament_id}}"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Game",
+					"item": [
+						{
+							"name": "Get list of all games",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/games",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"games"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
+							"name": "Create new game",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tournament_id\": 1,\r\n    \"player1_id\": 4,\r\n    \"player2_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/games",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"games"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete game",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/games/{{game_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"games",
+										"{{game_id}}"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Channel",
+					"item": [
+						{
+							"name": "Member",
+							"item": [
+								{
+									"name": "Get members",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/channels/{{channel_id}}/members",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"channels",
+												"{{channel_id}}",
+												"members"
+											]
+										},
+										"description": "user must be member of the channel"
+									},
+									"response": []
+								},
+								{
+									"name": "Add member",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_id\": {{user_id}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/channels/{{channel_id}}/members",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"channels",
+												"{{channel_id}}",
+												"members"
+											]
+										},
+										"description": "user must be member of the channel"
+									},
+									"response": []
+								},
+								{
+									"name": "Remove member",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/channels/{{channel_id}}/members/{{user_id}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"channels",
+												"{{channel_id}}",
+												"members",
+												"{{user_id}}"
+											]
+										},
+										"description": "user must be member of the channel"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Message",
+							"item": [
+								{
+									"name": "Get messages",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/channels/{{channel_id}}/messages",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"channels",
+												"{{channel_id}}",
+												"messages"
+											]
+										},
+										"description": "user must be member of the channel"
+									},
+									"response": []
+								},
+								{
+									"name": "Send message",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"content\": \"Hello?\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/channels/{{channel_id}}/messages",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"channels",
+												"{{channel_id}}",
+												"messages"
+											]
+										},
+										"description": "user must be member of the channel"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "List channels",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/channels",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"channels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create channel",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Hello world\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/channels",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"channels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get channel",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/channels/{{channel_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"channels",
+										"{{channel_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update channel",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"New hello world!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/channels/{{channel_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"channels",
+										"{{channel_id}}"
+									]
+								},
+								"description": "user must be member of the channel"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete channel",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/channels/{{channel_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"channels",
+										"{{channel_id}}"
+									]
+								},
+								"description": "user must be member of the channel"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Message",
+					"item": [
+						{
+							"name": "Update message",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"Hello world?\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/messages/{{message_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"messages",
+										"{{message_id}}"
+									]
+								},
+								"description": "user must be author of the message"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete message",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/messages/{{message_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"messages",
+										"{{message_id}}"
+									]
+								},
+								"description": "user must be author of the message"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Personal",
+			"item": [
+				{
+					"name": "Friend",
+					"item": [
+						{
+							"name": "Request",
+							"item": [
+								{
+									"name": "Get friend requests",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/users/me/friends/requests?type=sent",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"friends",
+												"requests"
+											],
+											"query": [
+												{
+													"key": "type",
+													"value": "sent",
+													"description": "'sent' or 'recieved' to choose which request will be listed"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create friend request",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_id\": {{user_id}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/me/friends/requests",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"friends",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete friend request Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_id\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/me/friends/requests/{{request_id}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"friends",
+												"requests",
+												"{{request_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Accept friend request",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/me/friends/requests/{{request_id}}/accept",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"friends",
+												"requests",
+												"{{request_id}}",
+												"accept"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get friends",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/me/friends",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"friends"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove friend",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/me/friends/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"friends",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Blocked",
+					"item": [
+						{
+							"name": "Get blocked users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/me/blocked",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"blocked"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Block user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": {{user_id}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/me/blocked",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"blocked"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unblock user",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/me/blocked/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"blocked",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Channel",
+					"item": [
+						{
+							"name": "Get channels of current user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/me/channels",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"channels"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get current user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update current user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete current user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create session cookie (login)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{user_name}}\",\r\n    \"password\": \"{{user_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "user_name",
+			"value": "user",
+			"type": "string"
+		},
+		{
+			"key": "user_password",
+			"value": "123",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "1"
+		},
+		{
+			"key": "game_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "tournament_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "channel_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "message_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "request_id",
+			"value": "1"
+		}
+	]
+}
