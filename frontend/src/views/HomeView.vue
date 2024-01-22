@@ -7,3 +7,5 @@ import AuthChoice from '../components/auth/AuthChoice.vue';
     <AuthChoice />
   </main>
 </template>
+
+<style></style>
