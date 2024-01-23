@@ -27,21 +27,16 @@ const paddle2 = reactive({
 
   const handleCanvasUpdate = (updateCanvas) => {
     canvas.value = updateCanvas;
-    context.value = canvas.value.getContext('2d');
-    console.log("canvas in handle it: " + canvas.value);
+    context.value = updateCanvas.getContext('2d');
   };
 </script>
 
 <template>
   <div>
   <Map @update:canvas="handleCanvasUpdate" :width="mapWidth" :height="mapHeight" />
-  <Paddle ref="paddle1" :canvas="canvas" :context="context" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="26" keyUp="w" keyDown="s" />
-  <Paddle ref="paddle2" :canvas="canvas" :context="context" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="mapWidth - 48" keyUp="ArrowUp" keyDown="ArrowDown" />
+  <Paddle ref="paddle1" :canvas="canvas" :context="context" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="10" keyUp="w" keyDown="s" />
+  <Paddle ref="paddle2" :canvas="canvas" :context="context" :mapWidth="mapWidth" :mapHeight="mapHeight" :paddleX="mapWidth - 30" keyUp="ArrowUp" keyDown="ArrowDown" />
   <BallandScores :canvas="canvas" :width="mapWidth" :height="mapHeight" :paddle1="$refs.paddle1?.paddle" :paddle2="$refs.paddle2?.paddle" />
-  <div>
-      Paddle Y: {{ $refs.paddle1?.paddle?.y }}
-      Paddle Y: {{ paddle1.y }}
-    </div>
   </div>
 </template>
 
