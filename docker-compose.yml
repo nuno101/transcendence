@@ -7,6 +7,8 @@ networks:
 
   redis-network:
     name: redis-network
+  proxy-network:
+    name: proxy-network
 
 volumes:
   database_device:
@@ -77,6 +79,7 @@ services:
     networks:
       - database-network
       - redis-network
+      - proxy-network
 
   redis:
     image: redis:latest
@@ -94,7 +97,21 @@ services:
       context: ./frontend
     depends_on:
       - backend
+    volumes:
+      - ./frontend/:/app/
+    networks:
+      - proxy-network 
+  proxy:
+    container_name: proxy
+    image: proxy
+    build:
+      context: ./proxy
+    depends_on:
+      - backend
     ports:
       - "80:80"
+    networks:
+      - proxy-network 
     volumes:
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+          
