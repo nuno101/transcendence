@@ -18,10 +18,10 @@ export default {
 
     const paddle = ref({
       x: props.paddleX,
-      y: props.mapHeight / 2,
+      y: props.mapHeight / 2 - paddleHeight / 2,
       width: paddleWidth,
       height: paddleHeight,
-      color: '#00ff99'
+      color: '#fff'
     });
     
     const handleKeys = () => {
@@ -31,7 +31,7 @@ export default {
 
     const movePaddle = (dir) => {
       paddle.value.y += dir;
-      paddle.value.y = Math.max(paddleHeight / 2, Math.min(paddle.value.y, props.mapHeight - paddleHeight / 2));
+      paddle.value.y = Math.max(0, Math.min(props.mapHeight - paddleHeight, paddle.value.y));
     };
 
     const handleKeyDown = (e) => {
@@ -64,14 +64,14 @@ export default {
         const context = props.canvas.getContext('2d');
         context.clearRect(
           paddle.value.x,
-          paddle.value.y - paddleHeight / 2,
+          paddle.value.y,
           paddle.value.width,
           paddleHeight
         );
         context.fillStyle = paddle.value.color;
         context.fillRect(
           paddle.value.x,
-          paddle.value.y - paddleHeight / 2,
+          paddle.value.y,
           paddle.value.width,
           paddle.value.height
         );

@@ -17,9 +17,6 @@ export default {
     let radius, xSpeed, ySpeed;
     // Destructure reactive props
     const { paddle1, paddle2 } = toRefs(props);
-    // const paddle1 = ref(props.paddle1);
-    // const paddle2 = ref(props.paddle2);
-
     const isRoundStartMessageVisible = ref(false);
 
     onMounted(() => {
@@ -90,8 +87,8 @@ export default {
             if (event.key === ' ' && isGameOver.value === false) {
                 // Set random direction for the ball movement
                 // should it be dependent on who scored?
-                xSpeed = Math.random() > 0.5 ? -Math.random() * 2 - 1 : Math.random() * 2 + 1;
-                ySpeed = Math.random() * 6 - 3;
+                xSpeed = Math.random() > 0.5 ? -Math.random() * 4 - 2 : Math.random() * 4 + 2;
+                ySpeed = Math.random() * 8 - 4;
                 document.removeEventListener('keydown', handleKeyPress);
                 isRoundStartMessageVisible.value = false;
             }
@@ -143,22 +140,38 @@ export default {
     };
 
     const paddleCollision = () => {
-        // if(props.paddle1)
-        //     console.log("PADDLE1 Y" + props.paddle1.y);
-        // Collision with the left paddle (paddle1)
-        if(props.paddle1 &&
+        // console.log("ball.value.x: " + ball.value.x);
+        // console.log("ball.value.y: " + ball.value.y);
+        // console.log("ball.value.radius: " + ball.value.radius);
+        // console.log("props.paddle1.x: " + props.paddle1.x);
+        // console.log("props.paddle1.y: " + props.paddle1.y);
+        // console.log("props.paddle2.x: " + props.paddle2.x);
+        // console.log("props.paddle2.y: " + props.paddle2.y);
+        // console.log("props.paddle1.width: " + props.paddle1.width);
+        // console.log("props.paddle1.height: " + props.paddle1.height);
+
+        // console.log("ySpeed: " + ySpeed);
+        // console.log("xSpeed: " + xSpeed);
+      if(props.paddle1 &&
           ball.value.x - ball.value.radius <= props.paddle1.x + props.paddle1.width &&
-          ball.value.x > props.paddle1.x &&
-          Math.abs(ball.value.y - props.paddle1.y) <= props.paddle1.height / 2){
-            // && ball.value.x > props.paddle1.x + props.paddle1.width / 2)
+          ball.value.y >= props.paddle1.y &&
+          ball.value.y <= props.paddle1.y + props.paddle1.height){
+          if(ball.value.x < props.paddle1.x + props.paddle1.height &&
+            (ball.value.y - ySpeed < props.paddle1.y ||
+            ball.value.y - ySpeed > props.paddle1.y + props.paddle1.height))
+            ySpeed = -ySpeed;
+          else
             xSpeed = -xSpeed;
-        }
-        // Collision with the right paddle (paddle2)
+      }
         if(props.paddle2 &&
           ball.value.x + ball.value.radius >= props.paddle2.x &&
-          ball.value.x < props.paddle2.x + props.paddle2.width &&
-          Math.abs(ball.value.y - props.paddle2.y) <= props.paddle2.height / 2){
-          // && ball.value.x < props.paddle2.x + props.paddle2.width / 2)
+          ball.value.y >= props.paddle2.y &&
+          ball.value.y <= props.paddle2.y + props.paddle2.height){
+          if(ball.value.x > props.paddle2.x &&
+            (ball.value.y - ySpeed < props.paddle2.y ||
+            ball.value.y - ySpeed > props.paddle2.y + props.paddle2.height))
+            ySpeed = -ySpeed;
+          else
             xSpeed = -xSpeed;
         }
     };
@@ -167,6 +180,7 @@ export default {
       localStorage.clear();
       if(type === "rematch") window.location.reload();
     };
+
     return {
       isRoundStartMessageVisible,
       isGameOver,
