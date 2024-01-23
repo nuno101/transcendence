@@ -16,4 +16,4 @@ def update_game(game: Game, parameters):
   
   # TODO: Implement websocket notification
 
-  return JsonResponse({'game': game.serialize()}, status=200)
+  return JsonResponse(game.serialize())

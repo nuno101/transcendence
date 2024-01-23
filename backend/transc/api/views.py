@@ -24,4 +24,4 @@ class Login(View):
 		if user is None:
 			return JsonResponse({ERROR_FIELD: "Invalid login credentials"}, status=401)
 		login(request, user)
-		return JsonResponse(user.serialize(), status=200)
+		return JsonResponse(user.serialize())

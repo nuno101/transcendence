@@ -12,7 +12,7 @@ from . import helpers_websocket as websocket
 @method_decorator(login_required, name='dispatch')
 class UserPersonal(View):
   def get(self, request):
-    return JsonResponse({'user': request.user.serialize()}, status=200)
+    return JsonResponse(request.user.serialize())
   
   @check_body_syntax([])
   def patch(self, request):
@@ -26,7 +26,7 @@ class UserPersonal(View):
 class FriendCollection(View):
   def get(self, request):
     friends = request.user.friends.all()
-    return JsonResponse({'friends': [f.serialize() for f in friends]})
+    return JsonResponse([f.serialize() for f in friends], safe=False)
 
 # Endpoint: /users/me/friends/<int:user_id>
 @method_decorator(login_required, name='dispatch')
@@ -58,7 +58,7 @@ class FriendRequestCollection(View):
       friend_requests = FriendRequest.objects.filter(to_user=request.user)
     else:
       return JsonResponse({ERROR_FIELD: "Invalid query parameter 'type'"}, status=400)
-    return JsonResponse({"requests": [r.serialize() for r in friend_requests]})
+    return JsonResponse([r.serialize() for r in friend_requests], safe=False)
   
   @check_body_syntax(['user_id'])
   def post(self, request): # TODO: Refactor this mess
@@ -90,9 +90,8 @@ class FriendRequestCollection(View):
     friend_request = FriendRequest(from_user=request.user, to_user=target)
     friend_request.save()
 
-    websocket.send_user_notification(target.id, SEND_FRIEND_REQUEST, {
-      "request": friend_request.serialize() })
-    return JsonResponse({"request": friend_request.serialize()}, status=201)
+    websocket.send_user_notification(target.id, SEND_FRIEND_REQUEST, friend_request.serialize())
+    return JsonResponse(friend_request.serialize(), status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
 @method_decorator(login_required, name='dispatch')
@@ -143,7 +142,7 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
 class BlockedCollection(View):
   def get(self, request):
     blocked = request.user.blocked.all()
-    return JsonResponse({"blocked": [b.serialize() for b in blocked]})
+    return JsonResponse([b.serialize() for b in blocked], safe=False)
 
   @check_body_syntax(['user_id'])  
   def post(self, request): # TODO: Refactor this mess
@@ -199,4 +198,4 @@ class BlockedSingle(View):
 class ChannelPersonal(View):
   def get(self, request):
     channels = Channel.objects.filter(members=request.user).order_by("-updated_at")
-    return JsonResponse({'channels': [channel.serialize() for channel in channels]})
+    return JsonResponse([channel.serialize() for channel in channels], safe=False)

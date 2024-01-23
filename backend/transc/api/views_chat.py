@@ -13,14 +13,14 @@ class ChannelCollection(View):
   @method_decorator(staff_required, name='dispatch')
   def get(self, request):
     channels = Channel.objects.all().order_by("-updated_at")
-    return JsonResponse({'channels': [channel.serialize() for channel in channels]})
+    return JsonResponse([channel.serialize() for channel in channels], safe=False)
   
   @check_body_syntax(['name'])
   def post(self, request):
     channel = Channel(name=self.body.get('name'))
     channel.save()
     channel.members.add(request.user)
-    return JsonResponse({'channel': channel.serialize()}, status=201)
+    return JsonResponse(channel.serialize(), status=201)
 
 CHANNEL_ACCESS_DECORATORS = [login_required, 
                              check_channel_member]
@@ -30,7 +30,7 @@ CHANNEL_ACCESS_DECORATORS = [login_required,
 class ChannelSingle(View):
   def get(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
-    return JsonResponse({'channel': channel.serialize()})
+    return JsonResponse(channel.serialize())
   
   @check_body_syntax(['name'])
   def patch(self, request, channel_id):
@@ -44,7 +44,7 @@ class ChannelSingle(View):
 class ChannelMemberCollection(View):
   def get(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
-    return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
+    return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
   
   @check_body_syntax(['user_id'])
   def patch(self, request, channel_id): # TODO: Refactor this mess? Move to helpers_channels.py?
@@ -68,13 +68,12 @@ class ChannelMemberCollection(View):
     # Add user to channel
     channel.members.add(user)
 
-    websocket.send_user_notification(user.id, CREATE_CHANNEL, {
-      "channel": channel.serialize() })
+    websocket.send_user_notification(user.id, CREATE_CHANNEL, channel.serialize())
     websocket.send_channel_notification(channel.id, ADD_CHANNEL_MEMBER, {
       "channel_id": channel.id,
       "user": user.serialize() })
     websocket.add_consumer_to_group(user.id, f'channel_{channel.id}')
-    return JsonResponse({'members': [m.serialize() for m in channel.members.all()]})
+    return JsonResponse([m.serialize() for m in channel.members.all()], safe=False) # TODO: Does this response structure make sense?
 
 # Endpoint: /channels/<int:channel_id>/members/<int:user_id>
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
@@ -92,7 +91,7 @@ class ChannelMemberSingle(View):
     websocket.remove_consumer_from_group(user.id, f'channel_{channel.id}')
     websocket.send_user_notification(user.id, DELETE_CHANNEL, {
       "channel_id": channel.id })
-    websocket.send_channel_notification(channel.id, REMOVE_CHANNEL_MEMBER, {
+    websocket.send_channel_notification(channel.id, REMOVE_CHANNEL_MEMBER, { # TODO: Does this response structure make sense?
       "channel_id": channel.id,
       "user_id": user.id })
     return HttpResponse(status=204)
@@ -102,7 +101,7 @@ class ChannelMemberSingle(View):
 class ChannelMessageCollection(View):
   def get(self, request, channel_id):
     messages = Message.objects.filter(channel=channel_id).order_by("-created_at")
-    return JsonResponse({'messages': [m.serialize() for m in messages]})
+    return JsonResponse([m.serialize() for m in messages], safe=False)
 
   @check_body_syntax(['content'])
   def post(self, request, channel_id):
@@ -115,8 +114,8 @@ class MessageCollection(View):
   @method_decorator(staff_required, name='dispatch')
   def get(self, request):
     messages = Message.objects.all().order_by("-created_at")
-    return JsonResponse({'messages': [message.serialize() for message in messages]})
-  
+    return JsonResponse([message.serialize() for message in messages], safe=False)
+
 MESSAGE_ACCESS_DECORATORS = [login_required,
                               check_message_author]
 
