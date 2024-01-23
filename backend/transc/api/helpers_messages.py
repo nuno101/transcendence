@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 import datetime
 from .models import Channel, Message, User
-from . import helpers_websocket as websocket
+from . import bridge_websocket as websocket
 from .constants_ws_notification import *
 from .constants_errors import *
 

@@ -5,7 +5,7 @@ from .decorators import *
 from .models import Channel, Message, User
 from .helpers_channels import *
 from .helpers_messages import *
-from . import helpers_websocket as websocket
+from . import bridge_websocket as websocket
 
 # Endpoint: /channels
 @method_decorator(login_required, name='dispatch')

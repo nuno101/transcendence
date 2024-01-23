@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 import datetime
 from .models import User
-from . import helpers_websocket as websocket
+from . import bridge_websocket as websocket
 from .constants_errors import *
 
 def update_user(user: User, parameters: dict):

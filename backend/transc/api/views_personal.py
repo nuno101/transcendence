@@ -6,7 +6,7 @@ from .models import User, FriendRequest
 from .helpers_users import *
 from .constants_ws_notification import *
 from .constants_errors import *
-from . import helpers_websocket as websocket
+from . import bridge_websocket as websocket
 
 # Endpoint: /users/me
 @method_decorator(login_required, name='dispatch')
