@@ -2,8 +2,8 @@ from django.http import JsonResponse, HttpResponse
 import datetime
 from .models import Channel, Message, User
 from . import bridge_websocket as websocket
-from .constants_ws_notification import *
-from .constants_errors import *
+from .constants_websocket_events import *
+from .constants_http_response import *
 
 def create_message(channel: Channel, user: User, parameters):
   try:

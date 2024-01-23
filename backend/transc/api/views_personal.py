@@ -4,8 +4,8 @@ from .decorators import *
 from django.http import JsonResponse, HttpResponse
 from .models import User, FriendRequest
 from .helpers_users import *
-from .constants_ws_notification import *
-from .constants_errors import *
+from .constants_websocket_events import *
+from .constants_http_response import *
 from . import bridge_websocket as websocket
 
 # Endpoint: /users/me

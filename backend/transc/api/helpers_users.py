@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponse
 import datetime
 from .models import User
 from . import bridge_websocket as websocket
-from .constants_errors import *
+from .constants_http_response import *
 
 def update_user(user: User, parameters: dict):
   if parameters.get('username') is not None:

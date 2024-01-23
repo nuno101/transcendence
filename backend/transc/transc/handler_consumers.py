@@ -11,7 +11,7 @@ VALID_CLIENT_EVENTS = [
 ]
 
 async def ping(self, data):
-  await self.send(text_data='{"event": "pong", "data": {}}')
+  await self.send(text_data='{"event": "pong", "payload": {}}')
 
 # TODO: Enable again if it is needed in the future, if it is not needed in the end -> remove
 # async def subscribe_user_status(consumer, data):

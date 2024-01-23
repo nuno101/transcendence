@@ -1,7 +1,7 @@
-# cCONF: Constants for http api error responses
+# cCONF: Constants for http api responses
 
 # Field name for error description
-ERROR_FIELD = "reason"
+ERROR_FIELD = "error"
 
 # Users errors
 USER_404 = "User not found"

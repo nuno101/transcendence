@@ -1,4 +1,4 @@
-# cCONF: Constants for websocket notification events
+# cCONF: Constants for websocket events
 
 # User events
 UPDATE_USERSTATUS = "update_userstatus" # TODO: Implement user events like online status, etc.
