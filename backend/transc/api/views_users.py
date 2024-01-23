@@ -1,62 +1,44 @@
 from django.views import View
 from django.utils.decorators import method_decorator
-from .decorators import login_required, check_body_syntax, check_object_exists
-from django.http import JsonResponse
+from .decorators import *
+from django.http import JsonResponse, HttpResponse
 from .models import User
-import datetime
+from .helpers_users import update_user
 
-# GET   /users
-# POST /users {"name": "dummy", "fullname": "Dummy user"}
+# Endpoint: /users
 class UserCollection(View):
 	@method_decorator(login_required, name='dispatch')
+	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
-		users = User.objects.order_by("name")
-		data = {
-			'users': [u.serialize() for u in users],
-			'count': users.count(),
-		}
-		return JsonResponse(data)
+		users = User.objects.order_by("username")
+		return JsonResponse([u.serialize() for u in users], safe=False)
 
-	# https://www.youtube.com/watch?v=i5JykvxUk_A
-	@check_body_syntax(['name', 'fullname'])
-	def post(self, request): # TODO: Add way to specify password
-		user_data = {
-			'name': self.body.get('name'),
-			'fullname': self.body.get('fullname'),
-			'created_at': datetime.datetime.now()
-			}
+	@check_body_syntax(['username', 'password'])
+	def post(self, request):
 		try:
-			u = User.objects.create(**user_data)
-		except:
-			return JsonResponse({"reason": "User with name " +
-													f"'{user_data.get('name')}' already exists"}, status=400)
-		return JsonResponse(u.serialize(), status=201)
+			user = User.objects.create_user(username=self.body.get('username'), 
+																			password=self.body.get('password'))
+		except Exception as e:
+			if 'duplicate key' in str(e):
+				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
+			else:
+				return JsonResponse({ERROR_FIELD: "Undefined error"}, status=400)
+		return JsonResponse(user.serialize(), status=201)
 
-# GET    /users/<int:user_id>
-# PATCH  /users/<int:user_id>
-# DELETE /users/<int:user_id>
+# Endpoint: /users/<int:user_id>
 @method_decorator(login_required, name='dispatch')
-@method_decorator(check_object_exists(User, 'user_id', 
-																			'User does not exist'), name='dispatch')
-class SingleUser(View):
+@method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
+class UserSingle(View):
 	def get(self, request, user_id):
 		u = User.objects.get(pk=user_id)
-		return JsonResponse({'user': u.serialize()}) # TODO: Maybe add safe=false and one level of nesting?
+		return JsonResponse(u.serialize())
 	
-	@check_body_syntax(['name', 'fullname'])
+	@method_decorator(staff_required, name='dispatch')
+	@check_body_syntax([])
 	def patch(self, request, user_id):
-		u = User.objects.get(pk=user_id)
-		u.name = self.body.get('name')
-		u.fullname = self.body.get('fullname')
-		u.updated_at = datetime.datetime.now()
-		try:
-			u.save()
-		except:
-			return JsonResponse({"reason": "User with name " +
-													 f"'{self.body.get('name')}' already exists"}, status=400)
-		return JsonResponse(u.serialize(), status=200, safe=False)
+		return update_user(User.objects.get(pk=user_id), self.body)
 
+	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, user_id):
-		u = User.objects.get(pk=user_id)
-		u.delete()
-		return JsonResponse({}, status=202)
+		User.objects.get(pk=user_id).delete()
+		return HttpResponse(status=204)

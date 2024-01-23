@@ -4,6 +4,7 @@ all: build up
 
 build:
 	mkdir -p  $(HOME)/data/transcendence/volumes/E
+	mkdir -p  $(HOME)/docker-data/transcendence/redis
 	docker compose build
 
 up:
@@ -13,6 +14,8 @@ init: migrate superuser
 
 migrate:
 	docker exec -it backend python3 manage.py makemigrations
+	# TODO: Figure out why api app isn't updated automatically
+	docker exec -it backend python3 manage.py makemigrations api 
 	docker exec -it backend python3 manage.py migrate
 
 superuser:
@@ -24,7 +27,9 @@ down:
 clean: down
 	docker system prune -f
 	docker volume rm database_device -f
+	docker volume rm redis_device -f
 	rm -rf $(HOME)/data/transcendence/volumes
+	rm -rf  $(HOME)/docker-data/transcendence/redis
 
 re: clean all
 

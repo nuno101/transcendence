@@ -1,6 +1,5 @@
 <script>
-import SVG from 'svg.js';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 export default {
   props: {
@@ -8,33 +7,56 @@ export default {
     height : Number
   },
   setup(props, { emit }){
-    const draw = ref(null);
+    const canvas = ref(null);
 
     onMounted(() => {
-        document.body.style.overflow = 'hidden';
-        initializeGameMap();
+      initializeGameMap();
+      document.body.style.overflow = 'hidden';
     });
 
     const initializeGameMap = () => {
-      draw.value = SVG(document.querySelector('.pong')).size(props.width, props.height);
-      draw.value.rect(props.width, props.height).fill('#555555');
-      const line = draw.value.line(props.width / 2, 0, props.width / 2, props.height);
-      line.stroke({ width: 3, color: '#fff'});
-      // Emitting the draw object to the parent component
-      emit('update:draw', draw.value);
+        canvas.value = document.querySelector('.pong');
+        if(canvas.value) {
+          canvas.value.width = props.width;
+          canvas.value.height = props.height;
+        }
+        emit('update:canvas', canvas.value);
     };
-    return {};
+
+    return {
+      props
+    };
   }
 };
 </script>
 
 <template>
   <div class="container d-flex justify-content-center align-items-center">
-    <div ref="pong" class="pong"></div>
+    <canvas ref="canvas" id="pong" class="pong">
+    </canvas>
+    <div class="middle-line"></div>
   </div></template>
 
 <style scoped>
-.pong {
-    max-height: 100vh;
+canvas {
+    border: 1px solid black;
+    position: absolute;
+    top: 20%;
+    background: #111111;
+}
+
+.middle-line {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  width: 2px;
+  height: 351px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #fff,
+    #fff 14px,
+    #000 14px,
+    #000 28px
+  );
 }
 </style>

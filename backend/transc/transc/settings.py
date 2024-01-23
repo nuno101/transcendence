@@ -35,7 +35,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    "api.apps.ApiConfig",
+    'daphne',
+    'api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,7 +86,7 @@ DATABASES = {
         'USER': os.environ.get('POSTGRES_USER', 'dummy'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'dummy'),
         'HOST': os.environ.get('POSTGRES_HOST', 'dummy'),  # or the IP address of your database server
-        #'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
     }
 }
 
@@ -129,3 +130,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'api.User'
+
+ASGI_APPLICATION = 'transc.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.environ.get("REDIS_HOST"), 6379)],
+        },
+    },
+}
