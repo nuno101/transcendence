@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from . import bridge_websocket as websocket
 # import uuid # TODO: Use UUIDs?
 
 class User(AbstractUser):
@@ -8,6 +9,15 @@ class User(AbstractUser):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	avatar = models.BinaryField(max_length=900000, null=False)
+
+	class States(models.TextChoices):
+			OFFLINE = "offline"
+			ONLINE = "online"
+	status = models.CharField(
+				max_length=36,
+				choices=States.choices,
+				default=States.OFFLINE,
+	)
 
 	# User relationships
 	friends = models.ManyToManyField('self', blank=True)
@@ -19,15 +29,19 @@ class User(AbstractUser):
 	def __str__(self):
 		return self.username
 	
-	def is_friend(self, user): # TODO: Needed?
-		return user in self.friends.all()
+	def update_status(self, status):
+		self.status = status
+		websocket.send_user_status_notification(
+			self.id, 'user_status_updated', self.serialize())
+		self.save()
 
-	def serialize(self):
+	def serialize(self, private=False):
 		return {
 			'id': self.id,
 			'username': self.username,
 			'created_at': str(self.created_at),
 			'updated_at': str(self.updated_at),
+			'status': self.status if private else None,
 		}
 
 class FriendRequest(models.Model):
