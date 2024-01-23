@@ -1,7 +1,7 @@
-# Description: Notification websocket constants
+# cCONF: Constants for websocket events
 
 # User events
-USER_STATUS_UPDATE = "user_status_update" # TODO: Implement user events like online status, etc.
+UPDATE_USERSTATUS = "update_userstatus" # TODO: Implement user events like online status, etc.
 UPDATE_USER = "update_user"
 DELETE_USER = "delete_user"
 

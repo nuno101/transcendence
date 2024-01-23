@@ -11,11 +11,7 @@ class UserCollection(View):
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		users = User.objects.order_by("username")
-		data = {
-			'users': [u.serialize() for u in users],
-			'count': users.count(),
-		}
-		return JsonResponse(data)
+		return JsonResponse([u.serialize() for u in users], safe=False)
 
 	@check_body_syntax(['username', 'password'])
 	def post(self, request):
@@ -27,7 +23,7 @@ class UserCollection(View):
 				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
 			else:
 				return JsonResponse({ERROR_FIELD: "Undefined error"}, status=400)
-		return JsonResponse({'user': user.serialize()}, status=201)
+		return JsonResponse(user.serialize(), status=201)
 
 # Endpoint: /users/<int:user_id>
 @method_decorator(login_required, name='dispatch')
@@ -35,7 +31,7 @@ class UserCollection(View):
 class UserSingle(View):
 	def get(self, request, user_id):
 		u = User.objects.get(pk=user_id)
-		return JsonResponse({'user': u.serialize()})
+		return JsonResponse(u.serialize())
 	
 	@method_decorator(staff_required, name='dispatch')
 	@check_body_syntax([])

@@ -1,24 +1,19 @@
 from django.http import JsonResponse, HttpResponse
 import datetime
-from .models import Channel, Message
-from . import helpers_websocket as websocket
-from .constants_ws_notification import *
-from .constants_errors import *
+from .models import Channel, Message, User
+from . import bridge_websocket as websocket
+from .constants_websocket_events import *
+from .constants_http_response import *
 
-def create_message(channel: Channel, user, parameters):
-  message = Message(channel=channel, author=user, content=parameters.get('content'))
+def create_message(channel: Channel, user: User, parameters):
   try:
-    message.save()
+    message = Message.objects.create(channel=channel, author=user, 
+                                     content=parameters.get('content'))
   except:
     return JsonResponse({ERROR_FIELD: "Failed to create message"}, status=500)
 
-  websocket.send_channel_notification(channel.id, {
-    "event": CREATE_MESSAGE,
-    "data": {
-      "message": message.serialize()
-    }
-  })
-  return JsonResponse({'message': message.serialize()}, status=201)
+  websocket.send_channel_notification(channel.id, CREATE_MESSAGE, message.serialize())
+  return JsonResponse(message.serialize(), status=201)
 
 def update_message(message: Message, parameters):
   if parameters.get('content') is not None:
@@ -29,23 +24,14 @@ def update_message(message: Message, parameters):
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update message"}, status=500)
 
-  websocket.send_channel_notification(message.channel.id, {
-    "event": UPDATE_MESSAGE,
-    "data": {
-      "message": message.serialize()
-    }
-  })
-  return JsonResponse({'message': message.serialize()}, status=200)
+  websocket.send_channel_notification(message.channel.id, UPDATE_MESSAGE, message.serialize())
+  return JsonResponse(message.serialize())
 
 def delete_message(message: Message):
   channel_id = message.channel.id
   message_id = message.id
   message.delete()
 
-  websocket.send_channel_notification(channel_id, {
-    "event": DELETE_MESSAGE,
-    "data": {
-      "message_id": message_id
-    }
-  })
+  websocket.send_channel_notification(channel_id, DELETE_MESSAGE, {
+      "message_id": message_id })
   return HttpResponse(status=204)

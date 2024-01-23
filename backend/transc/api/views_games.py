@@ -12,11 +12,7 @@ class GameView(View):
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		games = Game.objects.all()
-		data = {
-			'games': [g.serialize() for g in games],
-			'count': games.count(),
-		}
-		return JsonResponse(data)
+		return JsonResponse([g.serialize() for g in games], safe=False)
 
 	@check_body_syntax(['tournament_id', 'player1_id', 'player2_id'])
 	def post(self, request):
@@ -36,7 +32,7 @@ class GameView(View):
 
 		# TODO: Implement websocket notification
 
-		return JsonResponse({'game': game.serialize()}, status=201)
+		return JsonResponse(game.serialize(), status=201)
 
 # Endpoint: /games/<int:game_id>
 @method_decorator(login_required, name='dispatch')
@@ -44,12 +40,12 @@ class GameView(View):
 class GameDetail(View):
 	def get(self, request, game_id):
 		g = Game.objects.get(pk=game_id)
-		return JsonResponse({'game': g.serialize()})
+		return JsonResponse(g.serialize())
 
 	@method_decorator(staff_required, name='dispatch')
 	@check_body_syntax(['title', 'description'])
 	def patch(self, request, game_id):
-		return update_game(Game.objects.get(pk=game_id))
+		return update_game(Game.objects.get(pk=game_id), self.body)
 
 	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, game_id):

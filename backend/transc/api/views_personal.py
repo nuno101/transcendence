@@ -4,15 +4,15 @@ from .decorators import *
 from django.http import JsonResponse, HttpResponse
 from .models import User, FriendRequest
 from .helpers_users import *
-from .constants_ws_notification import *
-from .constants_errors import *
-from . import helpers_websocket as websocket
+from .constants_websocket_events import *
+from .constants_http_response import *
+from . import bridge_websocket as websocket
 
 # Endpoint: /users/me
 @method_decorator(login_required, name='dispatch')
 class UserPersonal(View):
   def get(self, request):
-    return JsonResponse({'user': request.user.serialize()}, status=200)
+    return JsonResponse(request.user.serialize())
   
   @check_body_syntax([])
   def patch(self, request):
@@ -26,7 +26,7 @@ class UserPersonal(View):
 class FriendCollection(View):
   def get(self, request):
     friends = request.user.friends.all()
-    return JsonResponse({'friends': [f.serialize() for f in friends]})
+    return JsonResponse([f.serialize() for f in friends], safe=False)
 
 # Endpoint: /users/me/friends/<int:user_id>
 @method_decorator(login_required, name='dispatch')
@@ -40,12 +40,8 @@ class FriendSingle(View):
       return JsonResponse({ERROR_FIELD: "User is not a friend"}, status=400)
     request.user.friends.remove(friend)
 
-    websocket.send_user_notification(friend.id, {
-      "event": REMOVE_FRIEND,
-      "data": {
-        "user_id": request.user.id
-      }
-    })
+    websocket.send_user_notification(friend.id, REMOVE_FRIEND, {
+      "user_id": request.user.id })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
@@ -62,7 +58,7 @@ class FriendRequestCollection(View):
       friend_requests = FriendRequest.objects.filter(to_user=request.user)
     else:
       return JsonResponse({ERROR_FIELD: "Invalid query parameter 'type'"}, status=400)
-    return JsonResponse({"requests": [r.serialize() for r in friend_requests]})
+    return JsonResponse([r.serialize() for r in friend_requests], safe=False)
   
   @check_body_syntax(['user_id'])
   def post(self, request): # TODO: Refactor this mess
@@ -94,46 +90,14 @@ class FriendRequestCollection(View):
     friend_request = FriendRequest(from_user=request.user, to_user=target)
     friend_request.save()
 
-    websocket.send_user_notification(target.id, {
-      "event": SEND_FRIEND_REQUEST,
-      "data": {
-        "request": friend_request.serialize()
-      }
-    })
-    return JsonResponse({"request": friend_request.serialize()}, status=201)
+    websocket.send_user_notification(target.id, SEND_FRIEND_REQUEST, friend_request.serialize())
+    return JsonResponse(friend_request.serialize(), status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(FriendRequest, 'request_id', 
                                       FRIEND_REQUEST_404), name='dispatch')
 class FriendRequestSingle(View): # TODO: Refactor this mess?
-  def delete(self, request, request_id):
-    friend_request = FriendRequest.objects.get(pk=request_id)
-
-    # Check if user is the recipient or sender of the request
-    sender = friend_request.from_user.id == request.user.id
-    recipient = friend_request.to_user.id == request.user.id
-    if not sender and not recipient:
-      return JsonResponse({ERROR_FIELD: FRIEND_REQUEST_403}, status=403)
-    
-    friend_request_id = friend_request.id
-    friend_request.delete()
-
-    websocket_target = friend_request.to_user if sender else friend_request.from_user
-
-    websocket.send_user_notification(websocket_target.id, {
-      "event": CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST,
-      "data": {
-        "request_id": friend_request_id
-      }
-    })
-    return HttpResponse(status=204)
-
-# Endpoint: /users/me/friends/requests/<int:request_id>/accept
-@method_decorator(login_required, name='dispatch')
-@method_decorator(check_object_exists(FriendRequest, 'request_id', 
-                                      FRIEND_REQUEST_404), name='dispatch')
-class FriendRequestAccept(View):
   def post(self, request, request_id): # TODO: Refactor this mess
     friend_request = FriendRequest.objects.get(pk=request_id)
 
@@ -150,12 +114,27 @@ class FriendRequestAccept(View):
     from_user_id = friend_request.from_user.id
     friend_request.delete()
 
-    websocket.send_user_notification(from_user_id, {
-      "event": ACCEPT_FRIEND_REQUEST,
-      "data": {
-        "user_id": request.user.id
-      }
-    })
+    websocket.send_user_notification(from_user_id, ACCEPT_FRIEND_REQUEST, {
+      "user_id": request.user.id })
+    return HttpResponse(status=204)
+
+  def delete(self, request, request_id):
+    friend_request = FriendRequest.objects.get(pk=request_id)
+
+    # Check if user is the recipient or sender of the request
+    sender = friend_request.from_user.id == request.user.id
+    recipient = friend_request.to_user.id == request.user.id
+    if not sender and not recipient:
+      return JsonResponse({ERROR_FIELD: FRIEND_REQUEST_403}, status=403)
+    
+    friend_request_id = friend_request.id
+    friend_request.delete()
+
+    websocket_target = friend_request.to_user if sender else friend_request.from_user
+
+    event = CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST
+    websocket.send_user_notification(websocket_target.id, event, {
+      "request_id": friend_request_id })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked
@@ -163,7 +142,7 @@ class FriendRequestAccept(View):
 class BlockedCollection(View):
   def get(self, request):
     blocked = request.user.blocked.all()
-    return JsonResponse({"blocked": [b.serialize() for b in blocked]})
+    return JsonResponse([b.serialize() for b in blocked], safe=False)
 
   @check_body_syntax(['user_id'])  
   def post(self, request): # TODO: Refactor this mess
@@ -219,4 +198,4 @@ class BlockedSingle(View):
 class ChannelPersonal(View):
   def get(self, request):
     channels = Channel.objects.filter(members=request.user).order_by("-updated_at")
-    return JsonResponse({'channels': [channel.serialize() for channel in channels]})
+    return JsonResponse([channel.serialize() for channel in channels], safe=False)

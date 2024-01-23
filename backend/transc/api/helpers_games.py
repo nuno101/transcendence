@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 import datetime
 from .models import Game
-from .constants_errors import *
+from .constants_http_response import *
 
 def update_game(game: Game, parameters):
   if parameters.get('title') is not None:
@@ -16,4 +16,4 @@ def update_game(game: Game, parameters):
   
   # TODO: Implement websocket notification
 
-  return JsonResponse({'game': game.serialize()}, status=200)
+  return JsonResponse(game.serialize())
