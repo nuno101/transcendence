@@ -1,8 +1,8 @@
 from django.http import JsonResponse, HttpResponse
 import datetime
 from .models import User
-from . import helpers_websocket as websocket
-from .constants_errors import *
+from . import bridge_websocket as websocket
+from .constants_http_response import *
 
 def update_user(user: User, parameters: dict):
   if parameters.get('username') is not None:
@@ -18,26 +18,19 @@ def update_user(user: User, parameters: dict):
     else:
       return JsonResponse({ERROR_FIELD: "Undefined error"}, status=500)
   
+  # TODO: At the least send notifications to all friends of the user
   # TODO: Figure out how to do group notifications for this type of event
   # will also be usefull for imeplementation of the online status feature
-  # websocket.send_user_notification(user.id, {
-  #   "event": UPDATE_USER,
-  #   "data": {
-  #     "user": user.serialize()
-  #   }
-  # })
-  return JsonResponse({'user': user.serialize()}, status=200)
+  # websocket.send_user_notification(user.id, UPDATE_USER, user.serialize())
+  return JsonResponse(user.serialize())
 
 def delete_user(user: User):
   # user_id = user.id
   user.delete()
 
+  # TODO: At the least send notifications to all friends of the user
   # TODO: Figure out how to do group notifications for this type of event
   # will also be usefull for imeplementation of the online status feature
-  # websocket.send_user_notification(user_id, {
-  #   "event": DELETE_USER,
-  #   "data": {
-  #     "user_id": user_id
-  #   }
-  # })
+  # websocket.send_user_notification(user_id, DELETE_USER, {
+  #   "user_id": user_id })
   return HttpResponse(status=204)

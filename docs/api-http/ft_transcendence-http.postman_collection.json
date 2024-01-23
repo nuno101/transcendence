@@ -13,7 +13,7 @@
 					"name": "User",
 					"item": [
 						{
-							"name": "Get list of all users",
+							"name": "Get users",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -27,6 +27,24 @@
 									]
 								},
 								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
+							"name": "Get user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								}
 							},
 							"response": []
 						},
@@ -51,24 +69,6 @@
 									],
 									"path": [
 										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get user",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/users/{{user_id}}",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"users",
-										"{{user_id}}"
 									]
 								}
 							},
@@ -127,7 +127,7 @@
 					"name": "Tournament",
 					"item": [
 						{
-							"name": "Get list of all tournaments",
+							"name": "Get tournaments",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -138,6 +138,25 @@
 									],
 									"path": [
 										"tournaments"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
+							"name": "Get tournament",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tournaments/{{tournament_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tournaments",
+										"{{tournament_id}}"
 									]
 								},
 								"description": "staff user required"
@@ -171,6 +190,34 @@
 							"response": []
 						},
 						{
+							"name": "Update tournament",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New\",\r\n    \"description\": \"New\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/tournaments/{{tournament_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tournaments",
+										"{{tournament_id}}"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
 							"name": "Delete tournament",
 							"request": {
 								"method": "DELETE",
@@ -195,7 +242,7 @@
 					"name": "Game",
 					"item": [
 						{
-							"name": "Get list of all games",
+							"name": "Get games",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -213,13 +260,32 @@
 							"response": []
 						},
 						{
+							"name": "Get game",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/games/{{game_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"games",
+										"{{game_id}}"
+									]
+								},
+								"description": "staff user required"
+							},
+							"response": []
+						},
+						{
 							"name": "Create new game",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"tournament_id\": 1,\r\n    \"player1_id\": 4,\r\n    \"player2_id\": 4\r\n}",
+									"raw": "{\r\n    \"tournament_id\": 1,\r\n    \"player1_id\": 1,\r\n    \"player2_id\": 2\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -235,6 +301,34 @@
 										"games"
 									]
 								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update game",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New\",\r\n    \"description\": \"New\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/games/{{game_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"games",
+										"{{game_id}}"
+									]
+								},
+								"description": "staff user required"
 							},
 							"response": []
 						},
@@ -621,6 +715,36 @@
 									"response": []
 								},
 								{
+									"name": "Accept friend request",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/me/friends/requests/{{request_id}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"friends",
+												"requests",
+												"{{request_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Delete friend request Copy",
 									"request": {
 										"method": "DELETE",
@@ -645,37 +769,6 @@
 												"friends",
 												"requests",
 												"{{request_id}}"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Accept friend request",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{base_url}}/users/me/friends/requests/{{request_id}}/accept",
-											"host": [
-												"{{base_url}}"
-											],
-											"path": [
-												"users",
-												"me",
-												"friends",
-												"requests",
-												"{{request_id}}",
-												"accept"
 											]
 										}
 									},
@@ -795,6 +888,14 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Tournament",
+					"item": []
+				},
+				{
+					"name": "Game",
+					"item": []
 				},
 				{
 					"name": "Channel",

@@ -2,7 +2,7 @@ from . import models
 from django.http import JsonResponse
 import json
 from .models import Channel
-from .constants_errors import *
+from .constants_http_response import *
 
 # Not using django.contrib.auth.decorators.login_required because it redirects to /accounts/login/
 def login_required(view_func):

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o#-u0^+c1x)k0q54emh!))+8#u)c$y(8$mrbhl9z_k)(p^g*54'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', get_random_secret_key())
+if SECRET_KEY == '':
+  SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get('DJANGO_DEBUG', "False").lower() == "true") 
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -32,7 +35,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    "api",
+    'daphne',
+    'api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +49,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #FIXME - CSRF protection disabled
+	#'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -74,15 +79,14 @@ WSGI_APPLICATION = 'transc.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'database'),
-        'USER': os.environ.get('POSTGRES_USER', 'user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '123'),
-        'HOST': os.environ.get('POSTGRES_DB', 'database'),  # or the IP address of your database server
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
+        'NAME': os.environ.get('POSTGRES_DB', 'dummy'),
+        'USER': os.environ.get('POSTGRES_USER', 'dummy'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'dummy'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'dummy'),  # or the IP address of your database server
+        #'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
     }
 }
 
@@ -126,3 +130,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'api.User'
+
+ASGI_APPLICATION = 'transc.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}

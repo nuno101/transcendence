@@ -6,17 +6,19 @@ urlpatterns = [
 	path("", views.index, name="index"),
   path("login", views.Login.as_view()),
   
-	path("test/websocket_log", views.websocket_log, name="websocket_log"), # TODO: Remove later
+	# TODO: Test new http to websocket bridge structure and see if it can be simplified
+	path("test/websocket_log", views.websocket_log, name="websocket_log"), # TODO: DEBUG: Remove later
+  path("test/websocket", views.websocket, name="websocket"), # TODO: DEBUG: Remove later
 
 	# Personal paths
   path("users/me", views_personal.UserPersonal.as_view()),
+  
   path("users/me/friends", views_personal.FriendCollection.as_view()),
   path("users/me/friends/<int:user_id>", views_personal.FriendSingle.as_view()),
-
+  
   path("users/me/friends/requests", views_personal.FriendRequestCollection.as_view()),
   path("users/me/friends/requests/<int:request_id>", views_personal.FriendRequestSingle.as_view()),
-  path("users/me/friends/requests/<int:request_id>/accept", views_personal.FriendRequestAccept.as_view()),
-
+  
   path("users/me/blocked", views_personal.BlockedCollection.as_view()),
   path("users/me/blocked/<int:user_id>", views_personal.BlockedSingle.as_view()),
 
