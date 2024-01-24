@@ -20,6 +20,10 @@ Julia:
 * working on the profile & friends page
 * fix edge cases ball collision (game)
 
+Robert:
+* [ ] Try to find out how to do the remote authentication module
+* [ ] Will look at the modules that are currently not being worked on (Log management, Monitoring system, etc.)
+* [ ] Work on game and tournament endpoints to fit needs of frontend team
 
 # 2024-01-16 Slack meeting:
 Attended by all.
