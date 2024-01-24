@@ -46,9 +46,9 @@ class Consumer(AsyncWebsocketConsumer):
         if self.user.is_anonymous:
             return
 
-        await sync_to_async(update_user_status)(self.user, 'offline')
         for group in self.groups:
             await self._remove_group(group)
+        await sync_to_async(update_user_status)(self.user, 'offline')
 
     # Client event handling method
     async def receive(self, text_data):
@@ -66,6 +66,9 @@ class Consumer(AsyncWebsocketConsumer):
             await getattr(handlers, case[event])(self, payload)
 
     # Group event handling methods
+    async def logout(self, event):
+        await self.close()
+
     async def send_notification(self, event):
         data = self.get_field(event, 'data')
         if data is not None:
