@@ -98,7 +98,8 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./frontend/:/app/
+      - ./frontend/src/:/app/src/:ro
+      - ./frontend/public/:/app/public/:ro
     networks:
       - proxy-network 
   proxy:

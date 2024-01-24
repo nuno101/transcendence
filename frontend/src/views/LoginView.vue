@@ -28,20 +28,20 @@
 <script setup>
 import { ref } from 'vue'
 import Backend from '../js/Backend'
+import router from '../router'
 
-const input = ref({username: '', password: ''})
+const input = defineModel()
+input.value = {username: '', password: ''}
 
 const LogIn = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlContinue = urlParams.get('continue')
+  console.log('if login successful redirect to: ', urlContinue)
+
   try {
     let data = await Backend.post('/api/login', input.value)
     console.log(data)
-  } catch (err) {
-    console.log(err.message)
-  }
-
-  try {
-    let data = await Backend.get('/api/tournaments')
-    console.log(data)
+    router.push(urlContinue ? urlContinue : 'dashboard')
   } catch (err) {
     console.log(err.message)
   }
