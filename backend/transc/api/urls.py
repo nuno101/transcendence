@@ -9,7 +9,6 @@ urlpatterns = [
   path("logout", views.Logout.as_view()),
   
 	# TODO: Test new http to websocket bridge structure and see if it can be simplified
-	path("test/websocket_log", views.websocket_log, name="websocket_log"), # TODO: DEBUG: Remove later
   path("test/websocket", views.websocket_custom, name="websocket"), # TODO: DEBUG: Remove later
 
 	# Personal paths

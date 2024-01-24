@@ -11,9 +11,6 @@ from django.shortcuts import render # TODO: Remove later
 def index(request):
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
-def websocket_log(request): # TODO: DEBUG: Remove later
-	return render(request, 'api/ws.html')
-
 def websocket_custom(request): # TODO: DEBUG: Remove later
 	return render(request, 'api/custom_ws.html')
 
@@ -34,6 +31,6 @@ class Login(View):
 @method_decorator(login_required, name='dispatch')
 class Logout(View):
 	def post(self, request):
-		# TODO: Implement disconnecting from websockets
+		websocket.message_group(f'user_{request.user.id}', 'logout', {})
 		logout(request)
 		return JsonResponse({'response': "Successfully logged out"})
