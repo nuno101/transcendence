@@ -17,7 +17,8 @@ Nuno:
 
 Julia:
 * some discussion about the remote games
-
+* working on the profile & friends page
+* fix edge cases ball collision (game)
 
 
 # 2024-01-16 Slack meeting:
