@@ -8,8 +8,8 @@ networks:
   redis-network:
     name: redis-network
 
-  frontend-network:
-    name: frontend-network
+  proxy-network:
+    name: proxy-network
 
 volumes:
   database_device:
@@ -83,6 +83,7 @@ services:
     networks:
       - database-network
       - redis-network
+      - proxy-network
     restart: unless-stopped
 
   redis:
@@ -101,28 +102,22 @@ services:
       context: ./frontend
     depends_on:
       - backend
+    volumes:
+      - ./frontend/src/:/app/src/:ro
+      - ./frontend/public/:/app/public/:ro
+    networks:
+      - proxy-network
+  proxy:
+    container_name: proxy
+    image: proxy
+    build:
+      context: ./proxy
+    depends_on:
+      - backend
     ports:
       - "80:80"
-    volumes:
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
     networks:
-      - frontend-network
+      - proxy-network
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
     restart: unless-stopped
-  # firefox:
-  #   image: lscr.io/linuxserver/firefox:latest
-  #   container_name: firefox
-  #   security_opt:
-  #     - seccomp:unconfined #optional
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Etc/UTC
-  #   volumes:
-  #     - $HOME/docker-data/transcendence/firefox:/config
-  #   ports:
-  #     - 3000:3000
-  #     - 3001:3001
-  #   networks:
-  #     - frontend-network
-  #   shm_size: "1gb"
-  #   restart: unless-stopped

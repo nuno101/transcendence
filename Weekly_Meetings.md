@@ -1,3 +1,30 @@
+# 2024-01-24 Slack meeting:
+Attended by all.
+
+Jan:
+* new nginx container configured as a proxy
+* to be checked again when the SSL certificate is used
+* working on authentication and some discussion about cookie management
+
+Anouk:
+* working on the tournament
+* registration for tournament to be performed by each user separately
+* add property display_name/ nickname for playing tournaments
+* tournaments visible to all
+
+Nuno:
+* will try to add API tests to check the entry-points
+
+Julia:
+* some discussion about the remote games
+* working on the profile & friends page
+* fix edge cases ball collision (game)
+
+Robert:
+* [ ] Try to find out how to do the remote authentication module
+* [ ] Will look at the modules that are currently not being worked on (Log management, Monitoring system, etc.)
+* [ ] Work on game and tournament endpoints to fit needs of frontend team
+
 # 2024-01-16 Slack meeting:
 Attended by all.
 
