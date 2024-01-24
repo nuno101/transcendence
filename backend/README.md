@@ -11,7 +11,7 @@ You can login using the endpoint `POST /api/login` with the following payload:
 }
 ```
 
-### User registration
+## User registration
 
 You can register a new user using the endpoint `POST /api/register` with the following payload:
 
@@ -22,7 +22,11 @@ You can register a new user using the endpoint `POST /api/register` with the fol
 }
 ```
 
-# Websocket api
+## Endpoints
+
+See [api postman collection](../docs/api-http/ft_transcendence-http.postman_collection.json) for more details.
+
+# Websocket event notification api
 
 ## Authentication
 
@@ -39,11 +43,10 @@ You need to login via the http [authentication endpoint](#authentication) before
 }
 ```
 
-##
-
 ### Table of contents
 
 - [Server to client Events](#server-to-client-events)
+  - [error](#error)
   - [pong](#pong)
   - [update_user](#update_user)
   - [delete_user](#delete_user)
@@ -63,6 +66,12 @@ You need to login via the http [authentication endpoint](#authentication) before
   - [ping](#ping)
 
 ### Server to client Events
+
+#### `error`
+
+This event is sent when an error occurs.
+
+PAYLOAD: [Error](#error-payload)
 
 #### `pong`
 
@@ -220,7 +229,7 @@ Response event: [pong](#pong)
 {}
 ```
 
-#### `Error`
+#### `Error payload`
 
 ```json
 {
