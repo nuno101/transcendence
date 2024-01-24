@@ -2,11 +2,11 @@ from asgiref.sync import sync_to_async
 from api.models import User
 import json
 
-# cCONF: Constans for client event handling
+# cCONF: Constants for client events
 # Format "event": "handler"
 VALID_CLIENT_EVENTS = [
   {"ping": "ping"},
-  # "subscribe_user_status": "subscribe_user_status"},
+  # {"subscribe_user_status": "subscribe_user_status"},
   # {"unsubscribe_user_status": "unsubscribe_user_status"},
 ]
 

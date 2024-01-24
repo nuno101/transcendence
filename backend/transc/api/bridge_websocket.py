@@ -1,8 +1,8 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-# Description: Helper functions to make it easier to implement
-#              websocket notifications for http requests
+# Description: Helper functions to make it easier to send
+#              websocket group messages from anywhere
 
 def message_group(group, type, data):
   channel_layer = get_channel_layer()

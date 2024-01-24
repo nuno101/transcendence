@@ -26,7 +26,7 @@ class UserPersonal(View):
 class FriendCollection(View):
   def get(self, request):
     friends = request.user.friends.all()
-    return JsonResponse([f.serialize() for f in friends], safe=False)
+    return JsonResponse([f.serialize(private=True) for f in friends], safe=False)
 
 # Endpoint: /users/me/friends/<int:user_id>
 @method_decorator(login_required, name='dispatch')

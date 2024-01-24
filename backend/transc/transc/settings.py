@@ -86,7 +86,7 @@ DATABASES = {
         'USER': os.environ.get('POSTGRES_USER', 'dummy'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'dummy'),
         'HOST': os.environ.get('POSTGRES_HOST', 'dummy'),  # or the IP address of your database server
-        #'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),    # leave it empty to use the default port
     }
 }
 
@@ -139,7 +139,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)],
+            "hosts": [(os.environ.get("REDIS_HOST"), 6379)],
         },
     },
 }
