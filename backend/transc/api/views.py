@@ -25,13 +25,8 @@ class Login(View):
 												password=self.body.get('password'))
 		if user is None:
 			return JsonResponse({ERROR_FIELD: "Invalid login credentials"}, status=401)
-		
-		# Get query parameter 'remember' to determine session length
-		remember = request.GET.get('remember')
-		if remember is not None and remember.lower() == 'true':
-			request.session.set_expiry(None)
-		else:
-			request.session.set_expiry(0)
+		expiration = None if request.GET.get('remember', "false") == 'true' else 0
+		request.session.set_expiry(expiration)
 		login(request, user)
 		return JsonResponse(user.serialize(private=True))
 
