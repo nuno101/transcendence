@@ -1,4 +1,4 @@
-# 2024-01-16 Slack meeting:
+# 2024-01-24 Slack meeting:
 Attended by all.
 
 Jan:
