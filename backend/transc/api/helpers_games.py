@@ -2,7 +2,9 @@ from django.http import JsonResponse
 import datetime
 from .models import Game
 from .constants_http_response import *
+from django.db.models import Q
 
+# Game instance management helpers
 def update_game(game: Game, parameters):
   if parameters.get('title') is not None:
     game.title = parameters.get('title')
@@ -17,3 +19,9 @@ def update_game(game: Game, parameters):
   # TODO: Implement websocket notification
 
   return JsonResponse(game.serialize())
+
+# Game serialization helpers
+def get_user_games(user_id):
+  games = Game.objects.filter(Q(player1=user_id) | Q(player2=user_id))
+  games.order_by('-updated_at')
+  return [g.serialize() for g in games]

@@ -4,7 +4,9 @@ from . import views_users, views_chat, views_personal
 
 urlpatterns = [
 	path("", views.index, name="index"),
+
   path("login", views.Login.as_view()),
+  # TODO: Add logout endpoint
   
 	# TODO: Test new http to websocket bridge structure and see if it can be simplified
 	path("test/websocket_log", views.websocket_log, name="websocket_log"), # TODO: DEBUG: Remove later
@@ -24,15 +26,15 @@ urlpatterns = [
 
 	path("users/me/channels", views_personal.ChannelPersonal.as_view()),
 
-	# TODO: Add endpoints to list tournaments of current user
-
-  # TODO: Add endpoints to list games of current user
+	# TODO: Add endpoints to list tournaments of current user?
 
 	# User paths
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
 	
-	# TODO: Add endpoints to view user stats? 
+	path("users/<int:user_id>/stats", views_users.StatsUser.as_view()), # TODO: Implement auto creation of UserStats object
+
+  path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()), # TODO: Test
 
 	# Tournament paths
 	path('tournaments', views_tournaments.TournamentCollection.as_view()),
@@ -46,10 +48,10 @@ urlpatterns = [
 	path('channels', views_chat.ChannelCollection.as_view()),
 	path('channels/<int:channel_id>', views_chat.ChannelSingle.as_view()),
   
-	path('channels/<int:channel_id>/messages', views_chat.ChannelMessageCollection.as_view()),
-  
 	path('channels/<int:channel_id>/members', views_chat.ChannelMemberCollection.as_view()),
 	path('channels/<int:channel_id>/members/<int:user_id>', views_chat.ChannelMemberSingle.as_view()),
+
+	path('channels/<int:channel_id>/messages', views_chat.ChannelMessageCollection.as_view()),
 
 	path('messages', views_chat.MessageCollection.as_view()),
 	path('messages/<int:message_id>', views_chat.MessageSingle.as_view()),

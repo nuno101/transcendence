@@ -5,6 +5,7 @@ from . import bridge_websocket as websocket
 from .constants_websocket_events import *
 from .constants_http_response import *
 
+# Message instance management helpers
 def create_message(channel: Channel, user: User, parameters):
   try:
     message = Message.objects.create(channel=channel, author=user, 
@@ -33,5 +34,5 @@ def delete_message(message: Message):
   message.delete()
 
   websocket.send_channel_notification(channel_id, DELETE_MESSAGE, {
-      "message_id": message_id })
+      "id": message_id })
   return HttpResponse(status=204)

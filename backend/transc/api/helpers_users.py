@@ -3,7 +3,9 @@ import datetime
 from .models import User
 from . import bridge_websocket as websocket
 from .constants_http_response import *
+from .constants_websocket_events import *
 
+# User instance management helpers
 def update_user(user: User, parameters: dict):
   if parameters.get('username') is not None:
     user.username = parameters.get('username')
@@ -24,6 +26,12 @@ def update_user(user: User, parameters: dict):
   # websocket.send_user_notification(user.id, UPDATE_USER, user.serialize())
   return JsonResponse(user.serialize())
 
+def update_user_status(user, status):
+  user.status = status
+  websocket.send_user_status_notification(
+    user.id, UPDATE_USER, user.serialize(private=True))
+  user.save()
+
 def delete_user(user: User):
   # user_id = user.id
   user.delete()
@@ -32,5 +40,5 @@ def delete_user(user: User):
   # TODO: Figure out how to do group notifications for this type of event
   # will also be usefull for imeplementation of the online status feature
   # websocket.send_user_notification(user_id, DELETE_USER, {
-  #   "user_id": user_id })
+  #   "id": user_id })
   return HttpResponse(status=204)
