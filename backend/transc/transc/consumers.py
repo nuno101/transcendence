@@ -3,7 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from api.models import Channel
 from asgiref.sync import sync_to_async
 from . import handler_consumers as handlers
-from api import bridge_websocket
+from api.helpers_users import update_user_status
 
 # cCONF: Constants for group events
 # Format "event": "handler"
@@ -38,7 +38,7 @@ class Consumer(AsyncWebsocketConsumer):
 
         # Check if consumer is the first of its user by checking status
         await self._add_group(f'user_status_{self.user.id}')
-        await sync_to_async(self.user.update_status)('online')
+        await sync_to_async(update_user_status)(self.user, 'online')
 
         await self.accept()
 
@@ -46,7 +46,7 @@ class Consumer(AsyncWebsocketConsumer):
         if self.user.is_anonymous:
             return
 
-        await sync_to_async(self.user.update_status)('offline')
+        await sync_to_async(update_user_status)(self.user, 'offline')
         for group in self.groups:
             await self._remove_group(group)
 

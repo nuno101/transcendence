@@ -29,11 +29,13 @@ class User(AbstractUser):
 	def __str__(self):
 		return self.username
 	
-	def update_status(self, status):
-		self.status = status
-		websocket.send_user_status_notification(
-			self.id, 'user_status_updated', self.serialize())
-		self.save()
+	def save(self, *args, **kwargs):
+		# On first save, create stats
+		if self._state.adding:
+			super().save(*args, **kwargs)
+			UserStats.objects.create(user=self)
+		else:
+			super().save(*args, **kwargs)
 
 	def serialize(self, private=False):
 		return {
@@ -42,6 +44,25 @@ class User(AbstractUser):
 			'created_at': str(self.created_at),
 			'updated_at': str(self.updated_at),
 			'status': self.status if private else None,
+		}
+
+class UserStats(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="stats")
+	wins = models.IntegerField(default=0)
+	losses = models.IntegerField(default=0)
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return f'{self.user.username}\'s stats'
+
+	def serialize(self):
+		return {
+			'user_id': self.user.id,
+			'wins': self.wins,
+			'losses': self.losses,
+			'created_at': str(self.created_at),
+			'updated_at': str(self.updated_at),
 		}
 
 class FriendRequest(models.Model):
@@ -108,9 +129,27 @@ class Game(models.Model):
 		choices=MatchStatus.choices,
 		default=MatchStatus.CREATED,
 	)
-	score = models.IntegerField(default=0)
+	player1_score = models.IntegerField(default=0)
+	player2_score = models.IntegerField(default=0)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return f'{self.player1} vs {self.player2}'
+	
+	def save(self, *args, **kwargs): # TODO: Find better way to update user stats in a nice way. This is ugly and won't work reliably.
+		super().save(*args, **kwargs)
+
+		# Update user stats
+		if self.status == Game.MatchStatus.DONE:
+			if self.player1_score > self.player2_score:
+				self.player1.stats.wins += 1
+				self.player2.stats.losses += 1
+			elif self.player1_score < self.player2_score:
+				self.player1.stats.losses += 1
+				self.player2.stats.wins += 1
+			self.player1.stats.save()
+			self.player2.stats.save()
 
 	def serialize(self):
 		return {
@@ -119,7 +158,8 @@ class Game(models.Model):
 			'player1_id': self.player1.id,
 			'player2_id': self.player2.id,
 			'status': self.status,
-			'score': self.score,
+			'player1_score': self.player1_score,
+			'player2_score': self.player2_score,
 			'created_at': str(self.created_at),
 			'updated_at': str(self.updated_at),
 		}
@@ -141,7 +181,7 @@ class Channel(models.Model):
           'name': self.name,
           'created_at': str(self.created_at),
           'updated_at': str(self.updated_at),
-          'member': [m.serialize() for m in self.members.all()]
+          'members': [m.serialize() for m in self.members.all()]
       }
 
 class Message(models.Model):

@@ -5,6 +5,7 @@ from . import bridge_websocket as websocket
 from .constants_http_response import *
 from .constants_websocket_events import *
 
+# Channel instance management helpers
 def update_channel(channel: Channel, parameters):
   if parameters.get('name') is not None:
     channel.content = parameters.get('name')
@@ -22,5 +23,5 @@ def delete_channel(channel: Channel):
   channel.delete()
 
   websocket.send_channel_notification(channel_id, DELETE_CHANNEL, {
-    "channel_id": channel_id })
+    "id": channel_id })
   return HttpResponse(status=204)

@@ -4,6 +4,7 @@ from .decorators import *
 from django.http import JsonResponse, HttpResponse
 from .models import User, FriendRequest
 from .helpers_users import *
+from .helpers_games import get_user_games
 from .constants_websocket_events import *
 from .constants_http_response import *
 from . import bridge_websocket as websocket
@@ -41,7 +42,7 @@ class FriendSingle(View):
     request.user.friends.remove(friend)
 
     websocket.send_user_notification(friend.id, REMOVE_FRIEND, {
-      "user_id": request.user.id })
+      "id": request.user.id })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
@@ -60,11 +61,11 @@ class FriendRequestCollection(View):
       return JsonResponse({ERROR_FIELD: "Invalid query parameter 'type'"}, status=400)
     return JsonResponse([r.serialize() for r in friend_requests], safe=False)
   
-  @check_body_syntax(['user_id'])
+  @check_body_syntax(['username'])
   def post(self, request): # TODO: Refactor this mess
     # Check if user exists
     try:
-      target = User.objects.get(pk=self.body.get('user_id'))
+      target = User.objects.get(username=self.body.get('username'))
     except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
@@ -90,7 +91,8 @@ class FriendRequestCollection(View):
     friend_request = FriendRequest(from_user=request.user, to_user=target)
     friend_request.save()
 
-    websocket.send_user_notification(target.id, SEND_FRIEND_REQUEST, friend_request.serialize())
+    websocket.send_user_notification(target.id, CREATE_FRIEND_REQUEST, 
+                                     friend_request.serialize())
     return JsonResponse(friend_request.serialize(), status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
@@ -98,7 +100,7 @@ class FriendRequestCollection(View):
 @method_decorator(check_object_exists(FriendRequest, 'request_id', 
                                       FRIEND_REQUEST_404), name='dispatch')
 class FriendRequestSingle(View): # TODO: Refactor this mess?
-  def post(self, request, request_id): # TODO: Refactor this mess
+  def patch(self, request, request_id): # TODO: Refactor this mess
     friend_request = FriendRequest.objects.get(pk=request_id)
 
     # Check if user is the recipient of the request
@@ -111,12 +113,12 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
 
     # Accept friend request
     request.user.friends.add(friend_request.from_user)
-    from_user_id = friend_request.from_user.id
-    friend_request.delete()
 
-    websocket.send_user_notification(from_user_id, ACCEPT_FRIEND_REQUEST, {
-      "user_id": request.user.id })
-    return HttpResponse(status=204)
+    from_user = friend_request.from_user
+    websocket.send_user_notification(from_user.id, ACCEPT_FRIEND_REQUEST, 
+                                     friend_request.serialize())
+    friend_request.delete()
+    return JsonResponse(from_user.serialize(private=True), status=201)
 
   def delete(self, request, request_id):
     friend_request = FriendRequest.objects.get(pk=request_id)
@@ -134,7 +136,7 @@ class FriendRequestSingle(View): # TODO: Refactor this mess?
 
     event = CANCEL_FRIEND_REQUEST if sender else DECLINE_FRIEND_REQUEST
     websocket.send_user_notification(websocket_target.id, event, {
-      "request_id": friend_request_id })
+      "id": friend_request_id })
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked
@@ -193,7 +195,7 @@ class BlockedSingle(View):
     request.user.blocked.remove(blocked)
     return HttpResponse(status=204)
 
-# Endpoint /users/me/channels
+# Endpoint: /users/me/channels
 @method_decorator(login_required, name='dispatch')
 class ChannelPersonal(View):
   def get(self, request):
