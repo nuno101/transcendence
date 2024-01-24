@@ -1,13 +1,11 @@
 class Backend {
-    static HOST = 'http://localhost'
-
     static async post(path, postdata) {
         const arg = {
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify(postdata)
         }
-        const respone = await fetch(this.HOST + path, arg)
+        const respone = await fetch(path, arg)
 
         if (!respone.ok) throw new Error(respone.statusText)
 
@@ -20,7 +18,7 @@ class Backend {
             credentials: 'include'
         }
 
-        const respone = await fetch(this.HOST + path, arg)
+        const respone = await fetch(path, arg)
 
         if (!respone.ok) throw new Error(respone.statusText)
 

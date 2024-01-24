@@ -25,31 +25,26 @@
 </template>
 
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import Backend from '../js/Backend'
 
-export default {
-  setup() {
-    const input = ref({username: '', password: ''})
+const input = ref({username: '', password: ''})
 
-    const LogIn = async () => {
-      try {
-        let data = await Backend.post('/api/login', input.value)
-        console.log(data)
-      } catch (err) {
-        console.log(err.message)
-      }
+const LogIn = async () => {
+  try {
+    let data = await Backend.post('/api/login', input.value)
+    console.log(data)
+  } catch (err) {
+    console.log(err.message)
+  }
 
-      try {
-        let data = await Backend.get('/api/tournaments')
-        console.log(data)
-      } catch (err) {
-        console.log(err.message)
-      }
-    }
-    return { input, LogIn }
-  },
+  try {
+    let data = await Backend.get('/api/tournaments')
+    console.log(data)
+  } catch (err) {
+    console.log(err.message)
+  }
 }
 </script>
 
