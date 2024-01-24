@@ -57,7 +57,7 @@ class Consumer(AsyncWebsocketConsumer):
             event = data['event']
             payload = data['payload']
         except:
-            await self.send_error('Invalid data')
+            await self.send_error('Invalid data format')
             return
         case = next((x for x in handlers.VALID_CLIENT_EVENTS if event in x), None)
         if case is None:
