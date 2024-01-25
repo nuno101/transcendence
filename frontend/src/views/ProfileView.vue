@@ -28,8 +28,8 @@ const winsRatio = (wins.value / total) * 100;
               </div>
               <div class="col-md-4"> 
                 <div class="me-4 p-1 text-white d-flex justify-content-between">
-                  <div>{{wins}}</div>
-                  <div class="text-end">Wins</div>
+                    <div>{{wins}}</div>
+                    <div class="text-end">Wins</div>
                 </div>
               </div>
             </div>
@@ -43,27 +43,25 @@ const winsRatio = (wins.value / total) * 100;
           <div class="text-center">
             <div class="name bg-primary text-center pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
           </div>
-          <!-- UNDER BALKEN -->
         <div class="row mt-4">
               <div class="gamestable col-md-5 rounded img-thumbnail">
                 <table class="table">
                   <tbody >
                     <tr v-for="row in 4" :key="row">
+                      <td class="bg-danger align-middle text-start">20.01.24</td>
                       <td class="bg-danger d-none d-lg-table-cell">
                         <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
                           alt="..."
-                          class="img-thumbnail rounded float-start"
+                          class="img-thumbnail rounded float-end"
                           style="width: 50px; height: 50px; object-fit: cover;">
                       </td>
                       <td class="bg-danger align-middle text-start">opponent</td>
-                      <td class="bg-danger align-middle text-start">20.01.24</td>
                       <td class="bg-danger align-middle text-end">5 : 1</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-2">
-                <!-- Place your bar chart here -->
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
@@ -74,14 +72,14 @@ const winsRatio = (wins.value / total) * 100;
                   <tbody>
                     <tr v-for="row in 8" :key="row">
                       <td class="bg-success align-middle">5 : 1</td>
-                      <td class="bg-success align-middle text-end">20.01.24</td>
                       <td class="bg-success align-middle text-end">opponent</td>
                       <td class="bg-success d-none d-lg-table-cell">
                         <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
                           alt="..."
-                          class="img-thumbnail rounded float-end"
+                          class="img-thumbnail rounded float-start"
                           style="width: 50px; height: 50px; object-fit: cover;">
                       </td>
+                      <td class="bg-success align-middle text-end">20.01.24</td>
                     </tr>
                   </tbody>
                 </table>
@@ -113,28 +111,26 @@ const winsRatio = (wins.value / total) * 100;
 .curved-bg {
   position: relative;
   background: #007bff;
-  /* clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%); */
 }
 
 .bar-chart {
   display: flex;
   justify-content: center;
   align-items: end;
-  background-color: #f0f0f0; /* Example background color for the chart area */
-  height: 270px; /*Adjust the height as needed */
-  /* margin: 10px 0; Add margin for spacing */
+  background-color: #f0f0f0;
+  height: 270px;
 }
 
 .bar {
-  width: 50px; /* Adjust the width of each bar */
-  border: 1px solid #fff; /* Add a border for better visibility */
+  width: 50px;
+  border: 1px solid #fff;
 }
 .defeat-bar {
-  background-color: red; /* Color for the Defeat bar */
+  background-color: red;
 }
 
 .wins-bar {
-  background-color: green; /* Color for the Wins bar */
+  background-color: green;
 }
 
 .gamestable {
@@ -144,25 +140,11 @@ const winsRatio = (wins.value / total) * 100;
 }
 
 @media (max-width: 991.98px) {
-  .gamestable {
-    height: 164px;
-  }
-  .bar-chart {
+  .gamestable, .bar-chart {
     height: 164px;
   }
 }
 
-/* .avatar-circle {
-  background-color: black;
-  position: absolute;
-  top: 0;
-  margin-top: 90px;
-  margin-left: 20px;
-  z-index: 5;
-} */
-
-.name {
-
-}
-
+/* 768 px change wins number and wins text
+put number more in the middle */
 </style>

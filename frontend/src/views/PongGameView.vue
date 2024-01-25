@@ -2,7 +2,6 @@
 import Map from '../components/game/GameMap.vue';
 import Paddle from '../components/game/GamePaddle.vue';
 import BallandScores from '../components/game/GameBallandScores.vue';
-// import Scores from '../components/game/OLDGameScores.vue';
 import { ref, reactive } from 'vue';
 
   const mapWidth = 624;
