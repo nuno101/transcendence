@@ -60,8 +60,6 @@ You need to login via the http [authentication endpoint](#authentication) before
   - [create_channel](#create_channel)
   - [update_channel](#update_channel)
   - [delete_channel](#delete_channel)
-  - [add_channel_member](#add_channel_member)
-  - [remove_channel_member](#remove_channel_member)
 - [Client to server Events](#client-to-server-events)
   - [ping](#ping)
 
@@ -178,32 +176,6 @@ PAYLOAD:
 ```json
 {
   "id": "channel-id"
-}
-```
-
-#### `add_channel_member`
-
-This event is sent when a channel member is added.
-
-PAYLOAD:
-  
-```json
-{
-  "channel_id": "channel-id",
-  "user": USER_PAYLOAD
-}
-```
-
-#### `remove_channel_member`
-
-This event is sent when a channel member is removed.
-
-PAYLOAD:
-  
-```json
-{
-  "channel_id": "channel-id",
-  "user_id": "user-id"
 }
 ```
 
