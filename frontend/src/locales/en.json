@@ -64,6 +64,7 @@
     "tournaments": "Tournaments",
     "titleoftournament": "Title of tournament",
     "descriptionoftournament": "Description of tournament",
+	"creatortournamentnickname": "Your tournament nickname (creator)",
     "cancel" : "cancel",
     "addtournament" : "add tournament",
     "addnewtournament" : "add new tournament",

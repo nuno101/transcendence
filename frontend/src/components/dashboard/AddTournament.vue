@@ -43,15 +43,19 @@ export default {
     <button type="button" class="btn btn-primary" @click="openModal = !openModal">{{useI18n().t('tournamentsview.addnewtournament')}}</button>
     <div v-show="openModal" class="modal-content">
         <form @submit.prevent="submitForm">
+
             <div class="form-group">
                 <label for="title">{{useI18n().t('tournamentsview.titleoftournament')}}</label>
                 <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="formData.title" required>
             </div>
+
             <div class="form-group">
                 <label for="description">{{useI18n().t('tournamentsview.descriptionoftournament')}}</label>
                 <input class="form-control" id="description" placeholder="Enter description" v-model="formData.description" required>
             </div>
+
             <br/>
+
             <div>
                 <button type="button" class="btn btn-danger" @click="openModal = false">{{useI18n().t('tournamentsview.cancel')}}</button>
                 <button type="submit" class="btn btn-success" @click="submitForm">{{useI18n().t('tournamentsview.addtournament')}}</button>
