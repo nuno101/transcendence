@@ -46,7 +46,7 @@ class ChannelMemberCollection(View):
     channel = Channel.objects.get(id=channel_id)
     return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
   
-  @check_body_syntax(['user_id'])
+  @check_body_syntax(['user_id']) # TODO: Maybe make so that you can add multiple users at once?
   def patch(self, request, channel_id): # TODO: Refactor this mess? Move to helpers_channels.py?
     channel = Channel.objects.get(id=channel_id)
 

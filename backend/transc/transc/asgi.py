@@ -23,7 +23,9 @@ django_asgi_app = get_asgi_application()
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
-        "websocket": AllowedHostsOriginValidator(
+        "websocket": 
+            # AllowedHostsOriginValidator # FIXME: Uncomment this line when done, needed for postman to connect
+            (
             AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
         ),
     }
