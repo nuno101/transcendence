@@ -1,6 +1,13 @@
 <script setup>
-// import HomeSelection from '../components/dashboard/DashboardChoice.vue';
 import { useI18n } from 'vue-i18n';
+import { ref} from 'vue';
+
+const defeats = ref(123);
+const wins = ref(222);
+
+const total = defeats.value + wins.value;
+const defeatsRatio = (defeats.value / total) * 100;
+const winsRatio = (wins.value / total) * 100;
 </script>
 
 <template>
@@ -8,30 +15,37 @@ import { useI18n } from 'vue-i18n';
     <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
     <div class="cont">
       <div class="box">
-        <div class="con mt-4">
-          <div class="curved-bg bg-primary p-1">
+        <div class="con mt-5">
+          <div class="curved-bg bg-primary p-1 rounded-pill">
             <div class="row">
               <div class="col-md-4">
-                <div class="ms-4 bg-danger p-1 text-white d-flex justify-content-between">
-                  <div>Defeat</div>
-                  <div class="text-end">123</div>
+                <div class="ms-4 p-1 text-white d-flex justify-content-between">
+                  <div>Defeats</div>
+                  <div class="text-end">{{defeats}}</div>
                 </div>
               </div>
-              <div class="col-md-4 text-center">
-                <!-- Place your avatar circle here -->
-                <div class="avatar-circle">Avatar</div>
+              <div class="col-md-4 position-relative">
               </div>
               <div class="col-md-4"> 
-                <div class="me-4 bg-success p-1 text-white d-flex justify-content-between">
-                  <div>222</div>
+                <div class="me-4 p-1 text-white d-flex justify-content-between">
+                  <div>{{wins}}</div>
                   <div class="text-end">Wins</div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="avatar-circle position-absolute start-50 translate-middle" style="top: 160px;">
+            <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+              alt="..."
+              class="img-thumbnail rounded float-start"
+              style="width: 100px; height: 100px; object-fit: cover;">
+          </div>
+          <div class="text-center">
+            <div class="name bg-primary text-center pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
+          </div>
           <!-- UNDER BALKEN -->
         <div class="row mt-4">
-              <div class="gamestable col-md-5">
+              <div class="gamestable col-md-5 rounded img-thumbnail">
                 <table class="table">
                   <tbody >
                     <tr v-for="row in 4" :key="row">
@@ -41,31 +55,31 @@ import { useI18n } from 'vue-i18n';
                           class="img-thumbnail rounded float-start"
                           style="width: 50px; height: 50px; object-fit: cover;">
                       </td>
-                      <td class="bg-danger align-middle">opponent</td>
-                      <td class="bg-danger align-middle">20.01.24</td>
-                      <td class="bg-danger align-middle">5 : 1</td>
+                      <td class="bg-danger align-middle text-start">opponent</td>
+                      <td class="bg-danger align-middle text-start">20.01.24</td>
+                      <td class="bg-danger align-middle text-end">5 : 1</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-2">
                 <!-- Place your bar chart here -->
-                <div class="bar-chart">
-                  <div class="bar defeat-bar" style="height: 50%;"></div>
-                  <div class="bar wins-bar" style="height: 75%;"></div>
+                <div class="bar-chart rounded">
+                  <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
+                  <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-              <div class="gamestable col-md-5 ">
+              <div class="gamestable col-md-5 rounded img-thumbnail">
                 <table class="table ">
                   <tbody>
                     <tr v-for="row in 8" :key="row">
                       <td class="bg-success align-middle">5 : 1</td>
-                      <td class="bg-success align-middle">20.01.24</td>
-                      <td class="bg-success align-middle">opponent</td>
+                      <td class="bg-success align-middle text-end">20.01.24</td>
+                      <td class="bg-success align-middle text-end">opponent</td>
                       <td class="bg-success d-none d-lg-table-cell">
                         <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
                           alt="..."
-                          class="img-thumbnail rounded float-start"
+                          class="img-thumbnail rounded float-end"
                           style="width: 50px; height: 50px; object-fit: cover;">
                       </td>
                     </tr>
@@ -97,8 +111,9 @@ import { useI18n } from 'vue-i18n';
 }
 
 .curved-bg {
+  position: relative;
   background: #007bff;
-  clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+  /* clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%); */
 }
 
 .bar-chart {
@@ -136,4 +151,18 @@ import { useI18n } from 'vue-i18n';
     height: 164px;
   }
 }
+
+/* .avatar-circle {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  margin-top: 90px;
+  margin-left: 20px;
+  z-index: 5;
+} */
+
+.name {
+
+}
+
 </style>
