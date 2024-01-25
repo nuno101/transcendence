@@ -215,6 +215,7 @@ Response event: [pong](#pong)
 {
   "id": "user-id",
   "username": "user-username",
+  "nickname": "user-nickname",
   "created_at": "user-creation-date",
   "updated_at": "user-last-update-date"
   "status": "online|offline" or null
