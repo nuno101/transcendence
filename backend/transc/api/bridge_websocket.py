@@ -11,20 +11,20 @@ def message_group(group, type, data):
     "data": data
   })
 
-def send_user_notification(user_id, event, payload):
-  message_group(f"user_{user_id}", "send_notification", {
+def send_user_event(user_id, event, payload):
+  message_group(f"user_{user_id}", "send_event", {
     "event": event,
     "payload": payload
   })
 
-def send_user_status_notification(user_id, event, payload):
-  message_group(f"user_status_{user_id}", "send_notification", {
+def send_user_status_event(user_id, event, payload):
+  message_group(f"user_status_{user_id}", "send_event", {
     "event": event,
     "payload": payload
   })
 
-def send_channel_notification(channel_id, event, payload):
-  message_group(f"channel_{channel_id}", "send_notification", {
+def send_channel_event(channel_id, event, payload):
+  message_group(f"channel_{channel_id}", "send_event", {
     "event": event,
     "payload": payload
   })

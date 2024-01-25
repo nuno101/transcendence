@@ -47,7 +47,7 @@ class ChannelMemberCollection(View):
     return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
   
   @check_body_syntax(['user_id']) # TODO: Maybe make so that you can add multiple users at once?
-  def patch(self, request, channel_id): # TODO: Refactor this mess? Move to helpers_channels.py?
+  def patch(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
 
     # Check if user exists
@@ -68,12 +68,11 @@ class ChannelMemberCollection(View):
     # Add user to channel
     channel.members.add(user)
 
-    websocket.send_user_notification(user.id, CREATE_CHANNEL, channel.serialize())
-    websocket.send_channel_notification(channel.id, ADD_CHANNEL_MEMBER, {
-      "channel_id": channel.id,
-      "user": user.serialize() })
+    websocket.send_user_event(user.id, CREATE_CHANNEL, channel.serialize())
+    websocket.send_channel_event(channel.id, UPDATE_CHANNEL, channel.serialize())
     websocket.add_consumer_to_group(user.id, f'channel_{channel.id}')
-    return JsonResponse([m.serialize() for m in channel.members.all()], safe=False) # TODO: Does this response structure make sense?
+    # TODO: Implement notification system here
+    return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
 
 # Endpoint: /channels/<int:channel_id>/members/<int:user_id>
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
@@ -89,11 +88,9 @@ class ChannelMemberSingle(View):
     channel.members.remove(user)
 
     websocket.remove_consumer_from_group(user.id, f'channel_{channel.id}')
-    websocket.send_user_notification(user.id, DELETE_CHANNEL, {
-      "channel_id": channel.id })
-    websocket.send_channel_notification(channel.id, REMOVE_CHANNEL_MEMBER, { # TODO: Does this response structure make sense?
-      "channel_id": channel.id,
-      "user_id": user.id })
+    websocket.send_user_event(user.id, DELETE_CHANNEL, {
+      "id": channel.id })
+    websocket.send_channel_event(channel.id, UPDATE_CHANNEL, channel.serialize())
     return HttpResponse(status=204)
 
 # Endpoint: /channels/<int:channel_id>/messages

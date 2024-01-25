@@ -24,7 +24,7 @@ class UserCollection(View):
 			if 'duplicate key' in str(e):
 				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
 			else:
-				return JsonResponse({ERROR_FIELD: "Undefined error"}, status=400)
+				return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 		return JsonResponse(user.serialize(), status=201)
 
 # Endpoint: /users/<int:user_id>

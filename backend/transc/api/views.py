@@ -5,13 +5,12 @@ from django.utils.decorators import method_decorator
 from . import bridge_websocket as websocket
 from .decorators import *
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-
-from django.shortcuts import render # TODO: Remove later
+from django.shortcuts import render
 
 def index(request):
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
-def websocket_custom(request): # TODO: DEBUG: Remove later
+def websocket_custom(request): # FIXME: DEBUG: Remove later
 	return render(request, 'api/custom_ws.html')
 
 # Endpoint: /login

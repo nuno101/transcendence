@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from . import bridge_websocket as websocket
 # import uuid # TODO: Use UUIDs?
 
 class User(AbstractUser):

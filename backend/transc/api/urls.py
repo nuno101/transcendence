@@ -8,12 +8,11 @@ urlpatterns = [
   path("login", views.Login.as_view()),
   path("logout", views.Logout.as_view()),
   
-	# TODO: Test new http to websocket bridge structure and see if it can be simplified
-  path("test/websocket", views.websocket_custom, name="websocket"), # TODO: DEBUG: Remove later
+  path("test/websocket", views.websocket_custom, name="websocket"), # FIXME: DEBUG: Remove later
 
 	# Personal paths
   path("users/me", views_personal.UserPersonal.as_view()),
-  
+
   path("users/me/friends", views_personal.FriendCollection.as_view()),
   path("users/me/friends/<int:user_id>", views_personal.FriendSingle.as_view()),
   
@@ -31,9 +30,9 @@ urlpatterns = [
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
 	
-	path("users/<int:user_id>/stats", views_users.StatsUser.as_view()), # TODO: Implement auto creation of UserStats object
+	path("users/<int:user_id>/stats", views_users.StatsUser.as_view()),
 
-  path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()), # TODO: Test
+  path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
 
 	# Tournament paths
 	path('tournaments', views_tournaments.TournamentCollection.as_view()),
