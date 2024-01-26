@@ -16,20 +16,19 @@ const winsRatio = (wins.value / total) * 100;
     <div class="cont">
       <div class="box">
         <div class="con mt-5">
-          <div class="curved-bg bg-primary p-1 rounded-pill">
             <div class="row">
-              <div class="col-md-4">
-                <div class="ms-4 p-1 text-white d-flex justify-content-between">
-                  <div>Defeats</div>
-                  <div class="text-end">{{defeats}}</div>
+              <div class="col-6">
+                <div class="bg-danger rounded-pill">
+                  <div class="ms-4 p-2 ps-0 text-white d-flex justify-content-between">
+                    <div class="p-0">Defeats</div>
+                    <div class="text-end pe-5">{{defeats}}</div>
+                  </div>
                 </div>
               </div>
-              <!-- placeholder for avatar -->
-              <div class="col-md-4 position-relative"></div>
-              <div class="col-md-4"> 
-                <div class="me-4 p-1 text-white d-flex justify-content-between">
-                  <!-- Content for larger screens -->
-                  <div class="">{{ wins }}</div>
+              <div class="col-6"> 
+                <div class="bg-success rounded-pill">
+                <div class="me-4 p-2 pe-0 text-white d-flex justify-content-between">
+                  <div class="ps-5">{{ wins }}</div>
                   <div class="text-end">Wins</div>
                 </div>
               </div>
@@ -42,7 +41,7 @@ const winsRatio = (wins.value / total) * 100;
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-md-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
           </div>
         <div class="row mt-4">
               <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
