@@ -22,7 +22,3 @@ DELETE_MESSAGE = "delete_message"
 CREATE_CHANNEL = "create_channel"
 UPDATE_CHANNEL = "update_channel"
 DELETE_CHANNEL = "delete_channel"
-
-# Member events
-ADD_CHANNEL_MEMBER = "add_channel_member"
-REMOVE_CHANNEL_MEMBER = "remove_channel_member"

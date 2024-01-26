@@ -10,8 +10,5 @@ backend/transc/transc/__pycache__/*
 tests/results/*
 tests/.build
 
-# TODO: Is it better to ingore this?
-backend/transc/api/migrations
-
 # platform specific make config for docker (optional)
 docker.mk

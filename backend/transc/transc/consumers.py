@@ -5,14 +5,6 @@ from asgiref.sync import sync_to_async
 from . import handler_consumers as handlers
 from api.helpers_users import update_user_status
 
-# cCONF: Constants for group events
-# Format "event": "handler"
-VALID_GROUP_EVENTS = [
-  {"send_notification": "send_notification"},
-  {"add_group": "add_group"},
-  {"remove_group": "remove_group"},
-]
-
 class Consumer(AsyncWebsocketConsumer):
     # Connection methods
 
@@ -66,10 +58,10 @@ class Consumer(AsyncWebsocketConsumer):
             await getattr(handlers, case[event])(self, payload)
 
     # Group event handling methods
-    async def logout(self, event):
+    async def close_connection(self, event):
         await self.close()
 
-    async def send_notification(self, event):
+    async def send_event(self, event):
         data = self.get_field(event, 'data')
         if data is not None:
             await self.send(text_data=json.dumps(data))

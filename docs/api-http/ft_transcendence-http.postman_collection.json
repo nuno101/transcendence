@@ -739,7 +739,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"user_id\": {{user_id}}\r\n}",
+											"raw": "{\r\n    \"username\": \"root\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1026,7 +1026,7 @@
 			]
 		},
 		{
-			"name": "Create session cookie (login)",
+			"name": "Login",
 			"event": [
 				{
 					"listen": "test",
