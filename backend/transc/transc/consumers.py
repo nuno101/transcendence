@@ -58,7 +58,7 @@ class Consumer(AsyncWebsocketConsumer):
             await getattr(handlers, case[event])(self, payload)
 
     # Group event handling methods
-    async def logout(self, event):
+    async def close_connection(self, event):
         await self.close()
 
     async def send_event(self, event):

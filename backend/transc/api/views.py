@@ -30,6 +30,6 @@ class Login(View):
 @method_decorator(login_required, name='dispatch')
 class Logout(View):
 	def post(self, request):
-		websocket.message_group(f'user_{request.user.id}', 'logout', {})
+		websocket.message_group(f'user_{request.user.id}', 'close_connection', {})
 		logout(request)
 		return JsonResponse({'response': "Successfully logged out"})
