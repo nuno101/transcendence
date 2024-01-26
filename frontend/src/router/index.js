@@ -57,11 +57,6 @@ const router = createRouter({
       name: 'tournaments',
       component: () => import('../views/TournamentsView.vue')
     },
-	{
-		path: '/singletournament',
-		name: 'singletournament',
-		component: () => import('../views/SingleTournamentsView.vue')
-	},  
     // GAME
     {
       path: '/game',

@@ -55,19 +55,21 @@ onMounted(() => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="tournament in tournaments" :key="tournament.id">
-                <td>{{tournament.title}}</td>
-                <td>{{tournament.description}}</td>
-                <td v-if="tournament.status === 'registration_open'">
-                  <button type="button" class="btn btn-outline-success btn-sm">{{useI18n().t('tournamentsview.register')}}</button>
-                </td>
-                <td v-else-if="tournament.status === 'registration_closed'">
-                    {{useI18n().t('tournamentsview.registrationclosed')}}
-                </td>
-                <td v-else>
-                    {{tournament.status}}
-                </td>
-            </tr>
+            <router-link v-for="tournament in tournaments" :key="tournament.id" :to="'/tournament/' + tournament.id">
+				<tr>
+                	<td>{{tournament.title}}</td>
+                	<td>{{tournament.description}}</td>
+                	<td v-if="tournament.status === 'registration_open'">
+                  		<button type="button" class="btn btn-outline-success btn-sm">{{useI18n().t('tournamentsview.register')}}</button>
+                	</td>
+                	<td v-else-if="tournament.status === 'registration_closed'">
+                    	{{useI18n().t('tournamentsview.registrationclosed')}}
+                	</td>
+                	<td v-else>
+                    	{{tournament.status}}
+                	</td>
+            	</tr>
+			</router-link>
         </tbody>
     </table>
   </div>
