@@ -178,6 +178,4 @@ const winsRatio = (wins.value / total) * 100;
     height: 280px;
   }
 }
-/* 768 px change wins number and wins text
-put number more in the middle */
 </style>
