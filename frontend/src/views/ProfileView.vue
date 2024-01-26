@@ -132,6 +132,7 @@ const winsRatio = (wins.value / total) * 100;
   margin: 0;
   width: 80%;
   padding: 10px 20px;
+  padding-bottom: 20px;
   background-color: white;
 }
 
