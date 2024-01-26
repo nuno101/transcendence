@@ -24,12 +24,13 @@ const winsRatio = (wins.value / total) * 100;
                   <div class="text-end">{{defeats}}</div>
                 </div>
               </div>
-              <div class="col-md-4 position-relative">
-              </div>
+              <!-- placeholder for avatar -->
+              <div class="col-md-4 position-relative"></div>
               <div class="col-md-4"> 
                 <div class="me-4 p-1 text-white d-flex justify-content-between">
-                    <div>{{wins}}</div>
-                    <div class="text-end">Wins</div>
+                  <!-- Content for larger screens -->
+                  <div class="">{{ wins }}</div>
+                  <div class="text-end">Wins</div>
                 </div>
               </div>
             </div>
@@ -41,10 +42,10 @@ const winsRatio = (wins.value / total) * 100;
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary text-center pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
+            <div class="name bg-primary pe-4 ps-4 pt-md-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
           </div>
         <div class="row mt-4">
-              <div class="gamestable col-md-5 rounded img-thumbnail">
+              <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
                 <table class="table">
                   <tbody >
                     <tr v-for="row in 4" :key="row">
@@ -61,14 +62,14 @@ const winsRatio = (wins.value / total) * 100;
                   </tbody>
                 </table>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-              <div class="gamestable col-md-5 rounded img-thumbnail">
-                <table class="table ">
+              <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
+                <table class="table">
                   <tbody>
                     <tr v-for="row in 8" :key="row">
                       <td class="bg-success align-middle">5 : 1</td>
@@ -80,6 +81,33 @@ const winsRatio = (wins.value / total) * 100;
                           style="width: 50px; height: 50px; object-fit: cover;">
                       </td>
                       <td class="bg-success align-middle text-end">20.01.24</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
+                <table class="table">
+                  <tbody >
+                    <tr v-for="row in 10" :key="row">
+                      <!-- IF DEFEAT IN DEFEAT COLOR IF WIN IN WIN COLOR -->
+                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">20.01.24</td>
+                        <td v-if="row % 2 === 0" class="bg-danger">
+                          <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+                            alt="..."
+                            class="img-thumbnail rounded float-end"
+                            style="width: 50px; height: 50px; object-fit: cover;">
+                        </td>
+                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">opponent</td>
+                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-end">5 : 1</td>
+                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-start">20.01.24</td>
+                        <td v-if="row % 2 !== 0" class="bg-success">
+                          <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+                            alt="..."
+                            class="img-thumbnail rounded float-end"
+                            style="width: 50px; height: 50px; object-fit: cover;">
+                        </td>
+                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-start">opponent</td>
+                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-end">1 : 5</td>
                     </tr>
                   </tbody>
                 </table>
@@ -145,6 +173,11 @@ const winsRatio = (wins.value / total) * 100;
   }
 }
 
+@media (max-width: 768px) {
+  .gamestable, .bar-chart {
+    height: 280px;
+  }
+}
 /* 768 px change wins number and wins text
 put number more in the middle */
 </style>
