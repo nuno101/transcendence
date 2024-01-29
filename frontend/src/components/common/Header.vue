@@ -18,7 +18,7 @@
           
           <div v-if="logged">
             <button type="button" class="btn btn-outline-light me-2">
-              <router-link to="profile" class="nav-link px-2 text-white">Profile</router-link>
+              <router-link to="/profile" class="nav-link px-2 text-white">Profile</router-link>
             </button>
             <button @click="LogOut" type="button" class="btn btn-secondary">Logout</button>
           </div>
