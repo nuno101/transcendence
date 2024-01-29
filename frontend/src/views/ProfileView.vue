@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref} from 'vue';
+import { ref, onMounted} from 'vue';
 
 const defeats = ref(123);
 const wins = ref(222);
@@ -8,11 +8,14 @@ const wins = ref(222);
 const total = defeats.value + wins.value;
 const defeatsRatio = (defeats.value / total) * 100;
 const winsRatio = (wins.value / total) * 100;
+
+onMounted(() => {
+})
 </script>
 
 <template>
   <div class="home">
-    <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
+    <router-link to="/dashboard" class="dash">{{useI18n().t('gobacktodashboard')}}</router-link>
     <div class="cont">
       <div class="box">
         <div class="con mt-5">
@@ -34,7 +37,7 @@ const winsRatio = (wins.value / total) * 100;
               </div>
             </div>
           </div>
-          <div class="avatar-circle position-absolute start-50 translate-middle" style="top: 160px;">
+          <div class="avatar-circle position-absolute start-50 translate-middle" style="top: 180px;">
             <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
               alt="..."
               class="img-thumbnail rounded float-start"
@@ -119,12 +122,25 @@ const winsRatio = (wins.value / total) * 100;
 </template>
 
 <style>
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+}
+
+.dash {
+  align-self: flex-start; /* Align link to the start (top) of the flex container */
+  margin-bottom: 20px; /* Add margin to separate the link from the content */
+}
+
 .cont {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   margin-top: 50px;
   height: 100vh;
+  width: 100%;
 }
 
 .box {

@@ -13,7 +13,7 @@ const winsRatio = (wins.value / total) * 100;
 
 <template>
   <div class="home">
-    <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
+    <router-link to="/dashboard" class="dash">{{useI18n().t('gobacktodashboard')}}</router-link>
     <div class="cont">
       <div class="box">
         <div class="con mt-5">
@@ -35,14 +35,14 @@ const winsRatio = (wins.value / total) * 100;
               </div>
             </div>
           </div>
-          <div class="avatar-circle position-absolute start-50 translate-middle" style="top: 160px;">
+          <div class="avatar-circle position-absolute start-50 translate-middle" style="top: 180px;">
             <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
               alt="..."
               class="img-thumbnail rounded float-start"
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">FRIENDSNAME</div>
           </div>
         <div class="row mt-4">
               <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
@@ -120,12 +120,24 @@ const winsRatio = (wins.value / total) * 100;
 </template>
 
 <style>
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+}
+
+.dash {
+  align-self: flex-start; /* Align link to the start (top) of the flex container */
+  margin-bottom: 20px; /* Add margin to separate the link from the content */
+}
+
 .cont {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   margin-top: 50px;
   height: 100vh;
+  width: 100%;
 }
 
 .box {
