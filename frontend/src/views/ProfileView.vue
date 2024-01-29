@@ -79,7 +79,7 @@ onMounted(() => {
         <div class="row mt-4">
               <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
                 <table class="table">
-                  <tbody >
+                  <tbody v-if="defeats > 0">
                     <tr v-for="row in defeats" :key="row">
                       <td class="bg-danger align-middle text-start">20.01.24</td>
                       <td class="bg-danger d-none d-lg-table-cell">
@@ -92,6 +92,7 @@ onMounted(() => {
                       <td class="bg-danger align-middle text-end">5 : 1</td>
                     </tr>
                   </tbody>
+                  <tbody v-else class="text-center">NO DEFEATS</tbody>
                 </table>
               </div>
               <div class="col-md-2 d-none d-md-block">
@@ -102,7 +103,7 @@ onMounted(() => {
               </div>
               <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
                 <table class="table">
-                  <tbody>
+                  <tbody v-if="wins > 0">
                     <tr v-for="row in wins" :key="row">
                       <td class="bg-success align-middle">5 : 1</td>
                       <td class="bg-success align-middle text-end">opponent</td>
@@ -115,11 +116,12 @@ onMounted(() => {
                       <td class="bg-success align-middle text-end">20.01.24</td>
                     </tr>
                   </tbody>
+                  <tbody v-else class="text-center">NO WINS</tbody>
                 </table>
               </div>
               <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
                 <table class="table">
-                  <tbody >
+                  <tbody v-if="defeats > 0 || wins > 0">
                     <tr v-for="row in defeats + wins" :key="row">
                       <!-- IF DEFEAT IN DEFEAT COLOR IF WIN IN WIN COLOR -->
                         <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">20.01.24</td>
@@ -142,6 +144,7 @@ onMounted(() => {
                         <td v-if="row % 2 !== 0" class="bg-success align-middle text-end">1 : 5</td>
                     </tr>
                   </tbody>
+                  <tbody v-else class="text-center">NO GAMES</tbody>
                 </table>
               </div>
             </div>
