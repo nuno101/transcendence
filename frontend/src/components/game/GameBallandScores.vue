@@ -1,6 +1,19 @@
 <script>
 import { ref, onMounted, watch, toRefs } from 'vue';
 
+// POST /games
+// {
+//     "id": 1,
+//     "tournament_id": 1,
+//     "player1_id": 1,
+//     "player2_id": 2,
+//     "status": "created",
+//     "player1_score": 0,
+//     "player2_score": 0,
+//     "created_at": "2024-01-29 22:37:03.154629+00:00",
+//     "updated_at": "2024-01-29 22:37:03.154644+00:00"
+// }
+
 export default {
   props: {
     canvas : Object,
