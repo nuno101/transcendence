@@ -1,5 +1,5 @@
 <template>
-    <div ref="modal" class="modal fade" id="loginModalToggle" aria-hidden="true" aria-labelledby="loginModalToggleLabel" tabindex="-1">
+    <div ref="loginModal" class="modal fade" id="loginModalToggle" aria-hidden="true" aria-labelledby="loginModalToggleLabel" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
@@ -39,13 +39,14 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
 import Backend from '../../js/Backend'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
 const logged = defineModel('logged')
-
-const input = { username: '', password: '' }
-let remember = true
+const input = ref({ username: '', password: '' })
+const loginModal = ref(null)
+let   remember = true
 
 const AlreadyLoggedin = async () => {
   try {
@@ -53,15 +54,19 @@ const AlreadyLoggedin = async () => {
     logged.value = true
   } catch {}
 }
-
 AlreadyLoggedin()
+
+onMounted(() => {
+  loginModal.value.addEventListener('hidden.bs.modal', () => {
+    Object.keys(input.value).forEach(k => input.value[k] = '')
+  })
+})
 
 const LogIn = async () => {
   try {
-    await Backend.post('/api/login?remember=' + remember, input, false)
-    Object.keys(input).forEach(k => input[k] = '')
-    var loginModal = bootstrap.Modal.getInstance("#loginModalToggle")
-    loginModal.hide()
+    await Backend.post('/api/login?remember=' + remember, input.value)
+    let bsLoginModal = bootstrap.Modal.getInstance("#loginModalToggle")
+    bsLoginModal.hide()
     logged.value = true
   } catch (err) {
     console.log(err.message)

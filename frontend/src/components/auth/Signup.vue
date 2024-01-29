@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="signupModalToggle" aria-hidden="true" aria-labelledby="signupModalToggleLabel" tabindex="-1">
+  <div ref="signupModal" class="modal fade" id="signupModalToggle" aria-hidden="true" aria-labelledby="signupModalToggleLabel" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
@@ -33,17 +33,24 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from "vue";
 import Backend from "../../js/Backend";
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
-const input = { username: '', password: '' }
+const input = ref({ username: '', password: '' })
+const signupModal = ref(null)
+
+onMounted(() => {
+    signupModal.value.addEventListener('hidden.bs.modal', () => {
+        Object.keys(input.value).forEach(k => input.value[k] = '')
+    })
+})
 
 const SignUp = async () => {
     try {
-        await Backend.post('/api/users', input)
-        Object.keys(input).forEach(k => input[k] = '')
-        var LoginModel = document.getElementById('loginModalToggle')
-        var bsLoginModal = new bootstrap.Modal(LoginModel)
+        await Backend.post('/api/users', input.value)
+        let LoginModel = document.getElementById('loginModalToggle')
+        let bsLoginModal = new bootstrap.Modal(LoginModel)
         bootstrap.Modal.getInstance('#signupModalToggle').hide()
         bsLoginModal.toggle()
     } catch (err) {
