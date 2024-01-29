@@ -1,5 +1,4 @@
 <script setup>
-// import HomeSelection from '../components/dashboard/DashboardChoice.vue';
 import { useI18n } from 'vue-i18n';
 import { ref} from 'vue';
 
@@ -12,8 +11,6 @@ const winsRatio = (wins.value / total) * 100;
 </script>
 
 <template>
-  <div class="home">
-    <router-link to="/dashboard" class="dash">{{useI18n().t('gobacktodashboard')}}</router-link>
     <div class="cont">
       <div class="box">
         <div class="con mt-5">
@@ -35,7 +32,7 @@ const winsRatio = (wins.value / total) * 100;
               </div>
             </div>
           </div>
-          <div class="avatar-circle position-absolute start-50 translate-middle" style="top: 180px;">
+          <div class="avatar-circle position-absolute start-50 translate-middle">
             <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
               alt="..."
               class="img-thumbnail rounded float-start"
@@ -116,21 +113,9 @@ const winsRatio = (wins.value / total) * 100;
           </div>
         </div>
       </div>
-    </div>
 </template>
 
-<style>
-.home {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center content horizontally */
-}
-
-.dash {
-  align-self: flex-start; /* Align link to the start (top) of the flex container */
-  margin-bottom: 20px; /* Add margin to separate the link from the content */
-}
-
+<style scoped>
 .cont {
   display: flex;
   justify-content: center;
@@ -180,15 +165,25 @@ const winsRatio = (wins.value / total) * 100;
   padding: 0;
 }
 
+.avatar-circle {
+  top: 210px;
+}
+
 @media (max-width: 991.98px) {
   .gamestable, .bar-chart {
     height: 164px;
+  }
+  .avatar-circle {
+    top: 245px;
   }
 }
 
 @media (max-width: 768px) {
   .gamestable, .bar-chart {
     height: 280px;
+  }
+  .avatar-circle {
+    top: 255px;
   }
 }
 /* 768 px change wins number and wins text
