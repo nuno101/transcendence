@@ -24,7 +24,7 @@
                     </label>
                 </div>
                 <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Log In</button>
-                <small class="text-body-secondary">New? <a href="#aeihf" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Sign up</a></small>
+                <small class="text-body-secondary">New? <a href="#signupModalToggle" data-bs-target="#signupModalToggle" data-bs-toggle="modal">Sign up</a></small>
                 <!-- FIXME: <hr class="my-4">
                 <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
                 <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
@@ -42,7 +42,7 @@
 import Backend from '../../js/Backend'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
-const loginstate = defineModel('loginstate')
+const logged = defineModel('logged')
 
 const input = { username: '', password: '' }
 let remember = true
@@ -50,20 +50,19 @@ let remember = true
 const AlreadyLoggedin = async () => {
   try {
     await Backend.get('/api/users/me')
-    loginstate.value = true
-    console.log('updated loginstate true')
-  } catch (err) {}
+    logged.value = true
+  } catch {}
 }
 
 AlreadyLoggedin()
 
-// TODO: clear form if successful
 const LogIn = async () => {
   try {
     await Backend.post('/api/login?remember=' + remember, input, false)
-    var myModal = bootstrap.Modal.getInstance("#loginModalToggle")
-    myModal.hide()
-    loginstate.value = true
+    Object.keys(input).forEach(k => input[k] = '')
+    var loginModal = bootstrap.Modal.getInstance("#loginModalToggle")
+    loginModal.hide()
+    logged.value = true
   } catch (err) {
     console.log(err.message)
     // TODO: add popup

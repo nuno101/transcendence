@@ -15,19 +15,19 @@
             <li><a href="#" class="nav-link px-2 text-white">About</a></li>
           </ul>
 
-          <div v-if="loginstate">
+          <div v-if="logged">
             <button type="button" class="btn btn-outline-light me-2"><router-link to="/profile">Profile</router-link></button>
             <button @click="LogOut" type="button" class="btn btn-secondary">Logout</button>
           </div>
 
           <div v-else class="text-end">
             <button type="button" class="btn btn-outline-light me-2" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Login</button>
-            <button type="button" class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Signup</button>
+            <button type="button" class="btn btn-secondary" data-bs-target="#signupModalToggle" data-bs-toggle="modal">Signup</button>
           </div>
         </div>
       </div>
     </header>
-    <Login v-model:loginstate="loginstate" />
+    <Login v-model:logged="logged" />
     <Signup />
   </section>
 </template>
@@ -39,12 +39,12 @@ import router from '../../router'
 import Login from '../auth/Login.vue'
 import Signup from '../auth/Signup.vue'
 
-let loginstate = ref(false)
+let logged = ref(false)
 
 const LogOut = async () => {
   try {
     await Backend.post('/api/logout')
-    loginstate.value = false
+    logged.value = false
     router.push('/')
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
