@@ -1,15 +1,47 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
+import Backend from '../js/Backend';
 import { ref, onMounted} from 'vue';
 
-const defeats = ref(123);
-const wins = ref(222);
+const username = ref(null);
+const defeats = ref(null);
+const wins = ref(null);
+const total = ref(null);
+const defeatsRatio = ref(null);
+const winsRatio = ref(null);
 
-const total = defeats.value + wins.value;
-const defeatsRatio = (defeats.value / total) * 100;
-const winsRatio = (wins.value / total) * 100;
+// localhost:8000/users/me --> get id
+// localhost:8000/users/1/stats --> get wins & losses
+
+const data = ref({});
+
+const fetchData = async () => {
+  try {
+    const users = await Backend.get('/api/users/me');
+    username.value = users.username;
+    console.log(users.id);
+    data.value = await Backend.get(`/api/users/${users.id}/stats`);
+    initValues(data.value);
+    console.log(data.value);
+    return data.value;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const initValues = (data) => {
+  defeats.value = data.losses;
+  wins.value = data.wins;
+  total.value = data.losses + data.wins;
+  defeatsRatio.value = (data.losses / total.value) * 100;
+  winsRatio.value = (data.wins / total.value) * 100;
+  console.log(data);
+  console.log(data.losses);
+  console.log(data.wins);
+};
 
 onMounted(() => {
+  fetchData();
 })
 </script>
 
@@ -22,7 +54,7 @@ onMounted(() => {
                 <div class="bg-danger rounded-pill">
                   <div class="ms-4 p-2 ps-0 text-white d-flex justify-content-between">
                     <div class="p-0">Defeats</div>
-                    <div class="text-end pe-5">{{defeats}}</div>
+                    <div class="text-end pe-5">{{ defeats }}</div>
                   </div>
                 </div>
               </div>
@@ -42,13 +74,13 @@ onMounted(() => {
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">NAMENAME</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom text-uppercase">{{ username }}</div>
           </div>
         <div class="row mt-4">
               <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
                 <table class="table">
-                  <tbody >
-                    <tr v-for="row in 4" :key="row">
+                  <tbody v-if="defeats > 0">
+                    <tr v-for="row in defeats" :key="row">
                       <td class="bg-danger align-middle text-start">20.01.24</td>
                       <td class="bg-danger d-none d-lg-table-cell">
                         <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
@@ -60,6 +92,7 @@ onMounted(() => {
                       <td class="bg-danger align-middle text-end">5 : 1</td>
                     </tr>
                   </tbody>
+                  <tbody v-else class="text-center">NO DEFEATS</tbody>
                 </table>
               </div>
               <div class="col-md-2 d-none d-md-block">
@@ -70,8 +103,8 @@ onMounted(() => {
               </div>
               <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
                 <table class="table">
-                  <tbody>
-                    <tr v-for="row in 8" :key="row">
+                  <tbody v-if="wins > 0">
+                    <tr v-for="row in wins" :key="row">
                       <td class="bg-success align-middle">5 : 1</td>
                       <td class="bg-success align-middle text-end">opponent</td>
                       <td class="bg-success d-none d-lg-table-cell">
@@ -83,12 +116,13 @@ onMounted(() => {
                       <td class="bg-success align-middle text-end">20.01.24</td>
                     </tr>
                   </tbody>
+                  <tbody v-else class="text-center">NO WINS</tbody>
                 </table>
               </div>
               <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
                 <table class="table">
-                  <tbody >
-                    <tr v-for="row in 10" :key="row">
+                  <tbody v-if="defeats > 0 || wins > 0">
+                    <tr v-for="row in defeats + wins" :key="row">
                       <!-- IF DEFEAT IN DEFEAT COLOR IF WIN IN WIN COLOR -->
                         <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">20.01.24</td>
                         <td v-if="row % 2 === 0" class="bg-danger">
@@ -110,6 +144,7 @@ onMounted(() => {
                         <td v-if="row % 2 !== 0" class="bg-success align-middle text-end">1 : 5</td>
                     </tr>
                   </tbody>
+                  <tbody v-else class="text-center">NO GAMES</tbody>
                 </table>
               </div>
             </div>
