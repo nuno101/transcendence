@@ -3,15 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from api.models import Channel
 from asgiref.sync import sync_to_async
 from . import handler_consumers as handlers
-from api import bridge_websocket
-
-# cCONF: Constants for group events
-# Format "event": "handler"
-VALID_GROUP_EVENTS = [
-  {"send_notification": "send_notification"},
-  {"add_group": "add_group"},
-  {"remove_group": "remove_group"},
-]
+from api.helpers_users import update_user_status
 
 class Consumer(AsyncWebsocketConsumer):
     # Connection methods
@@ -38,7 +30,7 @@ class Consumer(AsyncWebsocketConsumer):
 
         # Check if consumer is the first of its user by checking status
         await self._add_group(f'user_status_{self.user.id}')
-        await sync_to_async(self.user.update_status)('online')
+        await sync_to_async(update_user_status)(self.user, 'online')
 
         await self.accept()
 
@@ -46,9 +38,9 @@ class Consumer(AsyncWebsocketConsumer):
         if self.user.is_anonymous:
             return
 
-        await sync_to_async(self.user.update_status)('offline')
         for group in self.groups:
             await self._remove_group(group)
+        await sync_to_async(update_user_status)(self.user, 'offline')
 
     # Client event handling method
     async def receive(self, text_data):
@@ -57,7 +49,7 @@ class Consumer(AsyncWebsocketConsumer):
             event = data['event']
             payload = data['payload']
         except:
-            await self.send_error('Invalid data')
+            await self.send_error('Invalid data format')
             return
         case = next((x for x in handlers.VALID_CLIENT_EVENTS if event in x), None)
         if case is None:
@@ -66,7 +58,10 @@ class Consumer(AsyncWebsocketConsumer):
             await getattr(handlers, case[event])(self, payload)
 
     # Group event handling methods
-    async def send_notification(self, event):
+    async def close_connection(self, event):
+        await self.close()
+
+    async def send_event(self, event):
         data = self.get_field(event, 'data')
         if data is not None:
             await self.send(text_data=json.dumps(data))

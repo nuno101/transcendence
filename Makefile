@@ -1,4 +1,5 @@
 .PHONY: all build up clean re clean-all
+-include docker.mk
 
 all: build up
 
