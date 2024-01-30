@@ -29,8 +29,8 @@
         </div>
       </div>
     </header>
-    <Login v-model:logged="logged" />
-    <Signup />
+    <Login v-model:logged="logged" v-model:signedup="signedup" />
+    <Signup v-model:signedup="signedup"/>
   </section>
 </template>
 
@@ -42,7 +42,8 @@ import Login from '../auth/Login.vue'
 import Signup from '../auth/Signup.vue'
 import { useRoute } from 'vue-router'
 
-let logged = ref(false)
+const logged = ref(false)
+const signedup = ref(false) 
 
 const inactiveView = {
   'nav-link': true,
@@ -78,6 +79,3 @@ const LogOut = async () => {
   }
 }
 </script>
-
-<style scoped>
-</style>
