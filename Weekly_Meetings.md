@@ -5,6 +5,11 @@ Robert:
 * [ ] Implement basic notification system/endpoints to inform user about new events
 * [ ] Change game model so that it doesn't need a relationship with a tournament anym
 
+Julia:
+* working on FriendsView.vue
+* finish Game with requests
+* implement notification for friends requests/general messages
+
 # 2024-01-24 Discord meeting:
 Attended by all.
 
