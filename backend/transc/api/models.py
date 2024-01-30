@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
 	username = models.CharField(max_length=12, unique=True, null=False)
+	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	avatar = models.BinaryField(max_length=900000, null=False)
@@ -40,6 +41,7 @@ class User(AbstractUser):
 		return {
 			'id': self.id,
 			'username': self.username,
+			'nickname': self.nickname,
 			'created_at': str(self.created_at),
 			'updated_at': str(self.updated_at),
 			'status': self.status if private else None,
