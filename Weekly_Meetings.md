@@ -1,4 +1,11 @@
-# 2024-01-24 Slack meeting:
+# 2024-01-30 Discord meeting:
+Attended by Anouk, Jan, Julia, Robert
+
+Robert:
+* [ ] Implement basic notification system/endpoints to inform user about new events
+* [ ] Change game model so that it doesn't need a relationship with a tournament anym
+
+# 2024-01-24 Discord meeting:
 Attended by all.
 
 Jan:
@@ -22,8 +29,8 @@ Julia:
 
 Robert:
 * [ ] Try to find out how to do the remote authentication module
-* [ ] Will look at the modules that are currently not being worked on (Log management, Monitoring system, etc.)
-* [ ] Work on game and tournament endpoints to fit needs of frontend team
+* [x] Will look at the modules that are currently not being worked on (Log management, Monitoring system, etc.)
+* [x] Work on game and tournament endpoints to fit needs of frontend team
 
 # 2024-01-16 Slack meeting:
 Attended by all.
