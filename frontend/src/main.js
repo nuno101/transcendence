@@ -3,9 +3,8 @@ import App from './App.vue';
 import PostRequest from './components/common/PostRequest.vue';
 import GetRequest from './components/common/GetRequest.vue';
 import router from './router';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
-import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle'
 import i18n from './plugins/i18n';
 
 const app = createApp(App);

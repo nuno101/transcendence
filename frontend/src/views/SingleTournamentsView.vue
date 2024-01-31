@@ -1,35 +1,56 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import axios from 'axios';
+import Backend from '../js/Backend';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
-const tournaments = ref([]);
+const tournament = ref(null);
+const tournamentId = ref('');
 
 const fetchData = async () => {
   try {
-    const response = await axios.get('/api/tournaments');
-    console.log(response.data); // Log the response data to the console
-    tournaments.value = response.data.tournaments; // Fill users variable with values
-    // console.log('Tournaments updated:', tournaments.value);
-    return response.data;  // Return the data to be used in the template
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return null;
+    tournament = await Backend.get(`/api/tournaments/${tournamentId.value}`);
+    console.log(tournament);
+	return tournament;
+  } catch (err) {
+    console.error(err.message);
   }
 };
 
 onMounted(() => {
-  fetchData();
+	const route = useRoute();
+  	tournamentId.value = route.params.id;
+	console.log("Tournament value:");
+	console.log(tournamentId.value);
+	fetchData();
 })
-
 </script>
 
 <template>
-  <div>
-    <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
-    <TournamentsTable :tournaments="tournaments"/>
-    <AddTournament :updateData="fetchData"/>
-  </div>
+	<div> <!-- Check if tournament is defined before accessing its properties-->
+    	<h1>TEST</h1>
+		<h2>TEST 2: {{ tournament.title }}</h2>
+  	</div>
 </template>
 
 <style>
 </style>
+
+
+<!--
+path("users/<int:user_id>/stats"
+
+VS 
+
+await Backend.get(`/api/users/${users.id}/stats`);
+
+VS
+
+const tournamentId = route.params.id;
+const endpoint = `/api/tournaments/${tournamentId}`;
+const response = await Backend.get(endpoint);
+
+How do I make the URL looks like:
+http://localhost/tournaments/<id> 
+with id being the actual id 
+-->

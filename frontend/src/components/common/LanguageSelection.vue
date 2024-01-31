@@ -1,12 +1,13 @@
 <template>
-  <div class="lang-selection">
-    <select v-model="selected" @change="changeLocale">
-        <option
-          v-for="lang in languages"
-          :key="lang.title"
-          :value="lang.language"
-        >{{lang.title}}</option>
-    </select>
+  <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      {{ selected }}
+    </button>
+    <ul class="dropdown-menu">
+      <div v-for="lang in languages" :key="lang.title">
+        <li @click="changeLocale(lang.language)" class="dropdown-item">{{ lang.title }}</li>
+      </div>
+    </ul>
   </div>
 </template>
 
@@ -24,8 +25,9 @@
     { language: 'de', title: 'German' }
   ]);
 
-  const changeLocale = (event) => {
-    const selectedLocale = event.target.value;
+  const changeLocale = (value) => {
+    const selectedLocale = value;
+    selected.value = value
     console.log('Selected locale:', selectedLocale);
     // Verify that 'locale' is a valid locale string (e.g., 'en', 'es', etc.)
     if (typeof selectedLocale === 'string') {
@@ -45,7 +47,7 @@
     } else {
       // Set default language if not stored in localStorage
       const defaultLang = 'en';
-      selected.value = defaultLang;
+      selected.value = 'en';
       i18n.global.locale.value = defaultLang;
       localStorage.setItem('selected', defaultLang);
     }
@@ -54,11 +56,6 @@
 </script>
 
 <style scoped>
-.lang-selection {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-}
 </style>
 
 // how to handle lanugages in Vue 3

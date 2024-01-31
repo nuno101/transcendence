@@ -11,11 +11,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue')
-    },
-    {
       path: '/registration',
       name: 'registration',
       component: () => import('../views/RegistrationView.vue')
@@ -56,7 +51,12 @@ const router = createRouter({
       path: '/tournaments',
       name: 'tournaments',
       component: () => import('../views/TournamentsView.vue')
-    },    
+    },
+	{
+		path: '/tournaments/:id', 
+		name: 'tournaments/id',
+		component: () => import('../views/SingleTournamentsView.vue')
+	  },
     // GAME
     {
       path: '/game',

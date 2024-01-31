@@ -8,6 +8,9 @@ networks:
   redis-network:
     name: redis-network
 
+  proxy-network:
+    name: proxy-network
+
 volumes:
   database_device:
     driver: local
@@ -15,7 +18,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: $HOME/data/transcendence/volumes/E # TODO: Why mount here?
+      device: $HOME/data/transcendence/volumes/E # FIXME: Why mount here?
 
   redis_device:
     driver: local
@@ -42,7 +45,6 @@ services:
     volumes:
       - database_device:/var/lib/postgresql/data
       - ./database/init-scripts/:/docker-entrypoint-initdb.d/
-    restart: always
     healthcheck:
       test:
         [
@@ -52,6 +54,7 @@ services:
       interval: 10s
       timeout: 30s
       retries: 30
+    restart: always
 
   backend:
     container_name: backend
@@ -80,15 +83,17 @@ services:
     networks:
       - database-network
       - redis-network
+      - proxy-network
+    restart: unless-stopped
 
   redis:
     image: redis:latest
     container_name: ${REDIS_HOST}
-    restart: always
     networks:
       - redis-network
     volumes:
       - redis_device:/var/lib/redis
+    restart: unless-stopped
 
   frontend:
     container_name: frontend
@@ -97,7 +102,22 @@ services:
       context: ./frontend
     depends_on:
       - backend
+    volumes:
+      - ./frontend/src/:/app/src/:ro
+      - ./frontend/public/:/app/public/:ro
+    networks:
+      - proxy-network
+  proxy:
+    container_name: proxy
+    image: proxy
+    build:
+      context: ./proxy
+    depends_on:
+      - backend
     ports:
       - "80:80"
+    networks:
+      - proxy-network
     volumes:
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+    restart: unless-stopped

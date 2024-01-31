@@ -4,6 +4,9 @@ RUN pip install --upgrade pip
 RUN mkdir /app
 WORKDIR /app
 COPY conf/requirements.txt /app/
+
+RUN apk add build-base
+RUN apk add libffi-dev
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Django project skeleton
