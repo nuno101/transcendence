@@ -12,3 +12,6 @@ tests/.build
 
 # platform specific make config for docker (optional)
 docker.mk
+
+# VS Code/Codium config
+.vscode

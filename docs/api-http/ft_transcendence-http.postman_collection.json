@@ -961,6 +961,50 @@
 					]
 				},
 				{
+					"name": "Notification",
+					"item": [
+						{
+							"name": "Get notifications",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/me/notifications",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete notification",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/me/notifications/{{notification_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"notifications",
+										"{{notification_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Get current user",
 					"request": {
 						"method": "GET",
@@ -1168,6 +1212,11 @@
 		{
 			"key": "request_id",
 			"value": "1"
+		},
+		{
+			"key": "notification_id",
+			"value": "1",
+			"type": "string"
 		}
 	]
 }
