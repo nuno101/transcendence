@@ -5,10 +5,10 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             <li v-for="e in navRoutes" :key="e.route">
-              <router-link :to="'/' + e.route" :class="[routeName === e.route ? activeView : inactiveView]">{{ e.button }}</router-link>
+              <router-link :to="'/' + e.route" :class="[route.name === e.route ? activeView : inactiveView]">{{ e.button }}</router-link>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" :class="[gameRoutes.includes(routeName) ? activeView : inactiveView]" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Game</a>
+              <a class="nav-link dropdown-toggle" :class="[gameRoutes.includes(route.name) ? activeView : inactiveView]" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Game</a>
               <ul class="dropdown-menu">
                 <li><router-link to="/game/online" class="dropdown-item">online</router-link></li>
                 <li><router-link to="/game/onsite" class="dropdown-item">onsite</router-link></li>
@@ -16,7 +16,11 @@
             </li>
           </ul>
           
-          <div v-if="logged">
+          <div v-if="!logged.loaded" class="text-end">
+            <button type="button" class="btn btn-outline-light btn-empty disabled placeholder me-2" data-bs-target="#loginModalToggle" data-bs-toggle="modal"></button>
+            <button type="button" class="btn btn-secondary btn-empty disabled placeholder" data-bs-target="#signupModalToggle" data-bs-toggle="modal"></button>
+          </div>
+          <div v-else-if="logged.status">
             <button type="button" class="btn btn-outline-light me-2">
               <router-link to="/profile" class="nav-link px-2 text-white">Profile</router-link>
             </button>
@@ -36,13 +40,13 @@
 
 <script setup>
 import Backend from "../../js/Backend"
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import router from '../../router'
 import Login from '../auth/Login.vue'
 import Signup from '../auth/Signup.vue'
 import { useRoute } from 'vue-router'
 
-const logged = ref(false)
+const logged = ref({ loaded: false, status: false })
 const signedup = ref(false) 
 
 const inactiveView = {
@@ -58,7 +62,6 @@ const activeView = {
 }
 
 const route = useRoute()
-let routeName = ref(null)
 const navRoutes = [
   { route: 'dashboard', button: 'Dashboard' },
   { route: 'friends', button: 'Friends' },
@@ -67,15 +70,28 @@ const navRoutes = [
 ]
 const gameRoutes = ['game/online', 'game/onsite', 'ponggame']
 
-watch(route, async (newroute) => routeName.value = newroute.name)
+const AlreadyLoggedin = async () => {
+  try {
+    await Backend.get('/api/users/me')
+    logged.value.status = true;
+  } catch {}
+  logged.value.loaded = true;
+}
+AlreadyLoggedin()
 
 const LogOut = async () => {
   try {
     await Backend.post('/api/logout')
-    logged.value = false
+    logged.value.status = false
     router.push('/')
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
   }
 }
 </script>
+
+<style>
+  .btn-empty {
+    width: 5rem;
+  }
+</style>

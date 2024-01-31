@@ -56,14 +56,6 @@ const alerts = ref([])
 const loading = ref(false)
 let   remember = true
 
-const AlreadyLoggedin = async () => {
-  try {
-    await Backend.get('/api/users/me')
-    logged.value = true
-  } catch {}
-}
-AlreadyLoggedin()
-
 watch(signedup, (newValue) => {
   if (!newValue) return
   alerts.value.push({
@@ -88,7 +80,7 @@ const LogIn = async () => {
     loading.value = false
     let bsLoginModal = bootstrap.Modal.getInstance("#loginModalToggle")
     bsLoginModal.hide()
-    logged.value = true
+    logged.value.status = true
   } catch (err) {
     loading.value = false
     alerts.value.push({
