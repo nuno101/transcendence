@@ -9,11 +9,9 @@ const tournamentId = ref('');
 
 const fetchData = async () => {
   try {
-	console.log("TEST");
-    const tournamentData = await Backend.get(`/api/tournaments/${tournamentId.value}`);
-    console.log(tournamentData);
-	tournament.value = tournamentData;
-	return tournamentData;
+    tournament = await Backend.get(`/api/tournaments/${tournamentId.value}`);
+    console.log(tournament);
+	return tournament;
   } catch (err) {
     console.error(err.message);
   }
