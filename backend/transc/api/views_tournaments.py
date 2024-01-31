@@ -32,13 +32,13 @@ class TournamentCollection(View):
 																			TOURNAMENT_404), name='dispatch')
 class TournamentSingle(View):
 	def get(self, request, tournament_id):
-		t = Tournament.objects.get(pk=tournament_id)
+		t = Tournament.objects.get(id=tournament_id)
 		return JsonResponse(t.serialize())
 
 	# allow only update of title and description
 	@check_body_syntax(["title", "description"])
 	def patch(self, request, tournament_id):
-		tournament = Tournament.objects.get(pk=tournament_id)
+		tournament = Tournament.objects.get(id=tournament_id)
 		tournament.title = self.body.get('title')
 		tournament.description = self.body.get('description')
 		tournament.updated_at = datetime.datetime.now()
@@ -50,7 +50,7 @@ class TournamentSingle(View):
 
 	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, tournament_id):
-		Tournament.objects.get(pk=tournament_id).delete()
+		Tournament.objects.get(id=tournament_id).delete()
 
 		# TODO: Implement websocket notification?
 

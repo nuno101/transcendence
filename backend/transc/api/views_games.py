@@ -14,10 +14,14 @@ class GameView(View):
 		games = Game.objects.all()
 		return JsonResponse([g.serialize() for g in games], safe=False)
 
-	@check_body_syntax(['tournament_id', 'player1_id', 'player2_id'])
+	@check_body_syntax(['tournament_id', 'player1_id', 'player2_id', 'player1_score', 'player2_score'])
 	def post(self, request):
 		try:
-			tournament = Tournament.objects.get(pk=self.body.get('tournament_id'))
+			tournament_id = self.body.get('tournament_id') # TODO: Test if endpoint works without tournament_id field=null
+			if tournament_id is None:
+				tournament = Tournament.objects.get(id=self.body.get('tournament_id'))
+			else:
+				tournament = None
 		except:
 			return JsonResponse({ERROR_FIELD: TOURNAMENT_404}, status=404)
 		try:
@@ -43,7 +47,7 @@ class GameDetail(View):
 		return JsonResponse(g.serialize())
 
 	@method_decorator(staff_required, name='dispatch')
-	@check_body_syntax(['title', 'description'])
+	@check_body_syntax(['player1_score', 'player2_score', 'status'])
 	def patch(self, request, game_id):
 		return update_game(Game.objects.get(pk=game_id), self.body)
 

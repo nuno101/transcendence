@@ -20,29 +20,29 @@ class UserCollection(View):
 		try:
 			user = User.objects.create_user(username=self.body.get('username'), 
 																			password=self.body.get('password'))
-		except Exception as e:
+		except Exception as e: # TODO: Handle more exceptions, e. g. Username too long
 			if 'duplicate key' in str(e):
 				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
 			else:
 				return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
-		return JsonResponse(user.serialize(), status=201)
+		return JsonResponse(user.serialize(private=True), status=201)
 
 # Endpoint: /users/<int:user_id>
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class UserSingle(View):
 	def get(self, request, user_id):
-		u = User.objects.get(pk=user_id)
+		u = User.objects.get(id=user_id)
 		return JsonResponse(u.serialize())
 	
 	@method_decorator(staff_required, name='dispatch')
 	@check_body_syntax([])
 	def patch(self, request, user_id):
-		return update_user(User.objects.get(pk=user_id), self.body)
+		return update_user(User.objects.get(id=user_id), self.body)
 
 	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, user_id):
-		User.objects.get(pk=user_id).delete()
+		User.objects.get(id=user_id).delete()
 		return HttpResponse(status=204)
 
 # Endpoint: /users/<int:user_id>/stats
@@ -50,7 +50,7 @@ class UserSingle(View):
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class StatsUser(View):
 	def get(self, request, user_id):
-		u = User.objects.get(pk=user_id)
+		u = User.objects.get(id=user_id)
 		return JsonResponse(u.stats.serialize())
 
 # Endpoint: /users/<int:user_id>/games
