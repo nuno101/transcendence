@@ -43,37 +43,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <router-link to="/dashboard">{{useI18n().t('gobacktodashboard')}}</router-link>
-    <div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-              <th scope="col">{{useI18n().t('tournamentsview.tournaments')}}</th>
-              <th scope="col">{{useI18n().t('tournamentsview.description')}}</th>
-              <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <router-link v-for="tournament in tournaments" :key="tournament.id" :to="'/tournament/' + tournament.id">
-				<tr>
-                	<td>{{tournament.title}}</td>
-                	<td>{{tournament.description}}</td>
-                	<td v-if="tournament.status === 'registration_open'">
-                  		<button type="button" class="btn btn-outline-success btn-sm">{{useI18n().t('tournamentsview.register')}}</button>
-                	</td>
-                	<td v-else-if="tournament.status === 'registration_closed'">
-                    	{{useI18n().t('tournamentsview.registrationclosed')}}
-                	</td>
-                	<td v-else>
-                    	{{tournament.status}}
-                	</td>
-            	</tr>
-			</router-link>
-        </tbody>
-    </table>
-  </div>
-  <div>
+	<div>
+		<div>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+					<th scope="col">{{useI18n().t('tournamentsview.tournaments')}}</th>
+					<th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr v-for="tournament in tournaments" :key="tournament.id">
+						<td>
+    						<router-link :to="'/tournaments/' + tournament.id">
+  								{{ tournament.title }}
+							</router-link>
+  						</td>
+						<td>{{ tournament.status }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	<div>
     <button type="button" class="btn btn-primary" @click="openModal = !openModal">{{useI18n().t('tournamentsview.addnewtournament')}}</button>
     <div v-show="openModal" class="modal-content">
         <form @submit.prevent="submitForm">
@@ -94,7 +86,7 @@ onMounted(() => {
         </form >
     </div >
   </div >
-  </div>
+</div>
 </template>
 
 <style>
