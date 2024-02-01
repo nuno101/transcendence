@@ -3,6 +3,8 @@ Attended by Anouk, Jan, Julia, Robert
 
 Robert:
 * [ ] Implement basic notification system/endpoints to inform user about new events
+* [ ] Add notification endpoints for frontend
+* [ ] Add websocket event for notification creation
 * [ ] Change game model so that it doesn't need a relationship with a tournament anym
 
 Julia:
