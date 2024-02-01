@@ -1,183 +1,190 @@
 # cCONF: Constants for endpoint structure
 
-# Endpoint: /login
-# Method: POST
 class Login:
+  endpoint = "/login"
+  method = ["POST"]
+
   class Post_params:
     PARAMS = [ "username", "password" ]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /logout
-# Method: POST
 class Logout:
+  endpoint = "/logout"
+  method = ["POST"]
+
   class Post_params:
     PARAMS = []
     PARAMS_OPTIONAL = []
 
-# Endpoint: /users/me
-# Method: GET, PATCH, DELETE
 class Users_me:
+  endpoint = "/users/me"
+  method = ["GET", "PATCH", "DELETE"]
+
   class Patch_params:
     PARAMS = ["nickname", "password"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /users/me/avatar
-# Method: POST
-# TODO: Specify parameters
 class Users_me_avatar:
+  endpoint = "/users/me/avatar"
+  method = ["POST"]
+
+  # TODO: Specify parameters
   class Post_params:
     PARAMS = []
     PARAMS_OPTIONAL = []
 
-# Endpoint: /users/me/blocked
-# Method: GET, POST
 class Users_me_blocked:
+  endpoint = "/users/me/blocked"
+  method = ["GET", "POST"]
+
   class Post_params:
     PARAMS = ["user_id"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /users/me/blocked/<int:user_id>
-# Method: DELETE
 class Users_me_blocked_id:
-  pass
+  endpoint = "/users/me/blocked/<int:user_id>"
+  method = ["DELETE"]
 
-# Endpoint: /users/me/channels
-# Method: GET
 class Users_me_channels:
-  pass
+  endpoint = "/users/me/channels"
+  method = ["GET"]
 
-# Endpoint: /users/me/friends
-# Method: GET
 class Users_me_friends:
-  pass
+  endpoint = "/users/me/friends"
+  method = ["GET"]
 
-# Endpoint: /users/me/friends/<int:user_id>
-# Method: DELETE
 class Users_me_friends_id:
-  pass
+  endpoint = "/users/me/friends/<int:user_id>"
+  method = ["DELETE"]
 
-# Endpoint: /users/me/friends/requests
-# Method: GET, POST
 class Users_me_friends_requests:
+  endpoint = "/users/me/friends/requests"
+  method = ["GET", "POST"]
+
   class Post_params:
     PARAMS = ["user_id"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /users/me/friends/requests/<int:request_id>
-# Method: POST, DELETE
 class Users_me_friends_requests_id:
+  endpoint = "/users/me/friends/requests/<int:request_id>"
+  method = ["POST", "DELETE"]
+
   class Post_params:
     PARAMS = []
     PARAMS_OPTIONAL = []
 
-# Endpoint: /users/me/notifications
-# Method: GET
 class Users_me_notifications:
-  pass
+  endpoint = "/users/me/notifications"
+  method = ["GET"]
 
-# Endpoint: /users/me/notifications/<int:notification_id>
-# Method: DELETE
 class Users_me_notifications_id:
-  pass
+  endpoint = "/users/me/notifications/<int:notification_id>"
+  method = ["DELETE"]
 
-# Endpoint: /users
-# Method: GET, POST
 class Users:
+  endpoint = "/users"
+  method = ["GET", "POST"]
+
   class Post_params:
     PARAMS = ["username", "password"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /users/<int:user_id>
-# Method: GET, PATCH, DELETE
 class Users_id:
+  endpoint = "/users/<int:user_id>"
+  method = ["GET", "PATCH", "DELETE"]
+
   class Patch_params:
     PARAMS = []
     PARAMS_OPTIONAL = ["nickname", "password"]
 
-# Endpoint: /users/<int:user_id>/avatar
-# Method: GET
 class Users_id_avatar:
-  pass
+  endpoint = "/users/<int:user_id>/avatar"
+  method = ["GET"]
 
-# Endpoint: /users/<int:user_id>/stats
-# Method: GET
 class Users_id_stats:
-  pass
+  endpoint = "/users/<int:user_id>/stats"
+  method = ["GET"]
 
-# Endpoint: /users/<int:user_id>/games
-# Method: GET
 class Users_id_games:
-  pass
+  endpoint = "/users/<int:user_id>/games"
+  method = ["GET"]
 
-# Endpoint: /tournaments
-# Method: GET, POST
 class Tournaments:
+  endpoint = "/tournaments"
+  method = ["GET", "POST"]
+
   class Post_params:
     PARAMS = ["title", "description"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /tournaments/<int:tournament_id>
-# Method: GET, PATCH, DELETE
 class Tournaments_id:
+  endpoint = "/tournaments/<int:tournament_id>"
+  method = ["GET", "PATCH", "DELETE"]
+
   class Patch_params:
     PARAMS = []
     PARAMS_OPTIONAL = ["title", "description"]
 
-# Endpoint: /games
-# Method: GET, POST
 class Games:
+  endpoint = "/games"
+  method = ["GET", "POST"]
+
   class Post_params:
     PARAMS = ["tournament_id", "player1_id", "player2_id", "player1_score", "player2_score"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /games/<int:game_id>
-# Method: GET, PATCH, DELETE
 class Games_id:
+  endpoint = "/games/<int:game_id>"
+  method = ["GET", "PATCH", "DELETE"]
+
   class Patch_params:
     PARAMS = []
     PARAMS_OPTIONAL = ["player1_score", "player2_score", "status"]
 
-# Endpoint: /channels
-# Method: GET, POST
 class Channels:
+  endpoint = "/channels"
+  method = ["GET", "POST"]
+
   class Post_params:
     PARAMS = ["name"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /channels/<int:channel_id>
-# Method: GET, PATCH, DELETE
 class Channels_id:
+  endpoint = "/channels/<int:channel_id>"
+  method = ["GET", "PATCH", "DELETE"]
+
   class Patch_params:
     PARAMS = []
     PARAMS_OPTIONAL = ["name"]
 
-# Endpoint: /channels/<int:channel_id>/members
-# Method: GET, PATCH
 class Channels_id_members:
+  endpoint = "/channels/<int:channel_id>/members"
+  method = ["GET", "PATCH"]
+
   class Patch_params:
     PARAMS = ["user_id"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /channels/<int:channel_id>/members/<int:user_id>
-# Method: DELETE
 class Channels_id_members_id:
-  pass
+  endpoint = "/channels/<int:channel_id>/members/<int:user_id>"
+  method = ["DELETE"]
 
-# Endpoint: /channels/<int:channel_id>/messages
-# Method: GET, POST
 class Channels_id_messages:
+  endpoint = "/channels/<int:channel_id>/messages"
+  method = ["GET", "POST"]
+
   class Post_params:
     PARAMS = ["content"]
     PARAMS_OPTIONAL = []
 
-# Endpoint: /messages
-# Method: GET
 class Messages:
-  pass
+  endpoint = "/messages"
+  method = ["GET"]
 
-# Endpoint: /messages/<int:message_id>
-# Method: PATCH, DELETE
 class Messages_id:
+  endpoint = "/messages/<int:message_id>"
+  method = ["PATCH", "DELETE"]
+
   class Patch_params:
     PARAMS = [ 'content' ]
     PARAMS_OPTIONAL = []
