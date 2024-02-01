@@ -6,6 +6,13 @@ import os
 
 BODY_REQESTS = ["POST", "PATCH"]
 
+def generate_table(data):
+    keys = data[0].keys()
+    print(f"| {' | '.join(keys)} |")
+    print(f"| {' | '.join(['---' for _ in keys])} |")
+    for row in data:
+        print(f"| {' | '.join([str(row[key]) for key in keys])} |")
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 generate_endpoint_docs.py <path_to_constants_endpoint_structure.py>")
@@ -93,15 +100,23 @@ def main():
         # Generate generate method section
         for method in endpoint["methods"]:
             print(f"#### {method['name']}\n")
-            print(f"| Param | Type | Required | Description |")
-            print(f"| --- | --- | --- | --- |")
 
-            if method["name"] in BODY_REQESTS:  
-                for param in method["params"]:
-                    required = "✅" if param["required"] else "❌"
-                    print(f"| {param['name']} | {param['type']} | {required} | {param['description']} |")
+            print("<table>")
+            print("<tr><th>Test table 1</th><th>Test table 2</th></tr>")
+            print("<tr><td>\n")
+
+            if len(method["params"]) == 0:
+                print("No params")
             else:
-                print(f"| - | - | - | - |")
+                generate_table(method["params"])
+
+            if len(method["params"]) == 0:
+                print("No params")
+            else:
+                generate_table(method["params"])
+
+            print("</td></tr>")
+            print("</td></tr>")
             print()
 
 if __name__ == "__main__":
