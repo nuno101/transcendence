@@ -55,7 +55,7 @@ def main():
 
                     # Add method to url endpoint
                     url_endpoint["methods"].append({
-                        "method": method,
+                        "name": method,
                         "params": params,
                     })
                     output["method_endpoint_count"] += 1
@@ -74,7 +74,8 @@ def main():
     print(f"Total number of urls: {output['url_endpoint_count']}")
     for endpoint in output["url_endpoints"]:
         name = endpoint["url"].replace('<', '\<').replace('>', '\>')
-        print(f"- [{name}](#`{name}`)")
+        link_name= name.replace('/', '-')[1:]
+        print(f"- [{name}](#{link_name})")
     print()
     print(f"Total number of methods: {output['method_endpoint_count']}")
     print(f"- GET: {output['GET_endpoint_count']}")
@@ -86,15 +87,21 @@ def main():
     print(f"## Endpoints\n")
     for endpoint in output["url_endpoints"]:
         name = endpoint["url"].replace('<', '\<').replace('>', '\>')
-        print(f"### `{name}`\n")
+        name = name.replace('/', '-')[1:]
+        print(f"### {name}\n")
         
         # Generate generate method section
         for method in endpoint["methods"]:
-            print(f"#### {method['method']}\n")
+            print(f"#### {method['name']}\n")
             print(f"| Param | Type | Required | Description |")
             print(f"| --- | --- | --- | --- |")
-            for param in method["params"]:
-                print(f"| {param['name']} | {param['type']} | {param['required']} | {param['description']} |")
+
+            if method["name"] in BODY_REQESTS:  
+                for param in method["params"]:
+                    required = "✅" if param["required"] else "❌"
+                    print(f"| {param['name']} | {param['type']} | {required} | {param['description']} |")
+            else:
+                print(f"| - | - | - | - |")
             print()
 
 if __name__ == "__main__":
