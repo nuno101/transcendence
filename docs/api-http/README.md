@@ -50,6 +50,8 @@ Total number of methods: 48
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -63,6 +65,8 @@ No params
 | name | type | required | description |
 | --- | --- | --- | --- |
 | name | string | True | Name of the channel |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | name | string | True | Name of the channel |
@@ -78,6 +82,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -89,6 +95,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -102,6 +110,8 @@ No params
 | name | type | required | description |
 | --- | --- | --- | --- |
 | name | string | False | Name of the channel |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | name | string | False | Name of the channel |
@@ -117,6 +127,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -130,6 +142,8 @@ No params
 | name | type | required | description |
 | --- | --- | --- | --- |
 | user_id | id | True | ID of the user to add to the channel |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | user_id | id | True | ID of the user to add to the channel |
@@ -145,6 +159,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -158,6 +174,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -171,6 +189,8 @@ No params
 | name | type | required | description |
 | --- | --- | --- | --- |
 | content | string | True | Content of the message |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | content | string | True | Content of the message |
@@ -186,6 +206,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -203,6 +225,8 @@ No params
 | player2_id | id | True | ID of the second player |
 | player1_score | integer | True | Score of the first player |
 | player2_score | integer | True | Score of the second player |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | tournament_id | id | False | ID of the tournament |
@@ -222,6 +246,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -233,6 +259,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -248,6 +276,8 @@ No params
 | player1_score | integer | False | Score of the first player |
 | player2_score | integer | False | Score of the second player |
 | status | string | False | Status of the game |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | player1_score | integer | False | Score of the first player |
@@ -268,6 +298,8 @@ No params
 | --- | --- | --- | --- |
 | username | string | True | Username of the user |
 | password | string | True | Password of the user |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | username | string | True | Username of the user |
@@ -284,6 +316,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -297,6 +331,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -310,6 +346,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -323,6 +361,8 @@ No params
 | name | type | required | description |
 | --- | --- | --- | --- |
 | content | string | True | Content of the message |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | content | string | True | Content of the message |
@@ -338,6 +378,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -352,6 +394,8 @@ No params
 | --- | --- | --- | --- |
 | title | string | True | Title of the tournament |
 | description | string | False | Description of the tournament |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | title | string | True | Title of the tournament |
@@ -368,6 +412,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -382,6 +428,8 @@ No params
 | --- | --- | --- | --- |
 | title | string | False | Title of the tournament |
 | description | string | False | Description of the tournament |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | title | string | False | Title of the tournament |
@@ -398,6 +446,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -412,6 +462,8 @@ No params
 | --- | --- | --- | --- |
 | username | string | True | Username of the user |
 | password | string | True | Password of the user |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | username | string | True | Username of the user |
@@ -428,6 +480,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -439,6 +493,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -453,6 +509,8 @@ No params
 | --- | --- | --- | --- |
 | nickname | string | False | Nickname of the user |
 | password | string | False | Password of the user |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | nickname | string | False | Nickname of the user |
@@ -469,6 +527,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -482,6 +542,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -495,6 +557,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -508,6 +572,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -519,6 +585,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -533,6 +601,8 @@ No params
 | --- | --- | --- | --- |
 | nickname | string | False | Nickname of the user |
 | password | string | False | Password of the user |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | nickname | string | False | Nickname of the user |
@@ -549,6 +619,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -562,6 +634,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -575,6 +649,8 @@ No params
 | name | type | required | description |
 | --- | --- | --- | --- |
 | user_id | id | True | ID of the user to block |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | user_id | id | True | ID of the user to block |
@@ -590,6 +666,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -603,6 +681,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -616,6 +696,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -629,6 +711,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -642,6 +726,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -655,6 +741,8 @@ No params
 | name | type | required | description |
 | --- | --- | --- | --- |
 | username | string | True | Username of the to send the friend request to |
+</td><td>
+
 | name | type | required | description |
 | --- | --- | --- | --- |
 | username | string | True | Username of the to send the friend request to |
@@ -670,6 +758,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -681,6 +771,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -694,6 +786,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>
@@ -707,6 +801,8 @@ No params
 <tr><td>
 
 No params
+</td><td>
+
 No params
 </td></tr>
 </td></tr>

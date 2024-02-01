@@ -110,6 +110,8 @@ def main():
             else:
                 generate_table(method["params"])
 
+            print("</td><td>\n")
+
             if len(method["params"]) == 0:
                 print("No params")
             else:
