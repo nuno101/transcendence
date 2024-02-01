@@ -14,6 +14,8 @@ urlpatterns = [
 	# Personal paths
   path("users/me", views_personal.UserPersonal.as_view()),
 
+	path("users/me/avatar", views_personal.AvatarPersonal.as_view()),
+
 	path("users/me/blocked", views_personal.BlockedCollection.as_view()),
   path("users/me/blocked/<int:user_id>", views_personal.BlockedSingle.as_view()),
 
@@ -35,6 +37,8 @@ urlpatterns = [
 	# User paths
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
+
+	path("users/<int:user_id>/avatar", views_users.UserAvatar.as_view()),
 	
 	path("users/<int:user_id>/stats", views_users.StatsUser.as_view()),
 

@@ -21,6 +21,14 @@ class UserPersonal(View):
   def delete(self, request):
     return delete_user(request.user)
 
+# Endpoint: /users/me/avatar
+@method_decorator(login_required, name='dispatch')
+class AvatarPersonal(View):
+  @check_body_syntax(['avatar'])
+  def post(self, request):
+    # TODO: Implement avatar upload
+    pass
+
 # Endpoint: /users/me/blocked
 @method_decorator(login_required, name='dispatch')
 class BlockedCollection(View):

@@ -45,6 +45,15 @@ class UserSingle(View):
 		User.objects.get(id=user_id).delete()
 		return HttpResponse(status=204)
 
+# Endpoint: /users/<int:user_id>/avatar
+@method_decorator(login_required, name='dispatch')
+@method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
+class UserAvatar(View):
+	def get(self, request, user_id):
+		u = User.objects.get(id=user_id)
+		# TODO: Implement avatar return
+		pass
+
 # Endpoint: /users/<int:user_id>/stats
 @method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
