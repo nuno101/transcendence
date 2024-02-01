@@ -15,7 +15,7 @@ class UserPersonal(View):
   def get(self, request):
     return JsonResponse(request.user.serialize())
   
-  @check_body_syntax(structure.Users_me.Patch_params)
+  @check_body_syntax(structure.Users_me.Patch)
   def patch(self, request):
     user = update_model(request.user, self.body)
     if user is None:
@@ -29,7 +29,7 @@ class UserPersonal(View):
 # Endpoint: /users/me/avatar
 @method_decorator(login_required, name='dispatch')
 class AvatarPersonal(View):
-  @check_body_syntax(structure.Users_me_avatar.Post_params)
+  @check_body_syntax(structure.Users_me_avatar.Post)
   def post(self, request):
     # TODO: Implement avatar upload
     pass
@@ -41,7 +41,7 @@ class BlockedCollection(View):
     blocked = request.user.blocked.all()
     return JsonResponse([b.serialize() for b in blocked], safe=False)
 
-  @check_body_syntax(structure.Users_me_blocked.Post_params)
+  @check_body_syntax(structure.Users_me_blocked.Post)
   def post(self, request): # TODO: Refactor this mess
     try:
       target_user = User.objects.get(pk=self.body.get('user_id'))

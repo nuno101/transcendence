@@ -15,7 +15,7 @@ class TournamentCollection(View):
 		tournaments = Tournament.objects.all()
 		return JsonResponse([t.serialize() for t in tournaments], safe=False)
 
-	@check_body_syntax(structure.Tournaments.Post_params)
+	@check_body_syntax(structure.Tournaments.Post)
 	def post(self, request):
 		tournament = Tournament.objects.create(
 			title=self.body.get('title'),
@@ -37,7 +37,7 @@ class TournamentSingle(View):
 		return JsonResponse(t.serialize())
 
 	# allow only update of title and description
-	@check_body_syntax(structure.Tournaments_id.Patch_params)
+	@check_body_syntax(structure.Tournaments_id.Patch)
 	def patch(self, request, tournament_id):
 		tournament = Tournament.objects.get(id=tournament_id)
 		tournament.title = self.body.get('title')

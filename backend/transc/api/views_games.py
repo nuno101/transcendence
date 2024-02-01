@@ -15,7 +15,7 @@ class GameView(View):
 		games = Game.objects.all()
 		return JsonResponse([g.serialize() for g in games], safe=False)
 
-	@check_body_syntax(structure.Games.Post_params)
+	@check_body_syntax(structure.Games.Post)
 	def post(self, request):
 		try:
 			tournament_id = self.body.get('tournament_id') # TODO: Test if endpoint works without tournament_id field=null
@@ -47,7 +47,7 @@ class GameDetail(View):
 		g = Game.objects.get(id=game_id)
 		return JsonResponse(g.serialize())
 
-	@check_body_syntax(structure.Games_id.Patch_params)
+	@check_body_syntax(structure.Games_id.Patch)
 	def patch(self, request, game_id):
 		game = Game.objects.get(id=game_id)
 		if game.player1_id != request.user.id and game.player2_id != request.user.id:

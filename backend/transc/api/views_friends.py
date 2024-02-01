@@ -52,7 +52,7 @@ class FriendRequestCollection(View):
     return JsonResponse([r.serialize() for r in friend_requests], safe=False)
 
   # Create new friend request
-  @check_body_syntax(structure.Users_me_friends_requests.Post_params)
+  @check_body_syntax(structure.Users_me_friends_requests.Post)
   def post(self, request):
     try:
       target = User.objects.get(username=self.body.get('username'))

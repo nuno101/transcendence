@@ -16,7 +16,7 @@ class UserCollection(View):
 		users = User.objects.order_by("username")
 		return JsonResponse([u.serialize() for u in users], safe=False)
 
-	@check_body_syntax(structure.Users.Post_params)
+	@check_body_syntax(structure.Users.Post)
 	def post(self, request):
 		try:
 			user = User.objects.create_user(username=self.body.get('username'), 
@@ -37,7 +37,7 @@ class UserSingle(View):
 		return JsonResponse(u.serialize())
 	
 	@method_decorator(staff_required, name='dispatch')
-	@check_body_syntax(structure.Users_id.Patch_params)
+	@check_body_syntax(structure.Users_id.Patch)
 	def patch(self, request, user_id):
 		return update_user(User.objects.get(id=user_id), self.body)
 

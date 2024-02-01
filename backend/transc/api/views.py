@@ -16,7 +16,7 @@ def websocket_custom(request): # FIXME: DEBUG: Remove later
 
 # Endpoint: /login
 class Login(View):
-	@check_body_syntax(structure.Login.Post_params)
+	@check_body_syntax(structure.Login.Post)
 	def post(self, request):
 		user = authenticate(username=self.body.get('username'), 
 												password=self.body.get('password'))
