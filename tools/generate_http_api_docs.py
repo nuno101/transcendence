@@ -50,16 +50,13 @@ def main():
 
                     # Get params and params_optional for method
                     params = []
-                    params_optional = []
                     if method in BODY_REQESTS:
                         params = obj_subclass.PARAMS
-                        params_optional = obj_subclass.PARAMS_OPTIONAL
 
                     # Add method to url endpoint
                     url_endpoint["methods"].append({
                         "method": method,
                         "params": params,
-                        "params_optional": params_optional
                     })
                     output["method_endpoint_count"] += 1
                     output[f"{method}_endpoint_count"] += 1
@@ -71,7 +68,7 @@ def main():
     # Delete file
     os.remove("constants_endpoint_structure.py")
     
-    # Generate header and statistics
+    # Generate header and statistics section
     print(f"# Endpoint documentation\n")
     print(f"## Statistics\n")
     print(f"Total number of urls: {output['url_endpoint_count']}")
@@ -85,16 +82,20 @@ def main():
     print(f"- PATCH: {output['PATCH_endpoint_count']}")
     print(f"- DELETE: {output['DELETE_endpoint_count']}\n")
 
-    # Generate endpoints documentation
+    # Generate endpoints section
     print(f"## Endpoints\n")
     for endpoint in output["url_endpoints"]:
         name = endpoint["url"].replace('<', '\<').replace('>', '\>')
         print(f"### `{name}`\n")
-        print(f"| Method | Params | Params Optional |")
-        print(f"| --- | --- | --- |")
+        
+        # Generate generate method section
         for method in endpoint["methods"]:
-            print(f"| {method['method']} | {', '.join(method['params'])} | {', '.join(method['params_optional'])} |")
-        print()
+            print(f"#### {method['method']}\n")
+            print(f"| Param | Type | Required | Description |")
+            print(f"| --- | --- | --- | --- |")
+            for param in method["params"]:
+                print(f"| {param['name']} | {param['type']} | {param['required']} | {param['description']} |")
+            print()
 
 if __name__ == "__main__":
     main()

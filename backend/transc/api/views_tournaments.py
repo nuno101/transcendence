@@ -19,7 +19,7 @@ class TournamentCollection(View):
 	def post(self, request):
 		tournament = Tournament.objects.create(
 			title=self.body.get('title'),
-			description=self.body.get('description'),
+			description=self.body.get('description', ''),
 			creator=request.user
 		)
 
@@ -40,9 +40,10 @@ class TournamentSingle(View):
 	@check_body_syntax(structure.Tournaments_id.Patch)
 	def patch(self, request, tournament_id):
 		tournament = Tournament.objects.get(id=tournament_id)
-		tournament.title = self.body.get('title')
-		tournament.description = self.body.get('description')
-		tournament.updated_at = datetime.datetime.now()
+		if self.body.get('title') is not None:
+			tournament.title = self.body.get('title')
+		if self.body.get('description') is not None:
+			tournament.description = self.body.get('description')
 		tournament.save()
 
 		# TODO: Implement websocket notification?

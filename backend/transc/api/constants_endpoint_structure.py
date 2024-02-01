@@ -4,15 +4,23 @@ class Login:
   url = "/login"
 
   class Post:
-    PARAMS = [ "username", "password" ]
-    PARAMS_OPTIONAL = []
+    PARAMS = [ {
+      "name": "username",
+      "type": "string",
+      "required": True,
+      "description": "Username of the user"
+    }, {
+      "name": "password",
+      "type": "string",
+      "required": True,
+      "description": "Password of the user"
+    } ]
 
 class Logout:
   url = "/logout"
 
   class Post:
     PARAMS = []
-    PARAMS_OPTIONAL = []
 
 class Users_me:
   url = "/users/me"
@@ -21,8 +29,19 @@ class Users_me:
     pass
 
   class Patch:
-    PARAMS = ["nickname", "password"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "nickname",
+        "type": "string",
+        "required": False,
+        "description": "Nickname of the user"
+      }, {
+        "name": "password",
+        "type": "string",
+        "required": False,
+        "description": "Password of the user"
+      }
+    ]
 
   class Delete:
     pass
@@ -33,7 +52,6 @@ class Users_me_avatar:
   # TODO: Specify parameters
   class Post:
     PARAMS = []
-    PARAMS_OPTIONAL = []
 
 class Users_me_blocked:
   url = "/users/me/blocked"
@@ -42,8 +60,14 @@ class Users_me_blocked:
     pass
 
   class Post:
-    PARAMS = ["user_id"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "user_id",
+        "type": "id",
+        "required": True,
+        "description": "ID of the user to block"
+      }
+    ]
 
 class Users_me_blocked_id:
   url = "/users/me/blocked/USER_ID"
@@ -76,15 +100,20 @@ class Users_me_friends_requests:
     pass
 
   class Post:
-    PARAMS = ["user_id"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "username",
+        "type": "string",
+        "required": True,
+        "description": "Username of the to send the friend request to"
+      }
+    ]
 
 class Users_me_friends_requests_id:
   url = "/users/me/friends/requests/REQUEST_ID"
 
   class Post:
     PARAMS = []
-    PARAMS_OPTIONAL = []
 
   class Delete:
     pass
@@ -108,8 +137,19 @@ class Users:
     pass
 
   class Post:
-    PARAMS = ["username", "password"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "username",
+        "type": "string",
+        "required": True,
+        "description": "Username of the user"
+      }, {
+        "name": "password",
+        "type": "string",
+        "required": True,
+        "description": "Password of the user"
+      }
+    ]
 
 class Users_id:
   url = "/users/USER_ID"
@@ -118,8 +158,19 @@ class Users_id:
     pass
 
   class Patch:
-    PARAMS = []
-    PARAMS_OPTIONAL = ["nickname", "password"]
+    PARAMS = [
+      {
+        "name": "nickname",
+        "type": "string",
+        "required": False,
+        "description": "Nickname of the user"
+      }, {
+        "name": "password",
+        "type": "string",
+        "required": False,
+        "description": "Password of the user"
+      }
+    ]
 
   class Delete:
     pass
@@ -149,8 +200,19 @@ class Tournaments:
     pass
 
   class Post:
-    PARAMS = ["title", "description"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "title",
+        "type": "string",
+        "required": True,
+        "description": "Title of the tournament"
+      }, {
+        "name": "description",
+        "type": "string",
+        "required": False,
+        "description": "Description of the tournament"
+      }
+    ]
 
 class Tournaments_id:
   url = "/tournaments/TOURNAMENT_ID"
@@ -159,8 +221,19 @@ class Tournaments_id:
     pass
 
   class Patch:
-    PARAMS = []
-    PARAMS_OPTIONAL = ["title", "description"]
+    PARAMS = [
+      {
+        "name": "title",
+        "type": "string",
+        "required": False,
+        "description": "Title of the tournament"
+      }, {
+        "name": "description",
+        "type": "string",
+        "required": False,
+        "description": "Description of the tournament"
+      }
+    ]
 
 class Games:
   url = "/games"
@@ -169,8 +242,34 @@ class Games:
     pass
 
   class Post:
-    PARAMS = ["tournament_id", "player1_id", "player2_id", "player1_score", "player2_score"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "tournament_id",
+        "type": "id",
+        "required": False,
+        "description": "ID of the tournament"
+      }, {
+        "name": "player1_id",
+        "type": "id",
+        "required": True,
+        "description": "ID of the first player"
+      }, {
+        "name": "player2_id",
+        "type": "id",
+        "required": True,
+        "description": "ID of the second player"
+      }, {
+        "name": "player1_score",
+        "type": "integer",
+        "required": True,
+        "description": "Score of the first player"
+      }, {
+        "name": "player2_score",
+        "type": "integer",
+        "required": True,
+        "description": "Score of the second player"
+      }
+    ]
 
 class Games_id:
   url = "/games/GAME_ID"
@@ -179,8 +278,26 @@ class Games_id:
     pass
 
   class Patch:
-    PARAMS = []
-    PARAMS_OPTIONAL = ["player1_score", "player2_score", "status"]
+    PARAMS = [
+      {
+        "name": "player1_score",
+        "type": "integer",
+        "required": False,
+        "description": "Score of the first player"
+      },
+      {
+        "name": "player2_score",
+        "type": "integer",
+        "required": False,
+        "description": "Score of the second player"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "required": False,
+        "description": "Status of the game"
+      }
+    ]
 
   class Delete:
     pass
@@ -192,8 +309,14 @@ class Channels:
     pass
 
   class Post:
-    PARAMS = ["name"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "name",
+        "type": "string",
+        "required": True,
+        "description": "Name of the channel"
+      }
+    ]
 
 class Channels_id:
   url = "/channels/CHANNEL_ID"
@@ -202,8 +325,14 @@ class Channels_id:
     pass
 
   class Patch:
-    PARAMS = []
-    PARAMS_OPTIONAL = ["name"]
+    PARAMS = [
+      {
+        "name": "name",
+        "type": "string",
+        "required": False,
+        "description": "Name of the channel"
+      }
+    ]
 
   class Delete:
     pass
@@ -215,8 +344,14 @@ class Channels_id_members:
     pass
 
   class Patch:
-    PARAMS = ["user_id"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "user_id",
+        "type": "id",
+        "required": True,
+        "description": "ID of the user to add to the channel"
+      }
+    ]
 
 class Channels_id_members_id:
   url = "/channels/CHANNEL_ID/members/USER_ID"
@@ -231,8 +366,14 @@ class Channels_id_messages:
     pass
 
   class Post:
-    PARAMS = ["content"]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "content",
+        "type": "string",
+        "required": True,
+        "description": "Content of the message"
+      }
+    ]
 
 class Messages:
   url = "/messages"
@@ -244,8 +385,14 @@ class Messages_id:
   url = "/messages/MESSAGE_ID"
 
   class Patch:
-    PARAMS = [ 'content' ]
-    PARAMS_OPTIONAL = []
+    PARAMS = [
+      {
+        "name": "content",
+        "type": "string",
+        "required": True,
+        "description": "Content of the message"
+      }
+    ]
   
   class Delete:
     pass

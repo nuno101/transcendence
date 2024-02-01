@@ -43,194 +43,326 @@ Total number of methods: 48
 
 ### `/channels`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| POST | name |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| name | string | True | Name of the channel |
 
 ### `/channels/CHANNEL_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
-| GET |  |  |
-| PATCH |  | name |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### PATCH
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| name | string | False | Name of the channel |
 
 ### `/channels/CHANNEL_ID/members`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| PATCH | user_id |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### PATCH
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| user_id | id | True | ID of the user to add to the channel |
 
 ### `/channels/CHANNEL_ID/members/USER_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/channels/CHANNEL_ID/messages`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| POST | content |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| content | string | True | Content of the message |
 
 ### `/games`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| POST | tournament_id, player1_id, player2_id, player1_score, player2_score |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| tournament_id | id | False | ID of the tournament |
+| player1_id | id | True | ID of the first player |
+| player2_id | id | True | ID of the second player |
+| player1_score | integer | True | Score of the first player |
+| player2_score | integer | True | Score of the second player |
 
 ### `/games/GAME_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
-| GET |  |  |
-| PATCH |  | player1_score, player2_score, status |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### PATCH
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| player1_score | integer | False | Score of the first player |
+| player2_score | integer | False | Score of the second player |
+| status | string | False | Status of the game |
 
 ### `/login`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| POST | username, password |  |
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| username | string | True | Username of the user |
+| password | string | True | Password of the user |
 
 ### `/logout`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| POST |  |  |
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/messages`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/messages/MESSAGE_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
-| PATCH | content |  |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### PATCH
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| content | string | True | Content of the message |
 
 ### `/tournaments`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| POST | title, description |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| title | string | True | Title of the tournament |
+| description | string | False | Description of the tournament |
 
 ### `/tournaments/TOURNAMENT_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| PATCH |  | title, description |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### PATCH
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| title | string | False | Title of the tournament |
+| description | string | False | Description of the tournament |
 
 ### `/users`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| POST | username, password |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| username | string | True | Username of the user |
+| password | string | True | Password of the user |
 
 ### `/users/USER_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
-| GET |  |  |
-| PATCH |  | nickname, password |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### PATCH
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| nickname | string | False | Nickname of the user |
+| password | string | False | Password of the user |
 
 ### `/users/USER_ID/avatar`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/USER_ID/games`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/USER_ID/stats`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
-| GET |  |  |
-| PATCH | nickname, password |  |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### PATCH
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| nickname | string | False | Nickname of the user |
+| password | string | False | Password of the user |
 
 ### `/users/me/avatar`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| POST |  |  |
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me/blocked`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| POST | user_id |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| user_id | id | True | ID of the user to block |
 
 ### `/users/me/blocked/USER_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me/channels`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me/friends`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me/friends/USER_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me/friends/requests`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
-| POST | user_id |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| username | string | True | Username of the to send the friend request to |
 
 ### `/users/me/friends/requests/REQUEST_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
-| POST |  |  |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+
+#### POST
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me/notifications`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| GET |  |  |
+#### GET
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 
 ### `/users/me/notifications/NOTIFICATION_ID`
 
-| Method | Params | Params Optional |
-| --- | --- | --- |
-| DELETE |  |  |
+#### DELETE
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
 

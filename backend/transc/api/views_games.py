@@ -18,11 +18,9 @@ class GameView(View):
 	@check_body_syntax(structure.Games.Post)
 	def post(self, request):
 		try:
-			tournament_id = self.body.get('tournament_id') # TODO: Test if endpoint works without tournament_id field=null
-			if tournament_id is None:
-				tournament = Tournament.objects.get(id=self.body.get('tournament_id'))
-			else:
-				tournament = None
+			tournament_id = self.body.get('tournament_id', None) # TODO: Test if endpoint works without tournament_id field=null
+			tournament = Tournament.objects.get(id=self.body.get('tournament_id')) \
+				if tournament_id is not None else None
 		except:
 			return JsonResponse({ERROR_FIELD: TOURNAMENT_404}, status=404)
 		try:

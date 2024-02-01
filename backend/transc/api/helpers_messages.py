@@ -4,7 +4,6 @@ from .models import Channel, Message, User
 from . import bridge_websocket as websocket
 from .constants_websocket_events import *
 from .constants_http_response import *
-from .helpers import update_model
 
 # Message instance management helpers
 def create_message(channel: Channel, user: User, parameters):
@@ -19,7 +18,7 @@ def create_message(channel: Channel, user: User, parameters):
 
 def update_message(message: Message, parameters):
   try:
-    message = update_model(message, parameters)
+    message.content = parameters.get('content')
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update message"}, status=500)
 

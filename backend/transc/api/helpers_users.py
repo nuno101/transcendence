@@ -4,12 +4,14 @@ from .models import User
 from . import bridge_websocket as websocket
 from .constants_http_response import *
 from .constants_websocket_events import *
-from .helpers import update_model
 
 # User instance management helpers
 def update_user(user: User, parameters: dict):
   try:
-    user = update_model(user, parameters)
+    if parameters.get('nickname') is not None:
+      user.username = parameters.get('nickname')
+    if parameters.get('password') is not None:
+      user.set_password(parameters.get('password'))
   except Exception as e:
     if 'duplicate key' in str(e):
       return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
