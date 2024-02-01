@@ -3,16 +3,12 @@ import datetime
 from .models import Game
 from .constants_http_response import *
 from django.db.models import Q
+from .helpers import update_model
 
 # Game instance management helpers
 def update_game(game: Game, parameters):
-  if parameters.get('title') is not None:
-    game.title = parameters.get('title')
-  if parameters.get('description') is not None:
-    game.title = parameters.get('description')
-  game.updated_at = datetime.datetime.now()
   try:
-    game.save()
+    game = update_model(game, parameters)
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update game"}, status=500)
   

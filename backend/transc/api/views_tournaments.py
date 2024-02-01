@@ -4,6 +4,7 @@ from django.views import View
 from django.http import JsonResponse, HttpResponse
 from .models import Tournament
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from . import constants_endpoint_structure as structure
 import datetime
 
 # Endpoint: /tournaments
@@ -14,7 +15,7 @@ class TournamentCollection(View):
 		tournaments = Tournament.objects.all()
 		return JsonResponse([t.serialize() for t in tournaments], safe=False)
 
-	@check_body_syntax(["title", "description"])
+	@check_body_syntax(structure.Tournaments.Post_params)
 	def post(self, request):
 		tournament = Tournament.objects.create(
 			title=self.body.get('title'),
@@ -36,7 +37,7 @@ class TournamentSingle(View):
 		return JsonResponse(t.serialize())
 
 	# allow only update of title and description
-	@check_body_syntax(["title", "description"])
+	@check_body_syntax(structure.Tournaments_id.Patch_params)
 	def patch(self, request, tournament_id):
 		tournament = Tournament.objects.get(id=tournament_id)
 		tournament.title = self.body.get('title')

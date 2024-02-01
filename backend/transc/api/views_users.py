@@ -6,6 +6,7 @@ from .models import User, UserStats, Game
 from django.db.models import Q
 from .helpers_users import update_user
 from .helpers_games import get_user_games
+from . import constants_endpoint_structure as structure
 
 # Endpoint: /users
 class UserCollection(View):
@@ -15,7 +16,7 @@ class UserCollection(View):
 		users = User.objects.order_by("username")
 		return JsonResponse([u.serialize() for u in users], safe=False)
 
-	@check_body_syntax(['username', 'password'])
+	@check_body_syntax(structure.Users.Post_params)
 	def post(self, request):
 		try:
 			user = User.objects.create_user(username=self.body.get('username'), 
@@ -36,7 +37,7 @@ class UserSingle(View):
 		return JsonResponse(u.serialize())
 	
 	@method_decorator(staff_required, name='dispatch')
-	@check_body_syntax([])
+	@check_body_syntax(structure.Users_id.Patch_params)
 	def patch(self, request, user_id):
 		return update_user(User.objects.get(id=user_id), self.body)
 

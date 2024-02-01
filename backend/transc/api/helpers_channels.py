@@ -4,14 +4,12 @@ from .models import Channel
 from . import bridge_websocket as websocket
 from .constants_http_response import *
 from .constants_websocket_events import *
+from .helpers import update_model
 
 # Channel instance management helpers
 def update_channel(channel: Channel, parameters):
-  if parameters.get('name') is not None:
-    channel.content = parameters.get('name')
-  channel.updated_at = datetime.datetime.now()
   try:
-    channel.save()
+    channel = update_model(channel, parameters)
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update channel"}, status=500)
   

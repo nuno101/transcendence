@@ -27,18 +27,24 @@ def superuser_required(view_func):
   return wrapped_view
 
 # Checks for valid JSON syntax of the body and that the specified parameters are existing
-def check_body_syntax(parameters=[]):
+def check_body_syntax(structure_class):
   def decorator(view_func):
     def wrapped_view(self, request, *args, **kwargs):
       try:
         self.body = json.loads(request.body.decode("utf-8"))
       except:
         return JsonResponse({ERROR_FIELD: "Invalid body JSON syntax"}, status=400)
-      for param in parameters:
-        if self.body.get(param) is None:
-          return JsonResponse({ERROR_FIELD: f"Required body parameter '{param}' missing"}, status=400)
-      if len(self.body.keys()) < 1:
-        return JsonResponse({ERROR_FIELD: "No parameters specified"}, status=400)
+      params = structure_class.PARAMS
+      missing_params = params.copy()
+      for key in self.body.keys(): # TODO: Is it a bad idea to iterate over all user provided keys?
+        if key not in params and key not in structure_class.PARAMS_OPTIONAL:
+          return JsonResponse({ERROR_FIELD: f"Invalid body parameter '{key}'"}, status=400)
+        elif key in params and self.body.get(key) is None:
+          return JsonResponse({ERROR_FIELD: f"Required body parameter '{key}' missing"}, status=400)
+        missing_params.remove(key)
+      if len(missing_params) > 0:
+        return JsonResponse({ERROR_FIELD: f"Required body parameters " +
+                             f"{missing_params} missing"}, status=400)
       return view_func(self, request, *args, **kwargs)
     return wrapped_view
   return decorator

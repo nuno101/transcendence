@@ -6,6 +6,7 @@ from .models import User, FriendRequest
 from .helpers_users import *
 from .constants_websocket_events import *
 from .constants_http_response import *
+from . import constants_endpoint_structure as structure
 from . import bridge_websocket as websocket
 
 # Endpoint: /users/me
@@ -14,9 +15,13 @@ class UserPersonal(View):
   def get(self, request):
     return JsonResponse(request.user.serialize())
   
-  @check_body_syntax([])
+  @check_body_syntax(structure.Users_me.Patch_params)
   def patch(self, request):
-    return update_user(request.user, self.body)
+    user = update_model(request.user, self.body)
+    if user is None:
+      return JsonResponse({ERROR_FIELD: "Invalid input parameter"}, status=400)
+    # TODO: Implement websocket notification?
+    return JsonResponse(user.serialize())
   
   def delete(self, request):
     return delete_user(request.user)
@@ -24,7 +29,7 @@ class UserPersonal(View):
 # Endpoint: /users/me/avatar
 @method_decorator(login_required, name='dispatch')
 class AvatarPersonal(View):
-  @check_body_syntax(['avatar'])
+  @check_body_syntax(structure.Users_me_avatar.Post_params)
   def post(self, request):
     # TODO: Implement avatar upload
     pass
@@ -36,7 +41,7 @@ class BlockedCollection(View):
     blocked = request.user.blocked.all()
     return JsonResponse([b.serialize() for b in blocked], safe=False)
 
-  @check_body_syntax(['user_id'])  
+  @check_body_syntax(structure.Users_me_blocked.Post_params)
   def post(self, request): # TODO: Refactor this mess
     try:
       target_user = User.objects.get(pk=self.body.get('user_id'))
