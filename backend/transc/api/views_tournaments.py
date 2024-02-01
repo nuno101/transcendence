@@ -8,7 +8,6 @@ from . import constants_endpoint_structure as structure
 import datetime
 
 # Endpoint: /tournaments
-@method_decorator(login_required, name='dispatch')
 class TournamentCollection(View):
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
@@ -28,7 +27,6 @@ class TournamentCollection(View):
 		return JsonResponse(tournament.serialize(), status=201)
 
 # Endpoint: /tournaments/<int:tournament_id>
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(Tournament, 'tournament_id', 
 																			TOURNAMENT_404), name='dispatch')
 class TournamentSingle(View):

@@ -28,7 +28,6 @@ class Login(View):
 		return JsonResponse(user.serialize(private=True))
 
 # Endpoint: /logout
-@method_decorator(login_required, name='dispatch')
 class Logout(View):
 	def post(self, request):
 		websocket.message_group(f'user_{request.user.id}', 'close_connection', {})

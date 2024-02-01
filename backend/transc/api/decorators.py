@@ -4,14 +4,6 @@ import json
 from .models import Channel
 from .constants_http_response import *
 
-# Not using django.contrib.auth.decorators.login_required because it redirects to /accounts/login/
-def login_required(view_func):
-  def wrapped_view(request, *args, **kwargs):
-    if not request.user.is_authenticated:
-      return JsonResponse({ERROR_FIELD: "Not logged in"}, status=401)
-    return view_func(request, *args, **kwargs)
-  return wrapped_view
-
 def staff_required(view_func):
   def wrapped_view(request, *args, **kwargs):
     if not request.user.is_staff:

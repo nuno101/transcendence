@@ -8,7 +8,6 @@ from .helpers_games import update_game
 from . import constants_endpoint_structure as structure
 
 # Endpoint: /games
-@method_decorator(login_required, name='dispatch')
 class GameView(View):
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
@@ -38,7 +37,6 @@ class GameView(View):
 		return JsonResponse(game.serialize(), status=201)
 
 # Endpoint: /games/<int:game_id>
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(Game, 'game_id', GAME_404), name='dispatch')
 class GameDetail(View):
 	def get(self, request, game_id):

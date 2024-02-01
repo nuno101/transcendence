@@ -10,7 +10,6 @@ from . import constants_endpoint_structure as structure
 from . import bridge_websocket as websocket
 
 # Endpoint: /users/me
-@method_decorator(login_required, name='dispatch')
 class UserPersonal(View):
   def get(self, request):
     return JsonResponse(request.user.serialize())
@@ -27,7 +26,6 @@ class UserPersonal(View):
     return delete_user(request.user)
 
 # Endpoint: /users/me/avatar
-@method_decorator(login_required, name='dispatch')
 class AvatarPersonal(View):
   @check_body_syntax(structure.Users_me_avatar.Post)
   def post(self, request):
@@ -35,7 +33,6 @@ class AvatarPersonal(View):
     pass
 
 # Endpoint: /users/me/blocked
-@method_decorator(login_required, name='dispatch')
 class BlockedCollection(View):
   def get(self, request):
     blocked = request.user.blocked.all()
@@ -78,7 +75,6 @@ class BlockedCollection(View):
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/blocked/<int:user_id>
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class BlockedSingle(View):
   def delete(self, request, user_id):
@@ -91,7 +87,6 @@ class BlockedSingle(View):
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/channels
-@method_decorator(login_required, name='dispatch')
 class ChannelPersonal(View):
   def get(self, request):
     channels = Channel.objects.filter(members=request.user).order_by("-updated_at")

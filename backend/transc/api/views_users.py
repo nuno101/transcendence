@@ -10,7 +10,6 @@ from . import constants_endpoint_structure as structure
 
 # Endpoint: /users
 class UserCollection(View):
-	@method_decorator(login_required, name='dispatch')
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		users = User.objects.order_by("username")
@@ -29,7 +28,6 @@ class UserCollection(View):
 		return JsonResponse(user.serialize(private=True), status=201)
 
 # Endpoint: /users/<int:user_id>
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class UserSingle(View):
 	def get(self, request, user_id):
@@ -47,7 +45,6 @@ class UserSingle(View):
 		return HttpResponse(status=204)
 
 # Endpoint: /users/<int:user_id>/avatar
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class UserAvatar(View):
 	def get(self, request, user_id):
@@ -56,7 +53,6 @@ class UserAvatar(View):
 		pass
 
 # Endpoint: /users/<int:user_id>/stats
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class StatsUser(View):
 	def get(self, request, user_id):
@@ -64,7 +60,6 @@ class StatsUser(View):
 		return JsonResponse(u.stats.serialize())
 
 # Endpoint: /users/<int:user_id>/games
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class GameCollectionUser(View):
 	def get(self, request, user_id):

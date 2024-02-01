@@ -12,14 +12,12 @@ from . import bridge_websocket as websocket
 from . import constants_endpoint_structure as structure
 
 # Endpoint: /users/me/friends
-@method_decorator(login_required, name='dispatch')
 class FriendCollection(View):
   def get(self, request):
     friends = request.user.friends.all()
     return JsonResponse([f.serialize(private=True) for f in friends], safe=False)
 
 # Endpoint: /users/me/friends/<int:user_id>
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class FriendSingle(View):
   def delete(self, request, user_id):
@@ -35,7 +33,6 @@ class FriendSingle(View):
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
-@method_decorator(login_required, name='dispatch')
 class FriendRequestCollection(View):
   # Get all friend requests, choose between sent and received
   def get(self, request):
@@ -85,7 +82,6 @@ class FriendRequestCollection(View):
     return JsonResponse(friend_request.serialize(), status=201)
 
 # Endpoint: /users/me/friends/requests/<int:request_id>
-@method_decorator(login_required, name='dispatch')
 @method_decorator(check_object_exists(FriendRequest, 'request_id', 
                                       FRIEND_REQUEST_404), name='dispatch')
 class FriendRequestSingle(View):

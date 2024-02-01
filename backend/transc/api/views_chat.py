@@ -9,7 +9,6 @@ from . import bridge_websocket as websocket
 from . import constants_endpoint_structure as structure
 
 # Endpoint: /channels
-@method_decorator(login_required, name='dispatch')
 class ChannelCollection(View):
   @method_decorator(staff_required, name='dispatch')
   def get(self, request):
@@ -23,8 +22,7 @@ class ChannelCollection(View):
     channel.members.add(request.user)
     return JsonResponse(channel.serialize(), status=201)
 
-CHANNEL_ACCESS_DECORATORS = [login_required, 
-                             check_channel_member]
+CHANNEL_ACCESS_DECORATORS = [check_channel_member] # TODO: Refactor
 
 # Endpoint: /channels/<int:channel_id>
 @method_decorator(CHANNEL_ACCESS_DECORATORS, name='dispatch')
@@ -107,15 +105,13 @@ class ChannelMessageCollection(View):
     return create_message(channel, request.user, self.body)
 
 # Endpoint: /messages
-@method_decorator(login_required, name='dispatch')
 class MessageCollection(View):
   @method_decorator(staff_required, name='dispatch')
   def get(self, request):
     messages = Message.objects.all().order_by("-created_at")
     return JsonResponse([message.serialize() for message in messages], safe=False)
 
-MESSAGE_ACCESS_DECORATORS = [login_required,
-                              check_message_author]
+MESSAGE_ACCESS_DECORATORS = [check_message_author] # TODO: Refactor
 
 # Endpoint: /messages/<int:message_id>
 @method_decorator(MESSAGE_ACCESS_DECORATORS, name='dispatch')
