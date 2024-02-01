@@ -4,14 +4,57 @@ import importlib
 import shutil
 import os
 
+CLASS_BLACKLIST = ["__class__"]
+
 BODY_REQESTS = ["POST", "PATCH"]
 
 def generate_table(data):
+    if len(data) == 0:
+        print("None\n")
+        return
+
     keys = data[0].keys()
     print(f"| {' | '.join(keys)} |")
     print(f"| {' | '.join(['---' for _ in keys])} |")
     for row in data:
         print(f"| {' | '.join([str(row[key]) for key in keys])} |")
+
+def generate_multitable(table_data):
+    keys = table_data.keys()
+    # print("<tr><th>Body Parameters</th><th>Query Parameters</th></tr><tr><td>\n")
+    print("<table>\n<tr>")
+    for key in keys:
+        print(f"<th>{key}</th>")
+    print("</tr><tr><td>\n")
+
+    first = True
+    for key in keys:
+        if first:
+            first = False
+        else:
+            print("</td><td>")
+        generate_table(table_data[key])
+
+    for _ in keys:
+        print("</td></tr>")
+    print("</table>\n")
+
+def generate_multitable(table_data):
+    keys = table_data.keys()
+    print("<table>\n<tr>")
+    for key in keys:
+        print(f"<th>{key}</th>")
+    print("</tr><tr><td>\n")
+
+    first = True
+    for key in keys:
+        if first:
+            first = False
+        else:
+            print("</td><td>")
+        generate_table(table_data[key])
+
+    print("</td></tr></table>\n")
 
 def main():
     if len(sys.argv) != 2:
@@ -35,13 +78,15 @@ def main():
         "POST_endpoint_count": 0,
         "PATCH_endpoint_count": 0,
         "DELETE_endpoint_count": 0,
-        "url_endpoint_count": 0,
         "url_endpoints": []
     }
 
     # Iterate over all classes in the file and add it to the url endpoint
     for name, obj in inspect.getmembers(module):
         if inspect.isclass(obj):
+            if name in CLASS_BLACKLIST:
+                continue
+
             url_endpoint = {
                 "url": obj.url,
                 "methods": []
@@ -50,27 +95,32 @@ def main():
             # Iterate over all subclasses of the class and add it to the url entry
             for name_subclass, obj_subclass in inspect.getmembers(obj):
                 if inspect.isclass(obj_subclass):
-                    if name_subclass == "__class__":
+                    if name_subclass in CLASS_BLACKLIST:
                         continue
 
                     method = name_subclass.upper()
 
-                    # Get params and params_optional for method
-                    params = []
+                    # Get query params for method
+                    query_params = []
+                    if hasattr(obj_subclass, "QUERY_PARAMS"):
+                        query_params = obj_subclass.QUERY_PARAMS
+
+                    # Get body params for method
+                    body_params = []
                     if method in BODY_REQESTS:
-                        params = obj_subclass.PARAMS
+                        body_params = obj_subclass.BODY_PARAMS
 
                     # Add method to url endpoint
                     url_endpoint["methods"].append({
                         "name": method,
-                        "params": params,
+                        "query_params": query_params,
+                        "body_params": body_params,
                     })
                     output["method_endpoint_count"] += 1
                     output[f"{method}_endpoint_count"] += 1
 
             # Add url endpoint to output
             output["url_endpoints"].append(url_endpoint)
-            output["url_endpoint_count"] += 1
 
     # Delete file
     os.remove("constants_endpoint_structure.py")
@@ -78,7 +128,8 @@ def main():
     # Generate header and statistics section
     print(f"# Endpoint documentation\n")
     print(f"## Statistics\n")
-    print(f"Total number of urls: {output['url_endpoint_count']}")
+    url_endpoint_count = len(output["url_endpoints"])
+    print(f"Total number of urls: {url_endpoint_count}")
     for endpoint in output["url_endpoints"]:
         name = endpoint["url"].replace('<', '\<').replace('>', '\>')
         link_name= name.replace('/', '-')[1:]
@@ -101,25 +152,24 @@ def main():
         for method in endpoint["methods"]:
             print(f"#### {method['name']}\n")
 
-            print("<table>")
-            print("<tr><th>Test table 1</th><th>Test table 2</th></tr>")
-            print("<tr><td>\n")
+            table_data = {
+                "Body Parameters": method["body_params"],
+                "Query Parameters": method["query_params"],
+                "Response": []
+            }
+            generate_multitable(table_data)
 
-            if len(method["params"]) == 0:
-                print("No params")
-            else:
-                generate_table(method["params"])
 
-            print("</td><td>\n")
+            # print("<table>")
+            # print("<tr><th>Body Parameters</th><th>Query Parameters</th></tr><tr><td>\n")
 
-            if len(method["params"]) == 0:
-                print("No params")
-            else:
-                generate_table(method["params"])
+            # generate_table(method["body_params"])
 
-            print("</td></tr>")
-            print("</td></tr>")
-            print()
+            # print("</td><td>")
+
+            # generate_table(method["query_params"])
+
+            # print("</td></tr></table>\n")
 
 if __name__ == "__main__":
     main()

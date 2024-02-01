@@ -4,7 +4,16 @@ class Login:
   url = "/login"
 
   class Post:
-    PARAMS = [ {
+    QYERY_PARAMS = [
+      {
+        "name": "remember",
+        "type": "boolean",
+        "required": False,
+        "default": False,
+        "description": "If false, the session will be deleted after the browser is closed"
+      }
+    ]
+    BODY_PARAMS = [ {
       "name": "username",
       "type": "string",
       "required": True,
@@ -20,7 +29,7 @@ class Logout:
   url = "/logout"
 
   class Post:
-    PARAMS = []
+    BODY_PARAMS = []
 
 class Users_me:
   url = "/users/me"
@@ -29,7 +38,7 @@ class Users_me:
     pass
 
   class Patch:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "nickname",
         "type": "string",
@@ -51,7 +60,7 @@ class Users_me_avatar:
 
   # TODO: Specify parameters
   class Post:
-    PARAMS = []
+    BODY_PARAMS = []
 
 class Users_me_blocked:
   url = "/users/me/blocked"
@@ -60,7 +69,7 @@ class Users_me_blocked:
     pass
 
   class Post:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "user_id",
         "type": "id",
@@ -97,10 +106,18 @@ class Users_me_friends_requests:
   url = "/users/me/friends/requests"
 
   class Get:
-    pass
+    QUERY_PARAMS = [
+      {
+        "name": "type",
+        "type": "string",
+        "required": True,
+        "default": "all",
+        "description": "Type of the friend requests returned (all, sent, received)"
+      }
+    ]
 
   class Post:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "username",
         "type": "string",
@@ -113,7 +130,7 @@ class Users_me_friends_requests_id:
   url = "/users/me/friends/requests/REQUEST_ID"
 
   class Post:
-    PARAMS = []
+    BODY_PARAMS = []
 
   class Delete:
     pass
@@ -137,7 +154,7 @@ class Users:
     pass
 
   class Post:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "username",
         "type": "string",
@@ -158,7 +175,7 @@ class Users_id:
     pass
 
   class Patch:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "nickname",
         "type": "string",
@@ -200,7 +217,7 @@ class Tournaments:
     pass
 
   class Post:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "title",
         "type": "string",
@@ -221,7 +238,7 @@ class Tournaments_id:
     pass
 
   class Patch:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "title",
         "type": "string",
@@ -242,7 +259,7 @@ class Games:
     pass
 
   class Post:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "tournament_id",
         "type": "id",
@@ -278,7 +295,7 @@ class Games_id:
     pass
 
   class Patch:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "player1_score",
         "type": "integer",
@@ -309,7 +326,7 @@ class Channels:
     pass
 
   class Post:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "name",
         "type": "string",
@@ -325,7 +342,7 @@ class Channels_id:
     pass
 
   class Patch:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "name",
         "type": "string",
@@ -344,7 +361,7 @@ class Channels_id_members:
     pass
 
   class Patch:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "user_id",
         "type": "id",
@@ -366,7 +383,7 @@ class Channels_id_messages:
     pass
 
   class Post:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "content",
         "type": "string",
@@ -385,7 +402,7 @@ class Messages_id:
   url = "/messages/MESSAGE_ID"
 
   class Patch:
-    PARAMS = [
+    BODY_PARAMS = [
       {
         "name": "content",
         "type": "string",

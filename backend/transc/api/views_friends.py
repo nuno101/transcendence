@@ -47,8 +47,6 @@ class FriendRequestCollection(View):
       friend_requests = FriendRequest.objects.filter(from_user=request.user)
     elif request_type == 'received':
       friend_requests = FriendRequest.objects.filter(to_user=request.user)
-    else:
-      return JsonResponse({ERROR_FIELD: "Invalid query parameter 'type'"}, status=400)
     return JsonResponse([r.serialize() for r in friend_requests], safe=False)
 
   # Create new friend request

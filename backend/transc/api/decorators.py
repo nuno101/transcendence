@@ -38,7 +38,7 @@ def check_body_syntax(structure_class):
 
       # Check for existing parameters
       keys = list(self.body.keys())
-      for param in structure_class.PARAMS:
+      for param in structure_class.BODY_PARAMS:
         if param["name"] not in keys and param["required"]:
           return JsonResponse({ERROR_FIELD: f"Parameter '{param['name']}' missing"}, status=400)
         keys.remove(param["name"])
