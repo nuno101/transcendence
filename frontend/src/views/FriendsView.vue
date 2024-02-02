@@ -57,7 +57,7 @@ onMounted(() => {
         <div class="con mt-5">
             <div class="row">
               <div class="col-7">
-                <div class="mt-2 bigtable gamestable rounded img-thumbnail d-md-block">
+                <div class="bigtable gamestable rounded img-thumbnail d-md-block">
                 <table class="table m-0 table-bordered">
                   <thead class="table-dark">
                     <tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.listoffriends')}}</th></tr>
@@ -84,7 +84,7 @@ onMounted(() => {
               </div>
               </div>
               <div class="col-5">
-                  <div class="mt-2 smalltable gamestable rounded img-thumbnail d-md-block">
+                  <div class="smalltable gamestable rounded img-thumbnail d-md-block">
                      <table class="table table-bordered table-hover m-0">
                         <thead class="table-dark">
                           <tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
@@ -107,7 +107,7 @@ onMounted(() => {
                       <tbody v-else class="text-center">No {{useI18n().t('friendsview.friendrequests')}}</tbody>
                     </table>
                   </div>
-                  <div class="mt-2 smalltable gamestable rounded img-thumbnail d-md-block">
+                  <div class="mt-2 mt-lg-4 smalltable gamestable rounded img-thumbnail d-md-block">
                      <table class="table table-hover m-0">
                         <thead class="table-dark">
                           <tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.pendingrequests')}}</th></tr>
@@ -160,31 +160,38 @@ onMounted(() => {
   background-color: white;
 }
 
+th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .gamestable {
   overflow-y: scroll;
   padding: 0;
 }
 
 .bigtable {
-  max-height: 335px;
+  height: 378px;
 }
 
 .smalltable {
-  max-height: 135px;
+  height: 177px;
 }
 
 @media (max-width: 991.98px) {
   .bigtable {
-    height: 245px;
+    height: 258px;
   }
   .smalltable {
-    height: 200px;
+    height: 125px;
   }
 }
 
+/* small --> sm */
 @media (max-width: 768px) {
-  .bigtable {
-    height: 280px;
+  th {
+    font-size: smaller;
   }
 }
 </style>
