@@ -8,7 +8,7 @@ CLASS_BLACKLIST = ["__class__"]
 
 BODY_REQESTS = ["POST", "PATCH"]
 
-def generate_object_table(data):
+def generate_object_table(data, name = None):
     if len(data) == 0:
         print("None")
         return
@@ -29,6 +29,8 @@ def generate_object_table(data):
     else:
         # Create vertical table and call recursively
         print("<table>\n")
+        if name:
+            print(f"<tr><th>{name}</th><th></th></tr>\n")
         for key in keys:
             print(f"<tr><td>{key}</td><td>")
             generate_object_table(data[key])
@@ -98,15 +100,17 @@ def main():
         
         # Generate method section
         for method in c.ENDPOINTS[endpoint]["methods"]:
-            print(f"### {method}\n")
-
             method_data = c.ENDPOINTS[endpoint]["methods"][method]
             table_data = {
                 "Body Parameters": method_data["body_params"],
                 "Query Parameters": method_data["query_params"],
                 "Response": {}
             }
-            generate_object_table(table_data)   
+            if method_data.get("description"):
+                name = f'{method} - {method_data["description"]}'
+            else:
+                name = method
+            generate_object_table(table_data, name)   
 
 if __name__ == "__main__":
     main()

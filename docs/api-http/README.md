@@ -38,9 +38,9 @@ Total number of urls: 29
 
 ## login
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -105,9 +105,9 @@ None
 
 ## logout
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -125,9 +125,9 @@ None
 
 ## users-me
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -143,9 +143,9 @@ None
 
 </table>
 
-### PATCH
-
 <table>
+
+<tr><th>PATCH</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -190,9 +190,9 @@ None
 
 </table>
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -210,9 +210,9 @@ None
 
 ## users-me-avatar
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -230,9 +230,9 @@ None
 
 ## users-me-blocked
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -248,9 +248,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -284,9 +284,9 @@ None
 
 ## users-me-blocked-USER_ID
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -304,9 +304,9 @@ None
 
 ## users-me-channels
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -324,9 +324,9 @@ None
 
 ## users-me-friends
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -344,9 +344,9 @@ None
 
 ## users-me-friends-USER_ID
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -364,9 +364,9 @@ None
 
 ## users-me-friends-requests
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -400,9 +400,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -436,9 +436,9 @@ None
 
 ## users-me-friends-requests-REQUEST_ID
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -454,9 +454,9 @@ None
 
 </table>
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -474,9 +474,9 @@ None
 
 ## users-me-notifications
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -494,9 +494,9 @@ None
 
 ## users-me-notifications-NOTIFICATION_ID
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -514,9 +514,9 @@ None
 
 ## users
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -532,9 +532,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -581,9 +581,9 @@ None
 
 ## users-USER_ID
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -599,9 +599,9 @@ None
 
 </table>
 
-### PATCH
-
 <table>
+
+<tr><th>PATCH</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -646,9 +646,9 @@ None
 
 </table>
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -666,9 +666,9 @@ None
 
 ## users-USER_ID-avatar
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -686,9 +686,9 @@ None
 
 ## users-USER_ID-stats
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -706,9 +706,9 @@ None
 
 ## users-USER_ID-games
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -726,9 +726,9 @@ None
 
 ## tournaments
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -744,9 +744,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -793,9 +793,9 @@ None
 
 ## tournaments-TOURNAMENT_ID
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -811,9 +811,9 @@ None
 
 </table>
 
-### PATCH
-
 <table>
+
+<tr><th>PATCH</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -860,9 +860,9 @@ None
 
 ## games
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -878,9 +878,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -966,9 +966,9 @@ None
 
 ## games-GAME_ID
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -984,9 +984,9 @@ None
 
 </table>
 
-### PATCH
-
 <table>
+
+<tr><th>PATCH</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -1044,9 +1044,9 @@ None
 
 </table>
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1064,9 +1064,9 @@ None
 
 ## channels
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1082,9 +1082,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -1118,9 +1118,9 @@ None
 
 ## channels-CHANNEL_ID
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1136,9 +1136,9 @@ None
 
 </table>
 
-### PATCH
-
 <table>
+
+<tr><th>PATCH</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -1170,9 +1170,9 @@ None
 
 </table>
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1190,9 +1190,9 @@ None
 
 ## channels-CHANNEL_ID-members
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1208,9 +1208,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -1244,9 +1244,9 @@ None
 
 ## channels-CHANNEL_ID-members-USER_ID
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1264,9 +1264,9 @@ None
 
 ## channels-CHANNEL_ID-messages
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1282,9 +1282,9 @@ None
 
 </table>
 
-### POST
-
 <table>
+
+<tr><th>POST</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -1318,9 +1318,9 @@ None
 
 ## messages
 
-### GET
-
 <table>
+
+<tr><th>GET</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
@@ -1338,9 +1338,9 @@ None
 
 ## messages-MESSAGE_ID
 
-### PATCH
-
 <table>
+
+<tr><th>PATCH</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 <table>
@@ -1372,9 +1372,9 @@ None
 
 </table>
 
-### DELETE
-
 <table>
+
+<tr><th>DELETE</th><th></th></tr>
 
 <tr><td>Body Parameters</td><td>
 None
