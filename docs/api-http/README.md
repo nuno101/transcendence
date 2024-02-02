@@ -45,26 +45,69 @@ Total number of urls: 29
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>username</td><td>string</td><td>True</td><td>Username of the user</td></tr>
-<tr><td>password</td><td>string</td><td>True</td><td>Password of the user</td></tr>
-</table>
-
-</td><td>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>remember</td><td>boolean</td><td>False</td><td>If false, the session will be deleted after the browser is closed</td></tr>
-</table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Username of the user</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Password of the user</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
+<table>
+<tr>
+<th>remember</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>default</th>
+<th>description</th>
+</tr><tr>
+<td>boolean</td>
+<td>False</td>
+<td>False</td>
+<td>If false, the session will be deleted after the browser is closed</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## logout
 
@@ -75,17 +118,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me
 
@@ -96,17 +139,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### PATCH
 
@@ -115,22 +158,49 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>nickname</td><td>string</td><td>False</td><td>Nickname of the user</td></tr>
-<tr><td>password</td><td>string</td><td>False</td><td>Password of the user</td></tr>
-</table>
+<tr>
+<th>nickname</th>
+<th>password</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Nickname of the user</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Password of the user</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### DELETE
 
@@ -139,17 +209,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-avatar
 
@@ -160,17 +230,15 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>[]</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
-None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-blocked
 
@@ -181,17 +249,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -200,21 +268,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>user_id</td><td>id</td><td>True</td><td>ID of the user to block</td></tr>
-</table>
+<tr>
+<th>user_id</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>id</td>
+<td>True</td>
+<td>ID of the user to block</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-blocked-USER_ID
 
@@ -225,17 +307,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-channels
 
@@ -246,17 +328,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-friends
 
@@ -267,17 +349,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-friends-USER_ID
 
@@ -288,17 +370,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-friends-requests
 
@@ -309,21 +391,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
-None
-</td><td>
+</tr><tr>
+<td>[]</td>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>type</td><td>string</td><td>False</td><td>Type of the friend requests returned (all, sent, received)</td></tr>
-</table>
+<tr>
+<th>type</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>default</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>all</td>
+<td>Type of the friend requests returned (all, sent, received)</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -332,21 +428,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>username</td><td>string</td><td>True</td><td>Username of the user to send the friend request to</td></tr>
-</table>
+<tr>
+<th>username</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Username of the user to send the friend request to</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-friends-requests-REQUEST_ID
 
@@ -357,17 +467,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### DELETE
 
@@ -376,17 +486,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-notifications
 
@@ -397,17 +507,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-me-notifications-NOTIFICATION_ID
 
@@ -418,17 +528,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users
 
@@ -439,17 +549,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -458,22 +568,49 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>username</td><td>string</td><td>True</td><td>Username of the user</td></tr>
-<tr><td>password</td><td>string</td><td>True</td><td>Password of the user</td></tr>
-</table>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Username of the user</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Password of the user</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-USER_ID
 
@@ -484,17 +621,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### PATCH
 
@@ -503,22 +640,49 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>nickname</td><td>string</td><td>False</td><td>Nickname of the user</td></tr>
-<tr><td>password</td><td>string</td><td>False</td><td>Password of the user</td></tr>
-</table>
+<tr>
+<th>nickname</th>
+<th>password</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Nickname of the user</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Password of the user</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### DELETE
 
@@ -527,17 +691,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-USER_ID-avatar
 
@@ -548,17 +712,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-USER_ID-stats
 
@@ -569,17 +733,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## users-USER_ID-games
 
@@ -590,17 +754,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## tournaments
 
@@ -611,17 +775,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -630,22 +794,49 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>title</td><td>string</td><td>True</td><td>Title of the tournament</td></tr>
-<tr><td>description</td><td>string</td><td>False</td><td>Description of the tournament</td></tr>
-</table>
+<tr>
+<th>title</th>
+<th>description</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Title of the tournament</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Description of the tournament</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## tournaments-TOURNAMENT_ID
 
@@ -656,17 +847,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### PATCH
 
@@ -675,22 +866,49 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>title</td><td>string</td><td>False</td><td>Title of the tournament</td></tr>
-<tr><td>description</td><td>string</td><td>False</td><td>Description of the tournament</td></tr>
-</table>
+<tr>
+<th>title</th>
+<th>description</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Title of the tournament</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Description of the tournament</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## games
 
@@ -701,17 +919,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -720,25 +938,91 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>tournament_id</td><td>id</td><td>False</td><td>ID of the tournament</td></tr>
-<tr><td>player1_id</td><td>id</td><td>True</td><td>ID of the first player</td></tr>
-<tr><td>player2_id</td><td>id</td><td>True</td><td>ID of the second player</td></tr>
-<tr><td>player1_score</td><td>integer</td><td>True</td><td>Score of the first player</td></tr>
-<tr><td>player2_score</td><td>integer</td><td>True</td><td>Score of the second player</td></tr>
-</table>
+<tr>
+<th>tournament_id</th>
+<th>player1_id</th>
+<th>player2_id</th>
+<th>player1_score</th>
+<th>player2_score</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>id</td>
+<td>False</td>
+<td>ID of the tournament</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>id</td>
+<td>True</td>
+<td>ID of the first player</td>
+</tr></table>
+
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>id</td>
+<td>True</td>
+<td>ID of the second player</td>
+</tr></table>
+
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>integer</td>
+<td>True</td>
+<td>Score of the first player</td>
+</tr></table>
+
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>integer</td>
+<td>True</td>
+<td>Score of the second player</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## games-GAME_ID
 
@@ -749,17 +1033,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### PATCH
 
@@ -768,23 +1052,63 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>player1_score</td><td>integer</td><td>False</td><td>Score of the first player</td></tr>
-<tr><td>player2_score</td><td>integer</td><td>False</td><td>Score of the second player</td></tr>
-<tr><td>status</td><td>string</td><td>False</td><td>Status of the game</td></tr>
-</table>
+<tr>
+<th>player1_score</th>
+<th>player2_score</th>
+<th>status</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>integer</td>
+<td>False</td>
+<td>Score of the first player</td>
+</tr></table>
 
-</td><td>
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>integer</td>
+<td>False</td>
+<td>Score of the second player</td>
+</tr></table>
+
+</td>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Status of the game</td>
+</tr></table>
+
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### DELETE
 
@@ -793,17 +1117,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## channels
 
@@ -814,17 +1138,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -833,21 +1157,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>name</td><td>string</td><td>True</td><td>Name of the channel</td></tr>
-</table>
+<tr>
+<th>name</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Name of the channel</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## channels-CHANNEL_ID
 
@@ -858,17 +1196,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### PATCH
 
@@ -877,21 +1215,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>name</td><td>string</td><td>False</td><td>Name of the channel</td></tr>
-</table>
+<tr>
+<th>name</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>False</td>
+<td>Name of the channel</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### DELETE
 
@@ -900,17 +1252,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## channels-CHANNEL_ID-members
 
@@ -921,17 +1273,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -940,21 +1292,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>user_id</td><td>id</td><td>True</td><td>ID of the user to add to the channel</td></tr>
-</table>
+<tr>
+<th>user_id</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>id</td>
+<td>True</td>
+<td>ID of the user to add to the channel</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## channels-CHANNEL_ID-members-USER_ID
 
@@ -965,17 +1331,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## channels-CHANNEL_ID-messages
 
@@ -986,17 +1352,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### POST
 
@@ -1005,21 +1371,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>content</td><td>string</td><td>True</td><td>Content of the message</td></tr>
-</table>
+<tr>
+<th>content</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Content of the message</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## messages
 
@@ -1030,17 +1410,17 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ## messages-MESSAGE_ID
 
@@ -1051,21 +1431,35 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
-<tr><td>content</td><td>string</td><td>True</td><td>Content of the message</td></tr>
-</table>
+<tr>
+<th>content</th>
+</tr><tr>
+<td>
+<table>
+<tr>
+<th>type</th>
+<th>required</th>
+<th>description</th>
+</tr><tr>
+<td>string</td>
+<td>True</td>
+<td>Content of the message</td>
+</tr></table>
 
-</td><td>
+</td>
+</tr></table>
+
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 
 ### DELETE
 
@@ -1074,15 +1468,15 @@ None
 <th>Body Parameters</th>
 <th>Query Parameters</th>
 <th>Response</th>
-</tr><tr><td>
-
+</tr><tr>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td><td>
+</td>
+<td>
 None
-</td></tr>
-</td></tr>
-</td></tr>
-</table>
+</td>
+</tr></table>
 

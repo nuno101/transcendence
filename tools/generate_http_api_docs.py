@@ -13,11 +13,19 @@ def generate_object_table(data):
         print("None")
         return
 
-    keys = data.keys()
-    print("<table>\n<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>")
-    for key in keys:
-        print(f"<tr><td>{key}</td><td>{data[key]['type']}</td><td>{data[key]['required']}</td><td>{data[key]['description']}</td></tr>")
-    print("</table>\n")
+    columns = data.keys()
+    print("<table>\n<tr>")
+    for column in columns:
+        print(f"<th>{column}</th>")
+    print("</tr><tr>")
+    for column in columns:
+        if isinstance(data[column], dict):
+            print("<td>")
+            generate_object_table(data[column])
+            print("</td>")
+        else:
+            print(f"<td>{data[column]}</td>")
+    print("</tr></table>\n")
 
 def generate_object_2Dtable(table_data):
     keys = table_data.keys()
@@ -105,9 +113,9 @@ def main():
             table_data = {
                 "Body Parameters": method_data["body_params"],
                 "Query Parameters": method_data["query_params"],
-                "Response": []
+                "Response": {}
             }
-            generate_object_2Dtable(table_data)   
+            generate_object_table(table_data)   
 
 if __name__ == "__main__":
     main()

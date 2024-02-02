@@ -345,9 +345,3 @@ ENDPOINTS = {
     }
   } 
 }
-
-def get_query_params(endpoint, request_method):
-  return ENDPOINTS[endpoint]["methods"][request_method]["query_params"]
-
-def get_body_params(endpoint, request_method):
-  return ENDPOINTS[endpoint]["methods"][request_method]["body_params"]
