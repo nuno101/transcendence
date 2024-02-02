@@ -24,6 +24,18 @@ class Backend {
 
         return await respone.json()
     }
+
+    static async delete(path) {
+        const arg = {
+            method: 'DELETE',
+            credentials: 'include'
+        };
+
+        const respone = await fetch(path, arg)
+        // RESPONE IS EMPTY IN DELETE CASE
+        // if (!respone.ok) throw new Error(respone.statusText);
+        // return await respone.json()
+    }
 }
 
 export default Backend
