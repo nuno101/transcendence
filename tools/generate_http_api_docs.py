@@ -36,26 +36,6 @@ def generate_object_table(data, name = None):
             generate_object_table(data[key])
             print("</td></tr>\n")
         print("</table>\n")
-    
-def generate_object_2Dtable(table_data):
-    keys = table_data.keys()
-    # print("<tr><th>Body Parameters</th><th>Query Parameters</th></tr><tr><td>\n")
-    print("<table>\n<tr>")
-    for key in keys:
-        print(f"<th>{key}</th>")
-    print("</tr><tr><td>\n")
-
-    first = True
-    for key in keys:
-        if first:
-            first = False
-        else:
-            print("</td><td>")
-        generate_object_table(table_data[key])
-
-    for _ in keys:
-        print("</td></tr>")
-    print("</table>\n")
 
 def main():
     if len(sys.argv) != 2:
@@ -110,10 +90,9 @@ def main():
             else:
                 name = method
             print(f"### {name}\n")
-            print("#### Query Parameters")
-            generate_object_table(method_data["query_params"])
-            print("#### Body Parameters")
-            generate_object_table(method_data["body_params"])
+            generate_object_table(method_data["query_params"], "Query Parameters")
+            generate_object_table(method_data["body_params"], "Body Parameters")
+            # TODO: Implement response documentation
 
 if __name__ == "__main__":
     main()

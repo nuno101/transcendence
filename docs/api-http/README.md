@@ -41,8 +41,9 @@ Total number of methods: 48
 
 ### POST
 
-#### Query Parameters
 <table>
+
+<tr><th>Query Parameters</th><th></th></tr>
 
 <tr><td>remember</td><td>
 <table>
@@ -61,8 +62,9 @@ Total number of methods: 48
 
 </table>
 
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>username</td><td>
 <table>
@@ -96,24 +98,20 @@ Total number of methods: 48
 
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### PATCH
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>nickname</td><td>
 <table>
@@ -145,32 +143,26 @@ None
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-avatar
 
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-blocked
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>user_id</td><td>
 <table>
@@ -191,40 +183,33 @@ None
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-channels
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-friends
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-friends-USER_ID
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-friends-requests
 
 ### GET
 
-#### Query Parameters
 <table>
+
+<tr><th>Query Parameters</th><th></th></tr>
 
 <tr><td>type</td><td>
 <table>
@@ -243,14 +228,13 @@ None
 
 </table>
 
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>username</td><td>
 <table>
@@ -271,46 +255,36 @@ None
 
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-notifications
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-me-notifications-NOTIFICATION_ID
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>username</td><td>
 <table>
@@ -344,16 +318,14 @@ None
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### PATCH
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>nickname</td><td>
 <table>
@@ -385,48 +357,38 @@ None
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-USER_ID-avatar
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-USER_ID-stats
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## users-USER_ID-games
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## tournaments
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>title</td><td>
 <table>
@@ -460,16 +422,14 @@ None
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### PATCH
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>title</td><td>
 <table>
@@ -503,16 +463,14 @@ None
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>tournament_id</td><td>
 <table>
@@ -585,16 +543,14 @@ None
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### PATCH
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>player1_score</td><td>
 <table>
@@ -639,24 +595,20 @@ None
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## channels
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>name</td><td>
 <table>
@@ -677,16 +629,14 @@ None
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### PATCH
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>name</td><td>
 <table>
@@ -705,24 +655,20 @@ None
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## channels-CHANNEL_ID-members
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>user_id</td><td>
 <table>
@@ -743,24 +689,20 @@ None
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## channels-CHANNEL_ID-messages
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ### POST
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>content</td><td>
 <table>
@@ -781,18 +723,16 @@ None
 
 ### GET
 
-#### Query Parameters
 None
-#### Body Parameters
 None
 ## messages-MESSAGE_ID
 
 ### PATCH
 
-#### Query Parameters
 None
-#### Body Parameters
 <table>
+
+<tr><th>Body Parameters</th><th></th></tr>
 
 <tr><td>content</td><td>
 <table>
@@ -811,7 +751,5 @@ None
 
 ### DELETE
 
-#### Query Parameters
 None
-#### Body Parameters
 None
