@@ -8,6 +8,8 @@ Robert:
 * [ ] Add websocket event for notification creation
 * [x] Change game model so that it doesn't need a relationship with a tournament
 * [ ] Extend/Improve functionality of automatic http api documentation generation
+* [ ] Extend/Fully implement middleware used verify request query and body parameters
+* [ ] Implement middleware to verify valid response(-code) is sent
 
 Julia:
 * working on FriendsView.vue
