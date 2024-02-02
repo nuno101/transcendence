@@ -2,6 +2,7 @@
 
 Total number of urls: 29
 
+Total number of methods: 48
 # Table of Contents
 
 - [/login](#login)
@@ -38,44 +39,9 @@ Total number of urls: 29
 
 ## login
 
-<table>
+### POST
 
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-<table>
-
-<tr><td>username</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>True</td></tr>
-
-<tr><td>description</td><td>Username of the user</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>password</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>True</td></tr>
-
-<tr><td>description</td><td>Password of the user</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Query Parameters
 <table>
 
 <tr><td>remember</td><td>
@@ -95,448 +61,7 @@ Total number of urls: 29
 
 </table>
 
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## logout
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>PATCH</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-<table>
-
-<tr><td>nickname</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>description</td><td>Nickname of the user</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>password</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>description</td><td>Password of the user</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-avatar
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-blocked
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-<table>
-
-<tr><td>user_id</td><td>
-<table>
-
-<tr><td>type</td><td>id</td></tr>
-
-<tr><td>required</td><td>True</td></tr>
-
-<tr><td>description</td><td>ID of the user to block</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-blocked-USER_ID
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-channels
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-friends
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-friends-USER_ID
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-friends-requests
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-<table>
-
-<tr><td>type</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>default</td><td>all</td></tr>
-
-<tr><td>description</td><td>Type of the friend requests returned (all, sent, received)</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-<table>
-
-<tr><td>username</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>True</td></tr>
-
-<tr><td>description</td><td>Username of the user to send the friend request to</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-friends-requests-REQUEST_ID
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-notifications
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users-me-notifications-NOTIFICATION_ID
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-## users
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>username</td><td>
@@ -567,43 +92,27 @@ None
 
 </table>
 
-</td></tr>
+## logout
 
-<tr><td>Query Parameters</td><td>
+### POST
+
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
+#### Body Parameters
 None
-</td></tr>
+## users-me
 
-</table>
+### GET
 
-## users-USER_ID
-
-<table>
-
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### PATCH
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>PATCH</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>nickname</td><td>
@@ -634,121 +143,289 @@ None
 
 </table>
 
-</td></tr>
+### DELETE
 
-<tr><td>Query Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
+#### Body Parameters
 None
-</td></tr>
+## users-me-avatar
 
-</table>
+### POST
 
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users-me-blocked
+
+### GET
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+### POST
+
+#### Query Parameters
+None
+#### Body Parameters
 <table>
 
-<tr><th>DELETE</th><th></th></tr>
+<tr><td>user_id</td><td>
+<table>
 
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
+<tr><td>type</td><td>id</td></tr>
 
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
+<tr><td>required</td><td>True</td></tr>
 
-<tr><td>Response</td><td>
-None
+<tr><td>description</td><td>ID of the user to block</td></tr>
+
+</table>
+
 </td></tr>
 
 </table>
 
+## users-me-blocked-USER_ID
+
+### DELETE
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users-me-channels
+
+### GET
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users-me-friends
+
+### GET
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users-me-friends-USER_ID
+
+### DELETE
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users-me-friends-requests
+
+### GET
+
+#### Query Parameters
+<table>
+
+<tr><td>type</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>default</td><td>all</td></tr>
+
+<tr><td>description</td><td>Type of the friend requests returned (all, sent, received)</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
+
+#### Body Parameters
+None
+### POST
+
+#### Query Parameters
+None
+#### Body Parameters
+<table>
+
+<tr><td>username</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>Username of the user to send the friend request to</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
+
+## users-me-friends-requests-REQUEST_ID
+
+### POST
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+### DELETE
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users-me-notifications
+
+### GET
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users-me-notifications-NOTIFICATION_ID
+
+### DELETE
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+## users
+
+### GET
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+### POST
+
+#### Query Parameters
+None
+#### Body Parameters
+<table>
+
+<tr><td>username</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>Username of the user</td></tr>
+
+</table>
+
+</td></tr>
+
+<tr><td>password</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>Password of the user</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
+
+## users-USER_ID
+
+### GET
+
+#### Query Parameters
+None
+#### Body Parameters
+None
+### PATCH
+
+#### Query Parameters
+None
+#### Body Parameters
+<table>
+
+<tr><td>nickname</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>Nickname of the user</td></tr>
+
+</table>
+
+</td></tr>
+
+<tr><td>password</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>Password of the user</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
+
+### DELETE
+
+#### Query Parameters
+None
+#### Body Parameters
+None
 ## users-USER_ID-avatar
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## users-USER_ID-stats
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## users-USER_ID-games
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## tournaments
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### POST
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>title</td><td>
@@ -779,43 +456,19 @@ None
 
 </table>
 
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## tournaments-TOURNAMENT_ID
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### PATCH
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>PATCH</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>title</td><td>
@@ -846,43 +499,19 @@ None
 
 </table>
 
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## games
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### POST
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>tournament_id</td><td>
@@ -952,43 +581,19 @@ None
 
 </table>
 
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## games-GAME_ID
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### PATCH
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>PATCH</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>player1_score</td><td>
@@ -1032,61 +637,25 @@ None
 
 </table>
 
-</td></tr>
+### DELETE
 
-<tr><td>Query Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## channels
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### POST
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>name</td><td>
@@ -1104,43 +673,19 @@ None
 
 </table>
 
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## channels-CHANNEL_ID
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### PATCH
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>PATCH</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>name</td><td>
@@ -1158,61 +703,25 @@ None
 
 </table>
 
-</td></tr>
+### DELETE
 
-<tr><td>Query Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## channels-CHANNEL_ID-members
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### POST
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>user_id</td><td>
@@ -1230,63 +739,27 @@ None
 
 </table>
 
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## channels-CHANNEL_ID-members-USER_ID
 
-<table>
+### DELETE
 
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## channels-CHANNEL_ID-messages
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
+### POST
 
-<tr><td>Response</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>POST</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Body Parameters
 <table>
 
 <tr><td>content</td><td>
@@ -1300,49 +773,25 @@ None
 
 </table>
 
-</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
 </td></tr>
 
 </table>
 
 ## messages
 
-<table>
+### GET
 
-<tr><th>GET</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-
 ## messages-MESSAGE_ID
 
-<table>
+### PATCH
 
-<tr><th>PATCH</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
+#### Query Parameters
+None
+#### Body Parameters
 <table>
 
 <tr><td>content</td><td>
@@ -1360,33 +809,9 @@ None
 
 </table>
 
-</td></tr>
+### DELETE
 
-<tr><td>Query Parameters</td><td>
+#### Query Parameters
 None
-</td></tr>
-
-<tr><td>Response</td><td>
+#### Body Parameters
 None
-</td></tr>
-
-</table>
-
-<table>
-
-<tr><th>DELETE</th><th></th></tr>
-
-<tr><td>Body Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Query Parameters</td><td>
-None
-</td></tr>
-
-<tr><td>Response</td><td>
-None
-</td></tr>
-
-</table>
-

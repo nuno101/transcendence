@@ -80,17 +80,21 @@ def main():
     print(f"# Statistics\n")
     url_endpoint_count = len(c.ENDPOINTS.keys())
     print(f"Total number of urls: {url_endpoint_count}\n")
+    method_endpoint_count = 0
+    for endpoint in c.ENDPOINTS.keys():
+        method_endpoint_count += len(c.ENDPOINTS[endpoint]["methods"].keys())
+    print(f"Total number of methods: {method_endpoint_count}")
+
+    # print(f"- GET: {output['GET_endpoint_count']}")
+    # print(f"- POST: {output['POST_endpoint_count']}")
+    # print(f"- PATCH: {output['PATCH_endpoint_count']}")
+    # print(f"- DELETE: {output['DELETE_endpoint_count']}\n")
 
     print(f"# Table of Contents\n")
     for endpoint in c.ENDPOINTS.keys():
         link_name= endpoint.replace('/', '-')[1:]
         print(f"- [{endpoint}](#{link_name})")
     print()
-    # print(f"Total number of methods: {output['method_endpoint_count']}")
-    # print(f"- GET: {output['GET_endpoint_count']}")
-    # print(f"- POST: {output['POST_endpoint_count']}")
-    # print(f"- PATCH: {output['PATCH_endpoint_count']}")
-    # print(f"- DELETE: {output['DELETE_endpoint_count']}\n")
 
     # Generate endpoints section
     print(f"# Endpoint description\n")
@@ -101,16 +105,15 @@ def main():
         # Generate method section
         for method in c.ENDPOINTS[endpoint]["methods"]:
             method_data = c.ENDPOINTS[endpoint]["methods"][method]
-            table_data = {
-                "Body Parameters": method_data["body_params"],
-                "Query Parameters": method_data["query_params"],
-                "Response": {}
-            }
             if method_data.get("description"):
                 name = f'{method} - {method_data["description"]}'
             else:
                 name = method
-            generate_object_table(table_data, name)   
+            print(f"### {name}\n")
+            print("#### Query Parameters")
+            generate_object_table(method_data["query_params"])
+            print("#### Body Parameters")
+            generate_object_table(method_data["body_params"])
 
 if __name__ == "__main__":
     main()
