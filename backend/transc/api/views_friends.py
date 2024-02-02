@@ -9,7 +9,6 @@ from .constants_websocket_events import *
 from .constants_http_response import *
 from .constants_notification_types import *
 from . import bridge_websocket as websocket
-from . import constants_endpoint_structure as structure
 
 # Endpoint: /users/me/friends
 class FriendCollection(View):
@@ -47,7 +46,6 @@ class FriendRequestCollection(View):
     return JsonResponse([r.serialize() for r in friend_requests], safe=False)
 
   # Create new friend request
-  @check_body_syntax(structure.Users_me_friends_requests.Post)
   def post(self, request):
     try:
       target = User.objects.get(username=self.body.get('username'))

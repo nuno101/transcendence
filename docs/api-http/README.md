@@ -1,26 +1,11 @@
-# Endpoint documentation
-
-## Statistics
+# Statistics
 
 Total number of urls: 29
-- [/channels](#channels)
-- [/channels/CHANNEL_ID](#channels-CHANNEL_ID)
-- [/channels/CHANNEL_ID/members](#channels-CHANNEL_ID-members)
-- [/channels/CHANNEL_ID/members/USER_ID](#channels-CHANNEL_ID-members-USER_ID)
-- [/channels/CHANNEL_ID/messages](#channels-CHANNEL_ID-messages)
-- [/games](#games)
-- [/games/GAME_ID](#games-GAME_ID)
+
+# Table of Contents
+
 - [/login](#login)
 - [/logout](#logout)
-- [/messages](#messages)
-- [/messages/MESSAGE_ID](#messages-MESSAGE_ID)
-- [/tournaments](#tournaments)
-- [/tournaments/TOURNAMENT_ID](#tournaments-TOURNAMENT_ID)
-- [/users](#users)
-- [/users/USER_ID](#users-USER_ID)
-- [/users/USER_ID/avatar](#users-USER_ID-avatar)
-- [/users/USER_ID/games](#users-USER_ID-games)
-- [/users/USER_ID/stats](#users-USER_ID-stats)
 - [/users/me](#users-me)
 - [/users/me/avatar](#users-me-avatar)
 - [/users/me/blocked](#users-me-blocked)
@@ -32,18 +17,58 @@ Total number of urls: 29
 - [/users/me/friends/requests/REQUEST_ID](#users-me-friends-requests-REQUEST_ID)
 - [/users/me/notifications](#users-me-notifications)
 - [/users/me/notifications/NOTIFICATION_ID](#users-me-notifications-NOTIFICATION_ID)
+- [/users](#users)
+- [/users/USER_ID](#users-USER_ID)
+- [/users/USER_ID/avatar](#users-USER_ID-avatar)
+- [/users/USER_ID/stats](#users-USER_ID-stats)
+- [/users/USER_ID/games](#users-USER_ID-games)
+- [/tournaments](#tournaments)
+- [/tournaments/TOURNAMENT_ID](#tournaments-TOURNAMENT_ID)
+- [/games](#games)
+- [/games/GAME_ID](#games-GAME_ID)
+- [/channels](#channels)
+- [/channels/CHANNEL_ID](#channels-CHANNEL_ID)
+- [/channels/CHANNEL_ID/members](#channels-CHANNEL_ID-members)
+- [/channels/CHANNEL_ID/members/USER_ID](#channels-CHANNEL_ID-members-USER_ID)
+- [/channels/CHANNEL_ID/messages](#channels-CHANNEL_ID-messages)
+- [/messages](#messages)
+- [/messages/MESSAGE_ID](#messages-MESSAGE_ID)
 
-Total number of methods: 48
-- GET: 20
-- POST: 11
-- PATCH: 7
-- DELETE: 10
+# Endpoint description
 
-## Endpoints
+## login
 
-### channels
+### POST
 
-#### GET
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>username</td><td>string</td><td>True</td><td>Username of the user</td></tr>
+<tr><td>password</td><td>string</td><td>True</td><td>Password of the user</td></tr>
+</table>
+
+</td><td>
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>remember</td><td>boolean</td><td>False</td><td>If false, the session will be deleted after the browser is closed</td></tr>
+</table>
+
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## logout
+
+### POST
 
 <table>
 <tr>
@@ -54,36 +79,17 @@ Total number of methods: 48
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### POST
+## users-me
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| name | string | True | Name of the channel |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### channels-CHANNEL_ID
-
-#### DELETE
+### GET
 
 <table>
 <tr>
@@ -94,14 +100,39 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### GET
+### PATCH
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>nickname</td><td>string</td><td>False</td><td>Nickname of the user</td></tr>
+<tr><td>password</td><td>string</td><td>False</td><td>Password of the user</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+### DELETE
 
 <table>
 <tr>
@@ -112,36 +143,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### PATCH
+## users-me-avatar
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| name | string | False | Name of the channel |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### channels-CHANNEL_ID-members
-
-#### GET
+### POST
 
 <table>
 <tr>
@@ -152,36 +164,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### PATCH
+## users-me-blocked
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| user_id | id | True | ID of the user to add to the channel |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### channels-CHANNEL_ID-members-USER_ID
-
-#### DELETE
+### GET
 
 <table>
 <tr>
@@ -192,16 +185,40 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### channels-CHANNEL_ID-messages
+### POST
 
-#### GET
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>user_id</td><td>id</td><td>True</td><td>ID of the user to block</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## users-me-blocked-USER_ID
+
+### DELETE
 
 <table>
 <tr>
@@ -212,36 +229,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### POST
+## users-me-channels
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| content | string | True | Content of the message |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### games
-
-#### GET
+### GET
 
 <table>
 <tr>
@@ -252,40 +250,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### POST
+## users-me-friends
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| tournament_id | id | False | ID of the tournament |
-| player1_id | id | True | ID of the first player |
-| player2_id | id | True | ID of the second player |
-| player1_score | integer | True | Score of the first player |
-| player2_score | integer | True | Score of the second player |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### games-GAME_ID
-
-#### DELETE
+### GET
 
 <table>
 <tr>
@@ -296,79 +271,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### GET
+## users-me-friends-USER_ID
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-None
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-#### PATCH
-
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| player1_score | integer | False | Score of the first player |
-| player2_score | integer | False | Score of the second player |
-| status | string | False | Status of the game |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### login
-
-#### POST
-
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| username | string | True | Username of the user |
-| password | string | True | Password of the user |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### logout
-
-#### POST
+### DELETE
 
 <table>
 <tr>
@@ -379,16 +292,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### messages
+## users-me-friends-requests
 
-#### GET
+### GET
 
 <table>
 <tr>
@@ -399,16 +313,44 @@ None
 
 None
 </td><td>
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>type</td><td>string</td><td>False</td><td>Type of the friend requests returned (all, sent, received)</td></tr>
+</table>
 
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+### POST
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>username</td><td>string</td><td>True</td><td>Username of the user to send the friend request to</td></tr>
+</table>
+
+</td><td>
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### messages-MESSAGE_ID
+## users-me-friends-requests-REQUEST_ID
 
-#### DELETE
+### POST
 
 <table>
 <tr>
@@ -419,36 +361,15 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### PATCH
-
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| content | string | True | Content of the message |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### tournaments
-
-#### GET
+### DELETE
 
 <table>
 <tr>
@@ -459,37 +380,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### POST
+## users-me-notifications
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| title | string | True | Title of the tournament |
-| description | string | False | Description of the tournament |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### tournaments-TOURNAMENT_ID
-
-#### GET
+### GET
 
 <table>
 <tr>
@@ -500,37 +401,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### PATCH
+## users-me-notifications-NOTIFICATION_ID
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| title | string | False | Title of the tournament |
-| description | string | False | Description of the tournament |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### users
-
-#### GET
+### DELETE
 
 <table>
 <tr>
@@ -541,37 +422,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### POST
+## users
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| username | string | True | Username of the user |
-| password | string | True | Password of the user |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### users-USER_ID
-
-#### DELETE
+### GET
 
 <table>
 <tr>
@@ -582,14 +443,41 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### GET
+### POST
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>username</td><td>string</td><td>True</td><td>Username of the user</td></tr>
+<tr><td>password</td><td>string</td><td>True</td><td>Password of the user</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## users-USER_ID
+
+### GET
 
 <table>
 <tr>
@@ -600,14 +488,15 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### PATCH
+### PATCH
 
 <table>
 <tr>
@@ -616,41 +505,22 @@ None
 <th>Response</th>
 </tr><tr><td>
 
-| name | type | required | description |
-| --- | --- | --- | --- |
-| nickname | string | False | Nickname of the user |
-| password | string | False | Password of the user |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### users-USER_ID-avatar
-
-#### GET
-
 <table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>nickname</td><td>string</td><td>False</td><td>Nickname of the user</td></tr>
+<tr><td>password</td><td>string</td><td>False</td><td>Password of the user</td></tr>
+</table>
 
+</td><td>
 None
 </td><td>
-
 None
-</td><td>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-None
-</td></tr></table>
-
-### users-USER_ID-games
-
-#### GET
+### DELETE
 
 <table>
 <tr>
@@ -661,16 +531,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-USER_ID-stats
+## users-USER_ID-avatar
 
-#### GET
+### GET
 
 <table>
 <tr>
@@ -681,16 +552,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-me
+## users-USER_ID-stats
 
-#### DELETE
+### GET
 
 <table>
 <tr>
@@ -701,14 +573,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### GET
+## users-USER_ID-games
+
+### GET
 
 <table>
 <tr>
@@ -719,37 +594,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### PATCH
+## tournaments
 
-<table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
-
-| name | type | required | description |
-| --- | --- | --- | --- |
-| nickname | string | False | Nickname of the user |
-| password | string | False | Password of the user |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### users-me-avatar
-
-#### POST
+### GET
 
 <table>
 <tr>
@@ -760,16 +615,41 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-me-blocked
+### POST
 
-#### GET
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>title</td><td>string</td><td>True</td><td>Title of the tournament</td></tr>
+<tr><td>description</td><td>string</td><td>False</td><td>Description of the tournament</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## tournaments-TOURNAMENT_ID
+
+### GET
 
 <table>
 <tr>
@@ -780,14 +660,15 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### POST
+### PATCH
 
 <table>
 <tr>
@@ -796,40 +677,24 @@ None
 <th>Response</th>
 </tr><tr><td>
 
-| name | type | required | description |
-| --- | --- | --- | --- |
-| user_id | id | True | ID of the user to block |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### users-me-blocked-USER_ID
-
-#### DELETE
-
 <table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>title</td><td>string</td><td>False</td><td>Title of the tournament</td></tr>
+<tr><td>description</td><td>string</td><td>False</td><td>Description of the tournament</td></tr>
+</table>
 
+</td><td>
 None
 </td><td>
-
 None
-</td><td>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-None
-</td></tr></table>
+## games
 
-### users-me-channels
-
-#### GET
+### GET
 
 <table>
 <tr>
@@ -840,16 +705,44 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-me-friends
+### POST
 
-#### GET
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>tournament_id</td><td>id</td><td>False</td><td>ID of the tournament</td></tr>
+<tr><td>player1_id</td><td>id</td><td>True</td><td>ID of the first player</td></tr>
+<tr><td>player2_id</td><td>id</td><td>True</td><td>ID of the second player</td></tr>
+<tr><td>player1_score</td><td>integer</td><td>True</td><td>Score of the first player</td></tr>
+<tr><td>player2_score</td><td>integer</td><td>True</td><td>Score of the second player</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## games-GAME_ID
+
+### GET
 
 <table>
 <tr>
@@ -860,16 +753,40 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-me-friends-USER_ID
+### PATCH
 
-#### DELETE
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>player1_score</td><td>integer</td><td>False</td><td>Score of the first player</td></tr>
+<tr><td>player2_score</td><td>integer</td><td>False</td><td>Score of the second player</td></tr>
+<tr><td>status</td><td>string</td><td>False</td><td>Status of the game</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+### DELETE
 
 <table>
 <tr>
@@ -880,16 +797,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-me-friends-requests
+## channels
 
-#### GET
+### GET
 
 <table>
 <tr>
@@ -900,16 +818,15 @@ None
 
 None
 </td><td>
-
-| name | type | required | default | description |
-| --- | --- | --- | --- | --- |
-| type | string | True | all | Type of the friend requests returned (all, sent, received) |
-</td><td>
-
 None
-</td></tr></table>
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-#### POST
+### POST
 
 <table>
 <tr>
@@ -918,38 +835,23 @@ None
 <th>Response</th>
 </tr><tr><td>
 
-| name | type | required | description |
-| --- | --- | --- | --- |
-| username | string | True | Username of the to send the friend request to |
-</td><td>
-
-None
-</td><td>
-
-None
-</td></tr></table>
-
-### users-me-friends-requests-REQUEST_ID
-
-#### DELETE
-
 <table>
-<tr>
-<th>Body Parameters</th>
-<th>Query Parameters</th>
-<th>Response</th>
-</tr><tr><td>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>name</td><td>string</td><td>True</td><td>Name of the channel</td></tr>
+</table>
 
+</td><td>
 None
 </td><td>
-
 None
-</td><td>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-None
-</td></tr></table>
+## channels-CHANNEL_ID
 
-#### POST
+### GET
 
 <table>
 <tr>
@@ -960,16 +862,38 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-me-notifications
+### PATCH
 
-#### GET
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>name</td><td>string</td><td>False</td><td>Name of the channel</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+### DELETE
 
 <table>
 <tr>
@@ -980,16 +904,17 @@ None
 
 None
 </td><td>
-
 None
 </td><td>
-
 None
-</td></tr></table>
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 
-### users-me-notifications-NOTIFICATION_ID
+## channels-CHANNEL_ID-members
 
-#### DELETE
+### GET
 
 <table>
 <tr>
@@ -1000,10 +925,164 @@ None
 
 None
 </td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+### POST
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>user_id</td><td>id</td><td>True</td><td>ID of the user to add to the channel</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## channels-CHANNEL_ID-members-USER_ID
+
+### DELETE
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
 
 None
 </td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## channels-CHANNEL_ID-messages
+
+### GET
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
 
 None
-</td></tr></table>
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+### POST
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>content</td><td>string</td><td>True</td><td>Content of the message</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## messages
+
+### GET
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+None
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+## messages-MESSAGE_ID
+
+### PATCH
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+<table>
+<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>content</td><td>string</td><td>True</td><td>Content of the message</td></tr>
+</table>
+
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
+
+### DELETE
+
+<table>
+<tr>
+<th>Body Parameters</th>
+<th>Query Parameters</th>
+<th>Response</th>
+</tr><tr><td>
+
+None
+</td><td>
+None
+</td><td>
+None
+</td></tr>
+</td></tr>
+</td></tr>
+</table>
 

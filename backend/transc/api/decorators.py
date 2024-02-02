@@ -3,6 +3,7 @@ from django.http import JsonResponse
 import json
 from .models import Channel
 from .constants_http_response import *
+from .constants_endpoint_structure import *
 
 def staff_required(view_func):
   def wrapped_view(request, *args, **kwargs):
@@ -18,25 +19,37 @@ def superuser_required(view_func):
     return view_func(request, *args, **kwargs)
   return wrapped_view
 
+BODY_REQUEST_METHODS = ["POST", "PATCH", "PUT"]
+
+def validate_body_parameters(self, request, url):
+  # Check for existing parameters
+  input_keys = list(self.body.keys())
+  params = get_body_params(url, request.method)
+  for param_key in params.keys():
+    if params[param_key]["required"] and param_key not in input_keys:
+      return JsonResponse({ERROR_FIELD: f"Missing required parameter '{param_key}'"}, status=400)
+    if param_key in input_keys:
+      input_keys.remove(param_key)
+
+  if len(input_keys) > 0:
+    return JsonResponse({ERROR_FIELD: f"Unknown parameter(s) '{', '.join(input_keys)}'"}, status=400)
+  
+  return None
+
 # Checks for valid JSON syntax of the body and that the specified parameters are existing
-def check_body_syntax(structure_class):
+def check_structure(endpoint_url):
   def decorator(view_func):
     def wrapped_view(self, request, *args, **kwargs):
-      # Check for valid JSON syntax
-      try:
-        self.body = json.loads(request.body.decode("utf-8"))
-      except:
-        return JsonResponse({ERROR_FIELD: "Invalid body JSON syntax"}, status=400)
+      if request.method in BODY_REQUEST_METHODS:
+        # Check for valid JSON syntax
+        try:
+          self.body = json.loads(request.body.decode("utf-8"))
+        except:
+          return JsonResponse({ERROR_FIELD: "Invalid body JSON syntax"}, status=400)
 
-      # Check for existing parameters
-      keys = list(self.body.keys())
-      for param in structure_class.BODY_PARAMS:
-        if param["name"] not in keys and param["required"]:
-          return JsonResponse({ERROR_FIELD: f"Parameter '{param['name']}' missing"}, status=400)
-        keys.remove(param["name"])
-
-      if len(keys) > 0:
-        return JsonResponse({ERROR_FIELD: f"Unknown parameter(s) '{', '.join(keys)}'"}, status=400)
+        check = validate_body_parameters(self, request, endpoint_url)
+        if check is not None:
+          return check
       return view_func(self, request, *args, **kwargs)
     return wrapped_view
   return decorator

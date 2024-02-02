@@ -6,7 +6,6 @@ from .models import Channel, Message, User
 from .helpers_channels import *
 from .helpers_messages import *
 from . import bridge_websocket as websocket
-from . import constants_endpoint_structure as structure
 
 # Endpoint: /channels
 class ChannelCollection(View):
@@ -15,7 +14,6 @@ class ChannelCollection(View):
     channels = Channel.objects.all().order_by("-updated_at")
     return JsonResponse([channel.serialize() for channel in channels], safe=False)
   
-  @check_body_syntax(structure.Channels.Post)
   def post(self, request):
     channel = Channel(name=self.body.get('name'))
     channel.save()
@@ -31,7 +29,6 @@ class ChannelSingle(View):
     channel = Channel.objects.get(id=channel_id)
     return JsonResponse(channel.serialize())
   
-  @check_body_syntax(structure.Channels_id.Patch)
   def patch(self, request, channel_id):
     return update_channel(Channel.objects.get(id=channel_id), self.body)
   
@@ -45,8 +42,7 @@ class ChannelMemberCollection(View):
     channel = Channel.objects.get(id=channel_id)
     return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
   
-  @check_body_syntax(structure.Channels_id_members.Patch)
-  def patch(self, request, channel_id):
+  def post(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
 
     # Check if user exists
@@ -99,7 +95,6 @@ class ChannelMessageCollection(View):
     messages = Message.objects.filter(channel=channel_id).order_by("-created_at")
     return JsonResponse([m.serialize() for m in messages], safe=False)
 
-  @check_body_syntax(structure.Channels_id_messages.Post)
   def post(self, request, channel_id):
     channel = Channel.objects.get(id=channel_id)
     return create_message(channel, request.user, self.body)
@@ -116,7 +111,6 @@ MESSAGE_ACCESS_DECORATORS = [check_message_author] # TODO: Refactor
 # Endpoint: /messages/<int:message_id>
 @method_decorator(MESSAGE_ACCESS_DECORATORS, name='dispatch')
 class MessageSingle(View):
-  @check_body_syntax(structure.Messages_id.Patch)
   def patch(self, request, message_id):
     message = Message.objects.get(id=message_id)
     return update_message(message, self.body)

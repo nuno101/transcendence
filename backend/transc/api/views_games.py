@@ -5,16 +5,15 @@ from django.http import JsonResponse, HttpResponse
 from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .helpers_games import update_game
-from . import constants_endpoint_structure as structure
 
 # Endpoint: /games
 class GameView(View):
+
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		games = Game.objects.all()
 		return JsonResponse([g.serialize() for g in games], safe=False)
 
-	@check_body_syntax(structure.Games.Post)
 	def post(self, request):
 		try:
 			tournament_id = self.body.get('tournament_id', None) # TODO: Test if endpoint works without tournament_id field=null
@@ -39,11 +38,11 @@ class GameView(View):
 # Endpoint: /games/<int:game_id>
 @method_decorator(check_object_exists(Game, 'game_id', GAME_404), name='dispatch')
 class GameDetail(View):
+
 	def get(self, request, game_id):
 		g = Game.objects.get(id=game_id)
 		return JsonResponse(g.serialize())
 
-	@check_body_syntax(structure.Games_id.Patch)
 	def patch(self, request, game_id):
 		game = Game.objects.get(id=game_id)
 		if game.player1_id != request.user.id and game.player2_id != request.user.id:

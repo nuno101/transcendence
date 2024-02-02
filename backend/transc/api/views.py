@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from . import bridge_websocket as websocket
 from .decorators import *
-from . import constants_endpoint_structure as structure
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.shortcuts import render
 
@@ -16,7 +15,7 @@ def websocket_custom(request): # FIXME: DEBUG: Remove later
 
 # Endpoint: /login
 class Login(View):
-	@check_body_syntax(structure.Login.Post)
+	@check_structure('/login')
 	def post(self, request):
 		user = authenticate(username=self.body.get('username'), 
 												password=self.body.get('password'))

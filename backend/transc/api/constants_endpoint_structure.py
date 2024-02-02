@@ -1,415 +1,353 @@
 # cCONF: Constants for url structure
 
-class Login:
-  url = "/login"
+NO_PARAM_METHOD_TEMPLATE = {
+  "query_params": {},
+  "body_params": {},
+}
 
-  class Post:
-    QYERY_PARAMS = [
-      {
-        "name": "remember",
-        "type": "boolean",
-        "required": False,
-        "default": False,
-        "description": "If false, the session will be deleted after the browser is closed"
+ENDPOINTS = {
+  "/login": {
+    "methods": {
+      "POST": {
+        "query_params": {
+          "remember": {
+            "type": "boolean",
+            "required": False,
+            "default": False,
+            "description": "If false, the session will be deleted after the browser is closed"
+          }
+        },
+        "body_params": {
+          "username": {
+            "type": "string",
+            "required": True,
+            "description": "Username of the user"
+          }, 
+          "password": {
+            "type": "string",
+            "required": True,
+            "description": "Password of the user"
+          }
+        },
       }
-    ]
-    BODY_PARAMS = [ {
-      "name": "username",
-      "type": "string",
-      "required": True,
-      "description": "Username of the user"
-    }, {
-      "name": "password",
-      "type": "string",
-      "required": True,
-      "description": "Password of the user"
-    } ]
-
-class Logout:
-  url = "/logout"
-
-  class Post:
-    BODY_PARAMS = []
-
-class Users_me:
-  url = "/users/me"
-
-  class Get:
-    pass
-
-  class Patch:
-    BODY_PARAMS = [
-      {
-        "name": "nickname",
-        "type": "string",
-        "required": False,
-        "description": "Nickname of the user"
-      }, {
-        "name": "password",
-        "type": "string",
-        "required": False,
-        "description": "Password of the user"
+    }
+  }, "/logout": {
+    "methods": {
+      "POST": {
+        "query_params": {},
+        "body_params": {},
       }
-    ]
-
-  class Delete:
-    pass
-
-class Users_me_avatar:
-  url = "/users/me/avatar"
-
-  # TODO: Specify parameters
-  class Post:
-    BODY_PARAMS = []
-
-class Users_me_blocked:
-  url = "/users/me/blocked"
-
-  class Get:
-    pass
-
-  class Post:
-    BODY_PARAMS = [
-      {
-        "name": "user_id",
-        "type": "id",
-        "required": True,
-        "description": "ID of the user to block"
+    }
+  }, "/users/me": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "PATCH": {
+        "query_params": {},
+        "body_params": {
+          "nickname": {
+            "type": "string",
+            "required": False,
+            "description": "Nickname of the user"
+          }, "password": {
+            "type": "string",
+            "required": False,
+            "description": "Password of the user"
+          }
+        },
+      }, "DELETE": NO_PARAM_METHOD_TEMPLATE
+    }
+  }, "/users/me/avatar": {
+    "methods": {
+      "POST": {
+        # TODO: Specify parameters
+        "query_params": {},
+        "body_params": [],
       }
-    ]
-
-class Users_me_blocked_id:
-  url = "/users/me/blocked/USER_ID"
-
-  class Delete:
-    pass
-
-class Users_me_channels:
-  url = "/users/me/channels"
-
-  class Get:
-    pass
-
-class Users_me_friends:
-  url = "/users/me/friends"
-
-  class Get:
-    pass
-
-class Users_me_friends_id:
-  url = "/users/me/friends/USER_ID"
-  
-  class Delete:
-    pass
-
-class Users_me_friends_requests:
-  url = "/users/me/friends/requests"
-
-  class Get:
-    QUERY_PARAMS = [
-      {
-        "name": "type",
-        "type": "string",
-        "required": True,
-        "default": "all",
-        "description": "Type of the friend requests returned (all, sent, received)"
+    }
+  }, "/users/me/blocked": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "POST": {
+        "query_params": {},
+        "body_params": {
+          "user_id": {
+            "type": "id",
+            "required": True,
+            "description": "ID of the user to block"
+          }
+        },
       }
-    ]
-
-  class Post:
-    BODY_PARAMS = [
-      {
-        "name": "username",
-        "type": "string",
-        "required": True,
-        "description": "Username of the to send the friend request to"
+    }
+  }, "/users/me/blocked/USER_ID": {
+    "methods": {
+      "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/me/channels": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/me/friends": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/me/friends/USER_ID": {
+    "methods": {
+      "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/me/friends/requests": {
+    "methods": {
+      "GET": {
+        "query_params": {
+          "type": {
+            "type": "string",
+            "required": False,
+            "default": "all",
+            "description": "Type of the friend requests returned (all, sent, received)"
+          }
+        },
+        "body_params": [],
+      }, "POST": {
+        "query_params": {},
+        "body_params": {
+          "username": {
+            "type": "string",
+            "required": True,
+            "description": "Username of the user to send the friend request to"
+          }
+        },
       }
-    ]
-
-class Users_me_friends_requests_id:
-  url = "/users/me/friends/requests/REQUEST_ID"
-
-  class Post:
-    BODY_PARAMS = []
-
-  class Delete:
-    pass
-
-class Users_me_notifications:
-  url = "/users/me/notifications"
- 
-  class Get:
-    pass
-
-class Users_me_notifications_id:
-  url = "/users/me/notifications/NOTIFICATION_ID"
-
-  class Delete:
-    pass
-
-class Users:
-  url = "/users"
-
-  class Get:
-    pass
-
-  class Post:
-    BODY_PARAMS = [
-      {
-        "name": "username",
-        "type": "string",
-        "required": True,
-        "description": "Username of the user"
-      }, {
-        "name": "password",
-        "type": "string",
-        "required": True,
-        "description": "Password of the user"
+    }
+  }, "/users/me/friends/requests/REQUEST_ID": {
+    "methods": {
+      "POST": NO_PARAM_METHOD_TEMPLATE,
+      "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/me/notifications": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/me/notifications/NOTIFICATION_ID": {
+    "methods": {
+      "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "POST": {
+        "query_params": {},
+        "body_params": {
+          "username": {
+            "type": "string",
+            "required": True,
+            "description": "Username of the user"
+          }, "password": {
+            "type": "string",
+            "required": True,
+            "description": "Password of the user"
+          }
+        },
       }
-    ]
-
-class Users_id:
-  url = "/users/USER_ID"
-
-  class Get:
-    pass
-
-  class Patch:
-    BODY_PARAMS = [
-      {
-        "name": "nickname",
-        "type": "string",
-        "required": False,
-        "description": "Nickname of the user"
-      }, {
-        "name": "password",
-        "type": "string",
-        "required": False,
-        "description": "Password of the user"
+    }
+  }, "/users/USER_ID": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "PATCH": {
+        "query_params": {},
+        "body_params": {
+          "nickname": {
+            "type": "string",
+            "required": False,
+            "description": "Nickname of the user"
+          }, "password": {
+            "type": "string",
+            "required": False,
+            "description": "Password of the user"
+          }
+        },
+      }, "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/USER_ID/avatar": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/USER_ID/stats": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/users/USER_ID/games": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/tournaments": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "POST": {
+        "query_params": {},
+        "body_params": {
+          "title": {
+            "type": "string",
+            "required": True,
+            "description": "Title of the tournament"
+          }, "description": {
+            "type": "string",
+            "required": False,
+            "description": "Description of the tournament"
+          }
+        },
       }
-    ]
-
-  class Delete:
-    pass
-
-class Users_id_avatar:
-  url = "/users/USER_ID/avatar"
-
-  class Get:
-    pass 
-
-class Users_id_stats:
-  url = "/users/USER_ID/stats"
-
-  class Get:
-    pass
-
-class Users_id_games:
-  url = "/users/USER_ID/games"
-
-  class Get:
-    pass
-
-class Tournaments:
-  url = "/tournaments"
-
-  class Get:
-    pass
-
-  class Post:
-    BODY_PARAMS = [
-      {
-        "name": "title",
-        "type": "string",
-        "required": True,
-        "description": "Title of the tournament"
-      }, {
-        "name": "description",
-        "type": "string",
-        "required": False,
-        "description": "Description of the tournament"
+    }
+  }, "/tournaments/TOURNAMENT_ID": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "PATCH": {
+        "query_params": {},
+        "body_params": {
+          "title": {
+            "type": "string",
+            "required": False,
+            "description": "Title of the tournament"
+          }, "description": {
+            "type": "string",
+            "required": False,
+            "description": "Description of the tournament"
+          }
+        },
       }
-    ]
-
-class Tournaments_id:
-  url = "/tournaments/TOURNAMENT_ID"
-
-  class Get:
-    pass
-
-  class Patch:
-    BODY_PARAMS = [
-      {
-        "name": "title",
-        "type": "string",
-        "required": False,
-        "description": "Title of the tournament"
-      }, {
-        "name": "description",
-        "type": "string",
-        "required": False,
-        "description": "Description of the tournament"
+    }
+  }, "/games": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "POST": {
+        "query_params": {},
+        "body_params": {
+          "tournament_id": {
+            "type": "id",
+            "required": False,
+            "description": "ID of the tournament"
+          }, "player1_id": {
+            "type": "id",
+            "required": True,
+            "description": "ID of the first player"
+          }, "player2_id": {
+            "type": "id",
+            "required": True,
+            "description": "ID of the second player"
+          }, "player1_score": {
+            "type": "integer",
+            "required": True,
+            "description": "Score of the first player"
+          }, "player2_score": {
+            "type": "integer",
+            "required": True,
+            "description": "Score of the second player"
+          }
+        },
       }
-    ]
-
-class Games:
-  url = "/games"
-
-  class Get:
-    pass
-
-  class Post:
-    BODY_PARAMS = [
-      {
-        "name": "tournament_id",
-        "type": "id",
-        "required": False,
-        "description": "ID of the tournament"
-      }, {
-        "name": "player1_id",
-        "type": "id",
-        "required": True,
-        "description": "ID of the first player"
-      }, {
-        "name": "player2_id",
-        "type": "id",
-        "required": True,
-        "description": "ID of the second player"
-      }, {
-        "name": "player1_score",
-        "type": "integer",
-        "required": True,
-        "description": "Score of the first player"
-      }, {
-        "name": "player2_score",
-        "type": "integer",
-        "required": True,
-        "description": "Score of the second player"
+    }
+  }, "/games/GAME_ID": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "PATCH": {
+        "query_params": {},
+        "body_params": {
+          "player1_score": {
+            "type": "integer",
+            "required": False,
+            "description": "Score of the first player"
+          }, "player2_score": {
+            "type": "integer",
+            "required": False,
+            "description": "Score of the second player"
+          }, "status": {
+            "type": "string",
+            "required": False,
+            "description": "Status of the game"
+          }
+        },
+      }, "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/channels": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "POST": {
+        "query_params": {},
+        "body_params": {
+          "name": {
+            "type": "string",
+            "required": True,
+            "description": "Name of the channel"
+          }
+        },
       }
-    ]
-
-class Games_id:
-  url = "/games/GAME_ID"
-
-  class Get:
-    pass
-
-  class Patch:
-    BODY_PARAMS = [
-      {
-        "name": "player1_score",
-        "type": "integer",
-        "required": False,
-        "description": "Score of the first player"
-      },
-      {
-        "name": "player2_score",
-        "type": "integer",
-        "required": False,
-        "description": "Score of the second player"
-      },
-      {
-        "name": "status",
-        "type": "string",
-        "required": False,
-        "description": "Status of the game"
+    }
+  }, "/channels/CHANNEL_ID": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "PATCH": {
+        "query_params": {},
+        "body_params": {
+          "name": {
+            "type": "string",
+            "required": False,
+            "description": "Name of the channel"
+          }
+        },
+      }, "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/channels/CHANNEL_ID/members": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "POST": {
+        "query_params": {},
+        "body_params": {
+          "user_id": {
+            "type": "id",
+            "required": True,
+            "description": "ID of the user to add to the channel"
+          }
+        },
       }
-    ]
-
-  class Delete:
-    pass
-
-class Channels:
-  url = "/channels"
-
-  class Get:
-    pass
-
-  class Post:
-    BODY_PARAMS = [
-      {
-        "name": "name",
-        "type": "string",
-        "required": True,
-        "description": "Name of the channel"
+    }
+  }, "/channels/CHANNEL_ID/members/USER_ID": {
+    "methods": {
+      "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/channels/CHANNEL_ID/messages": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+      "POST": {
+        "query_params": {},
+        "body_params": {
+          "content": {
+            "type": "string",
+            "required": True,
+            "description": "Content of the message"
+          }
+        },
       }
-    ]
+    }
+  }, "/messages": {
+    "methods": {
+      "GET": NO_PARAM_METHOD_TEMPLATE,
+    }
+  }, "/messages/MESSAGE_ID": {
+    "methods": {
+      "PATCH": {
+        "query_params": {},
+        "body_params": {
+          "content": {
+            "type": "string",
+            "required": True,
+            "description": "Content of the message"
+          }
+        },
+      }, "DELETE": NO_PARAM_METHOD_TEMPLATE,
+    }
+  } 
+}
 
-class Channels_id:
-  url = "/channels/CHANNEL_ID"
+def get_query_params(endpoint, request_method):
+  return ENDPOINTS[endpoint]["methods"][request_method]["query_params"]
 
-  class Get:
-    pass
-
-  class Patch:
-    BODY_PARAMS = [
-      {
-        "name": "name",
-        "type": "string",
-        "required": False,
-        "description": "Name of the channel"
-      }
-    ]
-
-  class Delete:
-    pass
-
-class Channels_id_members:
-  url = "/channels/CHANNEL_ID/members"
-
-  class Get:
-    pass
-
-  class Patch:
-    BODY_PARAMS = [
-      {
-        "name": "user_id",
-        "type": "id",
-        "required": True,
-        "description": "ID of the user to add to the channel"
-      }
-    ]
-
-class Channels_id_members_id:
-  url = "/channels/CHANNEL_ID/members/USER_ID"
-
-  class Delete:
-    pass
-
-class Channels_id_messages:
-  url = "/channels/CHANNEL_ID/messages"
-
-  class Get:
-    pass
-
-  class Post:
-    BODY_PARAMS = [
-      {
-        "name": "content",
-        "type": "string",
-        "required": True,
-        "description": "Content of the message"
-      }
-    ]
-
-class Messages:
-  url = "/messages"
-
-  class Get:
-    pass
-
-class Messages_id:
-  url = "/messages/MESSAGE_ID"
-
-  class Patch:
-    BODY_PARAMS = [
-      {
-        "name": "content",
-        "type": "string",
-        "required": True,
-        "description": "Content of the message"
-      }
-    ]
-  
-  class Delete:
-    pass
+def get_body_params(endpoint, request_method):
+  return ENDPOINTS[endpoint]["methods"][request_method]["body_params"]

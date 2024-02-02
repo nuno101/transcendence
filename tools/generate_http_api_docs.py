@@ -8,18 +8,18 @@ CLASS_BLACKLIST = ["__class__"]
 
 BODY_REQESTS = ["POST", "PATCH"]
 
-def generate_table(data):
+def generate_object_table(data):
     if len(data) == 0:
         print("None")
         return
 
-    keys = data[0].keys()
-    print(f"| {' | '.join(keys)} |")
-    print(f"| {' | '.join(['---' for _ in keys])} |")
-    for row in data:
-        print(f"| {' | '.join([str(row[key]) for key in keys])} |")
+    keys = data.keys()
+    print("<table>\n<tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>")
+    for key in keys:
+        print(f"<tr><td>{key}</td><td>{data[key]['type']}</td><td>{data[key]['required']}</td><td>{data[key]['description']}</td></tr>")
+    print("</table>\n")
 
-def generate_multitable(table_data):
+def generate_object_2Dtable(table_data):
     keys = table_data.keys()
     # print("<tr><th>Body Parameters</th><th>Query Parameters</th></tr><tr><td>\n")
     print("<table>\n<tr>")
@@ -33,7 +33,7 @@ def generate_multitable(table_data):
             first = False
         else:
             print("</td><td>")
-        generate_table(table_data[key])
+        generate_object_table(table_data[key])
 
     for _ in keys:
         print("</td></tr>")
@@ -70,94 +70,44 @@ def main():
     shutil.copyfile(sys.argv[1], "constants_endpoint_structure.py")
 
     # Import module
-    module = importlib.import_module("constants_endpoint_structure")
-  
-    output = {
-        "method_endpoint_count": 0,
-        "GET_endpoint_count": 0,
-        "POST_endpoint_count": 0,
-        "PATCH_endpoint_count": 0,
-        "DELETE_endpoint_count": 0,
-        "url_endpoints": []
-    }
-
-    # Iterate over all classes in the file and add it to the url endpoint
-    for name, obj in inspect.getmembers(module):
-        if inspect.isclass(obj):
-            if name in CLASS_BLACKLIST:
-                continue
-
-            url_endpoint = {
-                "url": obj.url,
-                "methods": []
-            }
-
-            # Iterate over all subclasses of the class and add it to the url entry
-            for name_subclass, obj_subclass in inspect.getmembers(obj):
-                if inspect.isclass(obj_subclass):
-                    if name_subclass in CLASS_BLACKLIST:
-                        continue
-
-                    method = name_subclass.upper()
-
-                    # Get query params for method
-                    query_params = []
-                    if hasattr(obj_subclass, "QUERY_PARAMS"):
-                        query_params = obj_subclass.QUERY_PARAMS
-
-                    # Get body params for method
-                    body_params = []
-                    if method in BODY_REQESTS:
-                        body_params = obj_subclass.BODY_PARAMS
-
-                    # Add method to url endpoint
-                    url_endpoint["methods"].append({
-                        "name": method,
-                        "query_params": query_params,
-                        "body_params": body_params,
-                    })
-                    output["method_endpoint_count"] += 1
-                    output[f"{method}_endpoint_count"] += 1
-
-            # Add url endpoint to output
-            output["url_endpoints"].append(url_endpoint)
+    import constants_endpoint_structure as c
 
     # Delete file
     os.remove("constants_endpoint_structure.py")
     
     # Generate header and statistics section
-    print(f"# Endpoint documentation\n")
-    print(f"## Statistics\n")
-    url_endpoint_count = len(output["url_endpoints"])
-    print(f"Total number of urls: {url_endpoint_count}")
-    for endpoint in output["url_endpoints"]:
-        name = endpoint["url"].replace('<', '\<').replace('>', '\>')
-        link_name= name.replace('/', '-')[1:]
-        print(f"- [{name}](#{link_name})")
+    print(f"# Statistics\n")
+    url_endpoint_count = len(c.ENDPOINTS.keys())
+    print(f"Total number of urls: {url_endpoint_count}\n")
+
+    print(f"# Table of Contents\n")
+    for endpoint in c.ENDPOINTS.keys():
+        link_name= endpoint.replace('/', '-')[1:]
+        print(f"- [{endpoint}](#{link_name})")
     print()
-    print(f"Total number of methods: {output['method_endpoint_count']}")
-    print(f"- GET: {output['GET_endpoint_count']}")
-    print(f"- POST: {output['POST_endpoint_count']}")
-    print(f"- PATCH: {output['PATCH_endpoint_count']}")
-    print(f"- DELETE: {output['DELETE_endpoint_count']}\n")
+    # print(f"Total number of methods: {output['method_endpoint_count']}")
+    # print(f"- GET: {output['GET_endpoint_count']}")
+    # print(f"- POST: {output['POST_endpoint_count']}")
+    # print(f"- PATCH: {output['PATCH_endpoint_count']}")
+    # print(f"- DELETE: {output['DELETE_endpoint_count']}\n")
 
     # Generate endpoints section
-    print(f"## Endpoints\n")
-    for endpoint in output["url_endpoints"]:
-        name = endpoint["url"].replace('<', '\<').replace('>', '\>')
-        name = name.replace('/', '-')[1:]
-        print(f"### {name}\n")
+    print(f"# Endpoint description\n")
+    for endpoint in c.ENDPOINTS.keys():
+        name = endpoint.replace('/', '-')[1:]
+        print(f"## {name}\n")
         
-        # Generate generate method section
-        for method in endpoint["methods"]:
-            print(f"#### {method['name']}\n")
+        # Generate method section
+        for method in c.ENDPOINTS[endpoint]["methods"]:
+            print(f"### {method}\n")
 
+            method_data = c.ENDPOINTS[endpoint]["methods"][method]
             table_data = {
-                "Body Parameters": method["body_params"],
-                "Query Parameters": method["query_params"],
+                "Body Parameters": method_data["body_params"],
+                "Query Parameters": method_data["query_params"],
                 "Response": []
             }
-            generate_multitable(table_data)
+            generate_object_2Dtable(table_data)   
 
 if __name__ == "__main__":
     main()
