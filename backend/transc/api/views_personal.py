@@ -14,7 +14,7 @@ class UserPersonal(View):
     return JsonResponse(request.user.serialize())
   
   def patch(self, request):
-    user = update_model(request.user, self.body)
+    user = update_model(request.user, request.json)
     if user is None:
       return JsonResponse({ERROR_FIELD: "Invalid input parameter"}, status=400)
     # TODO: Implement websocket notification?
@@ -37,7 +37,7 @@ class BlockedCollection(View):
 
   def post(self, request): # TODO: Refactor this mess
     try:
-      target_user = User.objects.get(pk=self.body.get('user_id'))
+      target_user = User.objects.get(id=request.json.get('user_id'))
     except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
     

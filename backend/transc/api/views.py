@@ -15,10 +15,9 @@ def websocket_custom(request): # FIXME: DEBUG: Remove later
 
 # Endpoint: /login
 class Login(View):
-	@check_structure('/login')
 	def post(self, request):
-		user = authenticate(username=self.body.get('username'), 
-												password=self.body.get('password'))
+		user = authenticate(username=request.json.get('username'), 
+												password=request.json.get('password'))
 		if user is None:
 			return JsonResponse({ERROR_FIELD: "Invalid login credentials"}, status=401)
 		expiration = None if request.GET.get('remember', "false") == 'true' else 0

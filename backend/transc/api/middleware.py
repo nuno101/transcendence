@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from .constants_http_response import ERROR_FIELD
+import json
 
 # cCONF: Endpoints access allowed for anonymous users
 ANONYMOUS_ACCESS = {
@@ -33,11 +34,22 @@ class ParameterCheckMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # TODO: Check for required query parameters
         if request.method in METHODS_WITH_BODY:
             if request.content_type == "application/json":
-                pass
-                # try: # TODO: Make work
-                #     request.body = json.loads(request.body.decode("utf-8")) # TODO: Change so that it populates the request.body field
-                # except:
-                #     return JsonResponse({ERROR_FIELD: "Invalid JSON"}, status=400)
+                try:
+                    request.json = json.loads(request.body.decode("utf-8"))
+                except:
+                    return JsonResponse({ERROR_FIELD: "Invalid JSON"}, status=400)
+            # TODO: Check for required body parameters
         return self.get_response(request)
+
+class ResponseCheckMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+
+        # TODO: Check if response is valid according to endpoint structure
+        # If not throw exception and return 500 with explanation that response is not documented correctly

@@ -2,10 +2,12 @@
 Attended by Anouk, Jan, Julia, Robert
 
 Robert:
-* [ ] Implement basic notification system/endpoints to inform user about new events
-* [ ] Add notification endpoints for frontend
+* [x] Implement basic notification system/endpoints to inform user about new events
+* [ ] Make use of notification system, e.g. for the creation of a friend request, etc
+* [x] Add notification endpoints for frontend
 * [ ] Add websocket event for notification creation
-* [ ] Change game model so that it doesn't need a relationship with a tournament anym
+* [x] Change game model so that it doesn't need a relationship with a tournament
+* [ ] Extend/Improve functionality of automatic http api documentation generation
 
 Julia:
 * working on FriendsView.vue

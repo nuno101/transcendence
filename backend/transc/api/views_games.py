@@ -16,14 +16,15 @@ class GameView(View):
 
 	def post(self, request):
 		try:
-			tournament_id = self.body.get('tournament_id', None) # TODO: Test if endpoint works without tournament_id field=null
-			tournament = Tournament.objects.get(id=self.body.get('tournament_id')) \
-				if tournament_id is not None else None
+			tournament_id = request.json.get('tournament_id', None)
+			tournament = None
+			if tournament_id:
+				tournament = Tournament.objects.get(id=tournament_id)
 		except:
 			return JsonResponse({ERROR_FIELD: TOURNAMENT_404}, status=404)
 		try:
-			player1 = User.objects.get(id=self.body.get('player1_id'))
-			player2 = User.objects.get(id=self.body.get('player2_id'))
+			player1 = User.objects.get(id=request.json.get('player1_id'))
+			player2 = User.objects.get(id=request.json.get('player2_id'))
 		except:
 			return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 		if player1.id is player2.id:
@@ -47,7 +48,7 @@ class GameDetail(View):
 		game = Game.objects.get(id=game_id)
 		if game.player1_id != request.user.id and game.player2_id != request.user.id:
 			return JsonResponse({ERROR_FIELD: "You are not a player in this game"}, status=400)
-		return update_game(game, self.body)
+		return update_game(game, request.json)
 
 	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, game_id):

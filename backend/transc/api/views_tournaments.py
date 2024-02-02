@@ -8,15 +8,14 @@ import datetime
 
 # Endpoint: /tournaments
 class TournamentCollection(View):
-	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		tournaments = Tournament.objects.all()
 		return JsonResponse([t.serialize() for t in tournaments], safe=False)
 
 	def post(self, request):
 		tournament = Tournament.objects.create(
-			title=self.body.get('title'),
-			description=self.body.get('description', ''),
+			title=request.json.get('title'),
+			description=request.json.get('description', ''),
 			creator=request.user
 		)
 
@@ -34,10 +33,10 @@ class TournamentSingle(View):
 
 	def patch(self, request, tournament_id):
 		tournament = Tournament.objects.get(id=tournament_id)
-		if self.body.get('title') is not None:
-			tournament.title = self.body.get('title')
-		if self.body.get('description') is not None:
-			tournament.description = self.body.get('description')
+		if request.json.get('title') is not None:
+			tournament.title = request.json.get('title')
+		if request.json.get('description') is not None:
+			tournament.description = request.json.get('description')
 		tournament.save()
 
 		# TODO: Implement websocket notification?

@@ -32,8 +32,6 @@ urlpatterns = [
 	path("users/me/notifications", views_notifications.NotificationCollection.as_view()),
 	path("users/me/notifications/<int:notification_id>", views_notifications.NotificationSingle.as_view()),
 
-	# TODO: Add endpoints to list tournaments of current user? Or do we just make them all public?
-
 	# User paths
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
@@ -45,7 +43,7 @@ urlpatterns = [
   path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
 
 	# Tournament paths
-	path('tournaments', views_tournaments.TournamentCollection.as_view()), # TODO: Make all turnaments public if we choose to not have a permission system
+	path('tournaments', views_tournaments.TournamentCollection.as_view()),
 	path('tournaments/<int:tournament_id>', views_tournaments.TournamentSingle.as_view()),
 
 	# Game paths

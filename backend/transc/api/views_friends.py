@@ -48,7 +48,7 @@ class FriendRequestCollection(View):
   # Create new friend request
   def post(self, request):
     try:
-      target = User.objects.get(username=self.body.get('username'))
+      target = User.objects.get(username=request.json.get('username'))
     except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 

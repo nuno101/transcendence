@@ -8,7 +8,6 @@ from .helpers_users import update_user
 from .helpers_games import get_user_games
 
 # Endpoint: /users
-@method_decorator(check_structure('/users'), name='dispatch')
 class UserCollection(View):
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
@@ -17,9 +16,9 @@ class UserCollection(View):
 
 	def post(self, request):
 		try:
-			user = User.objects.create_user(username=self.body.get('username'), 
-																			password=self.body.get('password'))
-		except Exception as e: # TODO: Handle more exceptions, e. g. Username too long
+			user = User.objects.create_user(username=request.json.get('username'), 
+																			password=request.json.get('password'))
+		except Exception as e: # TODO: Handle more exceptions, e. g. Username too long!?
 			if 'duplicate key' in str(e):
 				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
 			else:
@@ -35,7 +34,7 @@ class UserSingle(View):
 	
 	@method_decorator(staff_required, name='dispatch')
 	def patch(self, request, user_id):
-		return update_user(User.objects.get(id=user_id), self.body)
+		return update_user(User.objects.get(id=user_id), request.json)
 
 	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, user_id):

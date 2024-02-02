@@ -170,8 +170,6 @@ class Notification(models.Model):
 		}
 
 class Channel(models.Model):
-    # TODO: Use UUIDs?
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -190,8 +188,6 @@ class Channel(models.Model):
       }
 
 class Message(models.Model):
-    # TODO: Use UUIDs?
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     content = models.TextField(max_length=2500)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
