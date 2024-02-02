@@ -98,17 +98,12 @@ Total number of methods: 48
 
 ### POST
 
-None
-None
 ## users-me
 
 ### GET
 
-None
-None
 ### PATCH
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -143,23 +138,16 @@ None
 
 ### DELETE
 
-None
-None
 ## users-me-avatar
 
 ### POST
 
-None
-None
 ## users-me-blocked
 
 ### GET
 
-None
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -183,26 +171,18 @@ None
 
 ### DELETE
 
-None
-None
 ## users-me-channels
 
 ### GET
 
-None
-None
 ## users-me-friends
 
 ### GET
 
-None
-None
 ## users-me-friends-USER_ID
 
 ### DELETE
 
-None
-None
 ## users-me-friends-requests
 
 ### GET
@@ -228,10 +208,8 @@ None
 
 </table>
 
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -255,33 +233,22 @@ None
 
 ### POST
 
-None
-None
 ### DELETE
 
-None
-None
 ## users-me-notifications
 
 ### GET
 
-None
-None
 ## users-me-notifications-NOTIFICATION_ID
 
 ### DELETE
 
-None
-None
 ## users
 
 ### GET
 
-None
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -318,11 +285,8 @@ None
 
 ### GET
 
-None
-None
 ### PATCH
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -357,35 +321,24 @@ None
 
 ### DELETE
 
-None
-None
 ## users-USER_ID-avatar
 
 ### GET
 
-None
-None
 ## users-USER_ID-stats
 
 ### GET
 
-None
-None
 ## users-USER_ID-games
 
 ### GET
 
-None
-None
 ## tournaments
 
 ### GET
 
-None
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -422,11 +375,8 @@ None
 
 ### GET
 
-None
-None
 ### PATCH
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -463,11 +413,8 @@ None
 
 ### GET
 
-None
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -543,11 +490,8 @@ None
 
 ### GET
 
-None
-None
 ### PATCH
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -595,17 +539,12 @@ None
 
 ### DELETE
 
-None
-None
 ## channels
 
 ### GET
 
-None
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -629,11 +568,8 @@ None
 
 ### GET
 
-None
-None
 ### PATCH
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -655,17 +591,12 @@ None
 
 ### DELETE
 
-None
-None
 ## channels-CHANNEL_ID-members
 
 ### GET
 
-None
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -689,17 +620,12 @@ None
 
 ### DELETE
 
-None
-None
 ## channels-CHANNEL_ID-messages
 
 ### GET
 
-None
-None
 ### POST
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -723,13 +649,10 @@ None
 
 ### GET
 
-None
-None
 ## messages-MESSAGE_ID
 
 ### PATCH
 
-None
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
@@ -751,5 +674,3 @@ None
 
 ### DELETE
 
-None
-None

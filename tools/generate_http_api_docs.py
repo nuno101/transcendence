@@ -10,7 +10,6 @@ BODY_REQESTS = ["POST", "PATCH"]
 
 def generate_object_table(data, name = None):
     if len(data) == 0:
-        print("None")
         return
 
     keys = data.keys()
