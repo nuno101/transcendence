@@ -53,13 +53,12 @@ Total number of methods: 48
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -75,11 +74,11 @@ None
 | --- | --- | --- | --- |
 | name | string | True | Name of the channel |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### channels-CHANNEL_ID
@@ -94,13 +93,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### GET
@@ -113,13 +111,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### PATCH
@@ -135,11 +132,11 @@ None
 | --- | --- | --- | --- |
 | name | string | False | Name of the channel |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### channels-CHANNEL_ID-members
@@ -154,13 +151,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### PATCH
@@ -176,11 +172,11 @@ None
 | --- | --- | --- | --- |
 | user_id | id | True | ID of the user to add to the channel |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### channels-CHANNEL_ID-members-USER_ID
@@ -195,13 +191,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### channels-CHANNEL_ID-messages
@@ -216,13 +211,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -238,11 +232,11 @@ None
 | --- | --- | --- | --- |
 | content | string | True | Content of the message |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### games
@@ -257,13 +251,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -283,11 +276,11 @@ None
 | player1_score | integer | True | Score of the first player |
 | player2_score | integer | True | Score of the second player |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### games-GAME_ID
@@ -302,13 +295,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### GET
@@ -321,13 +313,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### PATCH
@@ -345,11 +336,11 @@ None
 | player2_score | integer | False | Score of the second player |
 | status | string | False | Status of the game |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### login
@@ -368,11 +359,11 @@ None
 | username | string | True | Username of the user |
 | password | string | True | Password of the user |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### logout
@@ -387,13 +378,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### messages
@@ -408,13 +398,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### messages-MESSAGE_ID
@@ -429,13 +418,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### PATCH
@@ -451,11 +439,11 @@ None
 | --- | --- | --- | --- |
 | content | string | True | Content of the message |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### tournaments
@@ -470,13 +458,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -493,11 +480,11 @@ None
 | title | string | True | Title of the tournament |
 | description | string | False | Description of the tournament |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### tournaments-TOURNAMENT_ID
@@ -512,13 +499,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### PATCH
@@ -535,11 +521,11 @@ None
 | title | string | False | Title of the tournament |
 | description | string | False | Description of the tournament |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users
@@ -554,13 +540,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -577,11 +562,11 @@ None
 | username | string | True | Username of the user |
 | password | string | True | Password of the user |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-USER_ID
@@ -596,13 +581,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### GET
@@ -615,13 +599,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### PATCH
@@ -638,11 +621,11 @@ None
 | nickname | string | False | Nickname of the user |
 | password | string | False | Password of the user |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-USER_ID-avatar
@@ -657,13 +640,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-USER_ID-games
@@ -678,13 +660,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-USER_ID-stats
@@ -699,13 +680,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me
@@ -720,13 +700,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### GET
@@ -739,13 +718,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### PATCH
@@ -762,11 +740,11 @@ None
 | nickname | string | False | Nickname of the user |
 | password | string | False | Password of the user |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-avatar
@@ -781,13 +759,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-blocked
@@ -802,13 +779,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -824,11 +800,11 @@ None
 | --- | --- | --- | --- |
 | user_id | id | True | ID of the user to block |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-blocked-USER_ID
@@ -843,13 +819,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-channels
@@ -864,13 +839,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-friends
@@ -885,13 +859,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-friends-USER_ID
@@ -906,13 +879,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-friends-requests
@@ -927,14 +899,14 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
+
 | name | type | required | default | description |
 | --- | --- | --- | --- | --- |
 | type | string | True | all | Type of the friend requests returned (all, sent, received) |
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -950,11 +922,11 @@ None
 | --- | --- | --- | --- |
 | username | string | True | Username of the to send the friend request to |
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-friends-requests-REQUEST_ID
@@ -969,13 +941,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 #### POST
@@ -988,13 +959,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-notifications
@@ -1009,13 +979,12 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 
 ### users-me-notifications-NOTIFICATION_ID
@@ -1030,12 +999,11 @@ None
 </tr><tr><td>
 
 None
-
 </td><td>
-None
 
+None
 </td><td>
-None
 
+None
 </td></tr></table>
 

@@ -10,7 +10,7 @@ BODY_REQESTS = ["POST", "PATCH"]
 
 def generate_table(data):
     if len(data) == 0:
-        print("None\n")
+        print("None")
         return
 
     keys = data[0].keys()
@@ -51,7 +51,7 @@ def generate_multitable(table_data):
         if first:
             first = False
         else:
-            print("</td><td>")
+            print("</td><td>\n")
         generate_table(table_data[key])
 
     print("</td></tr></table>\n")
@@ -158,18 +158,6 @@ def main():
                 "Response": []
             }
             generate_multitable(table_data)
-
-
-            # print("<table>")
-            # print("<tr><th>Body Parameters</th><th>Query Parameters</th></tr><tr><td>\n")
-
-            # generate_table(method["body_params"])
-
-            # print("</td><td>")
-
-            # generate_table(method["query_params"])
-
-            # print("</td></tr></table>\n")
 
 if __name__ == "__main__":
     main()
