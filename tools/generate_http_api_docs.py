@@ -13,20 +13,28 @@ def generate_object_table(data):
         print("None")
         return
 
-    columns = data.keys()
-    print("<table>\n<tr>")
-    for column in columns:
-        print(f"<th>{column}</th>")
-    print("</tr><tr>")
-    for column in columns:
-        if isinstance(data[column], dict):
-            print("<td>")
-            generate_object_table(data[column])
-            print("</td>")
-        else:
-            print(f"<td>{data[column]}</td>")
-    print("</tr></table>\n")
+    keys = data.keys()
+    is_last = True
+    for key in keys:
+        if isinstance(data[key], dict):
+            is_last = False
+            break
 
+    if is_last:
+        # Create vertical table
+        print("<table>\n")
+        for key in keys:
+            print(f"<tr><td>{key}</td><td>{data[key]}</td></tr>\n")
+        print("</table>\n")
+    else:
+        # Create vertical table and call recursively
+        print("<table>\n")
+        for key in keys:
+            print(f"<tr><td>{key}</td><td>")
+            generate_object_table(data[key])
+            print("</td></tr>\n")
+        print("</table>\n")
+    
 def generate_object_2Dtable(table_data):
     keys = table_data.keys()
     # print("<tr><th>Body Parameters</th><th>Query Parameters</th></tr><tr><td>\n")
@@ -46,23 +54,6 @@ def generate_object_2Dtable(table_data):
     for _ in keys:
         print("</td></tr>")
     print("</table>\n")
-
-def generate_multitable(table_data):
-    keys = table_data.keys()
-    print("<table>\n<tr>")
-    for key in keys:
-        print(f"<th>{key}</th>")
-    print("</tr><tr><td>\n")
-
-    first = True
-    for key in keys:
-        if first:
-            first = False
-        else:
-            print("</td><td>\n")
-        generate_table(table_data[key])
-
-    print("</td></tr></table>\n")
 
 def main():
     if len(sys.argv) != 2:
