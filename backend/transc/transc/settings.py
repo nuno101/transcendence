@@ -59,6 +59,9 @@ MIDDLEWARE = [
     'api.middleware.ResponseCodeCheckMiddleware',
 ]
 
+if DEBUG:
+    MIDDLEWARE.append('api.middleware.ResponseCodeCheckMiddleware')
+
 ROOT_URLCONF = 'transc.urls'
 
 TEMPLATES = [
