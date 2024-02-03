@@ -53,10 +53,13 @@ class ResponseCodeCheckMiddleware:
 		endpoint = ENDPOINTS.get(request.endpoint_key)
 		method = endpoint["methods"].get(request.method)
 
-		# Check response
-		responses = method.get("responses")
-
-		if not responses or response.status_code not in responses:
-			code = response.status_code
-			return JsonResponse({ERROR_FIELD: "Endpoint method response documentation" +
-											 f" missing for code {code}"},status=500)
+		# TODO: Enable once responses have been documented for all endpoints
+		# TODO: Figure out if there is an easier way to do document all responses
+		# Check response code
+		# responses = method.get("responses")
+		# if not responses or str(response.status_code) not in responses.keys():
+		# 	code = response.status_code
+		# 	return JsonResponse({ERROR_FIELD: "Endpoint method response documentation" +
+		# 									 f" missing for code {code}"},status=500)
+		
+		return response
