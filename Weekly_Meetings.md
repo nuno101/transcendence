@@ -8,8 +8,15 @@ Robert:
 * [ ] Add websocket event for notification creation
 * [x] Change game model so that it doesn't need a relationship with a tournament
 * [ ] Extend/Improve functionality of automatic http api documentation generation
-* [ ] Extend/Fully implement middleware used verify request query and body parameters
-* [ ] Implement middleware to verify valid response(-code) is sent
+  * [ ] Endpoint method description
+  * [x] Query-/Body parameter tables
+  * [ ] Response code documentation (and description?) 
+* [x] Extend/Fully implement middleware used verify request query and body parameters
+  * Implemented it instead as global method_decorator that should be used for every endpoint class because I was not able to determine the endpoint url in middleware
+* [x] Implement middleware to verify valid response(-code) is sent
+  * Is only active if django is in debug mode
+* [ ] Add documentation for valid endpoint responses in endpoint structure (code, description, return format?, etc.)
+  * [ ] Activate response code check middleware once responses are documented
 
 Julia:
 * working on FriendsView.vue
