@@ -14,6 +14,7 @@ def websocket_custom(request): # FIXME: DEBUG: Remove later
 	return render(request, 'api/custom_ws.html')
 
 # Endpoint: /login
+@method_decorator(check_structure("/login"), name='dispatch')
 class Login(View):
 	def post(self, request):
 		user = authenticate(username=request.json.get('username'), 
@@ -26,6 +27,7 @@ class Login(View):
 		return JsonResponse(user.serialize(private=True))
 
 # Endpoint: /logout
+@method_decorator(check_structure("/logout"), name='dispatch')
 class Logout(View):
 	def post(self, request):
 		websocket.message_group(f'user_{request.user.id}', 'close_connection', {})

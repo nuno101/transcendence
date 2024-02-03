@@ -7,6 +7,7 @@ from .models import Tournament
 import datetime
 
 # Endpoint: /tournaments
+@method_decorator(check_structure("/tournaments"), name='dispatch')
 class TournamentCollection(View):
 	def get(self, request):
 		tournaments = Tournament.objects.all()
@@ -23,7 +24,8 @@ class TournamentCollection(View):
 
 		return JsonResponse(tournament.serialize(), status=201)
 
-# Endpoint: /tournaments/<int:tournament_id>
+# Endpoint: /tournaments/TOURNAMENT_ID
+@method_decorator(check_structure("/tournaments/TOURNAMENT_ID"), name='dispatch')
 @method_decorator(check_object_exists(Tournament, 'tournament_id', 
 																			TOURNAMENT_404), name='dispatch')
 class TournamentSingle(View):

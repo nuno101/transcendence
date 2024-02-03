@@ -7,12 +7,14 @@ from .helpers_notifications import *
 from .constants_http_response import *
 
 # Endpoint: /users/me/notifications
+@method_decorator(check_structure("/users/me/notifications"), name='dispatch')
 class NotificationCollection(View):
 	def get(self, request):
 		notifications = request.user.notifications.all()
 		return JsonResponse([n.serialize() for n in notifications], safe=False)
 
-# Endpoint: /users/me/notifications/<int:notification_id>
+# Endpoint: /users/me/notifications/NOTIFICATION_ID
+@method_decorator(check_structure("/users/me/notifications/NOTIFICATION_ID"), name='dispatch')
 @method_decorator(check_object_exists(Notification, 'notification_id', NOTIFICATION_404), name='dispatch')
 class NotificationSingle(View):
 	def delete(self, request, notification_id):

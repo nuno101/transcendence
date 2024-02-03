@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import json
 from .models import Channel
 from .constants_http_response import *
-from .constants_endpoint_structure import *
+from .constants_endpoint_structure import ENDPOINTS, BODY_METHODS
 
 def staff_required(view_func):
   def wrapped_view(request, *args, **kwargs):
@@ -18,6 +18,56 @@ def superuser_required(view_func):
       return JsonResponse({ERROR_FIELD: "Superuser user required"}, status=403)
     return view_func(request, *args, **kwargs)
   return wrapped_view
+
+def check_structure(endpoint_key): # TODO: Use and test this
+  def decorator(view_func):
+    def wrapped_view(request, *args, **kwargs):
+      endpoint = ENDPOINTS.get(endpoint_key)
+      if endpoint is None:
+        return JsonResponse({ERROR_FIELD: "Endpoint documentation missing"}, status=500)
+      method = endpoint["methods"].get(request.method)
+      if method is None:
+        return JsonResponse({ERROR_FIELD: f"Endpoint method {request.method}" +
+                                           " documentation missing"}, status=500)
+      
+      # Set variable so that response check middleware knows which endpoint is being requested
+      request.endpoint_key = endpoint_key
+
+      # Check query parameters
+      query_params = method["query_params"]
+      in_query_params = list(request.GET.keys())
+      for param in query_params:
+        exists = request.GET.get(param) is not None
+        if not exists and query_params[param]["required"]:
+          return JsonResponse({ERROR_FIELD: "Missing required query " +
+                                           f"parameter: {param}"}, status=400)
+        if exists:
+          in_query_params.remove(param)
+
+      if len(in_query_params) > 0:
+        return JsonResponse({ERROR_FIELD: f"Unknown query parameter(s): " +
+                                          f"{in_query_params}"}, status=400)
+      
+      # Check body parameters
+      if request.json is not None:
+        body_params = method["body_params"]
+        in_body_params = list(request.json.keys())
+        for param in body_params:
+          exists = request.json.get(param) is not None
+          if not exists and body_params[param]["required"]:
+            return JsonResponse({ERROR_FIELD: "Missing required body " +
+                                             f"parameter: {param}"}, status=400)
+          if exists:
+            in_body_params.remove(param)
+
+        if len(in_body_params) > 0:
+          return JsonResponse({ERROR_FIELD: "Unknown body parameter(s):" +
+                                           f" {in_body_params}"}, status=400)
+      elif method.get("content_type") == "application/json":
+        return JsonResponse({ERROR_FIELD: "Missing JSON body"}, status=400)
+      return view_func(request, *args, **kwargs)
+    return wrapped_view
+  return decorator
 
 def check_object_exists(object_type, id_name, error_string):
   def decorator(view_func):

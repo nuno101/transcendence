@@ -8,6 +8,7 @@ from .helpers_messages import *
 from . import bridge_websocket as websocket
 
 # Endpoint: /channels
+@method_decorator(check_structure("/channels"), name='dispatch')
 class ChannelCollection(View):
   @method_decorator(staff_required, name='dispatch')
   def get(self, request):
@@ -20,7 +21,8 @@ class ChannelCollection(View):
     channel.members.add(request.user)
     return JsonResponse(channel.serialize(), status=201)
 
-# Endpoint: /channels/<int:channel_id>
+# Endpoint: /channels/CHANNEL_ID
+@method_decorator(check_structure("/channels/CHANNEL_ID"), name='dispatch')
 @method_decorator(check_channel_member, name='dispatch')
 class ChannelSingle(View):
   def get(self, request, channel_id):
@@ -33,7 +35,8 @@ class ChannelSingle(View):
   def delete(self, request, channel_id):
     return delete_channel(Channel.objects.get(id=channel_id))
 
-# Endpoint: /channels/<int:channel_id>/members
+# Endpoint: /channels/CHANNEL_ID/members
+@method_decorator(check_structure("/channels/CHANNEL_ID/members"), name='dispatch')
 @method_decorator(check_channel_member, name='dispatch')
 class ChannelMemberCollection(View):
   def get(self, request, channel_id):
@@ -67,7 +70,8 @@ class ChannelMemberCollection(View):
     # TODO: Implement notification system here
     return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
 
-# Endpoint: /channels/<int:channel_id>/members/<int:user_id>
+# Endpoint: /channels/CHANNEL_ID/members/USER_ID
+@method_decorator(check_structure("/channels/CHANNEL_ID/members/USER_ID"), name='dispatch')
 @method_decorator(check_channel_member, name='dispatch')
 @method_decorator(check_object_exists(User, "user_id", USER_404), name='dispatch')
 class ChannelMemberSingle(View):
@@ -86,7 +90,8 @@ class ChannelMemberSingle(View):
     websocket.send_channel_event(channel.id, UPDATE_CHANNEL, channel.serialize())
     return HttpResponse(status=204)
 
-# Endpoint: /channels/<int:channel_id>/messages
+# Endpoint: /channels/CHANNEL_ID/messages
+@method_decorator(check_structure("/channels/CHANNEL_ID/messages"), name='dispatch')
 @method_decorator(check_channel_member, name='dispatch')
 class ChannelMessageCollection(View):
   def get(self, request, channel_id):
@@ -98,13 +103,15 @@ class ChannelMessageCollection(View):
     return create_message(channel, request.user, request.json)
 
 # Endpoint: /messages
+@method_decorator(check_structure("/messages"), name='dispatch')
 class MessageCollection(View):
   @method_decorator(staff_required, name='dispatch')
   def get(self, request):
     messages = Message.objects.all().order_by("-created_at")
     return JsonResponse([message.serialize() for message in messages], safe=False)
 
-# Endpoint: /messages/<int:message_id>
+# Endpoint: /messages/MESSAGE_ID
+@method_decorator(check_structure("/messages/MESSAGE_ID"), name='dispatch')
 @method_decorator(check_message_author, name='dispatch')
 class MessageSingle(View):
   def patch(self, request, message_id):

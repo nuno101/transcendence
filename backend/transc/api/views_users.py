@@ -8,6 +8,7 @@ from .helpers_users import update_user
 from .helpers_games import get_user_games
 
 # Endpoint: /users
+@method_decorator(check_structure("/users"), name='dispatch')
 class UserCollection(View):
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
@@ -25,7 +26,8 @@ class UserCollection(View):
 				return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 		return JsonResponse(user.serialize(private=True), status=201)
 
-# Endpoint: /users/<int:user_id>
+# Endpoint: /users/USER_ID
+@method_decorator(check_structure("/users/USER_ID"), name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class UserSingle(View):
 	def get(self, request, user_id):
@@ -41,7 +43,8 @@ class UserSingle(View):
 		User.objects.get(id=user_id).delete()
 		return HttpResponse(status=204)
 
-# Endpoint: /users/<int:user_id>/avatar
+# Endpoint: /users/USER_ID/avatar
+@method_decorator(check_structure("/users/USER_ID/avatar"), name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class UserAvatar(View):
 	def get(self, request, user_id):
@@ -49,14 +52,16 @@ class UserAvatar(View):
 		# TODO: Implement avatar return
 		pass
 
-# Endpoint: /users/<int:user_id>/stats
+# Endpoint: /users/USER_ID/stats
+@method_decorator(check_structure("/users/USER_ID/stats"), name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class StatsUser(View):
 	def get(self, request, user_id):
 		u = User.objects.get(id=user_id)
 		return JsonResponse(u.stats.serialize())
 
-# Endpoint: /users/<int:user_id>/games
+# Endpoint: /users/USER_ID/games
+@method_decorator(check_structure("/users/USER_ID/games"), name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class GameCollectionUser(View):
 	def get(self, request, user_id):

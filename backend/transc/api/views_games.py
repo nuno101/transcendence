@@ -7,8 +7,8 @@ from .models import Game, Tournament, User
 from .helpers_games import update_game
 
 # Endpoint: /games
+@method_decorator(check_structure("/games"), name='dispatch')
 class GameView(View):
-
 	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		games = Game.objects.all()
@@ -36,7 +36,8 @@ class GameView(View):
 
 		return JsonResponse(game.serialize(), status=201)
 
-# Endpoint: /games/<int:game_id>
+# Endpoint: /games/GAME_ID
+@method_decorator(check_structure("/games/GAME_ID"), name='dispatch')
 @method_decorator(check_object_exists(Game, 'game_id', GAME_404), name='dispatch')
 class GameDetail(View):
 

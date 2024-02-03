@@ -1,4 +1,6 @@
-# cCONF: Constants for url structure
+# cCONF: Global constants endpoint structure
+
+BODY_METHODS = ["POST", "PATCH"]
 
 NO_PARAM_METHOD_TEMPLATE = {
   "query_params": {},
@@ -9,6 +11,7 @@ ENDPOINTS = {
   "/login": {
     "methods": {
       "POST": {
+        "content_type": "application/json", 
         "query_params": {
           "remember": {
             "type": "boolean",
@@ -33,15 +36,13 @@ ENDPOINTS = {
     }
   }, "/logout": {
     "methods": {
-      "POST": {
-        "query_params": {},
-        "body_params": {},
-      }
+      "POST": NO_PARAM_METHOD_TEMPLATE,
     }
   }, "/users/me": {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "PATCH": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "nickname": {
@@ -68,6 +69,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "POST": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "user_id": {
@@ -107,6 +109,7 @@ ENDPOINTS = {
         },
         "body_params": [],
       }, "POST": {
+        "content_type": "application/json", 
         "query_params": {},
         "body_params": {
           "username": {
@@ -134,6 +137,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "POST": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "username": {
@@ -152,6 +156,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "PATCH": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "nickname": {
@@ -182,6 +187,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "POST": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "title": {
@@ -200,6 +206,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "PATCH": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "title": {
@@ -218,6 +225,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "POST": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "tournament_id": {
@@ -248,6 +256,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "PATCH": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "player1_score": {
@@ -270,6 +279,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "POST": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "name": {
@@ -284,6 +294,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "PATCH": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "name": {
@@ -298,6 +309,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "POST": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "user_id": {
@@ -316,6 +328,7 @@ ENDPOINTS = {
     "methods": {
       "GET": NO_PARAM_METHOD_TEMPLATE,
       "POST": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "content": {
@@ -333,6 +346,7 @@ ENDPOINTS = {
   }, "/messages/MESSAGE_ID": {
     "methods": {
       "PATCH": {
+        "content_type": "application/json",
         "query_params": {},
         "body_params": {
           "content": {
