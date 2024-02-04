@@ -55,7 +55,7 @@ onMounted(() => {
 <template>
     <div class="cont">
       <div class="box">
-        <UserSearch />
+        <UserSearch :pendingRequests="pendingRequests"/>
         <div class="con mt-5">
             <div class="row">
               <div class="col-7">

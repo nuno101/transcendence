@@ -1,12 +1,14 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 
 const searchInput = ref('');
 const searchStatus = ref(''); // Possible values: 'found', 'notFound', 'nothing'
 const usersData = ref([]);
 const foundUser = ref(null);
+
+const props = defineProps(['pendingRequests']);
 
 const fetchData = async () => {
   try {
@@ -34,12 +36,13 @@ const searchUser = async (searchedUser) => {
 
 const sendRequest = async() => {
     try {
-        await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
+        const newRequest = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
+        console.log(newRequest)
+        props.pendingRequests.push(newRequest);
     } catch (err) {
         console.error(err.message);
     }
     resetSearch();
-    // SHOULD UPDATE PENDING REQUESTS DIRECTLY
 };
 
 const resetSearch = () => {
@@ -49,6 +52,7 @@ const resetSearch = () => {
 </script>
 
 <template>
+    <div>
     <div class="input-group">
         <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search user" aria-label="Search" aria-describedby="search-addon" />
         <button @click="searchUser(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
@@ -60,13 +64,21 @@ const resetSearch = () => {
             class="img-thumbnail rounded me-4"
             style="width: 50px; height: 50px; object-fit: cover;">
             {{ foundUser.username }}
-            <!-- IF NOT FRIENDS ADD FRIEND BUTTON, IF FRIENDS "ALREADY FRIENDS" -->
+            <!-- IF NOT FRIENDS ADD FRIEND BUTTON -->
             <button type="button" class="btn btn-outline-success ms-auto me-4" @click="sendRequest">add friend</button>
-            <button type="button" class="btn-close me-2" aria-label="Close" @click="resetSearch">
-            </button>
+            <!-- IF FRIENDS "ALREADY FRIENDS" -->
+            <!-- IF FRIEND SENT "FRIEND REQUEST SENT" -->
+            <!-- IF INCOMING FRIEND REQUEST "ACCEPT FRIEND REQUEST" -->
+            <button type="button" class="btn-close me-2" aria-label="Close" @click="resetSearch"></button>
         </div>
     </div>
-    <!-- <div v-else-if="searchStatus === 'notFound'">User not found!</div> -->
+    <div v-else-if="searchStatus === 'notFound'">
+        <div class="alert alert-danger d-flex align-items-center p-1" role="alert">
+            User not found!
+            <button type="button" class="btn-close ms-auto me-2" aria-label="Close" @click="resetSearch"></button>
+        </div>
+    </div>
+    </div>
 </template>
 
 <style scoped>
