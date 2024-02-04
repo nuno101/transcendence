@@ -1,7 +1,8 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { onMounted, ref, defineProps } from 'vue';
+import UserSearch from '../components/dashboard/UserSearch.vue';
+import { onMounted, ref } from 'vue';
 
 const friends = ref({});
 const friendRequests = ref({});
@@ -54,6 +55,7 @@ onMounted(() => {
 <template>
     <div class="cont">
       <div class="box">
+        <UserSearch />
         <div class="con mt-5">
             <div class="row">
               <div class="col-7">
