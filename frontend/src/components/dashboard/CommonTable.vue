@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
-import { ref, defineProps, onMounted, computed } from 'vue';
+import { ref, defineProps, onMounted } from 'vue';
 
 const props = defineProps(['id']);
 const games = ref([]);

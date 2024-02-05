@@ -21,12 +21,9 @@ const access = ref(false);
 const friends = ref({});
 const friend = ref(null);
 const friendStats = ref({});
-// const games = ref({});
-// const opponent = ref({});
 
 
 onMounted(() => {
-  // Access friendname from route parameters
   friendname.value = route.params.friendname;
   getData();
 });
@@ -40,8 +37,6 @@ const getData = async() => {
       console.log(friend.value.id);
       friendStats.value = await Backend.get(`/api/users/${friend.value.id}/stats`);
       initValues(friendStats.value);
-      // games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
-      // console.log(games.value);
     }
   } catch (err) {
     console.error(err.message);
@@ -54,34 +49,7 @@ const initValues = (data) => {
   total.value = data.losses + data.wins;
   defeatsRatio.value = (data.losses / total.value) * 100;
   winsRatio.value = (data.wins / total.value) * 100;
-  // console.log(data);
-  // console.log(data.losses);
-  // console.log(data.wins);
 };
-
-// const isWin = (game) => {
-//   if(game.player1_id === friend.value.id &&
-//     game.player1_score >= game.player2_score)
-//     return true;
-//   else if (game.player2_id === friend.value.id &&
-//     game.player1_score <= game.player1_score)
-//     return true;
-//   return (false);
-// };
-
-// const filteredGames = computed(() => {
-//   return games.value.filter(game => isWin(game));
-// });
-
-// const getOpponentName = async(game) => {
-//   if(game.player1_id === friend.value.id)
-//     opponent.value = await Backend.get(`/api/users/${game.player1_id}`);
-//   else
-//     opponent.value = await Backend.get(`/api/users/${game.player1_id}`);
-//   console.log(opponent.value);
-//   return (opponent.value.username);
-// };
-// const isLoose
 </script>
 
 <template>
