@@ -6,23 +6,31 @@ import json
 # cCONF: Endpoints access allowed for anonymous users
 ANONYMOUS_ACCESS = {
 	"/login": ["POST"],
-	"/users": ["POST"], 
+	"/users": ["POST"],
 }
+
+
 
 class LoggedInCheckMiddleware:
 	def __init__(self, get_response):
 		self.get_response = get_response
 
 	def __call__(self, request):
+		# TODO: Maybe find way to check for this not hardcoded
+		# Allow if path starts with /admin
+		if request.path.startswith("/admin"):
+			return self.get_response(request)
+
 		# Check if endpoint is allowed for anonymous users
 		# return JsonResponse({"test": request.resolver_match})
 		if request.path in ANONYMOUS_ACCESS.keys():
 			if request.method in ANONYMOUS_ACCESS[request.path]:
 				return self.get_response(request)
 
-		# Check if user is logged in
+		# # Check if user is logged in
 		if not request.user.is_authenticated:
 			return JsonResponse({ERROR_FIELD: "Not logged in"}, status=401)
+		return JsonResponse({"test": request.path}, status=401)
 
 		return self.get_response(request)
 
@@ -49,6 +57,11 @@ class ResponseCodeCheckMiddleware:
 
 	def __call__(self, request):
 		response = self.get_response(request)
+
+		# TODO: Maybe find way to check for this not hardcoded
+		# Return if path starts with /admin since it is not part of the API structure defined
+		if request.path.startswith("/admin"):
+			return response
 
 		endpoint = ENDPOINTS.get(request.endpoint_key)
 		method = endpoint["methods"].get(request.method)
