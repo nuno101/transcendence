@@ -33,8 +33,13 @@
         </div>
       </div>
     </header>
-    <Login v-model:logged="logged" v-model:signedup="signedup" />
-    <Signup v-model:signedup="signedup"/>
+    <Login
+      v-model:logged="logged"
+      v-model:signedup="signedup"
+      :forcelogin="forcelogin" />
+    <Signup
+      v-model:signedup="signedup"
+      v-model:forcelogin="forcelogin"/>
   </section>
 </template>
 
@@ -45,6 +50,8 @@ import router from '../../router'
 import Login from '../auth/Login.vue'
 import Signup from '../auth/Signup.vue'
 import { useRoute } from 'vue-router'
+import { watch } from "vue"
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
 const logged = ref({ loaded: false, status: false })
 const signedup = ref(false) 
@@ -69,6 +76,21 @@ const navRoutes = [
   { route: 'tournaments', button: 'Tournaments' },
 ]
 const gameRoutes = ['game/online', 'game/onsite', 'ponggame']
+const restrictedRoutes = ['tournaments']
+const forcelogin = ref(false)
+
+watch(route, (newRoute) => {
+  if (!logged.value.status && restrictedRoutes.includes(newRoute.name))
+    router.push('/login?continue=' + encodeURIComponent(route.name))
+  if (newRoute.name === 'login') {
+    let LoginModel = document.getElementById('loginModalToggle')
+    let bsLoginModal = new bootstrap.Modal(LoginModel)
+    bsLoginModal.show()
+    forcelogin.value = true
+  } else {
+    forcelogin.value = false
+  }
+})
 
 const AlreadyLoggedin = async () => {
   try {

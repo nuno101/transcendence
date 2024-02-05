@@ -4,7 +4,7 @@
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
                 <h1 class="fw-bold mb-0 fs-2"  id="loginModalToggleLabel">Log In</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button @click="closeButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body p-5 pt-0">
@@ -47,9 +47,12 @@ import { onMounted, ref, watch } from 'vue';
 import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
+import router from '../../router';
 
+defineProps({ forcelogin: Boolean })
 const logged = defineModel('logged')
 const signedup = defineModel('signedup')
+console.log(forcelogin)
 const input = ref({ username: '', password: '' })
 const loginModal = ref(null)
 const alerts = ref([])
@@ -72,6 +75,10 @@ onMounted(() => {
   })
 })
 
+const closeButton = () => {
+  if (forcelogin.value) router.push('/')
+}
+
 const LogIn = async () => {
   try {
     alerts.value = []
@@ -81,6 +88,10 @@ const LogIn = async () => {
     let bsLoginModal = bootstrap.Modal.getInstance("#loginModalToggle")
     bsLoginModal.hide()
     logged.value.status = true
+    if (forcelogin.value) {
+      const urlParams = new URLSearchParams(document.location.search)
+      router.push(urlParams.get('continue'))
+    }
   } catch (err) {
     loading.value = false
     alerts.value.push({
