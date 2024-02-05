@@ -50,6 +50,7 @@ const userRelation = (searchedUser) => {
 
 const sendRequest = async() => {
     try {
+        console.log(foundUser.value.username);
         const newRequest = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
         console.log(newRequest)
         props.pendingRequests.push(newRequest);
