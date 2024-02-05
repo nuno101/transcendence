@@ -1,17 +1,91 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref} from 'vue';
+import { ref, onMounted} from 'vue';
+import Backend from '../js/Backend';
+import WinsTable from '../components/dashboard/WinsTable.vue';
+import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
+import CommonTable from '../components/dashboard/CommonTable.vue';
+import { useRoute } from 'vue-router';
 
-const defeats = ref(123);
-const wins = ref(222);
+//  GENERAL
+const defeats = ref(null);
+const wins = ref(null);
+const total = ref(null);
+const defeatsRatio = ref(null);
+const winsRatio = ref(null);
 
-const total = defeats.value + wins.value;
-const defeatsRatio = (defeats.value / total) * 100;
-const winsRatio = (wins.value / total) * 100;
+// INDIVIDUAL FRIEND
+const friendname = ref('');
+const route = useRoute();
+const access = ref(false);
+const friends = ref({});
+const friend = ref(null);
+const friendStats = ref({});
+// const games = ref({});
+// const opponent = ref({});
+
+
+onMounted(() => {
+  // Access friendname from route parameters
+  friendname.value = route.params.friendname;
+  getData();
+});
+
+const getData = async() => {
+  try {
+    friends.value = await Backend.get(`/api/users/me/friends`);
+    friend.value = friends.value.find(friend => friend.username === friendname.value);
+    if(friend.value) {
+      access.value = true;
+      console.log(friend.value.id);
+      friendStats.value = await Backend.get(`/api/users/${friend.value.id}/stats`);
+      initValues(friendStats.value);
+      // games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
+      // console.log(games.value);
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const initValues = (data) => {
+  defeats.value = data.losses;
+  wins.value = data.wins;
+  total.value = data.losses + data.wins;
+  defeatsRatio.value = (data.losses / total.value) * 100;
+  winsRatio.value = (data.wins / total.value) * 100;
+  // console.log(data);
+  // console.log(data.losses);
+  // console.log(data.wins);
+};
+
+// const isWin = (game) => {
+//   if(game.player1_id === friend.value.id &&
+//     game.player1_score >= game.player2_score)
+//     return true;
+//   else if (game.player2_id === friend.value.id &&
+//     game.player1_score <= game.player1_score)
+//     return true;
+//   return (false);
+// };
+
+// const filteredGames = computed(() => {
+//   return games.value.filter(game => isWin(game));
+// });
+
+// const getOpponentName = async(game) => {
+//   if(game.player1_id === friend.value.id)
+//     opponent.value = await Backend.get(`/api/users/${game.player1_id}`);
+//   else
+//     opponent.value = await Backend.get(`/api/users/${game.player1_id}`);
+//   console.log(opponent.value);
+//   return (opponent.value.username);
+// };
+// const isLoose
 </script>
 
 <template>
-    <div class="cont">
+    <div v-if="access" class="cont">
       <div class="box">
         <div class="con mt-5">
             <div class="row">
@@ -39,79 +113,24 @@ const winsRatio = (wins.value / total) * 100;
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">FRIENDSNAME</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{friendname}}</div>
           </div>
-        <div class="row mt-4">
-              <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
-                <table class="table">
-                  <tbody >
-                    <tr v-for="row in 4" :key="row">
-                      <td class="bg-danger align-middle text-start">20.01.24</td>
-                      <td class="bg-danger d-none d-lg-table-cell">
-                        <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                          alt="..."
-                          class="img-thumbnail rounded float-end"
-                          style="width: 50px; height: 50px; object-fit: cover;">
-                      </td>
-                      <td class="bg-danger align-middle text-start">opponent</td>
-                      <td class="bg-danger align-middle text-end">5 : 1</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="row mt-4">
+              <DefeatsTable :id="friend.id"/>
               <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-              <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
-                <table class="table">
-                  <tbody>
-                    <tr v-for="row in 8" :key="row">
-                      <td class="bg-success align-middle">5 : 1</td>
-                      <td class="bg-success align-middle text-end">opponent</td>
-                      <td class="bg-success d-none d-lg-table-cell">
-                        <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                          alt="..."
-                          class="img-thumbnail rounded float-start"
-                          style="width: 50px; height: 50px; object-fit: cover;">
-                      </td>
-                      <td class="bg-success align-middle text-end">20.01.24</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
-                <table class="table">
-                  <tbody >
-                    <tr v-for="row in 10" :key="row">
-                      <!-- IF DEFEAT IN DEFEAT COLOR IF WIN IN WIN COLOR -->
-                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">20.01.24</td>
-                        <td v-if="row % 2 === 0" class="bg-danger">
-                          <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                            alt="..."
-                            class="img-thumbnail rounded float-end"
-                            style="width: 50px; height: 50px; object-fit: cover;">
-                        </td>
-                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">opponent</td>
-                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-end">5 : 1</td>
-                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-start">20.01.24</td>
-                        <td v-if="row % 2 !== 0" class="bg-success">
-                          <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                            alt="..."
-                            class="img-thumbnail rounded float-end"
-                            style="width: 50px; height: 50px; object-fit: cover;">
-                        </td>
-                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-start">opponent</td>
-                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-end">1 : 5</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <WinsTable :id="friend.id"/>
+              <CommonTable :id="friend.id"/>
             </div>
           </div>
         </div>
+      </div>
+      <div v-else>
+        <h1>NO ACCESS</h1>
       </div>
 </template>
 
@@ -186,6 +205,4 @@ const winsRatio = (wins.value / total) * 100;
     top: 255px;
   }
 }
-/* 768 px change wins number and wins text
-put number more in the middle */
 </style>

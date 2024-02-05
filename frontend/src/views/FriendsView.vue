@@ -84,7 +84,9 @@ onMounted(() => {
                           style="width: 50px; height: 50px; object-fit: cover;"
                         />
                       </td>
-                      <td class="bg-light text-start align-middle">{{friend.username}}</td>
+                      <td class="bg-light text-start align-middle">
+                        <router-link :to="`/friends/${friend.username}`">{{friend.username}}</router-link>
+                      </td>
                       <td class="bg-light text-end align-middle">
                         <button type="button" class="btn btn-outline-danger" aria-label="Close" @click="delData('FRIEND', friend.id)">X</button>
                       </td>
