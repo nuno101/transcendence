@@ -54,7 +54,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'api.middleware.LoggedInCheckMiddleware',
+    'api.middleware.JsonSyntaxCheckMiddleware',
+    'api.middleware.ResponseCodeCheckMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE.append('api.middleware.ResponseCodeCheckMiddleware')
 
 ROOT_URLCONF = 'transc.urls'
 

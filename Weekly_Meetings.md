@@ -2,10 +2,22 @@
 Attended by Anouk, Jan, Julia, Robert
 
 Robert:
-* [ ] Implement basic notification system/endpoints to inform user about new events
-* [ ] Add notification endpoints for frontend
+* [x] Implement basic notification system/endpoints to inform user about new events
+* [ ] Make use of notification system, e.g. for the creation of a friend request, etc
+* [x] Add notification endpoints for frontend
 * [ ] Add websocket event for notification creation
-* [ ] Change game model so that it doesn't need a relationship with a tournament anym
+* [x] Change game model so that it doesn't need a relationship with a tournament
+* [ ] Extend/Improve functionality of automatic http api documentation generation
+  * [ ] Endpoint method description
+  * [x] Query-/Body parameter tables
+  * [ ] Response code documentation (and description?)
+  * [ ] Min/Max checking for integer values?
+* [x] Extend/Fully implement middleware used verify request query and body parameters
+  * [x] Implemented it instead as global method_decorator that should be used for every endpoint class because I was not able to determine the endpoint url in middleware
+* [x] Implement middleware to verify valid response(-code) is sent
+  * [x] Is only active if django is in debug mode
+* [ ] Add documentation for valid endpoint responses in endpoint structure (code, description, return format?, etc.)
+  * [ ] Activate response code check middleware once responses are documented
 
 Julia:
 * working on FriendsView.vue
