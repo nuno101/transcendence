@@ -13,9 +13,6 @@ const fetchData = async () => {
     friends.value = await Backend.get(`/api/users/me/friends`);
     friendRequests.value = await Backend.get(`/api/users/me/friends/requests?type=received`);
     pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
-    // console.log("FRIENDS: " + friends.value);
-    // console.log("FRIENDREQ: " + friendRequests.value);
-    // console.log("PENDING: " + pendingRequests.value);
   } catch (err) {
     console.error(err.message);
   }
@@ -47,6 +44,19 @@ const delData = async(flag, id) => {
   }
 };
 
+const acceptRequest = async(requestid, username, userid) => {
+    try {
+      const acceptedRequest = await Backend.patch(`/api/users/me/friends/requests/${requestid}`, {});
+      friends.value.push({"id": `${userid}`, "username": `${username}`});
+      const indexToDelete = friendRequests.value.findIndex(friendreq => friendreq.id === requestid);
+      if(indexToDelete !== -1)
+          friendRequests.value.splice(indexToDelete, 1);
+      console.log(acceptedRequest);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
 onMounted(() => {
   fetchData();
 })
@@ -66,18 +76,17 @@ onMounted(() => {
                   </thead>
                   <tbody v-if="friends && friends.length > 0">
                     <tr v-for="(friend, index) in friends" :key="friend">
-                      <td class="bg-danger text-center align-middle">{{index + 1}}</td>
-                      <td class="bg-danger d-none d-lg-table-cell">
+                      <td class="bg-light text-center align-middle">{{index + 1}}</td>
+                      <td class="bg-light d-none d-lg-table-cell">
                         <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
                           alt="..."
                           class="img-thumbnail rounded"
                           style="width: 50px; height: 50px; object-fit: cover;"
                         />
                       </td>
-                      <td class="bg-danger text-start align-middle">{{friend.username}}</td>
-                      <td class="bg-danger text-end align-middle">
-                        <button type="button" class="btn-close" aria-label="Close" @click="delData('FRIEND', friend.id)">
-                        </button>
+                      <td class="bg-light text-start align-middle">{{friend.username}}</td>
+                      <td class="bg-light text-end align-middle">
+                        <button type="button" class="btn btn-outline-danger" aria-label="Close" @click="delData('FRIEND', friend.id)">X</button>
                       </td>
                     </tr>
                   </tbody>
@@ -89,20 +98,20 @@ onMounted(() => {
                   <div class="smalltable gamestable rounded img-thumbnail d-md-block">
                      <table class="table table-hover m-0">
                         <thead class="table-dark">
-                          <tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
+                          <tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
                         </thead>
                       <tbody v-if="friendRequests.length > 0">
                         <tr v-for="friend in friendRequests" :key="friend">
-                          <td class="bg-danger d-none d-lg-table-cell">
+                          <td class="bg-light d-none d-lg-table-cell">
                             <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
                               alt="..."
                               class="img-thumbnail rounded"
                               style="width: 50px; height: 50px; object-fit: cover;">
                           </td>
-                          <td class="bg-danger align-middle">{{friend.from_user.username}}</td>
-                          <td class="bg-danger text-end align-middle">
-                            <button type="button" class="btn-close" aria-label="Close" @click="delData('FRIENDREQ', friend.id)">
-                            </button>
+                          <td class="bg-light align-middle">{{friend.from_user.username}}</td>
+                          <td class="bg-light text-end align-middle d-none d-md-table-cell">
+                            <button class="btn btn-outline-success ms-auto me-2" @click="acceptRequest(friend.id, friend.from_user.username, friend.from_user.id)">✓</button>
+                            <button class="btn btn-outline-danger" @click="delData('FRIENDREQ', friend.id)">X</button>
                           </td>
                         </tr>
                       </tbody>
@@ -116,16 +125,15 @@ onMounted(() => {
                         </thead>
                       <tbody v-if="pendingRequests.length > 0">
                         <tr v-for="friend in pendingRequests" :key="friend">
-                          <td class="bg-danger d-none d-lg-table-cell">
+                          <td class="bg-light d-none d-lg-table-cell">
                             <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
                               alt="..."
                               class="img-thumbnail rounded"
                               style="width: 50px; height: 50px; object-fit: cover;">
                           </td>
-                          <td class="bg-danger align-middle">{{friend.to_user.username}}</td>
-                          <td class="bg-danger text-end align-middle">
-                            <button type="button" class="btn-close" aria-label="Close" @click="delData('PENDREQ', friend.id)">
-                            </button>
+                          <td class="bg-light align-middle">{{friend.to_user.username}}</td>
+                          <td class="bg-light text-end align-middle d-none d-md-table-cell">
+                            <button class="btn btn-outline-danger" @click="delData('PENDREQ', friend.id)">X</button>
                           </td>
                         </tr>
                       </tbody>
