@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, watch } from 'vue';
 
 const searchInput = ref('');
 const searchStatus = ref(''); // Possible values: 'found', 'notFound', 'nothing'
@@ -60,13 +60,51 @@ const sendRequest = async() => {
 };
 
 const acceptRequest = async() => {
-    // try {
-    //     const newFriend = await Backend.post(`/api/users/me/friends`, {"username": `${foundUser.value.username}`});
-    //     console.log(newRequest)
-    //     props.friends.push(newRequest);
-    // } catch (err) {
-    //     console.error(err.message);
-    // }
+    try {
+        const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
+        if (requestId) {
+            const acceptedRequest = await Backend.patch(`/api/users/me/friends/requests/${requestId}`, {});
+            props.friends.push({"id": `${requestId}`, "username": `${foundUser.value.username}`});
+            const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
+            if(indexToDelete !== -1)
+                props.friendRequests.splice(indexToDelete, 1);
+            console.log(acceptedRequest);
+        }
+    } catch (err) {
+        console.error(err.message);
+    }
+    resetSearch();
+};
+
+const declineRequest = async() => {
+    try {
+        const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
+        if (requestId) {
+            const declinedRequest = await Backend.delete(`/api/users/me/friends/requests/${requestId}`, {});
+            const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
+            if(indexToDelete !== -1)
+                props.friendRequests.splice(indexToDelete, 1);
+            console.log(declinedRequest);
+        }
+    } catch (err) {
+        console.error(err.message);
+    }
+    resetSearch();
+};
+
+const cancelRequest = async() => {
+    try {
+        const requestId = props.pendingRequests.find(request => request.to_user.username === foundUser.value.username)?.id;
+        if (requestId) {
+            const cancelledRequest = await Backend.delete(`/api/users/me/friends/requests/${requestId}`, {});
+            const indexToDelete = props.pendingRequests.findIndex(friendreq => friendreq.id === requestId);
+            if(indexToDelete !== -1)
+                props.pendingRequests.splice(indexToDelete, 1);
+            console.log(cancelledRequest);
+        }
+    } catch (err) {
+        console.error(err.message);
+    }
     resetSearch();
 };
 
@@ -74,6 +112,10 @@ const resetSearch = () => {
   searchStatus.value = '';
   searchInput.value = '';
 };
+
+watch(searchInput, () => {
+  searchStatus.value = '';
+});
 </script>
 
 <template>
@@ -91,8 +133,11 @@ const resetSearch = () => {
             {{ foundUser.username }}
             <!-- IF NOT FRIENDS ADD FRIEND BUTTON -->
             <div v-if="userRelation(searchInput) === 'FRIENDS'" class="ms-auto me-4 text-success">friends</div>
-            <div v-else-if="userRelation(searchInput) === 'PENDREQ'" class="ms-auto me-4 text-success">Friendrequest sent</div>
-            <button v-else-if="userRelation(searchInput) === 'FRIENDREQ'" class="btn btn-outline-success ms-auto me-4" @click="acceptRequest">accept Friendrequest</button>
+            <button v-else-if="userRelation(searchInput) === 'PENDREQ'" class="btn btn-outline-danger ms-auto me-4" @click="cancelRequest">cancel sent request</button>
+            <div v-else-if="userRelation(searchInput) === 'FRIENDREQ'" class="ms-auto me-4">
+                <button class="btn btn-outline-success me-2" @click="acceptRequest">accept</button>
+                <button class="btn btn-outline-danger" @click="declineRequest">decline</button>
+            </div>
             <button v-else-if="userRelation(searchInput) === 'NOTHING'" type="button" class="btn btn-outline-success ms-auto me-4" @click="sendRequest">add friend</button>
             <button type="button" class="btn-close me-2" aria-label="Close" @click="resetSearch"></button>
         </div>

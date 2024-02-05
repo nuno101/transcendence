@@ -31,13 +31,13 @@ const delData = async(flag, id) => {
         friends.value.splice(indexToDelete, 1);
     }
     else if (flag === 'FRIENDREQ') {
-      await Backend.delete(`/api/users/me/friends/requests/${id}?type=received`);
+      await Backend.delete(`/api/users/me/friends/requests/${id}`);
       indexToDelete = friendRequests.value.findIndex(friendreq => friendreq.id === id);
       if(indexToDelete !== -1)
         friendRequests.value.splice(indexToDelete, 1);
     }
     else if (flag === 'PENDREQ'){
-      await Backend.delete(`/api/users/me/friends/requests/${id}?type=sent`);
+      await Backend.delete(`/api/users/me/friends/requests/${id}`);
       indexToDelete = pendingRequests.value.findIndex(pendreq => pendreq.id === id);
       if(indexToDelete !== -1)
         pendingRequests.value.splice(indexToDelete, 1);
@@ -60,7 +60,7 @@ onMounted(() => {
             <div class="row">
               <div class="col-7">
                 <div class="bigtable gamestable rounded img-thumbnail d-md-block">
-                <table class="table m-0 table-bordered">
+                <table class="table m-0">
                   <thead class="table-dark">
                     <tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.listoffriends')}}</th></tr>
                   </thead>
@@ -87,7 +87,7 @@ onMounted(() => {
               </div>
               <div class="col-5">
                   <div class="smalltable gamestable rounded img-thumbnail d-md-block">
-                     <table class="table table-bordered table-hover m-0">
+                     <table class="table table-hover m-0">
                         <thead class="table-dark">
                           <tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
                         </thead>
