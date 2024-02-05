@@ -45,7 +45,6 @@ const isWin = (game) => {
 };
 </script>
 
-
 <template>
     <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
     <table class="table">

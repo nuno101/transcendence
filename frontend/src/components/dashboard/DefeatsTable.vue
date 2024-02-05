@@ -50,7 +50,6 @@ const filteredGames = computed(() => {
 
 </script>
 
-
 <template>
     <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
     <table class="table">
