@@ -8,7 +8,7 @@ const searchStatus = ref(''); // Possible values: 'found', 'notFound', 'nothing'
 const usersData = ref([]);
 const foundUser = ref(null);
 
-const props = defineProps(['pendingRequests']);
+const props = defineProps(['pendingRequests', 'friendRequests', 'friends']);
 
 const fetchData = async () => {
   try {
@@ -34,6 +34,20 @@ const searchUser = async (searchedUser) => {
   }
 };
 
+const userRelation = (searchedUser) => {
+    console.log(props.friendRequests);
+    console.log("PENDING: " + props.pendingRequests);
+    console.log(props.friends);
+
+    if (props.friends.find(friend => friend.username === searchedUser))
+        return('FRIENDS');
+    else if (props.friendRequests.find(friend => friend.from_user.username === searchedUser))
+        return('FRIENDREQ');
+    else if (props.pendingRequests.find(friend => friend.to_user.username === searchedUser))
+        return('PENDREQ');
+    return('NOTHING');
+};
+
 const sendRequest = async() => {
     try {
         const newRequest = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
@@ -42,6 +56,17 @@ const sendRequest = async() => {
     } catch (err) {
         console.error(err.message);
     }
+    resetSearch();
+};
+
+const acceptRequest = async() => {
+    // try {
+    //     const newFriend = await Backend.post(`/api/users/me/friends`, {"username": `${foundUser.value.username}`});
+    //     console.log(newRequest)
+    //     props.friends.push(newRequest);
+    // } catch (err) {
+    //     console.error(err.message);
+    // }
     resetSearch();
 };
 
@@ -65,10 +90,10 @@ const resetSearch = () => {
             style="width: 50px; height: 50px; object-fit: cover;">
             {{ foundUser.username }}
             <!-- IF NOT FRIENDS ADD FRIEND BUTTON -->
-            <button type="button" class="btn btn-outline-success ms-auto me-4" @click="sendRequest">add friend</button>
-            <!-- IF FRIENDS "ALREADY FRIENDS" -->
-            <!-- IF FRIEND SENT "FRIEND REQUEST SENT" -->
-            <!-- IF INCOMING FRIEND REQUEST "ACCEPT FRIEND REQUEST" -->
+            <div v-if="userRelation(searchInput) === 'FRIENDS'" class="ms-auto me-4 text-success">friends</div>
+            <div v-else-if="userRelation(searchInput) === 'PENDREQ'" class="ms-auto me-4 text-success">Friendrequest sent</div>
+            <button v-else-if="userRelation(searchInput) === 'FRIENDREQ'" class="btn btn-outline-success ms-auto me-4" @click="acceptRequest">accept Friendrequest</button>
+            <button v-else-if="userRelation(searchInput) === 'NOTHING'" type="button" class="btn btn-outline-success ms-auto me-4" @click="sendRequest">add friend</button>
             <button type="button" class="btn-close me-2" aria-label="Close" @click="resetSearch"></button>
         </div>
     </div>
