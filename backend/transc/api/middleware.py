@@ -30,7 +30,6 @@ class LoggedInCheckMiddleware:
 		# # Check if user is logged in
 		if not request.user.is_authenticated:
 			return JsonResponse({ERROR_FIELD: "Not logged in"}, status=401)
-		return JsonResponse({"test": request.path}, status=401)
 
 		return self.get_response(request)
 
