@@ -25,10 +25,10 @@ const friendStats = ref({});
 
 onMounted(() => {
   friendname.value = route.params.friendname;
-  getData();
+  fetchData();
 });
 
-const getData = async() => {
+const fetchData = async() => {
   try {
     friends.value = await Backend.get(`/api/users/me/friends`);
     friend.value = friends.value.find(friend => friend.username === friendname.value);

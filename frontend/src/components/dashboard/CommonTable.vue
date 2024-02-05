@@ -8,19 +8,17 @@ const games = ref([]);
 const me = ref([]);
 
 onMounted(() => {
-    getData();
+    fetchData();
 });
 
-const getData = async() => {
+const fetchData = async() => {
   try {
     games.value = await Backend.get(`/api/users/${props.id}/games`);
     me.value = await Backend.get(`/api/users/${props.id}`);
-
     for (const game of games.value) {
       const opponentId = game.player1_id === props.id ? game.player2_id : game.player1_id;
       game.opponent = await getOpponentData(opponentId);
     }
-    console.log(games.value);
   } catch (err) {
     console.error(err.message);
   }
@@ -29,7 +27,6 @@ const getData = async() => {
 const getOpponentData = async (id) => {
     try {
     const response = await Backend.get(`/api/users/${id}`);
-    console.log(response.username);
     return response.username;
     } catch (err) {
     console.error(err.message);
