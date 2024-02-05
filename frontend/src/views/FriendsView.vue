@@ -46,7 +46,7 @@ const delData = async(flag, id) => {
 
 const acceptRequest = async(requestid, username, userid) => {
     try {
-      const acceptedRequest = await Backend.patch(`/api/users/me/friends/requests/${requestid}`, {});
+      const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${requestid}`, {});
       friends.value.push({"id": `${userid}`, "username": `${username}`});
       const indexToDelete = friendRequests.value.findIndex(friendreq => friendreq.id === requestid);
       if(indexToDelete !== -1)
