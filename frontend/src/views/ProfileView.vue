@@ -1,48 +1,51 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted} from 'vue';
+import WinsTable from '../components/dashboard/WinsTable.vue';
+import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
+import CommonTable from '../components/dashboard/CommonTable.vue';
+import { ref, onMounted, watch} from 'vue';
 
-const username = ref(null);
+// GENERAL
 const defeats = ref(null);
 const wins = ref(null);
 const total = ref(null);
 const defeatsRatio = ref(null);
 const winsRatio = ref(null);
 
-// localhost:8000/users/me --> get id
-// localhost:8000/users/1/stats --> get wins & losses
-
-const data = ref({});
-
-const fetchData = async () => {
-  try {
-    const users = await Backend.get('/api/users/me');
-    username.value = users.username;
-    console.log(users.id);
-    data.value = await Backend.get(`/api/users/${users.id}/stats`);
-    initValues(data.value);
-    console.log(data.value);
-    return data.value;
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-const initValues = (data) => {
-  defeats.value = data.losses;
-  wins.value = data.wins;
-  total.value = data.losses + data.wins;
-  defeatsRatio.value = (data.losses / total.value) * 100;
-  winsRatio.value = (data.wins / total.value) * 100;
-  console.log(data);
-  console.log(data.losses);
-  console.log(data.wins);
-};
+// INDIVIDUAL
+const username = ref('');
+const users = ref({});
+const userStats = ref({});
 
 onMounted(() => {
   fetchData();
 })
+
+const isLoading = ref(true);
+
+const fetchData = async () => {
+  try {
+    users.value = await Backend.get('/api/users/me');
+    if(users.value) {
+      username.value = users.value.username;
+      userStats.value = await Backend.get(`/api/users/${users.value.id}/stats`);
+      initValues(userStats.value);
+    }
+  } catch (err) {
+    console.error(err.message);
+  } finally {
+    isLoading.value = false; //data available
+  }
+};
+
+const initValues = (userStats) => {
+  defeats.value = userStats.losses;
+  wins.value = userStats.wins;
+  total.value = userStats.losses + userStats.wins;
+  defeatsRatio.value = (userStats.losses / total.value) * 100;
+  winsRatio.value = (userStats.wins / total.value) * 100;
+};
 </script>
 
 <template>
@@ -77,76 +80,15 @@ onMounted(() => {
             <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom text-uppercase">{{ username }}</div>
           </div>
         <div class="row mt-4">
-              <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
-                <table class="table">
-                  <tbody v-if="defeats > 0">
-                    <tr v-for="row in defeats" :key="row">
-                      <td class="bg-danger align-middle text-start">20.01.24</td>
-                      <td class="bg-danger d-none d-lg-table-cell">
-                        <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                          alt="..."
-                          class="img-thumbnail rounded float-end"
-                          style="width: 50px; height: 50px; object-fit: cover;">
-                      </td>
-                      <td class="bg-danger align-middle text-start">opponent</td>
-                      <td class="bg-danger align-middle text-end">5 : 1</td>
-                    </tr>
-                  </tbody>
-                  <tbody v-else class="text-center">NO DEFEATS</tbody>
-                </table>
-              </div>
+            <DefeatsTable v-if="!isLoading" :id="users.id"/>
               <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-              <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
-                <table class="table">
-                  <tbody v-if="wins > 0">
-                    <tr v-for="row in wins" :key="row">
-                      <td class="bg-success align-middle">5 : 1</td>
-                      <td class="bg-success align-middle text-end">opponent</td>
-                      <td class="bg-success d-none d-lg-table-cell">
-                        <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                          alt="..."
-                          class="img-thumbnail rounded float-start"
-                          style="width: 50px; height: 50px; object-fit: cover;">
-                      </td>
-                      <td class="bg-success align-middle text-end">20.01.24</td>
-                    </tr>
-                  </tbody>
-                  <tbody v-else class="text-center">NO WINS</tbody>
-                </table>
-              </div>
-              <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
-                <table class="table">
-                  <tbody v-if="defeats > 0 || wins > 0">
-                    <tr v-for="row in defeats + wins" :key="row">
-                      <!-- IF DEFEAT IN DEFEAT COLOR IF WIN IN WIN COLOR -->
-                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">20.01.24</td>
-                        <td v-if="row % 2 === 0" class="bg-danger">
-                          <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                            alt="..."
-                            class="img-thumbnail rounded float-end"
-                            style="width: 50px; height: 50px; object-fit: cover;">
-                        </td>
-                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-start">opponent</td>
-                        <td v-if="row % 2 === 0" class="bg-danger align-middle text-end">5 : 1</td>
-                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-start">20.01.24</td>
-                        <td v-if="row % 2 !== 0" class="bg-success">
-                          <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                            alt="..."
-                            class="img-thumbnail rounded float-end"
-                            style="width: 50px; height: 50px; object-fit: cover;">
-                        </td>
-                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-start">opponent</td>
-                        <td v-if="row % 2 !== 0" class="bg-success align-middle text-end">1 : 5</td>
-                    </tr>
-                  </tbody>
-                  <tbody v-else class="text-center">NO GAMES</tbody>
-                </table>
-              </div>
+            <WinsTable v-if="!isLoading" :id="users.id"/>
+            <CommonTable v-if="!isLoading" :id="users.id"/>
             </div>
           </div>
         </div>
