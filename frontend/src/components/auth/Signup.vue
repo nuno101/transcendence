@@ -4,7 +4,7 @@
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
                 <h1 class="fw-bold mb-0 fs-2"  id="signupModalToggleLabel">Sign Up</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button @click="closeButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body p-5 pt-0">
@@ -40,9 +40,11 @@
 import { onMounted, ref } from "vue";
 import Backend from "../../js/Backend";
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
-import SubmitButton from "../common/SubmitButton.vue";
+import SubmitButton from "../common/SubmitButton.vue"
+import router from '../../router';
 
 const signedup = defineModel('signedup')
+const props = defineProps({ forcelogin: Boolean })
 const input = ref({ username: '', password: '' })
 const signupModal = ref(null)
 const loading = ref(false)
@@ -54,6 +56,10 @@ onMounted(() => {
         alerts.value = []
     })
 })
+
+const closeButton = () => {
+  if (props.forcelogin) router.push({ name: 'home' })
+}
 
 const SignUp = async () => {
     try {

@@ -38,7 +38,7 @@
       :signedup="signedup"
       :forcelogin="forcelogin" />
     <Signup
-      :signedup="signedup"
+      v-model:signedup="signedup"
       :forcelogin="forcelogin"/>
   </section>
 </template>
