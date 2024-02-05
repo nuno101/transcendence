@@ -17,11 +17,8 @@ def create_message(channel: Channel, user: User, parameters):
   return JsonResponse(message.serialize(), status=201)
 
 def update_message(message: Message, parameters):
-  if parameters.get('content') is not None:
-    message.content = parameters.get('content')
-  message.updated_at = datetime.datetime.now()
   try:
-    message.save()
+    message.content = parameters.get('content')
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update message"}, status=500)
 

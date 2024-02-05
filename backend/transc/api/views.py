@@ -14,11 +14,11 @@ def websocket_custom(request): # FIXME: DEBUG: Remove later
 	return render(request, 'api/custom_ws.html')
 
 # Endpoint: /login
+@method_decorator(check_structure("/login"), name='dispatch')
 class Login(View):
-	@check_body_syntax(['username', 'password'])
 	def post(self, request):
-		user = authenticate(username=self.body.get('username'), 
-												password=self.body.get('password'))
+		user = authenticate(username=request.json.get('username'), 
+												password=request.json.get('password'))
 		if user is None:
 			return JsonResponse({ERROR_FIELD: "Invalid login credentials"}, status=401)
 		expiration = None if request.GET.get('remember', "false") == 'true' else 0
@@ -27,7 +27,7 @@ class Login(View):
 		return JsonResponse(user.serialize(private=True))
 
 # Endpoint: /logout
-@method_decorator(login_required, name='dispatch')
+@method_decorator(check_structure("/logout"), name='dispatch')
 class Logout(View):
 	def post(self, request):
 		websocket.message_group(f'user_{request.user.id}', 'close_connection', {})

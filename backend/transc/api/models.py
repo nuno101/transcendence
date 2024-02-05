@@ -121,7 +121,8 @@ class Game(models.Model):
 			ONGOING = "ongoing"
 			DONE = "done"
 			CANCELLED = "cancelled"
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, related_name="matches")
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE,
+																 blank=True, null=True, related_name="matches")
 	player1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player1")
 	player2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player2")
 	status = models.CharField(
@@ -169,8 +170,6 @@ class Notification(models.Model):
 		}
 
 class Channel(models.Model):
-    # TODO: Use UUIDs?
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -189,8 +188,6 @@ class Channel(models.Model):
       }
 
 class Message(models.Model):
-    # TODO: Use UUIDs?
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     content = models.TextField(max_length=2500)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)

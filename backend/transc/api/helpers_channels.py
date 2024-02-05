@@ -7,11 +7,9 @@ from .constants_websocket_events import *
 
 # Channel instance management helpers
 def update_channel(channel: Channel, parameters):
-  if parameters.get('name') is not None:
-    channel.content = parameters.get('name')
-  channel.updated_at = datetime.datetime.now()
   try:
-    channel.save()
+    if parameters.get('name') is not None:
+      channel.content = parameters.get('name')
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update channel"}, status=500)
   

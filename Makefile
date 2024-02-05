@@ -1,4 +1,4 @@
-.PHONY: all build up clean re clean-all
+.PHONY: all build up init migrate superuser down documentation clean re
 -include docker.mk
 
 all: build up
@@ -24,6 +24,11 @@ superuser:
 
 down:
 	docker compose down
+
+documentation:
+	@echo "Changing directory to $(PWD)/tools"
+	@(cd tools && sh generate_api_docs.sh)
+	@echo "Working directory changed to $(PWD)"
 
 clean: down
 	docker system prune -f

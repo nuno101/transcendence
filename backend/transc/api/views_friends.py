@@ -11,14 +11,14 @@ from .constants_notification_types import *
 from . import bridge_websocket as websocket
 
 # Endpoint: /users/me/friends
-@method_decorator(login_required, name='dispatch')
+@method_decorator(check_structure("/users/me/friends"), name='dispatch')
 class FriendCollection(View):
   def get(self, request):
     friends = request.user.friends.all()
     return JsonResponse([f.serialize(private=True) for f in friends], safe=False)
 
-# Endpoint: /users/me/friends/<int:user_id>
-@method_decorator(login_required, name='dispatch')
+# Endpoint: /users/me/friends/USER_ID
+@method_decorator(check_structure("/users/me/friends/USER_ID"), name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class FriendSingle(View):
   def delete(self, request, user_id):
@@ -34,7 +34,7 @@ class FriendSingle(View):
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/friends/requests
-@method_decorator(login_required, name='dispatch')
+@method_decorator(check_structure("/users/me/friends/requests"), name='dispatch')
 class FriendRequestCollection(View):
   # Get all friend requests, choose between sent and received
   def get(self, request):
@@ -46,15 +46,12 @@ class FriendRequestCollection(View):
       friend_requests = FriendRequest.objects.filter(from_user=request.user)
     elif request_type == 'received':
       friend_requests = FriendRequest.objects.filter(to_user=request.user)
-    else:
-      return JsonResponse({ERROR_FIELD: "Invalid query parameter 'type'"}, status=400)
     return JsonResponse([r.serialize() for r in friend_requests], safe=False)
 
   # Create new friend request
-  @check_body_syntax(['username'])
   def post(self, request):
     try:
-      target = User.objects.get(username=self.body.get('username'))
+      target = User.objects.get(username=request.json.get('username'))
     except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
@@ -85,8 +82,8 @@ class FriendRequestCollection(View):
                         target)
     return JsonResponse(friend_request.serialize(), status=201)
 
-# Endpoint: /users/me/friends/requests/<int:request_id>
-@method_decorator(login_required, name='dispatch')
+# Endpoint: /users/me/friends/requests/REQUEST_ID
+@method_decorator(check_structure("/users/me/friends/requests/REQUEST_ID"), name='dispatch')
 @method_decorator(check_object_exists(FriendRequest, 'request_id', 
                                       FRIEND_REQUEST_404), name='dispatch')
 class FriendRequestSingle(View):
