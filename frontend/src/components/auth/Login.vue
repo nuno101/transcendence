@@ -14,12 +14,12 @@
                 </div>
                 <form @submit.prevent="LogIn" class="">
                 <div class="form-floating mb-3">
-                    <input v-model="input.username" type="text" class="form-control rounded-3" id="floatingInput" placeholder="username">
-                    <label for="floatingInput">Username</label>
+                    <input v-model="input.username" type="text" class="form-control rounded-3" id="floatingLoginUsername" placeholder="username">
+                    <label for="floatingLoginUsername">Username</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input v-model="input.password" type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                    <input v-model="input.password" type="password" class="form-control rounded-3" id="floatingLoginPassword" placeholder="Password">
+                    <label for="floatingLoginPassword">Password</label>
                 </div>
                 <div class="form-check my-3">
                     <input v-model="remember" class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
@@ -49,11 +49,10 @@ import SubmitButton from '../common/SubmitButton.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import router from '../../router';
 
-defineProps({ forcelogin: Boolean })
+const props = defineProps({ forcelogin: Boolean })
 const logged = defineModel('logged')
 const signedup = defineModel('signedup')
-console.log(forcelogin)
-const input = ref({ username: '', password: '' })
+const input = { username: '', password: '' }
 const loginModal = ref(null)
 const alerts = ref([])
 const loading = ref(false)
@@ -70,25 +69,25 @@ watch(signedup, (newValue) => {
 
 onMounted(() => {
   loginModal.value.addEventListener('hidden.bs.modal', () => {
-    Object.keys(input.value).forEach(k => input.value[k] = '')
+    Object.keys(input).forEach(k => input[k] = '')
     alerts.value = []
   })
 })
 
 const closeButton = () => {
-  if (forcelogin.value) router.push('/')
+  if (props.forcelogin) router.push({ name: 'home' })
 }
 
 const LogIn = async () => {
   try {
     alerts.value = []
     loading.value = true
-    await Backend.post('/api/login?remember=' + remember, input.value)
+    await Backend.post('/api/login?remember=' + remember, input)
     loading.value = false
     let bsLoginModal = bootstrap.Modal.getInstance("#loginModalToggle")
     bsLoginModal.hide()
     logged.value.status = true
-    if (forcelogin.value) {
+    if (props.forcelogin) {
       const urlParams = new URLSearchParams(document.location.search)
       router.push(urlParams.get('continue'))
     }

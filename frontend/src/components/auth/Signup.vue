@@ -14,12 +14,12 @@
                 </div>
                 <form @submit.prevent="SignUp" class="">
                 <div class="form-floating mb-3">
-                    <input v-model="input.username" type="text" class="form-control rounded-3" id="floatingInput" placeholder="username">
-                    <label for="floatingInput">Username</label>
+                    <input v-model="input.username" type="text" class="form-control rounded-3" id="floatingSignupUsername" placeholder="username">
+                    <label for="floatingSignupUsername">Username</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input v-model="input.password" type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                    <input v-model="input.password" type="password" class="form-control rounded-3" id="floatingSignupPassword" placeholder="Password">
+                    <label for="floatingSignupPassword">Password</label>
                 </div>
                 <SubmitButton :loading="loading">Sign Up</SubmitButton>
                 <small class="text-body-secondary">Already an account? <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Log In</a></small>

@@ -34,12 +34,12 @@
       </div>
     </header>
     <Login
-      v-model:logged="logged"
-      v-model:signedup="signedup"
+      :logged="logged"
+      :signedup="signedup"
       :forcelogin="forcelogin" />
     <Signup
-      v-model:signedup="signedup"
-      v-model:forcelogin="forcelogin"/>
+      :signedup="signedup"
+      :forcelogin="forcelogin"/>
   </section>
 </template>
 
@@ -75,6 +75,7 @@ const navRoutes = [
   { route: 'settings', button: 'Settings' },
   { route: 'tournaments', button: 'Tournaments' },
 ]
+const logoutRoute = { name: 'home' }
 const gameRoutes = ['game/online', 'game/onsite', 'ponggame']
 const restrictedRoutes = ['tournaments']
 const forcelogin = ref(false)
@@ -105,7 +106,7 @@ const LogOut = async () => {
   try {
     await Backend.post('/api/logout')
     logged.value.status = false
-    router.push('/')
+    router.push(logoutRoute)
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
   }
