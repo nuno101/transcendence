@@ -9,10 +9,17 @@ const tournamentId = ref(null);
 const title = ref(null);
 const description = ref(null);
 const status = ref(null);
+const created_at = ref(null);
+const updated_at = ref(null);
+const username = ref(null);
+const creator = ref(null);
+const players = ref([]);
 
 const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
+	const users = await Backend.get('/api/users/me');
+    username.value = users.username;
     console.log(tournament.value);
 	initValues(tournament.value);
 	return tournament.value;
@@ -25,22 +32,64 @@ const initValues = (data) => {
 	title.value = data.title
 	description.value = data.description
 	status.value = data.status
+	created_at.value = data.created_at
+	updated_at.value = data.updated_at
+	creator.value = data.creator.username
+	players.value = data.players;
+	players.value.forEach(username => {
+    	console.log(username);
+	});
 };	
 
 onMounted(() => {
 	const route = useRoute();
   	tournamentId.value = route.params.id;
-	console.log("Tournament value: " + tournamentId.value);
 	fetchData();
 })
 </script>
 
 <template>
-	<div>
-    	<h1>TEST</h1>
-		<h2>TEST 2: {{ title }}</h2>
-  	</div>
+    <div class="container mt-5">
+        <h1 class="display-4 mb-4">{{ title }}</h1>
+        <div class="row">
+            <div class="col-lg-8">
+                <p class="lead mb-4">Status: <span class="text-muted">{{ status }}</span></p>
+                <p>{{ description }}</p>
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <p class="text-muted">Created at: {{ created_at }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted">Last updated: {{ updated_at }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h3 class="mb-3">Created by</h3>
+                <p>{{ creator }}</p>
+                <h3 class="mb-3 mt-4">Players</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <!-- Add more table headers if needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(username, index) in players" :key="index">
+                            <td>{{ username }}</td>
+                            <!-- Add more table cells if needed -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </template>
+
+  
+  
+  
 
 <style>
 </style>
@@ -64,4 +113,5 @@ with id being the actual id
 
 <h2>TEST 2 : {{ tournamentId.value }}</h2>
 
+-->
 -->
