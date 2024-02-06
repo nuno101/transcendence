@@ -20,6 +20,8 @@ class TournamentCollection(View):
 			creator=request.user
 		)
 
+		tournament.players.add(request.user)
+
 		# TODO: Implement websocket notification?
 
 		return JsonResponse(tournament.serialize(), status=201)
