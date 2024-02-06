@@ -29,7 +29,7 @@ class User(AbstractUser):
 		return self.username
 	
 	def save(self, *args, **kwargs):
-		# On first save, create stats
+		# On first save, create stats # TODO: Maybe theres a better way to do this... idk
 		if self._state.adding:
 			super().save(*args, **kwargs)
 			UserStats.objects.create(user=self)

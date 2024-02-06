@@ -1029,7 +1029,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"Hello\"\r\n}",
+							"raw": "{\r\n    \"nickname\": \"Hello\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
