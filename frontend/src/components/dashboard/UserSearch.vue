@@ -19,6 +19,7 @@ const fetchData = async () => {
   }
 };
 
+// FRIEND REQUEST !!!! instead of search user
 const searchUser = async (searchedUser) => {
   try {
     await fetchData();
@@ -64,6 +65,7 @@ const acceptRequest = async() => {
     try {
         const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
         if (requestId) {
+            console.log(searchInput.value);
             const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${requestId}`, {});
             props.friends.push({"id": `${requestId}`, "username": `${foundUser.value.username}`});
             const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
