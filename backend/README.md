@@ -273,8 +273,8 @@ Response event: [pong](#pong)
 {
   "id": "game-id",
   "tournament_id": "tournament-id",
-  "player1_id": "player1-id",
-  "player2_id": "player2-id",
+  "player1": USER_PAYLOAD,
+  "player2": USER_PAYLOAD,
   "status": "created|ongoing|done|cancelled",
   "player1_score": "player1-score",
   "player2_score": "player2-score",

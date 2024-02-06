@@ -29,7 +29,7 @@ class User(AbstractUser):
 		return self.username
 	
 	def save(self, *args, **kwargs):
-		# On first save, create stats
+		# On first save, create stats # TODO: Maybe theres a better way to do this... idk
 		if self._state.adding:
 			super().save(*args, **kwargs)
 			UserStats.objects.create(user=self)
@@ -147,8 +147,8 @@ class Game(models.Model):
 		return {
 			'id': self.id,
 			'tournament_id':  self.tournament.id if self.tournament else None,
-			'player1_id': self.player1.id,
-			'player2_id': self.player2.id,
+			'player1': self.player1.serialize(),
+			'player2': self.player2.serialize(),
 			'status': self.status,
 			'player1_score': self.player1_score,
 			'player2_score': self.player2_score,

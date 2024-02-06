@@ -9,7 +9,7 @@ from .constants_websocket_events import *
 def update_user(user: User, parameters: dict):
   try:
     if parameters.get('nickname') is not None:
-      user.username = parameters.get('nickname')
+      user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
   except Exception as e:
