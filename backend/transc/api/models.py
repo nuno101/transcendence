@@ -142,8 +142,8 @@ class Game(models.Model):
 		return {
 			'id': self.id,
 			'tournament_id':  self.tournament.id if self.tournament else None,
-			'player1_id': self.player1.id,
-			'player2_id': self.player2.id,
+			'player1': self.player1.serialize(),
+			'player2': self.player2.serialize(),
 			'status': self.status,
 			'player1_score': self.player1_score,
 			'player2_score': self.player2_score,
