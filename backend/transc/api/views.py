@@ -10,7 +10,7 @@ from django.shortcuts import render
 def index(request):
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
-def websocket(request): # FIXME: DEBUG: Remove later
+def test_websocket(request): # FIXME: DEBUG: Remove later
 	return render(request, 'api/custom_ws.html')
 
 # Endpoint: /login
