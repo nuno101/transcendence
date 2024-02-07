@@ -104,7 +104,7 @@ AlreadyLoggedin()
 
 const LogOut = async () => {
   try {
-    await Backend.post('/api/logout')
+    await Backend.post('/api/logout', {})
     logged.value.status = false
     router.push(logoutRoute)
   } catch (err) {
