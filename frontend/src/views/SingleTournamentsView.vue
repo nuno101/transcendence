@@ -39,7 +39,13 @@ const initValues = (data) => {
 	players.value.forEach(username => {
     	console.log(username);
 	});
-};	
+};
+
+const joinTournament = async () => {
+    const currentPlayer = username.value;
+    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { player: currentPlayer });
+	isJoined.value = true;
+};
 
 onMounted(() => {
 	const route = useRoute();
@@ -63,6 +69,8 @@ onMounted(() => {
                         <p class="text-muted">Last updated: {{ updated_at }}</p>
                     </div>
                 </div>
+				<button @click="joinTournament" :disabled="isJoined || isCreator" class="btn btn-primary mt-3">Join</button>
+				<button @click="startMatchmaking" :disabled="!isCreator" class="btn btn-primary mt-3">Matchmaking</button>
             </div>
             <div class="col-lg-4">
                 <h3 class="mb-3">Created by</h3>
