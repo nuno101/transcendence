@@ -23,10 +23,9 @@ const fetchData = async () => {
 const searchUser = async (searchedUser) => {
   try {
     await fetchData();
-    foundUser.value = usersData.value.find(user => user.username === searchedUser);
+    foundUser.value = usersData.value.find(user => user.nickname === searchedUser);
     if (foundUser.value) {
         searchStatus.value = 'found';
-        console.log("FOUNDUSER.value: " + foundUser.value.username);
     } else {
         searchStatus.value = 'notFound';
     }
@@ -40,11 +39,11 @@ const userRelation = (searchedUser) => {
     console.log("PENDING: " + props.pendingRequests);
     console.log(props.friends);
 
-    if (props.friends.find(friend => friend.username === searchedUser))
+    if (props.friends.find(friend => friend.nickname === searchedUser))
         return('FRIENDS');
-    else if (props.friendRequests.find(friend => friend.from_user.username === searchedUser))
+    else if (props.friendRequests.find(friend => friend.from_user.nickname === searchedUser))
         return('FRIENDREQ');
-    else if (props.pendingRequests.find(friend => friend.to_user.username === searchedUser))
+    else if (props.pendingRequests.find(friend => friend.to_user.nickname === searchedUser))
         return('PENDREQ');
     return('NOTHING');
 };
@@ -124,7 +123,7 @@ watch(searchInput, () => {
 <template>
     <div>
     <div class="input-group">
-        <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search user" aria-label="Search" aria-describedby="search-addon" />
+        <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search nickname" aria-label="Search" aria-describedby="search-addon" />
         <button @click="searchUser(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
     </div>
     <div v-if="searchStatus === 'found'">
@@ -133,7 +132,7 @@ watch(searchInput, () => {
             alt="..."
             class="img-thumbnail rounded me-4"
             style="width: 50px; height: 50px; object-fit: cover;">
-            {{ foundUser.username }}
+            {{ foundUser.nickname }}
             <!-- IF NOT FRIENDS ADD FRIEND BUTTON -->
             <div v-if="userRelation(searchInput) === 'FRIENDS'" class="ms-auto me-4 text-success">friends</div>
             <button v-else-if="userRelation(searchInput) === 'PENDREQ'" class="btn btn-outline-danger ms-auto me-4" @click="cancelRequest">cancel sent request</button>

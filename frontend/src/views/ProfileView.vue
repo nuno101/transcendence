@@ -12,7 +12,6 @@ const defeatsRatio = ref(null);
 const winsRatio = ref(null);
 
 // INDIVIDUAL
-const username = ref('');
 const users = ref({});
 const games = ref ([]);
 
@@ -26,7 +25,6 @@ const fetchData = async () => {
   try {
     users.value = await Backend.get('/api/users/me');
     if(users.value) {
-      username.value = users.value.username;
       games.value = await Backend.get(`/api/users/${users.value.id}/games`);
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
@@ -40,10 +38,10 @@ const fetchData = async () => {
 };
 
 const isWin = (game) => {
-  if(game.player1_id === users.value.id &&
+  if(game.player1.id === users.value.id &&
     game.player1_score >= game.player2_score)
     return true;
-  else if (game.player2_id === users.value.id &&
+  else if (game.player2.id === users.value.id &&
     game.player1_score <= game.player2_score)
     return true;
   return (false);
@@ -87,7 +85,7 @@ const DefeatGames = computed(() => {
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom text-uppercase">{{ username }}</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom text-uppercase">{{ users.nickname }}</div>
           </div>
         <div class="row mt-4">
             <DefeatsTable v-if="!isLoading" :id="users.id" :games="DefeatGames"/>

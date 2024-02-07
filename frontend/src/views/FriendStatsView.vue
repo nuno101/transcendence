@@ -29,7 +29,7 @@ onMounted(() => {
 const fetchData = async() => {
   try {
     friends.value = await Backend.get(`/api/users/me/friends`);
-    friend.value = friends.value.find(friend => friend.username === friendname.value);
+    friend.value = friends.value.find(friend => friend.nickname === friendname.value);
     if(friend.value) {
       games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
       access.value = true;
@@ -43,10 +43,10 @@ const fetchData = async() => {
 };
 
 const isWin = (game) => {
-  if(game.player1_id === friend.value.id &&
+  if(game.player1.id === friend.value.id &&
     game.player1_score >= game.player2_score)
     return true;
-  else if (game.player2_id === friend.value.id &&
+  else if (game.player2.id === friend.value.id &&
     game.player1_score <= game.player2_score)
     return true;
   return (false);
@@ -90,7 +90,7 @@ const DefeatGames = computed(() => {
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">NICKNAME?</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{ friend.nickname}}</div>
           </div>
             <div class="row mt-4">
               <DefeatsTable :id="friend.id" :games="DefeatGames"/>

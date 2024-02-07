@@ -85,7 +85,7 @@ onMounted(() => {
                         />
                       </td>
                       <td class="bg-light text-start align-middle">
-                        <router-link :to="`/friends/${friend.username}`">{{friend.username}}</router-link>
+                        <router-link :to="`/friends/${friend.nickname}`">{{friend.nickname}}</router-link>
                       </td>
                       <td class="bg-light text-end align-middle">
                         <button type="button" class="btn btn-outline-danger" aria-label="Close" @click="delData('FRIEND', friend.id)">X</button>
@@ -110,7 +110,7 @@ onMounted(() => {
                               class="img-thumbnail rounded"
                               style="width: 50px; height: 50px; object-fit: cover;">
                           </td>
-                          <td class="bg-light align-middle">{{friend.from_user.username}}</td>
+                          <td class="bg-light align-middle">{{friend.from_user.nickname}}</td>
                           <td class="bg-light text-end align-middle d-none d-md-table-cell">
                             <button class="btn btn-outline-success ms-auto me-2" @click="acceptRequest(friend.id, friend.from_user.username, friend.from_user.id)">✓</button>
                             <button class="btn btn-outline-danger" @click="delData('FRIENDREQ', friend.id)">X</button>
@@ -133,7 +133,7 @@ onMounted(() => {
                               class="img-thumbnail rounded"
                               style="width: 50px; height: 50px; object-fit: cover;">
                           </td>
-                          <td class="bg-light align-middle">{{friend.to_user.username}}</td>
+                          <td class="bg-light align-middle">{{friend.to_user.nickname}}</td>
                           <td class="bg-light text-end align-middle d-none d-md-table-cell">
                             <button class="btn btn-outline-danger" @click="delData('PENDREQ', friend.id)">X</button>
                           </td>
