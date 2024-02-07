@@ -2,7 +2,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from .decorators import *
 from django.http import JsonResponse, HttpResponse
-from .models import User, UserStats, Game
+from .models import User, Game
 from django.db.models import Q
 from .helpers_users import update_user
 from .helpers_games import get_user_games
@@ -19,7 +19,7 @@ class UserCollection(View):
 		try:
 			user = User.objects.create_user(username=request.json.get('username'), 
 																			password=request.json.get('password'))
-		except Exception as e: # TODO: Handle more exceptions, e. g. Username too long!?
+		except Exception as e: # TODO: Handle more exceptions, e. g. Username too long
 			if 'duplicate key' in str(e):
 				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
 			else:
@@ -49,16 +49,7 @@ class UserSingle(View):
 class UserAvatar(View):
 	def get(self, request, user_id):
 		u = User.objects.get(id=user_id)
-		# TODO: Implement avatar return
-		pass
-
-# Endpoint: /users/USER_ID/stats
-@method_decorator(check_structure("/users/USER_ID/stats"), name='dispatch')
-@method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
-class StatsUser(View):
-	def get(self, request, user_id):
-		u = User.objects.get(id=user_id)
-		return JsonResponse(u.stats.serialize())
+		return JsonResponse({"avatar": u.avatar})
 
 # Endpoint: /users/USER_ID/games
 @method_decorator(check_structure("/users/USER_ID/games"), name='dispatch')

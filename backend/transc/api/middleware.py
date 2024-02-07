@@ -9,8 +9,6 @@ ANONYMOUS_ACCESS = {
 	"/users": ["POST"],
 }
 
-
-
 class LoggedInCheckMiddleware:
 	def __init__(self, get_response):
 		self.get_response = get_response
@@ -50,6 +48,9 @@ class JsonSyntaxCheckMiddleware:
 			request.json = None
 		return self.get_response(request)
 
+# TODO: Fix and enable or remove
+# Problems are: admin panel not working without hardcoded temporary fix
+# request.endpoint_key not found for many error responses handled by django instead of the api
 class ResponseCodeCheckMiddleware:
 	def __init__(self, get_response):
 		self.get_response = get_response
@@ -62,16 +63,16 @@ class ResponseCodeCheckMiddleware:
 		if request.path.startswith("/admin"):
 			return response
 
-		endpoint = ENDPOINTS.get(request.endpoint_key)
-		method = endpoint["methods"].get(request.method)
+		# endpoint = ENDPOINTS.get(request.endpoint_key)
+		# method = endpoint["methods"].get(request.method)
 
 		# TODO: Enable once responses have been documented for all endpoints
-		# TODO: Figure out if there is an easier way to do document all responses
+		# Figure out if there is an easier way to do document all responses
+
 		# Check response code
 		# responses = method.get("responses")
 		# if not responses or str(response.status_code) not in responses.keys():
 		# 	code = response.status_code
 		# 	return JsonResponse({ERROR_FIELD: "Endpoint method response documentation" +
 		# 									 f" missing for code {code}"},status=500)
-		
 		return response

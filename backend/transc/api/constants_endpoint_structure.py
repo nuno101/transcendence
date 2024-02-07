@@ -175,10 +175,6 @@ ENDPOINTS = {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
 		}
-	}, "/users/USER_ID/stats": {
-		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
-		}
 	}, "/users/USER_ID/games": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,

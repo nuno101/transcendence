@@ -24,8 +24,8 @@ class UserPersonal(View):
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
   def post(self, request):
-    # TODO: Implement avatar upload
-    pass
+    avatar = request.json.get('avatar')
+    return update_avatar(request.user, avatar)
 
 # Endpoint: /users/me/blocked
 @method_decorator(check_structure("/users/me/blocked"), name='dispatch')
