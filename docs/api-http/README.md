@@ -1,8 +1,8 @@
 # Statistics
 
-Total number of urls: 29
+Total number of urls: 28
 
-Total number of methods: 48
+Total number of methods: 47
 # Table of Contents
 
 - [/login](#login)
@@ -21,7 +21,6 @@ Total number of methods: 48
 - [/users](#users)
 - [/users/USER_ID](#users-USER_ID)
 - [/users/USER_ID/avatar](#users-USER_ID-avatar)
-- [/users/USER_ID/stats](#users-USER_ID-stats)
 - [/users/USER_ID/games](#users-USER_ID-games)
 - [/tournaments](#tournaments)
 - [/tournaments/TOURNAMENT_ID](#tournaments-TOURNAMENT_ID)
@@ -322,10 +321,6 @@ Total number of methods: 48
 ### DELETE
 
 ## users-USER_ID-avatar
-
-### GET
-
-## users-USER_ID-stats
 
 ### GET
 

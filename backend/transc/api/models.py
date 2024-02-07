@@ -46,25 +46,6 @@ class User(AbstractUser):
 			'status': self.status if private else None,
 		}
 
-class UserStats(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="stats")
-	wins = models.IntegerField(default=0)
-	losses = models.IntegerField(default=0)
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
-
-	def __str__(self):
-		return f'{self.user.username}\'s stats'
-
-	def serialize(self):
-		return {
-			'user_id': self.user.id,
-			'wins': self.wins,
-			'losses': self.losses,
-			'created_at': str(self.created_at),
-			'updated_at': str(self.updated_at),
-		}
-
 class FriendRequest(models.Model):
 	to_user = models.ForeignKey(User, on_delete=models.CASCADE)
 	from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dummy")
