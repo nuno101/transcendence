@@ -28,6 +28,19 @@ class Backend {
         return await respone.json()
     }
 
+    static async patch(path, patchData) {
+        const arg = {
+            method: 'PATCH',
+            credentials: 'include',
+            body: JSON.stringify(patchData),
+        };
+        const respone = await fetch(path, arg);
+
+        if (!respone.ok) throw new Error(respone.statusText);
+
+        return await respone.json();
+    }
+
     static async delete(path) {
         const arg = {
             method: 'DELETE',

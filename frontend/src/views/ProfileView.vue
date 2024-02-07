@@ -4,19 +4,16 @@ import Backend from '../js/Backend';
 import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
-import { ref, onMounted, watch} from 'vue';
+import { ref, onMounted, computed} from 'vue';
 
 // GENERAL
-const defeats = ref(null);
-const wins = ref(null);
 const total = ref(null);
 const defeatsRatio = ref(null);
 const winsRatio = ref(null);
 
 // INDIVIDUAL
-const username = ref('');
 const users = ref({});
-const userStats = ref({});
+const games = ref ([]);
 
 onMounted(() => {
   fetchData();
@@ -28,9 +25,10 @@ const fetchData = async () => {
   try {
     users.value = await Backend.get('/api/users/me');
     if(users.value) {
-      username.value = users.value.username;
-      userStats.value = await Backend.get(`/api/users/${users.value.id}/stats`);
-      initValues(userStats.value);
+      games.value = await Backend.get(`/api/users/${users.value.id}/games`);
+      total.value = DefeatGames.value.length + WinGames.value.length;
+      defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
+      winsRatio.value = (WinGames.value.length / total.value) * 100;
     }
   } catch (err) {
     console.error(err.message);
@@ -39,13 +37,23 @@ const fetchData = async () => {
   }
 };
 
-const initValues = (userStats) => {
-  defeats.value = userStats.losses;
-  wins.value = userStats.wins;
-  total.value = userStats.losses + userStats.wins;
-  defeatsRatio.value = (userStats.losses / total.value) * 100;
-  winsRatio.value = (userStats.wins / total.value) * 100;
+const isWin = (game) => {
+  if(game.player1.id === users.value.id &&
+    game.player1_score >= game.player2_score)
+    return true;
+  else if (game.player2.id === users.value.id &&
+    game.player1_score <= game.player2_score)
+    return true;
+  return (false);
 };
+
+const WinGames = computed(() => {
+    return games.value.filter(game => isWin(game));
+});
+
+const DefeatGames = computed(() => {
+    return games.value.filter(game => !isWin(game));
+});
 </script>
 
 <template>
@@ -57,14 +65,14 @@ const initValues = (userStats) => {
                 <div class="bg-danger rounded-pill">
                   <div class="ms-4 p-2 ps-0 text-white d-flex justify-content-between">
                     <div class="p-0">Defeats</div>
-                    <div class="text-end pe-5">{{ defeats }}</div>
+                    <div class="text-end pe-5">{{ DefeatGames.length }}</div>
                   </div>
                 </div>
               </div>
               <div class="col-6"> 
                 <div class="bg-success rounded-pill">
                 <div class="me-4 p-2 pe-0 text-white d-flex justify-content-between">
-                  <div class="ps-5">{{ wins }}</div>
+                  <div class="ps-5">{{ WinGames.length }}</div>
                   <div class="text-end">Wins</div>
                 </div>
               </div>
@@ -77,22 +85,22 @@ const initValues = (userStats) => {
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom text-uppercase">{{ username }}</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom text-uppercase">{{ users.nickname }}</div>
           </div>
         <div class="row mt-4">
-            <DefeatsTable v-if="!isLoading" :id="users.id"/>
+            <DefeatsTable v-if="!isLoading" :id="users.id" :games="DefeatGames"/>
               <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-            <WinsTable v-if="!isLoading" :id="users.id"/>
-            <CommonTable v-if="!isLoading" :id="users.id"/>
-            </div>
-          </div>
+            <WinsTable v-if="!isLoading" :id="users.id" :games="WinGames"/>
+            <CommonTable v-if="!isLoading" :id="users.id" :games="games"/>
         </div>
       </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
