@@ -3,8 +3,7 @@ import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
 import { ref, defineProps, onMounted } from 'vue';
 
-const props = defineProps(['id']);
-const games = ref([]);
+const props = defineProps(['games', 'id']);
 const me = ref([]);
 
 onMounted(() => {
@@ -13,9 +12,8 @@ onMounted(() => {
 
 const fetchData = async() => {
   try {
-    games.value = await Backend.get(`/api/users/${props.id}/games`);
     me.value = await Backend.get(`/api/users/${props.id}`);
-    for (const game of games.value) {
+    for (const game of props.games) {
       const opponentId = game.player1_id === props.id ? game.player2_id : game.player1_id;
       game.opponent = await getOpponentData(opponentId);
     }

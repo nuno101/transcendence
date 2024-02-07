@@ -70,7 +70,7 @@ watch(route, async (newroute) => routeName.value = newroute.name)
 
 const LogOut = async () => {
   try {
-    await Backend.post('/api/logout')
+    await Backend.post('/api/logout', {}, false)
     logged.value = false
     router.push('/')
   } catch (err) {

@@ -3,8 +3,7 @@ import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
 import { ref, defineProps, onMounted, computed } from 'vue';
 
-const props = defineProps(['id']);
-const games = ref([]);
+const props = defineProps(['games', 'id']);
 const me = ref([]);
 
 onMounted(() => {
@@ -13,9 +12,8 @@ onMounted(() => {
 
 const fetchData = async() => {
   try {
-    games.value = await Backend.get(`/api/users/${props.id}/games`);
     me.value = await Backend.get(`/api/users/${props.id}`);
-    for (const game of games.value) {
+    for (const game of props.games) {
       const opponentId = game.player1_id === props.id ? game.player2_id : game.player1_id;
       game.opponent = await getOpponentData(opponentId);
     }
@@ -34,26 +32,13 @@ const getOpponentData = async (id) => {
     }
 };
 
-const isWin = (game) => {
-  if(game.player1_id === props.id &&
-    game.player1_score >= game.player2_score)
-    return true;
-  else if (game.player2_id === props.id &&
-    game.player1_score <= game.player2_score)
-    return true;
-  return (false);
-};
-
-const filteredGames = computed(() => {
-    return games.value.filter(game => isWin(game));
-});
 </script>
 
 <template>
     <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
     <table class="table">
         <tbody>
-        <tr v-for="game in filteredGames" :key="game">
+        <tr v-for="game in props.games" :key="game">
             <td class="bg-success align-middle text-start">
                 {{ game.player1_id === props.id
                 ? game.player1_score + ' : ' + game.player2_score
