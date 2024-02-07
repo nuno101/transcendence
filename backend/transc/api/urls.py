@@ -5,7 +5,7 @@ from . import views_friends, views_notifications
 
 urlpatterns = [
 	path("", views.index, name="index"),
-  path("websocket", views.websocket, name="websocket"), # FIXME: DEBUG: Remove later
+  path("websocket", views.test_websocket, name="websocket"), # FIXME: DEBUG: Remove later
 
   path("login", views.Login.as_view()),
   path("logout", views.Logout.as_view()),

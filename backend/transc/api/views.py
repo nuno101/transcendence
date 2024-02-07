@@ -10,7 +10,7 @@ from django.shortcuts import render
 def index(request):
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
-def websocket(request): # FIXME: DEBUG: Remove later
+def test_websocket(request): # FIXME: DEBUG: Remove later
 	return render(request, 'api/custom_ws.html')
 
 # Endpoint: /login
@@ -30,6 +30,6 @@ class Login(View):
 @method_decorator(check_structure("/logout"), name='dispatch')
 class Logout(View):
 	def post(self, request):
-		websocket.message_group(f'user_{request.user.id}', 'close_connection', {})
+		websocket.message_group(f'user_{request.user.id}', 'close_connection', {}) # TODO: Hä? Why not work
 		logout(request)
 		return JsonResponse({'response': "Successfully logged out"})
