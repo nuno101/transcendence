@@ -41,6 +41,10 @@ class TournamentSingle(View):
 			tournament.title = request.json.get('title')
 		if request.json.get('description') is not None:
 			tournament.description = request.json.get('description')
+		if request.json.get('player') is not None:
+			player_username = request.json.get('player')
+			player = User.objects.get(username=player_username)
+			tournament.players.add(player)
 		tournament.save()
 
 		# TODO: Implement websocket notification?
