@@ -2,6 +2,7 @@
 Attended by Anouk, Jan, Julia, Robert
 
 Robert:
+* [ ] Implement creating of notifications in database for things like friend requests, etc.
 * [ ] Make use of notification system, e.g. for the creation of a friend request, etc
 * [ ] Add websocket event for notification creation
 * [ ] Extend/Improve functionality of automatic http api documentation generation

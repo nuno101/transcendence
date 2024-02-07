@@ -5,11 +5,10 @@ from . import views_friends, views_notifications
 
 urlpatterns = [
 	path("", views.index, name="index"),
+  path("websocket", views.websocket, name="websocket"), # FIXME: DEBUG: Remove later
 
   path("login", views.Login.as_view()),
   path("logout", views.Logout.as_view()),
-  
-  path("test/websocket", views.websocket_custom, name="websocket"), # FIXME: DEBUG: Remove later
 
 	# Personal paths
   path("users/me", views_personal.UserPersonal.as_view()),
@@ -37,8 +36,6 @@ urlpatterns = [
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
 
 	path("users/<int:user_id>/avatar", views_users.UserAvatar.as_view()),
-	
-	path("users/<int:user_id>/stats", views_users.StatsUser.as_view()),
 
   path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
 

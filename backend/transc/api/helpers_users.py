@@ -9,7 +9,7 @@ from .constants_websocket_events import *
 def update_user(user: User, parameters: dict):
   try:
     if parameters.get('nickname') is not None:
-      user.username = parameters.get('nickname')
+      user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
   except Exception as e:
@@ -35,3 +35,7 @@ def delete_user(user: User):
   # TODO: Implement websocket notification
 
   return HttpResponse(status=204)
+
+def update_avatar(user: User, avatar: str):
+  # Decode base64 image to binary
+  pass

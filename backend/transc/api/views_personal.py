@@ -15,11 +15,7 @@ class UserPersonal(View):
     return JsonResponse(request.user.serialize())
   
   def patch(self, request):
-    user = update_model(request.user, request.json)
-    if user is None:
-      return JsonResponse({ERROR_FIELD: "Invalid input parameter"}, status=400)
-    # TODO: Implement websocket notification?
-    return JsonResponse(user.serialize())
+    return update_user(request.user, request.json)
   
   def delete(self, request):
     return delete_user(request.user)
@@ -28,8 +24,8 @@ class UserPersonal(View):
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
   def post(self, request):
-    # TODO: Implement avatar upload
-    pass
+    avatar = request.json.get('avatar')
+    return update_avatar(request.user, avatar)
 
 # Endpoint: /users/me/blocked
 @method_decorator(check_structure("/users/me/blocked"), name='dispatch')
