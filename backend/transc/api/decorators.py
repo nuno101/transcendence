@@ -53,7 +53,7 @@ def check_structure(endpoint_key): # TODO: Use and test this
         body_params = method["body_params"]
         in_body_params = list(request.json.keys())
         for param in body_params:
-          exists = request.json.get(param) is not None
+          exists = param in request.json
           if not exists and body_params[param]["required"]:
             return JsonResponse({ERROR_FIELD: "Missing required body " +
                                              f"parameter: {param}"}, status=400)
@@ -64,7 +64,8 @@ def check_structure(endpoint_key): # TODO: Use and test this
           return JsonResponse({ERROR_FIELD: "Unknown body parameter(s):" +
                                            f" {in_body_params}"}, status=400)
       elif method.get("content_type") == "application/json":
-        return JsonResponse({ERROR_FIELD: "Missing JSON body"}, status=400)
+        return JsonResponse({ERROR_FIELD: f'Invalid request mime type: {request.content_type}' + 
+                                           ' -> application/json required'}, status=400)
       return view_func(request, *args, **kwargs)
     return wrapped_view
   return decorator
