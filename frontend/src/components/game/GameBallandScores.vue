@@ -2,19 +2,6 @@
 import Backend from '../../js/Backend';
 import { ref, onMounted, watch, toRefs } from 'vue';
 
-// POST /games
-// {
-//     "id": 1,
-//     "tournament_id": 1,
-//     "player1_id": 1,
-//     "player2_id": 2,
-//     "status": "created",
-//     "player1_score": 0,
-//     "player2_score": 0,
-//     "created_at": "2024-01-29 22:37:03.154629+00:00",
-//     "updated_at": "2024-01-29 22:37:03.154644+00:00"
-// }
-
 export default {
   props: {
     canvas : Object,
@@ -43,13 +30,7 @@ export default {
       initializeScoresAndBall();
     });
 
-  watch(() => paddle1.value?.y, () => {
-      // No console.log statement here
-  });
-
-  watch(() => paddle2.value?.y, () => {
-      // No console.log statement here
-  });
+    watch([() => paddle1.value?.y,() => paddle2.value?.y], () => { });
 
     const initializeScoresAndBall = () => {
       if (props.canvas) {
@@ -198,9 +179,6 @@ export default {
 
     const postGameData = async() => {
       // NO TOURNAMENT
-      console.log("END OF GAME");
-      console.log("SCORE LEFT: " + scoreLeft.value);
-      console.log("SCORE LEFT: " + scoreRight.value);
       const data = {
         "player1_id": 1,
         "player2_id": 2,
