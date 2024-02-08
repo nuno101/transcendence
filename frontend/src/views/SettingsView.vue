@@ -21,22 +21,21 @@ const fetchData = async () => {
 const submitChanges = async() => {
   console.log("SUBMIT: " + newNickname.value);
   try {
-    await Backend.patch(`/api/users/${user.value.id}`, {"nickname": newNickname.value});
+    await Backend.patch(`/api/users/me`, {"nickname": `${newNickname.value}`});
   } catch (err) {
     console.error(err.message);
     console.log(err.response);
-    if (err.response && err.response.status === 400) {
-            alert("Username is already taken. Please choose a different username.");
-        } else {
-            // Handle other errors
-            alert("An error occurred while updating the username.");
-        }
+    // if (err.response && err.response.status === 400) {
+    //         alert("Username is already taken. Please choose a different username.");
+    //     } else {
+    //         // Handle other errors
+    //         alert("An error occurred while updating the username.");
+    //     }
     // console.log(err.response.status);
     // STATUS 400 --> username already taken
   }  
 
   // IF SUCCESSFUL
-  newUsername.value = '';
   newNickname.value = '';
 };
 
