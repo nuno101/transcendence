@@ -4,7 +4,7 @@
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
                 <h1 class="fw-bold mb-0 fs-2"  id="signupModalToggleLabel">Sign Up</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button @click="CloseModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body p-5 pt-0">
@@ -54,9 +54,12 @@ onMounted(() => {
     signupModal.value.addEventListener('hidden.bs.modal', () => {
         Object.keys(input.value).forEach(k => input.value[k] = '')
         alerts.value = []
-        if (props.forcelogin) router.push({ name: 'home' })
     })
 })
+
+const CloseModal = () => {
+    if (props.forcelogin) router.push({ name: 'home' })
+}
 
 const SignUp = async () => {
     try {
@@ -64,11 +67,19 @@ const SignUp = async () => {
         loading.value = true
         await Backend.post('/api/users', input.value)
         loading.value = false
-        let LoginModel = document.getElementById('loginModalToggle')
-        let bsLoginModal = new bootstrap.Modal(LoginModel)
-        bootstrap.Modal.getInstance('#signupModalToggle').hide()
-        bsLoginModal.show()
         signedup.value = true
+        bootstrap.Modal.getInstance('#signupModalToggle').hide()
+        if (props.forcelogin) {
+            new bootstrap.Modal(
+                document.getElementById('loginModalToggle'),
+                { keyboard: false, backdrop: 'static' }
+            ).show()
+        } else {
+            new bootstrap.Modal(
+                document.getElementById('loginModalToggle'),
+                { keyboard: true}
+            ).show()
+        }
     } catch (err) {
         loading.value = false
         alerts.value.push({

@@ -4,16 +4,19 @@
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li v-for="e in navRoutes" :key="e.route">
-              <router-link :to="'/' + e.route" :class="[route.name === e.route ? activeView : inactiveView]">{{ e.button }}</router-link>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" :class="[gameRoutes.includes(route.name) ? activeView : inactiveView]" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Game</a>
-              <ul class="dropdown-menu">
-                <li><router-link to="/game/online" class="dropdown-item">online</router-link></li>
-                <li><router-link to="/game/onsite" class="dropdown-item">onsite</router-link></li>
-              </ul>
-            </li>
+            <div v-for="r in navRoutes" >
+              <li v-if="Array.isArray(r.name)" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" :class="[r.name.some(e => e.name.includes(route.name)) ? activeView : inactiveView]" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{ r.button }}</a>
+                <ul class="dropdown-menu">
+                  <li v-for="subr in r.name">
+                    <router-link :to="{ name: subr.name }" class="dropdown-item">{{ subr.button }}</router-link>
+                  </li>
+                </ul>
+              </li>
+              <li v-else>
+                <router-link :to="{ name: r.name }" :class="[route.name === r.name ? activeView : inactiveView]">{{ r.button }}</router-link>
+              </li>
+            </div>
           </ul>
           
           <div v-if="!logged.loaded" class="text-end">
@@ -34,8 +37,8 @@
       </div>
     </header>
     <Login
-      :logged="logged"
-      :signedup="signedup"
+      v-model:logged="logged"
+      v-model:signedup="signedup"
       :forcelogin="forcelogin" />
     <Signup
       v-model:signedup="signedup"
@@ -70,26 +73,42 @@ const activeView = {
 
 const route = useRoute()
 const navRoutes = [
-  { route: 'dashboard', button: 'Dashboard' },
-  { route: 'friends', button: 'Friends' },
-  { route: 'settings', button: 'Settings' },
-  { route: 'tournaments', button: 'Tournaments' },
+  { name: 'dashboard', button: 'Dashboard' },
+  { name: 'friends', button: 'Friends' },
+  { name: 'settings', button: 'Settings' },
+  { name: 'tournaments', button: 'Tournaments' },
+  { name: [
+    { name: 'game/online', button: 'online'},
+    { name: 'game/onsite', button: 'onsite' }
+  ], button: 'Game'}
 ]
 const logoutRoute = { name: 'home' }
-const gameRoutes = ['game/online', 'game/onsite', 'ponggame']
 const restrictedRoutes = ['friends', 'settings']
 const forcelogin = ref(false)
 
 watch(route, (newRoute) => {
-  if (!logged.value.status && restrictedRoutes.includes(newRoute.name))
-    router.push('/login?continue=' + encodeURIComponent(route.name))
+  if (logged.value.loaded && !logged.value.status && restrictedRoutes.includes(newRoute.name))
+    router.push({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
   if (newRoute.name === 'login') {
-    let LoginModel = document.getElementById('loginModalToggle')
-    let bsLoginModal = new bootstrap.Modal(LoginModel)
-    bsLoginModal.show()
     forcelogin.value = true
+    new bootstrap.Modal(
+      document.getElementById('signupModalToggle'),
+      { keyboard: false, backdrop: 'static' }
+    )
+    new bootstrap.Modal(
+      document.getElementById('loginModalToggle'),
+      { keyboard: false, backdrop: 'static' }
+    ).show()
   } else {
     forcelogin.value = false
+    new bootstrap.Modal(
+      document.getElementById('loginModalToggle'),
+      { keyboard: true }
+    )
+    new bootstrap.Modal(
+      document.getElementById('signupModalToggle'),
+      { keyboard: true }
+    )
   }
 })
 
@@ -97,7 +116,10 @@ const AlreadyLoggedin = async () => {
   try {
     await Backend.get('/api/users/me')
     logged.value.status = true;
-  } catch {}
+  } catch {
+    if (restrictedRoutes.includes(route.name))
+      router.push({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
+  }
   logged.value.loaded = true;
 }
 AlreadyLoggedin()
