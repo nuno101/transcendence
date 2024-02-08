@@ -39,13 +39,12 @@ class JsonSyntaxCheckMiddleware:
 		self.get_response = get_response
 
 	def __call__(self, request):
+		request.json = None
 		if request.method in METHODS_WITH_BODY and request.content_type == "application/json":
 			try:
 				request.json = json.loads(request.body.decode("utf-8"))
 			except:
-				return JsonResponse({ERROR_FIELD: "Invalid JSON"}, status=400)
-		else:
-			request.json = None
+				return JsonResponse({ERROR_FIELD: "Invalid JSON body syntax"}, status=400)
 		return self.get_response(request)
 
 # TODO: Fix and enable or remove
