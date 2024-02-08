@@ -69,9 +69,9 @@ const submitChanges = async() => {
               <div class="form-group row mt-3">
                   <label class="col-md-3 col-sm-4 col-xs-12 control-label">Password</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
-                      <!-- <input type="text" class="mt-1 form-control" placeholder="old password"> -->
-                      <input type="text" class="mt-1 form-control" placeholder="new password">
-                      <input type="text" class="mt-1 form-control" placeholder="confirm new password">
+                      <!-- <input type="password" class="mt-1 form-control" placeholder="old password"> -->
+                      <input type="password" class="mt-1 form-control" placeholder="new password">
+                      <input type="password" class="mt-1 form-control" placeholder="confirm new password">
                   </div>
               </div>
               <div class="mt-5 text-center text-sm-start">
