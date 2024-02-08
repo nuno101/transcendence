@@ -2,15 +2,19 @@
 Attended by Anouk, Jan, Julia, Robert
 
 Robert:
-* [ ] Implement creating of notifications in database for things like friend requests, etc.
+* [ ] Add avatar functionality in backend
+  * [x] Add basic avatar implementation in database, filesystem and endpoints
+  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
+  * [ ] Implement working default avatar
+* [ ] Implement creating of notifications in database for relevant things like friend requests, etc.
 * [ ] Make use of notification system, e.g. for the creation of a friend request, etc
-* [ ] Add websocket event for notification creation
+* [x] Add websocket event for notification creation
 * [ ] Extend/Improve functionality of automatic http api documentation generation
   * [ ] Endpoint method description
-  * [ ] Response code documentation (and description?)
+  * [ ] ~~Response code documentation (and description?)~~
   * [ ] Min/Max checking for integer values?
-* [ ] Add documentation for valid endpoint responses in endpoint structure (code, description, return format?, etc.)
-  * [ ] Activate response code check middleware once responses are documented
+* [ ] ~~Add documentation for valid endpoint responses in endpoint structure (code, description, return format?, etc.)~~
+  * [ ] ~~Activate response code check middleware once responses are documented~~
 
 # 2024-01-30 Discord meeting:
 Attended by Anouk, Jan, Julia, Robert

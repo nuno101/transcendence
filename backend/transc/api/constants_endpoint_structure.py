@@ -227,6 +227,7 @@ ENDPOINTS = {
 					"tournament_id": {
 						"type": "id",
 						"required": False,
+						"default": "null",
 						"description": "ID of the tournament"
 					}, "player1_id": {
 						"type": "id",
@@ -238,11 +239,13 @@ ENDPOINTS = {
 						"description": "ID of the second player"
 					}, "player1_score": {
 						"type": "integer",
-						"required": True,
+						"required": False,
+						"default": "0",
 						"description": "Score of the first player"
 					}, "player2_score": {
 						"type": "integer",
-						"required": True,
+						"required": False,
+						"default": "0",
 						"description": "Score of the second player"
 					}
 				},

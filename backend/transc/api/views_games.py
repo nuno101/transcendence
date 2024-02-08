@@ -30,6 +30,8 @@ class GameView(View):
 		if player1.id is player2.id:
 			return JsonResponse({ERROR_FIELD: "You can't play against yourself"}, status=400)
 		game = Game(tournament=tournament, player1=player1, player2=player2)
+		game.player1_score = request.json.get('player1_score', 0)
+		game.player2_score = request.json.get('player2_score', 0)
 		game.save()
 
 		# TODO: Implement websocket notification
