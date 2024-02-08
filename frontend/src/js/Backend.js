@@ -32,6 +32,9 @@ class Backend {
         const arg = {
             method: 'PATCH',
             credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json' // Specify the content type as JSON
+            },
             body: JSON.stringify(patchData),
         };
         const respone = await fetch(path, arg);
