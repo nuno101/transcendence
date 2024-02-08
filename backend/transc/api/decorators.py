@@ -64,7 +64,8 @@ def check_structure(endpoint_key): # TODO: Use and test this
           return JsonResponse({ERROR_FIELD: "Unknown body parameter(s):" +
                                            f" {in_body_params}"}, status=400)
       elif method.get("content_type") == "application/json":
-        return JsonResponse({ERROR_FIELD: "Missing JSON body"}, status=400)
+        return JsonResponse({ERROR_FIELD: f'Invalid request mime type: {request.content_type}' + 
+                                          f' -> required {method.get("content_type")}'}, status=400)
       return view_func(request, *args, **kwargs)
     return wrapped_view
   return decorator
