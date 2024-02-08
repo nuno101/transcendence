@@ -7,12 +7,11 @@ from .constants_websocket_events import *
 
 # User instance management helpers
 def update_user(user: User, parameters: dict):
-  if parameters.get('nickname') is not None:
-    user.username = parameters.get('nickname')
-  if parameters.get('password') is not None:
-    user.set_password(parameters.get('password'))
-  user.updated_at = datetime.datetime.now()
   try:
+    if parameters.get('nickname') is not None:
+      user.nickname = parameters.get('nickname')
+    if parameters.get('password') is not None:
+      user.set_password(parameters.get('password'))
     user.save()
   except Exception as e:
     if 'duplicate key' in str(e):
@@ -37,3 +36,7 @@ def delete_user(user: User):
   # TODO: Implement websocket notification
 
   return HttpResponse(status=204)
+
+def update_avatar(user: User, avatar: str):
+  # Decode base64 image to binary
+  pass

@@ -47,9 +47,10 @@ const router = createRouter({
       component: () => import('../views/FriendsView.vue')
     },
     {
-      path: '/friends/stats',
+      path: '/friends/:friendname',
       name: 'friends/stats',
-      component: () => import('../views/FriendStatsView.vue')
+      component: () => import('../views/FriendStatsView.vue'),
+      props: true
     },
     // TOURNAMENTS
     {
@@ -57,6 +58,11 @@ const router = createRouter({
       name: 'tournaments',
       component: () => import('../views/TournamentsView.vue')
     },
+	{
+		path: '/tournaments/:id', 
+		name: 'tournaments/id',
+		component: () => import('../views/SingleTournamentsView.vue')
+	  },
     // GAME
     {
       path: '/game',

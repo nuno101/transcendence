@@ -1,4 +1,48 @@
-# 2024-01-24 Slack meeting:
+# 2024-02-06 Discord meeting:
+Attended by Anouk, Jan, Julia, Robert
+
+Robert:
+* [ ] Add avatar functionality in backend
+  * [x] Add basic avatar implementation in database, filesystem and endpoints
+  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
+  * [ ] Implement working default avatar
+* [ ] Implement creating of notifications in database for relevant things like friend requests, etc.
+* [ ] Make use of notification system, e.g. for the creation of a friend request, etc
+* [x] Add websocket event for notification creation
+* [ ] Extend/Improve functionality of automatic http api documentation generation
+  * [ ] Endpoint method description
+  * [ ] ~~Response code documentation (and description?)~~
+  * [ ] Min/Max checking for integer values?
+* [ ] ~~Add documentation for valid endpoint responses in endpoint structure (code, description, return format?, etc.)~~
+  * [ ] ~~Activate response code check middleware once responses are documented~~
+
+# 2024-01-30 Discord meeting:
+Attended by Anouk, Jan, Julia, Robert
+
+Robert:
+* [x] Implement basic notification system/endpoints to inform user about new events
+* [ ] Make use of notification system, e.g. for the creation of a friend request, etc
+* [x] Add notification endpoints for frontend
+* [ ] Add websocket event for notification creation
+* [x] Change game model so that it doesn't need a relationship with a tournament
+* [ ] Extend/Improve functionality of automatic http api documentation generation
+  * [ ] Endpoint method description
+  * [x] Query-/Body parameter tables
+  * [ ] Response code documentation (and description?)
+  * [ ] Min/Max checking for integer values?
+* [x] Extend/Fully implement middleware used verify request query and body parameters
+  * [x] Implemented it instead as global method_decorator that should be used for every endpoint class because I was not able to determine the endpoint url in middleware
+* [x] Implement middleware to verify valid response(-code) is sent
+  * [x] Is only active if django is in debug mode
+* [ ] Add documentation for valid endpoint responses in endpoint structure (code, description, return format?, etc.)
+  * [ ] Activate response code check middleware once responses are documented
+
+Julia:
+* working on FriendsView.vue
+* finish Game with requests
+* implement notification for friends requests/general messages
+
+# 2024-01-24 Discord meeting:
 Attended by all.
 
 Jan:
@@ -22,8 +66,8 @@ Julia:
 
 Robert:
 * [ ] Try to find out how to do the remote authentication module
-* [ ] Will look at the modules that are currently not being worked on (Log management, Monitoring system, etc.)
-* [ ] Work on game and tournament endpoints to fit needs of frontend team
+* [x] Will look at the modules that are currently not being worked on (Log management, Monitoring system, etc.)
+* [x] Work on game and tournament endpoints to fit needs of frontend team
 
 # 2024-01-16 Slack meeting:
 Attended by all.

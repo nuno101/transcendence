@@ -10,6 +10,10 @@ USER_404 = "User not found"
 FRIEND_REQUEST_404 = "Friend request not found"
 FRIEND_REQUEST_403 = "No permission to access friend request"
 
+# Notifications errors
+NOTIFICATION_404 = "Notification not found"
+NOTIFICATION_403 = "No permission to access notification"
+
 # Tournament errors
 TOURNAMENT_404 = "Tournament not found"
 

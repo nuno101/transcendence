@@ -24,7 +24,7 @@ You can register a new user using the endpoint `POST /api/register` with the fol
 
 ## Endpoints
 
-See [api postman collection](../docs/api-http/ft_transcendence-http.postman_collection.json) for more details.
+See [api postman collection](../docs/api-http/ft_transcendence-http.postman_collection.json) or the [README](../docs/api-http/README.md) documentation.
 
 # Websocket event notification api
 
@@ -50,6 +50,8 @@ You need to login via the http [authentication endpoint](#authentication) before
   - [pong](#pong)
   - [update_user](#update_user)
   - [delete_user](#delete_user)
+  - [create_notification](#create_notification)
+  - [delete_notification](#delete_notification)
   - [remove_friend](#remove_friend)
   - [create_friend_request](#create_friend_request)
   - [accept_friend_request](#accept_friend_request)
@@ -92,6 +94,24 @@ PAYLOAD:
 ```json
 {
   "id": "user-id"
+}
+```
+
+#### `create_notification`
+
+This event is triggered when a new user notification is created in the backend
+
+PAYLOAD: [Notification](#notification)
+
+#### `create_notification`
+
+This event is triggered when a user notification is deleted
+
+PAYLOAD:
+  
+```json
+{
+  "id": "notification-id"
 }
 ```
 
@@ -229,7 +249,7 @@ Response event: [pong](#pong)
   "id": "friend-request-id",
   "from_user": USER_PAYLOAD,
   "to_user": USER_PAYLOAD,
-  "created_at": "friend-request-creation-date",
+  "created_at": "friend-request-creation-date"
 }
 ```
 
@@ -243,7 +263,7 @@ Response event: [pong](#pong)
   "creator_id": "tournament-creator-id",
   "status": "created|registration_open|registration_closed|ongoing|done|cancelled",
   "created_at": "tournament-creation-date",
-  "updated_at": "tournament-last-update-date",
+  "updated_at": "tournament-last-update-date"
 }
 ```
 
@@ -253,13 +273,25 @@ Response event: [pong](#pong)
 {
   "id": "game-id",
   "tournament_id": "tournament-id",
-  "player1_id": "player1-id",
-  "player2_id": "player2-id",
+  "player1": USER_PAYLOAD,
+  "player2": USER_PAYLOAD,
   "status": "created|ongoing|done|cancelled",
   "player1_score": "player1-score",
   "player2_score": "player2-score",
   "created_at": "game-creation-date",
-  "updated_at": "game-last-update-date",
+  "updated_at": "game-last-update-date"
+}
+```
+
+#### `Notification`
+
+```json
+{
+  "id": "notification-id",
+  "type": "type",
+  "content": "content",
+  "user_id": "user-id",
+  "created_at": "notification-creation-date"
 }
 ```
 
@@ -287,6 +319,6 @@ Response event: [pong](#pong)
   "author_id": "author-id",
   "channel_id": "channel-id",
   "created_at": "message-creation-date",
-  "updated_at": "message-last-update-date",
+  "updated_at": "message-last-update-date"
 }
 ```

@@ -6,13 +6,11 @@ from django.db.models import Q
 
 # Game instance management helpers
 def update_game(game: Game, parameters):
-  if parameters.get('title') is not None:
-    game.title = parameters.get('title')
-  if parameters.get('description') is not None:
-    game.title = parameters.get('description')
-  game.updated_at = datetime.datetime.now()
   try:
-    game.save()
+    if parameters.get('title') is not None:
+      game.title = parameters.get('title')
+    if parameters.get('description') is not None:
+      game.title = parameters.get('description')
   except:
     return JsonResponse({ERROR_FIELD: "Failed to update game"}, status=500)
   

@@ -3,14 +3,7 @@ from django.http import JsonResponse
 import json
 from .models import Channel
 from .constants_http_response import *
-
-# Not using django.contrib.auth.decorators.login_required because it redirects to /accounts/login/
-def login_required(view_func):
-  def wrapped_view(request, *args, **kwargs):
-    if not request.user.is_authenticated:
-      return JsonResponse({ERROR_FIELD: "Not logged in"}, status=401)
-    return view_func(request, *args, **kwargs)
-  return wrapped_view
+from .constants_endpoint_structure import ENDPOINTS, BODY_METHODS
 
 def staff_required(view_func):
   def wrapped_view(request, *args, **kwargs):
@@ -26,20 +19,54 @@ def superuser_required(view_func):
     return view_func(request, *args, **kwargs)
   return wrapped_view
 
-# Checks for valid JSON syntax of the body and that the specified parameters are existing
-def check_body_syntax(parameters=[]):
+def check_structure(endpoint_key): # TODO: Use and test this
   def decorator(view_func):
-    def wrapped_view(self, request, *args, **kwargs):
-      try:
-        self.body = json.loads(request.body.decode("utf-8"))
-      except:
-        return JsonResponse({ERROR_FIELD: "Invalid body JSON syntax"}, status=400)
-      for param in parameters:
-        if self.body.get(param) is None:
-          return JsonResponse({ERROR_FIELD: f"Required body parameter '{param}' missing"}, status=400)
-      if len(self.body.keys()) < 1:
-        return JsonResponse({ERROR_FIELD: "No parameters specified"}, status=400)
-      return view_func(self, request, *args, **kwargs)
+    def wrapped_view(request, *args, **kwargs):
+      endpoint = ENDPOINTS.get(endpoint_key)
+      if endpoint is None:
+        return JsonResponse({ERROR_FIELD: "Endpoint documentation missing"}, status=500)
+      method = endpoint["methods"].get(request.method)
+      if method is None:
+        return JsonResponse({ERROR_FIELD: f"Endpoint method {request.method}" +
+                                           " documentation missing"}, status=500)
+      
+      # Set variable so that response check middleware knows which endpoint is being requested
+      request.endpoint_key = endpoint_key
+
+      # Check query parameters
+      query_params = method["query_params"]
+      in_query_params = list(request.GET.keys())
+      for param in query_params:
+        exists = request.GET.get(param) is not None
+        if not exists and query_params[param]["required"]:
+          return JsonResponse({ERROR_FIELD: "Missing required query " +
+                                           f"parameter: {param}"}, status=400)
+        if exists:
+          in_query_params.remove(param)
+
+      if len(in_query_params) > 0:
+        return JsonResponse({ERROR_FIELD: f"Unknown query parameter(s): " +
+                                          f"{in_query_params}"}, status=400)
+      
+      # Check body parameters
+      if request.json is not None:
+        body_params = method["body_params"]
+        in_body_params = list(request.json.keys())
+        for param in body_params:
+          exists = param in request.json
+          if not exists and body_params[param]["required"]:
+            return JsonResponse({ERROR_FIELD: "Missing required body " +
+                                             f"parameter: {param}"}, status=400)
+          if exists:
+            in_body_params.remove(param)
+
+        if len(in_body_params) > 0:
+          return JsonResponse({ERROR_FIELD: "Unknown body parameter(s):" +
+                                           f" {in_body_params}"}, status=400)
+      elif method.get("content_type") == "application/json":
+        return JsonResponse({ERROR_FIELD: f'Invalid request mime type: {request.content_type}' + 
+                                           ' -> application/json required'}, status=400)
+      return view_func(request, *args, **kwargs)
     return wrapped_view
   return decorator
 
