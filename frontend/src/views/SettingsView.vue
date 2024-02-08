@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue';
 
 const user = ref([]);
 const newNickname = ref('');
+let isUnique = ref(true);
 
 onMounted(() => {
   fetchData();
@@ -19,24 +20,16 @@ const fetchData = async () => {
 };
 
 const submitChanges = async() => {
-  console.log("SUBMIT: " + newNickname.value);
   try {
     await Backend.patch(`/api/users/me`, {"nickname": `${newNickname.value}`});
+    user.value.nickname = newNickname.value;
+    newNickname.value = '';
+    isUnique.value = true;
   } catch (err) {
-    console.error(err.message);
-    console.log(err.response);
-    // if (err.response && err.response.status === 400) {
-    //         alert("Username is already taken. Please choose a different username.");
-    //     } else {
-    //         // Handle other errors
-    //         alert("An error occurred while updating the username.");
-    //     }
-    // console.log(err.response.status);
-    // STATUS 400 --> username already taken
-  }  
-
-  // IF SUCCESSFUL
-  newNickname.value = '';
+    console.log(err.message);
+    if (err.message === "Bad Request")
+      isUnique.value = false;
+  }    
 };
 
 </script>
@@ -63,6 +56,9 @@ const submitChanges = async() => {
                   <label class="col-md-3 col-sm-4 col-xs-12 control-label">Nickname</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="text" class="form-control" :placeholder="user.nickname" v-model="newNickname">
+                      <div v-if="!isUnique" class="p-2 mt-1 alert alert-danger" role="alert">
+                        Nickname is already taken
+                      </div>
                   </div>
               </div>
               <div class="form-group row mt-3">
