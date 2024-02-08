@@ -71,16 +71,20 @@ const changeAvatar = (event, newimage) => {
         <div class="row">
             <div class="col-sm-4 mt-4">
                 <div class="vstack gap-1">
-                    <div class="avatar-circle text-center">
+                    <div class="avatar-circle text-center mt-2">
                         <img id="Image"
                             :src="avatar"
                             alt="..."
                             class="img-thumbnail rounded"
                             style="width: 100px; height: 100px; object-fit: cover;">
                     </div>
-                    <div class="btn btn-primary btn-rounded text-center">
-                      <label class="form-label m-1" for="avatar">Change avatar</label>
-                      <input type="file" class="form-control d-none" id="avatar" @change="changeAvatar($event, 'Image')" />
+                    <div class="text-center">
+                        <div class="btn-group">
+                            <label class="btn btn-outline-dark btn-sm rounded fs-md-6" for="avatar">
+                                Change avatar
+                            </label>
+                            <input type="file" class="form-control d-none" id="avatar" @change="changeAvatar($event, 'Image')" />
+                        </div>
                     </div>
                 </div>
             </div>
