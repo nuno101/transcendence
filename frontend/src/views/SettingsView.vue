@@ -6,6 +6,7 @@ import { ref, onMounted } from 'vue';
 const input = ref({ nickname: '', password: '' })
 const password2 = ref('');
 const user = ref([]);
+const avatar = ref("https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995");
 let isUnique = ref(true);
 let successful = ref(0); // 0 nothing changed, 1 nickname, 2 password, 3 both
 
@@ -48,6 +49,20 @@ const submitChanges = async() => {
   }    
 };
 
+const changeAvatar = (event, newimage) => {
+  const newavatar = document.getElementById(newimage);
+  const file = event.target;
+
+  if(file.files && file.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        newavatar.src = e.target.result;
+    };
+    reader.readAsDataURL(file.files[0]);
+  }
+
+
+};
 </script>
 
 <template>
@@ -57,13 +72,15 @@ const submitChanges = async() => {
             <div class="col-sm-4 mt-4">
                 <div class="vstack gap-1">
                     <div class="avatar-circle text-center">
-                        <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+                        <img id="Image"
+                            :src="avatar"
                             alt="..."
                             class="img-thumbnail rounded"
                             style="width: 100px; height: 100px; object-fit: cover;">
                     </div>
-                    <div class="edit-button text-center">
-                        <button class="">Update Avatar</button>
+                    <div class="btn btn-primary btn-rounded text-center">
+                      <label class="form-label m-1" for="avatar">Change avatar</label>
+                      <input type="file" class="form-control d-none" id="avatar" @change="changeAvatar($event, 'Image')" />
                     </div>
                 </div>
             </div>
