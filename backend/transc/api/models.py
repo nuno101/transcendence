@@ -27,14 +27,6 @@ class User(AbstractUser):
 
 	def __str__(self):
 		return self.username
-	
-	def save(self, *args, **kwargs):
-		# On first save, create stats
-		if self._state.adding:
-			super().save(*args, **kwargs)
-			UserStats.objects.create(user=self)
-		else:
-			super().save(*args, **kwargs)
 
 	def serialize(self, private=False):
 		return {
@@ -44,25 +36,6 @@ class User(AbstractUser):
 			'created_at': str(self.created_at),
 			'updated_at': str(self.updated_at),
 			'status': self.status if private else None,
-		}
-
-class UserStats(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="stats")
-	wins = models.IntegerField(default=0)
-	losses = models.IntegerField(default=0)
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
-
-	def __str__(self):
-		return f'{self.user.username}\'s stats'
-
-	def serialize(self):
-		return {
-			'user_id': self.user.id,
-			'wins': self.wins,
-			'losses': self.losses,
-			'created_at': str(self.created_at),
-			'updated_at': str(self.updated_at),
 		}
 
 class FriendRequest(models.Model):
@@ -100,6 +73,7 @@ class Tournament(models.Model):
 	)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+	players = models.ManyToManyField(User, related_name='joined_tournaments', blank=True)
 
 	def __str__(self):
 		return self.title
@@ -109,10 +83,14 @@ class Tournament(models.Model):
         'id': self.id,
         'title': self.title,
         'description': self.description,
-        'creator_id': self.creator.id,
+        'creator': {
+			'id' : self.creator.id,
+			'username': self.creator.username
+		},
         'status': self.status,
         'created_at': str(self.created_at),
         'updated_at': str(self.updated_at),
+		'players': [player.username for player in self.players.all()] # Necessary? 
     }
 
 class Game(models.Model):
@@ -121,7 +99,8 @@ class Game(models.Model):
 			ONGOING = "ongoing"
 			DONE = "done"
 			CANCELLED = "cancelled"
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, related_name="matches")
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE,
+																 blank=True, null=True, related_name="matches")
 	player1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player1")
 	player2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player2")
 	status = models.CharField(
@@ -141,8 +120,8 @@ class Game(models.Model):
 		return {
 			'id': self.id,
 			'tournament_id':  self.tournament.id if self.tournament else None,
-			'player1_id': self.player1.id,
-			'player2_id': self.player2.id,
+			'player1': self.player1.serialize(),
+			'player2': self.player2.serialize(),
 			'status': self.status,
 			'player1_score': self.player1_score,
 			'player2_score': self.player2_score,
@@ -169,8 +148,6 @@ class Notification(models.Model):
 		}
 
 class Channel(models.Model):
-    # TODO: Use UUIDs?
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -189,8 +166,6 @@ class Channel(models.Model):
       }
 
 class Message(models.Model):
-    # TODO: Use UUIDs?
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     content = models.TextField(max_length=2500)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)

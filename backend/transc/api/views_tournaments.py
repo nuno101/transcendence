@@ -7,27 +7,27 @@ from .models import Tournament
 import datetime
 
 # Endpoint: /tournaments
-@method_decorator(login_required, name='dispatch')
+@method_decorator(check_structure("/tournaments"), name='dispatch')
 class TournamentCollection(View):
-	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		tournaments = Tournament.objects.all()
 		return JsonResponse([t.serialize() for t in tournaments], safe=False)
 
-	@check_body_syntax(["title", "description"])
 	def post(self, request):
 		tournament = Tournament.objects.create(
-			title=self.body.get('title'),
-			description=self.body.get('description'),
+			title=request.json.get('title'),
+			description=request.json.get('description', ''),
 			creator=request.user
 		)
+
+		tournament.players.add(request.user)
 
 		# TODO: Implement websocket notification?
 
 		return JsonResponse(tournament.serialize(), status=201)
 
-# Endpoint: /tournaments/<int:tournament_id>
-@method_decorator(login_required, name='dispatch')
+# Endpoint: /tournaments/TOURNAMENT_ID
+@method_decorator(check_structure("/tournaments/TOURNAMENT_ID"), name='dispatch')
 @method_decorator(check_object_exists(Tournament, 'tournament_id', 
 																			TOURNAMENT_404), name='dispatch')
 class TournamentSingle(View):
@@ -35,13 +35,16 @@ class TournamentSingle(View):
 		t = Tournament.objects.get(id=tournament_id)
 		return JsonResponse(t.serialize())
 
-	# allow only update of title and description
-	@check_body_syntax(["title", "description"])
 	def patch(self, request, tournament_id):
 		tournament = Tournament.objects.get(id=tournament_id)
-		tournament.title = self.body.get('title')
-		tournament.description = self.body.get('description')
-		tournament.updated_at = datetime.datetime.now()
+		if request.json.get('title') is not None:
+			tournament.title = request.json.get('title')
+		if request.json.get('description') is not None:
+			tournament.description = request.json.get('description')
+		if request.json.get('player') is not None:
+			player_username = request.json.get('player')
+			player = User.objects.get(username=player_username)
+			tournament.players.add(player)
 		tournament.save()
 
 		# TODO: Implement websocket notification?

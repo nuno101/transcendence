@@ -9,29 +9,34 @@ from .constants_http_response import *
 from . import bridge_websocket as websocket
 
 # Endpoint: /users/me
-@method_decorator(login_required, name='dispatch')
+@method_decorator(check_structure("/users/me"), name='dispatch')
 class UserPersonal(View):
   def get(self, request):
     return JsonResponse(request.user.serialize())
   
-  @check_body_syntax([])
   def patch(self, request):
-    return update_user(request.user, self.body)
+    return update_user(request.user, request.json)
   
   def delete(self, request):
     return delete_user(request.user)
 
+# Endpoint: /users/me/avatar
+@method_decorator(check_structure("/users/me/avatar"), name='dispatch')
+class AvatarPersonal(View):
+  def post(self, request):
+    avatar = request.json.get('avatar')
+    return update_avatar(request.user, avatar)
+
 # Endpoint: /users/me/blocked
-@method_decorator(login_required, name='dispatch')
+@method_decorator(check_structure("/users/me/blocked"), name='dispatch')
 class BlockedCollection(View):
   def get(self, request):
     blocked = request.user.blocked.all()
     return JsonResponse([b.serialize() for b in blocked], safe=False)
 
-  @check_body_syntax(['user_id'])  
   def post(self, request): # TODO: Refactor this mess
     try:
-      target_user = User.objects.get(pk=self.body.get('user_id'))
+      target_user = User.objects.get(id=request.json.get('user_id'))
     except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
     
@@ -64,8 +69,8 @@ class BlockedCollection(View):
 
     return HttpResponse(status=204)
 
-# Endpoint: /users/me/blocked/<int:user_id>
-@method_decorator(login_required, name='dispatch')
+# Endpoint: /users/me/blocked/USER_ID
+@method_decorator(check_structure("/users/me/blocked/USER_ID"), name='dispatch')
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class BlockedSingle(View):
   def delete(self, request, user_id):
@@ -78,7 +83,7 @@ class BlockedSingle(View):
     return HttpResponse(status=204)
 
 # Endpoint: /users/me/channels
-@method_decorator(login_required, name='dispatch')
+@method_decorator(check_structure("/users/me/channels"), name='dispatch')
 class ChannelPersonal(View):
   def get(self, request):
     channels = Channel.objects.filter(members=request.user).order_by("-updated_at")

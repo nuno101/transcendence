@@ -42,9 +42,10 @@ const router = createRouter({
       component: () => import('../views/FriendsView.vue')
     },
     {
-      path: '/friends/stats',
+      path: '/friends/:friendname',
       name: 'friends/stats',
-      component: () => import('../views/FriendStatsView.vue')
+      component: () => import('../views/FriendStatsView.vue'),
+      props: true
     },
     // TOURNAMENTS
     {

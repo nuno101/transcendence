@@ -1029,7 +1029,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"Hello\"\r\n}",
+							"raw": "{\r\n    \"nickname\": \"Hello\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1130,7 +1130,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"{{user_name}}\",\r\n    \"password\": \"{{user_password}}\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
