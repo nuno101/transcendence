@@ -69,6 +69,12 @@ const submitChanges = async() => {
             </div>
             <div class="col-sm-8 mt-sm-none mt-3">
               <div class="form-group row mt-3 align-items-center">
+                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">Username</label>
+                  <div class="col-md-9 col-sm-8 col-xs-12">
+                      <input type="text" class="form-control" :placeholder="user.username" disabled>
+                  </div>
+              </div>
+              <div class="form-group row mt-3 align-items-center">
                   <label class="col-md-3 col-sm-4 col-xs-12 control-label">Nickname</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="text" class="form-control" :placeholder="user.nickname" v-model="input.nickname">
