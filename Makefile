@@ -1,7 +1,7 @@
 .PHONY: all build up init migrate superuser down documentation clean re blog
 -include docker.mk
 
-all: build up
+all: build up migrate
 
 build:
 	mkdir -p  $(HOME)/data/transcendence/volumes/E
@@ -42,7 +42,7 @@ data_clean:
 docker_fclean: docker_clean
 	docker compose -f ./docker-compose.yml down --volumes --rmi all
 
-clean: docker_clean data_clean
+clean: docker_clean
 
 fclean: docker_fclean data_clean
 
