@@ -14,6 +14,14 @@ const updated_at = ref(null);
 const username = ref(null);
 const creator = ref(null);
 const players = ref([]);
+const isCreator = ref(false);
+const isJoined = ref(false);
+
+const config = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+};
 
 const fetchData = async () => {
   try {
@@ -36,15 +44,17 @@ const initValues = (data) => {
 	updated_at.value = data.updated_at
 	creator.value = data.creator.username
 	players.value = data.players;
-	players.value.forEach(username => {
-    	console.log(username);
-	});
+	if (creator.value === username.value) {
+    	isCreator.value = true;
+	}
 };
 
 const joinTournament = async () => {
     const currentPlayer = username.value;
-    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { player: currentPlayer });
+    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { player: currentPlayer});
 	isJoined.value = true;
+	console.log("PLAYERS : ");
+	console.log(status.value);
 };
 
 onMounted(() => {
@@ -63,14 +73,18 @@ onMounted(() => {
                 <p>{{ description }}</p>
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        <p class="text-muted">Created at: {{ created_at }}</p>
+                        <p class="text-muted">Created at: {{ created_at ? created_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="text-muted">Last updated: {{ updated_at }}</p>
+						<p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                 </div>
-				<button @click="joinTournament" :disabled="isJoined || isCreator" class="btn btn-primary mt-3">Join</button>
+				<button @click="joinTournament" :disabled="isCreator || isJoined" class="btn btn-primary mt-3">Join</button>
+				 <!-- Hover over message -->
 				<button @click="startMatchmaking" :disabled="!isCreator" class="btn btn-primary mt-3">Matchmaking</button>
+				<p class="text-muted">Username: {{ username }}</p>
+				<p class="text-muted">isCreator: {{ isCreator }}</p>
+				<p class="text-muted">isJoined: {{ isJoined }}</p>
             </div>
             <div class="col-lg-4">
                 <h3 class="mb-3">Created by</h3>

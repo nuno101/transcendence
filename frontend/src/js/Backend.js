@@ -31,6 +31,9 @@ class Backend {
     static async patch(path, patchData) {
         const arg = {
             method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			  },
             credentials: 'include',
             body: JSON.stringify(patchData),
         };

@@ -74,6 +74,7 @@ class Tournament(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	players = models.ManyToManyField(User, related_name='joined_tournaments', blank=True)
+	test = models.CharField(max_length=12, unique=True, null=True)
 
 	def __str__(self):
 		return self.title
