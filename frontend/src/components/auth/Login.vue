@@ -91,7 +91,7 @@ const LogIn = async () => {
     logged.value.status = true
     if (props.forcelogin) {
       const urlParams = new URLSearchParams(document.location.search)
-      router.push(urlParams.get('continue'))
+      router.replace(urlParams.get('continue'))
     }
   } catch (err) {
     loading.value = false
