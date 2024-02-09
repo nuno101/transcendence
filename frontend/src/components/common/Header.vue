@@ -87,28 +87,17 @@ const restrictedRoutes = ['friends', 'settings']
 const forcelogin = ref(false)
 
 watch(route, (newRoute) => {
+  bootstrap.Modal.getInstance("#loginModalToggle")?.hide()
+  bootstrap.Modal.getInstance("#signupModalToggle")?.hide()
   if (logged.value.loaded && !logged.value.status && restrictedRoutes.includes(newRoute.name))
-    router.push({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
-  if (newRoute.name === 'login') {
-    forcelogin.value = true
-    new bootstrap.Modal(
-      document.getElementById('signupModalToggle'),
-      { keyboard: false, backdrop: 'static' }
-    )
-    new bootstrap.Modal(
-      document.getElementById('loginModalToggle'),
-      { keyboard: false, backdrop: 'static' }
-    ).show()
+    router.replace({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
+  forcelogin.value = newRoute.name === 'login'
+  if (forcelogin.value) {
+    new bootstrap.Modal('#signupModalToggle', { keyboard: false, backdrop: 'static' })
+    new bootstrap.Modal('#loginModalToggle', { keyboard: false, backdrop: 'static' }).show()
   } else {
-    forcelogin.value = false
-    new bootstrap.Modal(
-      document.getElementById('loginModalToggle'),
-      { keyboard: true }
-    )
-    new bootstrap.Modal(
-      document.getElementById('signupModalToggle'),
-      { keyboard: true }
-    )
+    new bootstrap.Modal('#loginModalToggle', { keyboard: true })
+    new bootstrap.Modal('#signupModalToggle', { keyboard: true })
   }
 })
 
@@ -128,7 +117,8 @@ const LogOut = async () => {
   try {
     await Backend.post('/api/logout', {})
     logged.value.status = false
-    router.push(logoutRoute)
+    if (restrictedRoutes.includes(route.name))
+      router.push(logoutRoute)
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
   }
