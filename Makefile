@@ -1,4 +1,4 @@
-.PHONY: all build up init migrate superuser down documentation clean re
+.PHONY: all build up init migrate superuser down documentation clean re blog
 -include docker.mk
 
 all: build up
@@ -47,3 +47,7 @@ clean: docker_clean data_clean
 fclean: docker_fclean data_clean
 
 re: clean all
+
+# follow backend logs
+blog:
+	docker logs -f backend
