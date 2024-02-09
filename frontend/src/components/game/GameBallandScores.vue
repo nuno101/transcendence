@@ -1,18 +1,6 @@
 <script>
+import Backend from '../../js/Backend';
 import { ref, onMounted, watch, toRefs } from 'vue';
-
-// POST /games
-// {
-//     "id": 1,
-//     "tournament_id": 1,
-//     "player1_id": 1,
-//     "player2_id": 2,
-//     "status": "created",
-//     "player1_score": 0,
-//     "player2_score": 0,
-//     "created_at": "2024-01-29 22:37:03.154629+00:00",
-//     "updated_at": "2024-01-29 22:37:03.154644+00:00"
-// }
 
 export default {
   props: {
@@ -42,10 +30,7 @@ export default {
       initializeScoresAndBall();
     });
 
-  watch([() => paddle1.value?.y, () => paddle2.value?.y], ([newPaddle1Y, newPaddle2Y]) => {
-    console.log("PADDLE1 Y: " + newPaddle1Y);
-    console.log("PADDLE2 Y: " + newPaddle2Y);
-  });
+    watch([() => paddle1.value?.y,() => paddle2.value?.y], () => { });
 
     const initializeScoresAndBall = () => {
       if (props.canvas) {
@@ -77,6 +62,8 @@ export default {
       if (scoreRight.value === 3) {
         isGameOver.value = true;
         localStorage.setItem('isGameOver', 'true');
+        postGameData();
+
       }
     };
 
@@ -87,6 +74,7 @@ export default {
       if (scoreLeft.value === 3) {
         isGameOver.value = true;
         localStorage.setItem('isGameOver', 'true');
+        postGameData();
       }
     };
    
@@ -189,7 +177,23 @@ export default {
         }
     };
 
-    const handleEndOfGame = (type) => {
+    const postGameData = async() => {
+      // NO TOURNAMENT
+      const data = {
+        "player1_id": 1,
+        "player2_id": 2,
+        "player1_score" : scoreLeft.value,
+        "player2_score" : scoreRight.value
+      };
+      try {
+        const game = await Backend.post('/api/games', data);
+        console.log(game);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+  
+    const handleEndOfGame = async(type) => {
       localStorage.clear();
       if(type === "rematch") window.location.reload();
     };

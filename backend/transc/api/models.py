@@ -89,8 +89,8 @@ class Tournament(models.Model):
 			'username': self.creator.username
 		},
         'status': self.status,
-        'created_at': str(self.created_at),
-        'updated_at': str(self.updated_at),
+        'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
+        'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
 		'players': [player.username for player in self.players.all()] # Necessary? 
     }
 
@@ -126,8 +126,8 @@ class Game(models.Model):
 			'status': self.status,
 			'player1_score': self.player1_score,
 			'player2_score': self.player2_score,
-			'created_at': str(self.created_at),
-			'updated_at': str(self.updated_at),
+			'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
+			'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
 		}
 
 class Notification(models.Model):

@@ -12,6 +12,7 @@ def update_user(user: User, parameters: dict):
       user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
+    user.save()
   except Exception as e:
     if 'duplicate key' in str(e):
       return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
