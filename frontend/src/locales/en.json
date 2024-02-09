@@ -62,16 +62,20 @@
   },
   "tournamentsview": {
     "tournaments": "Tournaments",
+    "creator": "Created by",
+    "status": "Status",
+    "created": "Created",
     "titleoftournament": "Title of tournament",
     "descriptionoftournament": "Description of tournament",
-	"creatortournamentnickname": "Your tournament nickname (creator)",
+	  "creatortournamentnickname": "Your tournament nickname (creator)",
     "cancel" : "cancel",
     "addtournament" : "add tournament",
     "addnewtournament" : "add new tournament",
     "description" : "description",
-    "status" : "status",
     "register" : "register",
-    "registrationclosed" : "registration closed"
+    "registrationclosed" : "registration closed",
+    "created_at": "Created at",
+    "updated_at": "Updated at"
   },
   "gamemodesview": {
     "online": "online",

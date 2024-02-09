@@ -50,6 +50,9 @@ onMounted(() => {
                 <thead>
                     <tr>
                     <th scope="col">{{useI18n().t('tournamentsview.tournaments')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.creator')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
                     </tr>
                 </thead>
@@ -61,6 +64,9 @@ onMounted(() => {
                                 {{ tournament.title }}
                             </router-link>
                         </td>
+                        <td>{{ tournament.creator.username }}</td>
+                        <td>{{ tournament.created_at }}</td>
+                        <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
                     </tr>
                 </tbody>
