@@ -10,7 +10,9 @@ class Backend {
         }
         const respone = await fetch(path, arg)
 
-        if (!respone.ok) throw new Error(respone.statusText)
+        if (!respone.ok){
+            throw new Error((await respone.json()).error)
+        }
 
         return await respone.json()
     }
@@ -23,7 +25,9 @@ class Backend {
 
         const respone = await fetch(path, arg)
 
-        if (!respone.ok) throw new Error(respone.statusText)
+        if (!respone.ok) {
+            throw new Error((await respone.json()).error) 
+        }
 
         return await respone.json()
     }
@@ -32,6 +36,9 @@ class Backend {
         const arg = {
             method: 'PATCH',
             credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json' // Specify the content type as JSON
+            },
             body: JSON.stringify(patchData),
         };
         const respone = await fetch(path, arg);
