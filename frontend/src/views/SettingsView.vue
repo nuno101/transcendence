@@ -6,6 +6,7 @@ import { ref, onMounted } from 'vue';
 const input = ref({ nickname: '', password: '' })
 const password2 = ref('');
 const user = ref([]);
+const useravatar = ref([]);
 const avatar = ref("https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995");
 let isUnique = ref(true);
 let successful = ref(0); // 0 nothing changed, 1 nickname, 2 password, 3 both
@@ -17,6 +18,9 @@ onMounted(() => {
 const fetchData = async () => {
   try {
     user.value = await Backend.get('/api/users/me');
+    console.log(user.value.id);
+    useravatar.value = await Backend.get(`/api/users/${user.value.id}/avatar`);
+    console.log(useravatar.value);
   } catch (err) {
     console.error(err.message);
   }

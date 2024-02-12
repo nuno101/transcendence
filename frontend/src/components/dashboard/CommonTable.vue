@@ -20,7 +20,7 @@ const isWin = (game) => {
     <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
     <table class="table">
         <tbody>
-        <tr v-for="game in games" :key="game">
+        <tr v-if="props.games.length > 0" v-for="game in games" :key="game">
             <td :class="{ 'bg-success': isWin(game), 'bg-danger': !isWin(game) }"
                 class="align-middle text-start">
                 {{ game.updated_at.slice(0, 10)}}
@@ -42,6 +42,7 @@ const isWin = (game) => {
                 : game.player2_score + ' : ' + game.player1_score}}
             </td>
         </tr>
+        <tr v-else class="text-center">NO GAMES</tr>
         </tbody>
     </table>
     </div>   

@@ -5,6 +5,7 @@ import Backend from '../js/Backend';
 import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
+import Loading from '../components/common/Loading.vue';
 import { useRoute } from 'vue-router';
 
 //  GENERAL
@@ -15,11 +16,11 @@ const winsRatio = ref(null);
 // INDIVIDUAL FRIEND
 const friendname = ref('');
 const route = useRoute();
-const access = ref(false);
 const friends = ref({});
 const friend = ref(null);
 const games = ref({});
 
+const isLoaded = ref(false);
 
 onMounted(() => {
   friendname.value = route.params.friendname;
@@ -32,13 +33,14 @@ const fetchData = async() => {
     friend.value = friends.value.find(friend => friend.nickname === friendname.value);
     if(friend.value) {
       games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
-      access.value = true;
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
     }
   } catch (err) {
     console.error(err.message);
+  } finally {
+    isLoaded.value = true; //data available
   }
 };
 
@@ -62,8 +64,9 @@ const DefeatGames = computed(() => {
 </script>
 
 <template>
-    <div v-if="access" class="cont">
-      <div class="box">
+    <div class="cont">
+      <Loading v-if="isLoaded === false"/>
+      <div v-if="isLoaded === true" class="box">
         <div class="con mt-5">
             <div class="row">
               <div class="col-6">
@@ -105,9 +108,6 @@ const DefeatGames = computed(() => {
             </div>
           </div>
         </div>
-      </div>
-      <div v-else>
-        <h1>NO ACCESS</h1>
       </div>
 </template>
 

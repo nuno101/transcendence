@@ -9,7 +9,7 @@ const props = defineProps(['games', 'id']);
     <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
     <table class="table">
         <tbody>
-        <tr v-for="game in props.games" :key="game">
+        <tr v-if="props.games.length > 0" v-for="game in props.games" :key="game">
             <td class="bg-success align-middle text-start">
                 {{ game.player1.id === props.id
                 ? game.player1_score + ' : ' + game.player2_score
@@ -26,6 +26,7 @@ const props = defineProps(['games', 'id']);
             </td>
             <td class="bg-success align-middle text-end">{{ game.updated_at.slice(0, 10)}}</td>
         </tr>
+        <tr v-else class="text-center">NO WINS</tr>
         </tbody>
     </table>
     </div>   

@@ -4,6 +4,7 @@ import Backend from '../js/Backend';
 import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
+import Loading from '../components/common/Loading.vue';
 import { ref, onMounted, computed} from 'vue';
 
 // GENERAL
@@ -15,11 +16,11 @@ const winsRatio = ref(null);
 const users = ref({});
 const games = ref ([]);
 
+const isLoaded = ref(false);
+
 onMounted(() => {
   fetchData();
 })
-
-const isLoading = ref(true);
 
 const fetchData = async () => {
   try {
@@ -33,7 +34,7 @@ const fetchData = async () => {
   } catch (err) {
     console.error(err.message);
   } finally {
-    isLoading.value = false; //data available
+    isLoaded.value = true; //data available
   }
 };
 
@@ -58,7 +59,8 @@ const DefeatGames = computed(() => {
 
 <template>
     <div class="cont">
-      <div class="box">
+      <Loading v-if="isLoaded === false"/>
+      <div v-if="isLoaded === true" class="box">
         <div class="con mt-5">
             <div class="row">
               <div class="col-6">
@@ -88,15 +90,15 @@ const DefeatGames = computed(() => {
             <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom text-uppercase">{{ users.nickname }}</div>
           </div>
         <div class="row mt-4">
-            <DefeatsTable v-if="!isLoading" :id="users.id" :games="DefeatGames"/>
+            <DefeatsTable :id="users.id" :games="DefeatGames"/>
               <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-            <WinsTable v-if="!isLoading" :id="users.id" :games="WinGames"/>
-            <CommonTable v-if="!isLoading" :id="users.id" :games="games"/>
+            <WinsTable :id="users.id" :games="WinGames"/>
+            <CommonTable :id="users.id" :games="games"/>
         </div>
       </div>
     </div>
