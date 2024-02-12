@@ -46,32 +46,3 @@ class JsonSyntaxCheckMiddleware:
 			except:
 				return JsonResponse({ERROR_FIELD: "Invalid JSON body syntax"}, status=400)
 		return self.get_response(request)
-
-# TODO: Fix and enable or remove
-# Problems are: admin panel not working without hardcoded temporary fix
-# request.endpoint_key not found for many error responses handled by django instead of the api
-class ResponseCodeCheckMiddleware:
-	def __init__(self, get_response):
-		self.get_response = get_response
-
-	def __call__(self, request):
-		response = self.get_response(request)
-
-		# TODO: Maybe find way to check for this not hardcoded
-		# Return if path starts with /admin since it is not part of the API structure defined
-		if request.path.startswith("/admin"):
-			return response
-
-		# endpoint = ENDPOINTS.get(request.endpoint_key)
-		# method = endpoint["methods"].get(request.method)
-
-		# TODO: Enable once responses have been documented for all endpoints
-		# Figure out if there is an easier way to do document all responses
-
-		# Check response code
-		# responses = method.get("responses")
-		# if not responses or str(response.status_code) not in responses.keys():
-		# 	code = response.status_code
-		# 	return JsonResponse({ERROR_FIELD: "Endpoint method response documentation" +
-		# 									 f" missing for code {code}"},status=500)
-		return response

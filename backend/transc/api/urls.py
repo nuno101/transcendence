@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from . import views, views_games, views_tournaments
 from . import views_users, views_chat, views_personal
 from . import views_friends, views_notifications
@@ -35,7 +37,7 @@ urlpatterns = [
 	path("users", views_users.UserCollection.as_view()),
 	path("users/<int:user_id>", views_users.UserSingle.as_view()),
 
-	path("users/<int:user_id>/avatar", views_users.UserAvatar.as_view()),
+	path("users/<int:user_id>/avatar", views_users.AvatarUser.as_view()),
 
   path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
 
@@ -59,3 +61,6 @@ urlpatterns = [
 	path('messages', views_chat.MessageCollection.as_view()),
 	path('messages/<int:message_id>', views_chat.MessageSingle.as_view()),
 ]
+
+if settings.DEBUG: # TODO: How will users be able to access media files when not in debug mode?
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

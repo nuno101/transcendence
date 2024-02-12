@@ -19,7 +19,7 @@ def superuser_required(view_func):
     return view_func(request, *args, **kwargs)
   return wrapped_view
 
-def check_structure(endpoint_key): # TODO: Use and test this
+def check_structure(endpoint_key):
   def decorator(view_func):
     def wrapped_view(request, *args, **kwargs):
       endpoint = ENDPOINTS.get(endpoint_key)
@@ -29,9 +29,6 @@ def check_structure(endpoint_key): # TODO: Use and test this
       if method is None:
         return JsonResponse({ERROR_FIELD: f"Endpoint method {request.method}" +
                                            " documentation missing"}, status=500)
-      
-      # Set variable so that response check middleware knows which endpoint is being requested
-      request.endpoint_key = endpoint_key
 
       # Check query parameters
       query_params = method["query_params"]

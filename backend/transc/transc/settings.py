@@ -56,12 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'api.middleware.LoggedInCheckMiddleware',
     'api.middleware.JsonSyntaxCheckMiddleware',
-    'api.middleware.ResponseCodeCheckMiddleware',
 ]
-
-# TODO: Fix and enable or remove -> see middleware.py for more info
-# if DEBUG:
-#     MIDDLEWARE.append('api.middleware.ResponseCodeCheckMiddleware')
 
 ROOT_URLCONF = 'transc.urls'
 
@@ -138,7 +133,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Custom user model
+
 AUTH_USER_MODEL = 'api.User'
+
+# Django channels settings
 
 ASGI_APPLICATION = 'transc.asgi.application'
 
@@ -150,3 +149,9 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# Media settings
+
+MEDIA_ROOT = '/data/media/'
+
+MEDIA_URL = os.environ.get('DJANGO_MEDIA_URL', '/media/')
