@@ -23,6 +23,9 @@ const fetchData = async () => {
 };
 
 const submitChanges = async() => {
+  // REQUESTS CHANGE AVATAR
+  // LOOP drüber iterieren, welche ausgeführt werden sollen
+  // POST --> 
   try {
     successful.value = 0;
     if(input.value.password !== '' && input.value.nickname !== '') {
@@ -51,12 +54,14 @@ const submitChanges = async() => {
 
 const changeAvatar = (event, newimage) => {
   const newavatar = document.getElementById(newimage);
+  console.log("NEW IMG: " + newimage);
   const file = event.target;
 
   if(file.files && file.files[0]){
     const reader = new FileReader();
     reader.onload = function(e) {
         newavatar.src = e.target.result;
+        console.log(e.target.result);
     };
     reader.readAsDataURL(file.files[0]);
   }
