@@ -59,8 +59,8 @@ const DefeatGames = computed(() => {
 
 <template>
     <div class="cont">
-      <Loading v-if="isLoaded === false"/>
-      <div v-if="isLoaded === true" class="box">
+      <Loading v-if="!isLoaded"/>
+      <div v-if="isLoaded" class="box">
         <div class="con mt-5">
             <div class="row">
               <div class="col-6">
