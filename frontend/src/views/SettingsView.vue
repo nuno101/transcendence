@@ -19,6 +19,7 @@ const fetchData = async () => {
   try {
     user.value = await Backend.get('/api/users/me');
     console.log(user.value.id);
+    // AVATAR REQUEST NOT WORKING ATM
     useravatar.value = await Backend.get(`/api/users/${user.value.id}/avatar`);
     console.log(useravatar.value);
   } catch (err) {
@@ -28,7 +29,7 @@ const fetchData = async () => {
 
 const submitChanges = async() => {
   // REQUESTS CHANGE AVATAR
-  // LOOP drüber iterieren, welche ausgeführt werden sollen
+  // LOOP iterieren, welche ausgeführt werden sollen
   // POST --> 
   try {
     successful.value = 0;
