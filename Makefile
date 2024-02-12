@@ -16,7 +16,6 @@ init: migrate superuser
 
 migrate:
 	docker exec -it backend python3 manage.py makemigrations
-	# TODO: Figure out why api app isn't updated automatically
 	docker exec -it backend python3 manage.py makemigrations api 
 	docker exec -it backend python3 manage.py migrate
 

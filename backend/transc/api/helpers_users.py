@@ -19,7 +19,7 @@ def update_user(user: User, parameters: dict):
     else:
       return JsonResponse({ERROR_FIELD: "Undefined error"}, status=500)
   
-  # TODO: Implement websocket notification
+  # TODO: Implement websocket notification?
 
   return JsonResponse(user.serialize())
 
@@ -33,6 +33,6 @@ def delete_user(user: User):
   # user_id = user.id
   user.delete()
 
-  # TODO: Implement websocket notification
+  # TODO: Implement websocket notification?
 
   return HttpResponse(status=204)

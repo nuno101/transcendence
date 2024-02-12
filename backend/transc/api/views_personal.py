@@ -26,7 +26,7 @@ ALLOWED_AVATAR_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp']
 # Endpoint: /users/me/avatar
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
-  def post(self, request): # TODO: Test implemented/implement missing parts and make sure frontend works with this
+  def post(self, request):
     avatar = request.FILES.get('avatar')
     if not avatar:
       return JsonResponse({ERROR_FIELD: "No avatar provided (needs to be a multipart/form-data field with key 'avatar')"}, status=400)
@@ -40,8 +40,7 @@ class AvatarPersonal(View):
       request.user.avatar = avatar
       request.user.save()
     except Exception as e:
-      # TODO: Custom error messages for different exceptions
-      return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
+      return JsonResponse({ERROR_FIELD: "Failed to update avatar"}, status=400)
     return JsonResponse(request.user.serialize(), status=201)
 
 # Endpoint: /users/me/blocked
@@ -51,7 +50,7 @@ class BlockedCollection(View):
     blocked = request.user.blocked.all()
     return JsonResponse([b.serialize() for b in blocked], safe=False)
 
-  def post(self, request): # TODO: Refactor this mess
+  def post(self, request):
     try:
       target_user = User.objects.get(id=request.json.get('user_id'))
     except:
@@ -77,9 +76,6 @@ class BlockedCollection(View):
     incoming_request = FriendRequest.objects.filter(from_user=target_user, to_user=request.user)
     if incoming_request.exists():
       incoming_request.delete()
-
-    # TODO: Delete all channels with only the blocked user and the current user
-    # TODO: Implement websocket notification
 
     # Block user
     request.user.blocked.add(target_user)
