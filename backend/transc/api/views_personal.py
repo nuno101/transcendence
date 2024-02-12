@@ -2,11 +2,12 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from .decorators import *
 from django.http import JsonResponse, HttpResponse
-from .models import User, FriendRequest
+from .models import User, FriendRequest, Channel
 from .helpers_users import *
 from .constants_websocket_events import *
 from .constants_http_response import *
 from . import bridge_websocket as websocket
+import os
 
 # Endpoint: /users/me
 @method_decorator(check_structure("/users/me"), name='dispatch')
@@ -20,12 +21,28 @@ class UserPersonal(View):
   def delete(self, request):
     return delete_user(request.user)
 
+ALLOWED_AVATAR_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp']
+
 # Endpoint: /users/me/avatar
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
-  def post(self, request):
-    avatar = request.json.get('avatar')
-    return update_avatar(request.user, avatar)
+  def post(self, request): # TODO: Test implemented/implement missing parts and make sure frontend works with this
+    avatar = request.FILES.get('avatar')
+    if not avatar:
+      return JsonResponse({ERROR_FIELD: "No avatar provided (needs to be a multipart/form-data field with key 'avatar')"}, status=400)
+    extension = avatar.name.split('.')[-1]
+    if extension not in ALLOWED_AVATAR_EXTENSIONS:
+      return JsonResponse({ERROR_FIELD: f"Invalid file extension '{extension}'"}, status=400)
+
+    # TODO: Delete old avatar if new one has different name
+
+    try:
+      request.user.avatar = avatar
+      request.user.save()
+    except Exception as e:
+      # TODO: Custom error messages for different exceptions
+      return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
+    return JsonResponse(request.user.serialize(), status=201)
 
 # Endpoint: /users/me/blocked
 @method_decorator(check_structure("/users/me/blocked"), name='dispatch')

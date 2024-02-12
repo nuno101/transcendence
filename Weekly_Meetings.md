@@ -10,9 +10,9 @@ Robert:
 * [ ] Make use of notification system, e.g. for the creation of a friend request, etc
 * [x] Add websocket event for notification creation
 * [ ] Extend/Improve functionality of automatic http api documentation generation
-  * [ ] Endpoint method description
+  * [ ] ~~Endpoint method description~~
   * [ ] ~~Response code documentation (and description?)~~
-  * [ ] Min/Max checking for integer values?
+  * [ ] ~~Min/Max checking for integer values?~~
 * [ ] ~~Add documentation for valid endpoint responses in endpoint structure (code, description, return format?, etc.)~~
   * [ ] ~~Activate response code check middleware once responses are documented~~
 
