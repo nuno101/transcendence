@@ -2,12 +2,20 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+AVATAR_PATH = 'avatars/'
+DEFAULT_AVATAR_NAME = 'default.png'
+
 class User(AbstractUser):
+	def avatar_path(instance, filename):
+		# Get file extension
+		ext = filename.split('.')[-1]
+		return f'{AVATAR_PATH}{instance.id}.{ext}'
+
 	username = models.CharField(max_length=12, unique=True, null=False)
 	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	avatar = models.BinaryField(max_length=900000, null=False)
+	avatar = models.ImageField(upload_to=avatar_path, null=True, blank=True)
 
 	class States(models.TextChoices):
 			OFFLINE = "offline"
@@ -28,6 +36,11 @@ class User(AbstractUser):
 	def __str__(self):
 		return self.username
 
+	def get_avatar_url(self):
+		if not self.avatar:
+			return settings.MEDIA_URL + f'{AVATAR_PATH}{DEFAULT_AVATAR_NAME}'
+		return self.avatar.url
+
 	def serialize(self, private=False):
 		return {
 			'id': self.id,
@@ -35,6 +48,7 @@ class User(AbstractUser):
 			'nickname': self.nickname,
 			'created_at': str(self.created_at),
 			'updated_at': str(self.updated_at),
+			'avatar': self.get_avatar_url(),
 			'status': self.status if private else None,
 		}
 
@@ -77,16 +91,16 @@ class Tournament(models.Model):
 
 	def __str__(self):
 		return self.title
-	
+
 	def serialize(self):
 		return {
         'id': self.id,
         'title': self.title,
         'description': self.description,
         'creator': {
-			'id' : self.creator.id,
-			'username': self.creator.username
-		},
+					'id' : self.creator.id,
+					'username': self.creator.username
+				},
         'status': self.status,
         'created_at': str(self.created_at),
         'updated_at': str(self.updated_at),
