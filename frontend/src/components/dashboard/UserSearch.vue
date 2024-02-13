@@ -68,12 +68,14 @@ const acceptRequest = async() => {
         const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
         if (requestId) {
             const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${requestId}`, {});
-            props.friends.push({"id": `${requestId}`, "username": `${foundUser.value.username}`});
-            props.friendsAvatar[foundUser.value.id] = avatar.value;
+            props.friends.push({"id": `${requestId}`, "nickname": `${foundUser.value.nickname}`});
+            props.friendsAvatar.value[foundUser.value.id] = avatar.value;
             const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
             if(indexToDelete !== -1) {
                 props.friendRequests.splice(indexToDelete, 1);
+                console.log(props.friendRequestsAvatar.value);
                 delete props.friendRequestsAvatar[foundUser.value.id];
+                console.log(props.friendRequestsAvatar.value);
             }
         }
     } catch (err) {

@@ -94,7 +94,9 @@ const acceptRequest = async(requestid, username, userid) => {
       const indexToDelete = friendRequests.value.findIndex(friendreq => friendreq.id === requestid);
       if(indexToDelete !== -1){
 		friendRequests.value.splice(indexToDelete, 1);
+		console.log(friendRequestsAvatar.value);
 		delete friendRequestsAvatar.value[userid];
+		console.log(friendRequestsAvatar.value);
 	  }
       console.log(acceptedRequest);
     } catch (err) {
