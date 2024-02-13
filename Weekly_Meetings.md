@@ -1,3 +1,24 @@
+# 2024-02-13 Discord meeting:
+
+Jan:
+* Header and Login improved, some bug-fixing and features
+* Plans to work in the game.
+
+Julia:
+* worked in the friends page
+* few bugs on the game edges
+* scores are POSTed to the backend
+* avatar to be added to pages. Some issue prefix
+* plans to work in the notifications
+
+Nuno:
+* adding logic or a state-machine for managing the tournaments & games.
+
+Robert:
+* to check with Julia about the avatars
+* did some work related to the web-sockets
+
+
 # 2024-02-06 Discord meeting:
 Attended by Anouk, Jan, Julia, Robert
 
