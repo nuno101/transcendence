@@ -7,7 +7,7 @@ const input = ref({ nickname: '', password: '' })
 const password2 = ref('');
 const user = ref([]);
 const useravatar = ref([]);
-const avatar = ref("https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995");
+// const avatar = ref([]);
 let isUnique = ref(true);
 let successful = ref(0); // 0 nothing changed, 1 nickname, 2 password, 3 both
 
@@ -18,10 +18,7 @@ onMounted(() => {
 const fetchData = async () => {
   try {
     user.value = await Backend.get('/api/users/me');
-    console.log(user.value.id);
-    // AVATAR REQUEST NOT WORKING ATM
-    useravatar.value = await Backend.get(`/api/users/${user.value.id}/avatar`);
-    console.log(useravatar.value);
+    useravatar.value = await Backend.getAvatar(`/api/users/${user.value.id}/avatar`);
   } catch (err) {
     console.error(err.message);
   }
@@ -57,20 +54,25 @@ const submitChanges = async() => {
   }    
 };
 
-const changeAvatar = (event, newimage) => {
-  const newavatar = document.getElementById(newimage);
-  console.log("NEW IMG: " + newimage);
-  const file = event.target;
+const changeAvatar = async(event) => {
+  // const newavatar = document.getElementById(newimage);
+  // console.log("NEW IMG: " + newimage);
+  const file = event.target.files[0].name;
+  const formData = new FormData();
+  formData.append('avatar', file);
 
-  if(file.files && file.files[0]){
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        newavatar.src = e.target.result;
-        console.log(e.target.result);
-    };
-    reader.readAsDataURL(file.files[0]);
+  console.log(file);
+  console.log(formData);
+  // REQUEST
+  // const file = event.target.files[0]; // Get the file from the input event
+  try {
+            const response = await Backend.post('/api/users/me/avatar', formData);
+        // Log the response
+        console.log(response);
+  } catch (err) {
+    console.error(err.message);
   }
-
+  // useravatar.value = reader.readAsDataURL(file.files[0]);
 
 };
 </script>
@@ -83,7 +85,7 @@ const changeAvatar = (event, newimage) => {
                 <div class="vstack gap-1">
                     <div class="avatar-circle text-center mt-2">
                         <img id="Image"
-                            :src="avatar"
+                            :src="useravatar"
                             alt="..."
                             class="img-thumbnail rounded"
                             style="width: 100px; height: 100px; object-fit: cover;">

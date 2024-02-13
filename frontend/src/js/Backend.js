@@ -59,6 +59,49 @@ class Backend {
         // if (!respone.ok) throw new Error(respone.statusText);
         // return await respone.json()
     }
+    // AVATAR FUNCTIONS
+    static async getAvatar(path) {
+        const arg = {
+            method: 'GET',
+            credentials: 'include'
+        }
+
+        const respone = await fetch(path, arg)
+        
+        // FOR AVATAR: If redirected, return the redirection URL
+        if (respone.redirected) {
+            return respone.url;
+        }
+
+        if (!respone.ok) {
+            throw new Error((await respone.json()).error) 
+        }
+
+        return await respone.json()
+    }
+
+    static async postAvatar(path, postdata) {
+        const arg = {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json' // Specify the content type as JSON
+            },
+            body: JSON.stringify(postdata)
+        }
+        const respone = await fetch(path, arg)
+
+        if (respone.redirected) {
+            // If redirected, return the redirection URL
+            return respone.url;
+        }
+
+        if (!respone.ok){
+            throw new Error((await respone.json()).error)
+        }
+
+        return await respone.json()
+    }
 }
 
 export default Backend
