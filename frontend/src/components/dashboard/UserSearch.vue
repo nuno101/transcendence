@@ -11,7 +11,8 @@ const foundUser = ref(null);
 const avatar = ref('');
 const avatarLoaded = ref(false);
 
-const props = defineProps(['pendingRequests', 'friendRequests', 'friends']);
+const props = defineProps(['pendingRequests', 'friendRequests', 'friends',
+        'pendingRequestsAvatar', 'friendRequestsAvatar', 'friendsAvatar']);
 
 const fetchData = async () => {
   try {
@@ -55,6 +56,7 @@ const sendRequest = async() => {
     try {
         const newRequest = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
         props.pendingRequests.push(newRequest);
+        props.pendingRequestsAvatar[foundUser.value.id] = avatar.value;
     } catch (err) {
         console.error(err.message);
     }
@@ -67,9 +69,12 @@ const acceptRequest = async() => {
         if (requestId) {
             const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${requestId}`, {});
             props.friends.push({"id": `${requestId}`, "username": `${foundUser.value.username}`});
+            props.friendsAvatar[foundUser.value.id] = avatar.value;
             const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1)
+            if(indexToDelete !== -1) {
                 props.friendRequests.splice(indexToDelete, 1);
+                delete props.friendRequestsAvatar[foundUser.value.id];
+            }
         }
     } catch (err) {
         console.error(err.message);
@@ -83,8 +88,10 @@ const declineRequest = async() => {
         if (requestId) {
             const declinedRequest = await Backend.delete(`/api/users/me/friends/requests/${requestId}`, {});
             const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1)
+            if(indexToDelete !== -1) {
                 props.friendRequests.splice(indexToDelete, 1);
+                delete props.friendRequestsAvatar[foundUser.value.id];
+            }
         }
     } catch (err) {
         console.error(err.message);

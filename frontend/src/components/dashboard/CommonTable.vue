@@ -38,7 +38,8 @@ const isWin = (game) => {
 
 <template>
     <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
-    <table class="table">
+    <Loading v-if="!isLoaded"/>
+    <table v-if="isLoaded" class="table">
         <tbody>
         <tr v-if="props.games.length > 0" v-for="game in games" :key="game">
             <td :class="{ 'bg-success': isWin(game), 'bg-danger': !isWin(game) }"
