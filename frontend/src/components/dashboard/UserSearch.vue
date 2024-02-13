@@ -1,12 +1,15 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
+import Helpers from '../../js/Helpers';
 import { ref, defineProps, watch } from 'vue';
 
 const searchInput = ref('');
 const searchStatus = ref(''); // Possible values: 'found', 'notFound', 'nothing'
 const usersData = ref([]);
 const foundUser = ref(null);
+const avatar = ref('');
+const avatarLoaded = ref(false);
 
 const props = defineProps(['pendingRequests', 'friendRequests', 'friends']);
 
@@ -22,15 +25,19 @@ const fetchData = async () => {
 // FRIEND REQUEST !!!! instead of search user
 const searchUser = async (searchedUser) => {
   try {
+    avatarLoaded.value = false;
     await fetchData();
     foundUser.value = usersData.value.find(user => user.nickname === searchedUser);
     if (foundUser.value) {
+        avatar.value = await Helpers.getAvatarById(foundUser.value.id);
         searchStatus.value = 'found';
     } else {
         searchStatus.value = 'notFound';
     }
   } catch (error) {
     console.error(error.message);
+  } finally {
+      avatarLoaded.value = true;
   }
 };
 
@@ -116,9 +123,9 @@ watch(searchInput, () => {
         <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search nickname" aria-label="Search" aria-describedby="search-addon" />
         <button @click="searchUser(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init><i class="bi bi-search"></i></button>
     </div>
-    <div v-if="searchStatus === 'found'">
+    <div v-if="searchStatus === 'found' && avatarLoaded === true">
         <div class="alert alert-success d-flex align-items-center p-1" role="alert">
-            <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+            <img :src="avatar"
             alt="..."
             class="img-thumbnail rounded me-4"
             style="width: 50px; height: 50px; object-fit: cover;">
