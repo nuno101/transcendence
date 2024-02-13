@@ -21,6 +21,7 @@ class UserPersonal(View):
   def delete(self, request):
     return delete_user(request.user)
 
+# cCONF: Allowed avatar file extensions
 ALLOWED_AVATAR_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp']
 
 # Endpoint: /users/me/avatar
