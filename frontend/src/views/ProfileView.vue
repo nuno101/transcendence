@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
+import Helpers from '../js/Helpers';
 import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
@@ -15,6 +16,7 @@ const winsRatio = ref(null);
 // INDIVIDUAL
 const users = ref({});
 const games = ref ([]);
+const avatar = ref(null);
 
 const isLoaded = ref(false);
 
@@ -27,6 +29,7 @@ const fetchData = async () => {
     users.value = await Backend.get('/api/users/me');
     if(users.value) {
       games.value = await Backend.get(`/api/users/${users.value.id}/games`);
+      avatar.value = await Helpers.getAvatarById(users.value.id);
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
@@ -81,7 +84,7 @@ const DefeatGames = computed(() => {
             </div>
           </div>
           <div class="avatar-circle position-absolute start-50 translate-middle">
-            <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+            <img :src="avatar"
               alt="..."
               class="img-thumbnail rounded float-start"
               style="width: 100px; height: 100px; object-fit: cover;">

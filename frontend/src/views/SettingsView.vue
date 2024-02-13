@@ -7,7 +7,6 @@ const input = ref({ nickname: '', password: '' })
 const password2 = ref('');
 const user = ref([]);
 const useravatar = ref([]);
-// const avatar = ref([]);
 let isUnique = ref(true);
 let successful = ref(0); // 0 nothing changed, 1 nickname, 2 password, 3 both
 
