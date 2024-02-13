@@ -114,7 +114,7 @@ watch(searchInput, () => {
     <div>
     <div class="input-group">
         <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search nickname" aria-label="Search" aria-describedby="search-addon" />
-        <button @click="searchUser(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+        <button @click="searchUser(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init><i class="bi bi-search"></i></button>
     </div>
     <div v-if="searchStatus === 'found'">
         <div class="alert alert-success d-flex align-items-center p-1" role="alert">
