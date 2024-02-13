@@ -213,6 +213,10 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Description of the tournament"
+					}, "player": {
+						"type": "string",
+						"required": False,
+						"description": "Nickname of the player to be added to the tournament"
 					}
 				},
 			}
