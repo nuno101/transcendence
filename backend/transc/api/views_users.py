@@ -17,7 +17,8 @@ class UserCollection(View):
 
 	def post(self, request):
 		try:
-			user = User.objects.create_user(username=request.json.get('username'), 
+			user = User.objects.create_user(username=request.json.get('username'),
+																			nickname=request.json.get('username'),
 																			password=request.json.get('password'))
 		except Exception as e: # TODO: Handle more exceptions, e. g. Username too long
 			if 'duplicate key' in str(e):
@@ -33,7 +34,7 @@ class UserSingle(View):
 	def get(self, request, user_id):
 		u = User.objects.get(id=user_id)
 		return JsonResponse(u.serialize())
-	
+
 	@method_decorator(staff_required, name='dispatch')
 	def patch(self, request, user_id):
 		return update_user(User.objects.get(id=user_id), request.json)

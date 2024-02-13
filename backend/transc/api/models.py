@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import os
 
+# cCONF: Avatar file path
 AVATAR_PATH = 'avatars/'
-DEFAULT_AVATAR_NAME = 'default.png'
+DEFAULT_AVATAR_NAME = os.getenv('DEFAULT_AVATAR_NAME', 'default.png')
 
 class User(AbstractUser):
 	def avatar_path(instance, filename):

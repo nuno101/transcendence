@@ -67,7 +67,6 @@ class ChannelMemberCollection(View):
     websocket.send_user_event(user.id, CREATE_CHANNEL, channel.serialize())
     websocket.send_channel_event(channel.id, UPDATE_CHANNEL, channel.serialize())
     websocket.add_consumer_to_group(user.id, f'channel_{channel.id}')
-    # TODO: Implement notification system here
     return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
 
 # Endpoint: /channels/CHANNEL_ID/members/USER_ID
