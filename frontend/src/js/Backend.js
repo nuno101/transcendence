@@ -59,6 +59,7 @@ class Backend {
         // if (!respone.ok) throw new Error(respone.statusText);
         // return await respone.json()
     }
+
     // AVATAR FUNCTIONS
     static async getAvatar(path) {
         const arg = {
@@ -84,17 +85,9 @@ class Backend {
         const arg = {
             method: 'POST',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json' // Specify the content type as JSON
-            },
-            body: JSON.stringify(postdata)
+            body: postdata
         }
         const respone = await fetch(path, arg)
-
-        if (respone.redirected) {
-            // If redirected, return the redirection URL
-            return respone.url;
-        }
 
         if (!respone.ok){
             throw new Error((await respone.json()).error)

@@ -55,25 +55,16 @@ const submitChanges = async() => {
 };
 
 const changeAvatar = async(event) => {
-  // const newavatar = document.getElementById(newimage);
-  // console.log("NEW IMG: " + newimage);
-  const file = event.target.files[0].name;
+  const file = event.target.files[0];
   const formData = new FormData();
   formData.append('avatar', file);
-
-  console.log(file);
-  console.log(formData);
-  // REQUEST
-  // const file = event.target.files[0]; // Get the file from the input event
+  
   try {
-            const response = await Backend.post('/api/users/me/avatar', formData);
-        // Log the response
-        console.log(response);
+    await Backend.postAvatar('/api/users/me/avatar', formData);
+    useravatar.value = await Backend.getAvatar(`/api/users/${user.value.id}/avatar`);
   } catch (err) {
     console.error(err.message);
   }
-  // useravatar.value = reader.readAsDataURL(file.files[0]);
-
 };
 </script>
 
