@@ -34,7 +34,7 @@ class GameView(View):
 		game.player2_score = request.json.get('player2_score', 0)
 		game.save()
 
-		# TODO: Implement websocket notification
+		# TODO: Implement websocket notification?
 
 		return JsonResponse(game.serialize(), status=201)
 
@@ -57,6 +57,6 @@ class GameDetail(View):
 	def delete(self, request, game_id):
 		Game.objects.get(id=game_id).delete()
 
-		# TODO: Implement websocket notification
+		# TODO: Implement websocket notification?
 
 		return HttpResponse(status=204)

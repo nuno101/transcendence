@@ -14,13 +14,11 @@ class LoggedInCheckMiddleware:
 		self.get_response = get_response
 
 	def __call__(self, request):
-		# TODO: Maybe find way to check for this not hardcoded
-		# Allow if path starts with /admin
+		# Allow if path starts with /admin (needed so that admin panel sites still work)
 		if request.path.startswith("/admin"):
 			return self.get_response(request)
 
 		# Check if endpoint is allowed for anonymous users
-		# return JsonResponse({"test": request.resolver_match})
 		if request.path in ANONYMOUS_ACCESS.keys():
 			if request.method in ANONYMOUS_ACCESS[request.path]:
 				return self.get_response(request)

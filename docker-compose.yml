@@ -83,6 +83,8 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
       REDIS_HOST: ${REDIS_HOST}
 
+      DEFAULT_AVATAR_NAME: ${DEFAULT_AVATAR_NAME}
+
     volumes:
       - backend_device:/data/
       - ./backend/transc:/app/transc # FIXME: for development to allow editing the code outside the container
@@ -116,6 +118,8 @@ services:
       - ./frontend/public/:/app/public/:ro
     networks:
       - proxy-network
+    restart: unless-stopped
+
   proxy:
     container_name: proxy
     image: proxy
