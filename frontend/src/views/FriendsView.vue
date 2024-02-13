@@ -2,20 +2,35 @@
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import UserSearch from '../components/dashboard/UserSearch.vue';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { onMounted, ref } from 'vue';
 
 const friends = ref({});
 const friendRequests = ref({});
 const pendingRequests = ref({});
 
+const modalFlag = ref('');
+const modalId = ref('');
+
 const fetchData = async () => {
   try {
     friends.value = await Backend.get(`/api/users/me/friends`);
     friendRequests.value = await Backend.get(`/api/users/me/friends/requests?type=received`);
     pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
+    console.log(pendingRequests.value);
   } catch (err) {
     console.error(err.message);
   }
+};
+
+const openModal = async(flag, id) => {
+	modalFlag.value = flag;
+	modalId.value = id;
+	bootstrap.Modal.getInstance("#friendsModalToggle").show();
+};
+
+const closeModal = async() => {
+	bootstrap.Modal.getInstance("#friendsModalToggle").hide();
 };
 
 const delData = async(flag, id) => {
@@ -42,6 +57,7 @@ const delData = async(flag, id) => {
   } catch(err){
     console.log(err.message);
   }
+	closeModal();
 };
 
 const acceptRequest = async(requestid, username, userid) => {
@@ -59,97 +75,110 @@ const acceptRequest = async(requestid, username, userid) => {
 
 onMounted(() => {
   fetchData();
+	new bootstrap.Modal('#friendsModalToggle', { keyboard: true })
 })
 </script>
 
 <template>
-    <div class="cont">
-      <div class="box">
-        <UserSearch :pendingRequests="pendingRequests" :friends="friends" :friendRequests="friendRequests"/>
-        <div class="con mt-5">
-            <div class="row">
-              <div class="col-7">
-                <div class="bigtable gamestable rounded img-thumbnail d-md-block">
-                <table class="table m-0">
-                  <thead class="table-dark">
-                    <tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.listoffriends')}}</th></tr>
-                  </thead>
-                  <tbody v-if="friends && friends.length > 0">
-                    <tr v-for="(friend, index) in friends" :key="friend">
-                      <td class="bg-light text-center align-middle">{{index + 1}}</td>
-                      <td class="bg-light d-none d-lg-table-cell">
-                        <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                          alt="..."
-                          class="img-thumbnail rounded"
-                          style="width: 50px; height: 50px; object-fit: cover;"
-                        />
-                      </td>
-                      <td class="bg-light text-start align-middle">
-                        <router-link :to="`/friends/${friend.nickname}`">{{friend.nickname}}</router-link>
-                      </td>
-                      <td class="bg-light text-end align-middle">
-                        <button type="button" class="btn btn-outline-danger" aria-label="Close" @click="delData('FRIEND', friend.id)">X</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody v-else class="text-center">NO FRIENDS</tbody>
-                </table>
-              </div>
-              </div>
-              <div class="col-5">
-                  <div class="smalltable gamestable rounded img-thumbnail d-md-block">
-                     <table class="table table-hover m-0">
-                        <thead class="table-dark">
-                          <tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
-                        </thead>
-                      <tbody v-if="friendRequests.length > 0">
-                        <tr v-for="friend in friendRequests" :key="friend">
-                          <td class="bg-light d-none d-lg-table-cell">
-                            <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                              alt="..."
-                              class="img-thumbnail rounded"
-                              style="width: 50px; height: 50px; object-fit: cover;">
-                          </td>
-                          <td class="bg-light align-middle">{{friend.from_user.nickname}}</td>
-                          <td class="bg-light text-end align-middle d-none d-md-table-cell">
-                            <button class="btn btn-outline-success ms-auto me-2" @click="acceptRequest(friend.id, friend.from_user.username, friend.from_user.id)">✓</button>
-                            <button class="btn btn-outline-danger" @click="delData('FRIENDREQ', friend.id)">X</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody v-else class="text-center">No {{useI18n().t('friendsview.friendrequests')}}</tbody>
-                    </table>
-                  </div>
-                  <div class="mt-2 mt-lg-4 smalltable gamestable rounded img-thumbnail d-md-block">
-                     <table class="table table-hover m-0">
-                        <thead class="table-dark">
-                          <tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.pendingrequests')}}</th></tr>
-                        </thead>
-                      <tbody v-if="pendingRequests.length > 0">
-                        <tr v-for="friend in pendingRequests" :key="friend">
-                          <td class="bg-light d-none d-lg-table-cell">
-                            <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-                              alt="..."
-                              class="img-thumbnail rounded"
-                              style="width: 50px; height: 50px; object-fit: cover;">
-                          </td>
-                          <td class="bg-light align-middle">{{friend.to_user.nickname}}</td>
-                          <td class="bg-light text-end align-middle d-none d-md-table-cell">
-                            <button class="btn btn-outline-danger" @click="delData('PENDREQ', friend.id)">X</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody v-else class="text-center">No {{useI18n().t('friendsview.pendingrequests')}}</tbody>
-                    </table>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  <div>
-    <router-link to="friends/stats">friends stats example</router-link>
-  </div>
+	<div class="cont">
+		<div class="box">
+			<UserSearch :pendingRequests="pendingRequests" :friends="friends" :friendRequests="friendRequests"/>
+			<div class="con mt-5">
+					<div class="row">
+						<div class="col-7">
+							<div class="bigtable gamestable rounded img-thumbnail d-md-block">
+							<table class="table m-0">
+								<thead class="table-dark">
+									<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.listoffriends')}}</th></tr>
+								</thead>
+								<tbody v-if="friends && friends.length > 0">
+									<tr v-for="(friend, index) in friends" :key="friend">
+										<td class="bg-light text-center align-middle">{{index + 1}}</td>
+										<td class="bg-light d-none d-lg-table-cell">
+											<img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+												alt="..."
+												class="img-thumbnail rounded"
+												style="width: 50px; height: 50px; object-fit: cover;"
+											/>
+										</td>
+										<td class="bg-light text-start align-middle">
+											<router-link :to="`/friends/${friend.nickname}`">{{friend.nickname}}</router-link>
+										</td>
+										<td class="bg-light text-end align-middle">
+											<!-- <button type="button" class="btn btn-outline-danger" aria-label="Close" @click="delData('FRIEND', friend.id)">X</button> -->
+											<button type="button" class="btn btn-outline-danger" aria-label="Close" @click="openModal('FRIEND', friend.id)">X</button>
+										</td>
+									</tr>
+								</tbody>
+								<tbody v-else class="text-center">NO FRIENDS</tbody>
+							</table>
+						</div>
+						</div>
+						<div class="col-5">
+								<div class="smalltable gamestable rounded img-thumbnail d-md-block">
+										<table class="table table-hover m-0">
+											<thead class="table-dark">
+												<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
+											</thead>
+										<tbody v-if="friendRequests.length > 0">
+											<tr v-for="friend in friendRequests" :key="friend">
+												<td class="bg-light d-none d-lg-table-cell">
+													<img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+														alt="..."
+														class="img-thumbnail rounded"
+														style="width: 50px; height: 50px; object-fit: cover;">
+												</td>
+												<td class="bg-light align-middle">{{friend.from_user.nickname}}</td>
+												<td class="bg-light text-end align-middle d-none d-md-table-cell">
+													<button class="btn btn-outline-success ms-auto me-2" @click="acceptRequest(friend.id, friend.from_user.username, friend.from_user.id)">✓</button>
+													<button class="btn btn-outline-danger" @click="openModal('FRIENDREQ', friend.id)">X</button>
+												</td>
+											</tr>
+										</tbody>
+										<tbody v-else class="text-center">No {{useI18n().t('friendsview.friendrequests')}}</tbody>
+									</table>
+								</div>
+								<div class="mt-2 mt-lg-4 smalltable gamestable rounded img-thumbnail d-md-block">
+										<table class="table table-hover m-0">
+											<thead class="table-dark">
+												<tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.pendingrequests')}}</th></tr>
+											</thead>
+										<tbody v-if="pendingRequests.length > 0">
+											<tr v-for="friend in pendingRequests" :key="friend">
+												<td class="bg-light d-none d-lg-table-cell">
+													<img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
+														alt="..."
+														class="img-thumbnail rounded"
+														style="width: 50px; height: 50px; object-fit: cover;">
+												</td>
+												<td class="bg-light align-middle">{{friend.to_user.nickname}}</td>
+												<td class="bg-light text-end align-middle d-none d-md-table-cell">
+													<button class="btn btn-outline-danger" @click="openModal('PENDREQ', friend.id)">X</button>
+												</td>
+											</tr>
+										</tbody>
+										<tbody v-else class="text-center">No {{useI18n().t('friendsview.pendingrequests')}}</tbody>
+									</table>
+								</div>
+						</div>
+					</div>
+		</div>
+			<!-- MODAL -->
+				<div class="modal fade" id="friendsModalToggle" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content rounded-4 shadow">
+							<div class="modal-body p-3 text-center">
+								<h6 v-if="modalFlag === 'FRIEND'">Are you sure you want to delete this friend?</h6>
+								<h6 v-if="modalFlag === 'FRIENDREQ'">Are you sure you want to decline this friend request?</h6>
+								<h6 v-if="modalFlag === 'PENDREQ'">Are you sure you want to withdraw this friend request?</h6>
+								<button class="btn btn-danger mt-2 me-2" @click="delData(modalFlag, modalId)">Confirm</button>
+								<button class="btn btn-secondary mt-2 ms-2" @click="closeModal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
 </template>
 
 <style scoped>
