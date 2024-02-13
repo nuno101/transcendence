@@ -16,7 +16,7 @@ Nuno:
 
 Robert:
 * to check with Julia about the avatars
-* did some work related to the web-sockets
+* [ ] Websocket system bugfixing
 * [ ] Add avatar functionality in backend
   * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
   * [ ] Implement working default avatar
