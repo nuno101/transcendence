@@ -36,7 +36,3 @@ def delete_user(user: User):
   # TODO: Implement websocket notification
 
   return HttpResponse(status=204)
-
-def update_avatar(user: User, avatar: str):
-  # Decode base64 image to binary
-  pass

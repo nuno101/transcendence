@@ -60,9 +60,8 @@ ENDPOINTS = {
 	}, "/users/me/avatar": {
 		"methods": {
 			"POST": {
-				# TODO: Specify parameters
 				"query_params": {},
-				"body_params": [],
+				"body_params": {}
 			}
 		}
 	}, "/users/me/blocked": {
@@ -107,7 +106,7 @@ ENDPOINTS = {
 						"description": "Type of the friend requests returned (all, sent, received)"
 					}
 				},
-				"body_params": [],
+				"body_params": {},
 			}, "POST": {
 				"content_type": "application/json", 
 				"query_params": {},

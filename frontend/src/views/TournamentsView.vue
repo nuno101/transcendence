@@ -45,15 +45,17 @@ onMounted(() => {
 
 <template>
     <div>
+        <h1>{{useI18n().t('tournamentsview.listoftournaments')}}</h1>
         <div>
-            <table class="table table-hover">
+            <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                    <th scope="col">{{useI18n().t('tournamentsview.tournaments')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.name')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.creator')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.actions')}}</th>
                     </tr>
                 </thead>
 
@@ -68,12 +70,18 @@ onMounted(() => {
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
+                        <td>
+                            <!-- FIXME - the button s below are not working atm -->
+                            <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
+							              <!-- TODO - disable if status is created -->
+                            &nbsp;<a href=""><i class="bi bi-trash3-fill"></i></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     <div>
-    <button type="button" class="btn btn-primary" @click="openModal = !openModal">{{useI18n().t('tournamentsview.addnewtournament')}}</button>
+    <button type="button" class="btn btn-primary" @click="openModal = !openModal">{{useI18n().t('tournamentsview.createatournament')}}</button>
     <div v-show="openModal" class="modal-content">
         <form @submit.prevent="submitForm">
             <div class="form-group">
