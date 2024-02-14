@@ -4,13 +4,14 @@ import Backend from '../js/Backend';
 import { ref, onMounted } from 'vue';
 import Loading from '../components/common/Loading.vue';
 
-const input = ref({ nickname: '', password: '' })
+const input = ref({ nickname: '', password: ''});
+const inputavatar = ref('');
 const password2 = ref('');
 const user = ref([]);
 const useravatar = ref([]);
 let isUnique = ref(true);
-let successful = ref(0); // 0 nothing changed, 1 nickname, 2 password, 3 both
 const isLoaded = ref(false);
+let updateErrorMessage = ref('');
 
 onMounted(() => {
   fetchData();
@@ -29,45 +30,38 @@ const fetchData = async () => {
 };
 
 const submitChanges = async() => {
-  // REQUESTS CHANGE AVATAR
-  // LOOP iterieren, welche ausgeführt werden sollen
-  // POST --> 
   try {
-    successful.value = 0;
-    if(input.value.password !== '' && input.value.nickname !== '') {
-      await Backend.patch(`/api/users/me`, {"nickname": `${input.value.nickname}`, "password": `${input.value.password}`});
-      user.value.nickname =  input.value.nickname;
-      password2.value = input.value.password = input.value.nickname = '';
-      isUnique.value = true;
-      successful.value = 3;
-    } else if (input.value.nickname !== ''){
-      await Backend.patch(`/api/users/me`, {"nickname": `${input.value.nickname}`});
-      user.value.nickname =  input.value.nickname;
-      input.value.nickname = '';
-      isUnique.value = true;
-      successful.value = 1;
-    } else if (input.value.password !== '') {
-      await Backend.patch(`/api/users/me`, {"password": `${input.value.password}`});
-      password2.value = input.value.password = '';
-      successful.value = 2;
+    let requestBody = {};
+    for (const [key, value] of Object.entries(input.value)){
+      if (value !== '')
+        requestBody[key] = value;
     }
+
+    if(requestBody !== {})
+      await Backend.patch(`/api/users/me`, requestBody);
+    if(input.value.nickname !== '') user.value.nickname = input.value.nickname; input.value.nickname = '';
+    if(input.value.password !== '') password2.value = input.value.password = '';
+
+    if(inputavatar.value !== ''){
+      const formData = new FormData();
+      formData.append('avatar', inputavatar.value);
+
+      await Backend.postAvatar('/api/users/me/avatar', formData);
+      useravatar.value = await Backend.getAvatar(`/api/users/${user.value.id}/avatar`);
+      inputavatar.value = '';
+    }
+    updateErrorMessage.value = '';
+
   } catch (err) {
-    console.log(err.message);
-    if (err.message === "Bad Request")
-      isUnique.value = false;
+    updateErrorMessage.value = err;
   }    
 };
 
 const changeAvatar = async(event) => {
   const file = event.target.files[0];
-  const formData = new FormData();
-  formData.append('avatar', file);
-  
-  try {
-    await Backend.postAvatar('/api/users/me/avatar', formData);
-    useravatar.value = await Backend.getAvatar(`/api/users/${user.value.id}/avatar`);
-  } catch (err) {
-    console.error(err.message);
+  if(file){
+    inputavatar.value = file;
+    useravatar.value = URL.createObjectURL(file);
   }
 };
 </script>
@@ -123,10 +117,11 @@ const changeAvatar = async(event) => {
                   </div>
               </div>
               <div class="mt-5 text-center text-sm-start">
-              <button type="button" class="btn btn-outline-primary" @click="submitChanges()" :disabled="input.password !== password2">Update Profile</button>
-              <div v-if="successful > 0" class="p-2 mt-1 alert alert-success" role="alert">
-                Successful change of {{ successful === 1 ? "nickname" : successful === 2 ? "password" : "nickname and password" }}
+              <button type="button" class="btn btn-outline-primary" @click="submitChanges" :disabled="input.password !== password2">Update Profile</button>
+              <div v-if="updateErrorMessage !== ''" class="p-2 mt-1 alert alert-danger" role="alert">
+                 {{ updateErrorMessage }}
               </div>
+              <!-- ADD SUCCESS MESSAGE? -->
               </div>
             </div>
         </div>
