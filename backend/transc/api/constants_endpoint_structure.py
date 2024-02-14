@@ -200,6 +200,7 @@ ENDPOINTS = {
 	}, "/tournaments/TOURNAMENT_ID": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
+			"DELETE": NO_PARAM_METHOD_TEMPLATE,
 			"PATCH": {
 				"content_type": "application/json",
 				"query_params": {},

@@ -32,6 +32,32 @@ const addNewTournament = async () => {
   }
 };
 
+//FIXME -  the function below is not working atm
+const updatestateTournament = async (t_id, state) => {
+  try {
+    let data = await Backend.put('/api/tournaments/'+ t_id, state);
+    console.log("in POST: " + data);
+    //tournaments.value.push(data);
+
+    resetInputFields();
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const deleteTournament = async (t_id) => {
+  try {
+    await Backend.delete('/api/tournaments/'+ t_id, input.value);
+    console.log("in POST: " + tournaments.value);
+    // FIXME - the line below is not working atm. should delete the tournament from the list
+    //tournaments.value.delete(t_id)
+
+    resetInputFields();
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 const resetInputFields = () => {
     input.value.title = '';
     input.value.description = '';
@@ -73,8 +99,11 @@ onMounted(() => {
                         <td>
                             <!-- FIXME - the button s below are not working atm -->
                             <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
-							              <!-- TODO - disable if status is created -->
-                            &nbsp;<a href=""><i class="bi bi-trash3-fill"></i></a>
+							              <button type="button" class="btn btn-primary" @click="updatestateTournament(tournament.id, 'cancelled')">{{useI18n().t('tournamentsview.cancel')}}</button>
+                            <!-- TODO - disable unless status is created -->
+                            <button type="button" class="btn btn-primary" @click="deleteTournament(tournament.id)">{{useI18n().t('tournamentsview.delete')}}</button>
+                            <!-- TODO - use icon below instead of button above for deletion -->
+                            &nbsp;<a href="" @click="deleteTournament"><i class="bi bi-trash3-fill"></i></a>
                         </td>
                     </tr>
                 </tbody>
