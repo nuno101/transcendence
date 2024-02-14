@@ -1,7 +1,8 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
-import Helpers from '../../js/Helpers';
+import Avatar from '../../js/Avatar';
+import Friends from '../../js/Friends';
 import { ref, defineProps, watch } from 'vue';
 
 const searchInput = ref('');
@@ -30,7 +31,7 @@ const searchUser = async (searchedUser) => {
     await fetchData();
     foundUser.value = usersData.value.find(user => user.nickname === searchedUser);
     if (foundUser.value) {
-        avatar.value = await Helpers.getAvatarById(foundUser.value.id);
+        avatar.value = await Avatar.getAvatarById(foundUser.value.id);
         searchStatus.value = 'found';
     } else {
         searchStatus.value = 'notFound';
@@ -65,19 +66,9 @@ const sendRequest = async() => {
 
 const acceptRequest = async() => {
     try {
-        const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
-        if (requestId) {
-            const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${requestId}`, {});
-            props.friends.push({"id": `${requestId}`, "nickname": `${foundUser.value.nickname}`});
-            props.friendsAvatar.value[foundUser.value.id] = avatar.value;
-            const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1) {
-                props.friendRequests.splice(indexToDelete, 1);
-                console.log(props.friendRequestsAvatar.value);
-                delete props.friendRequestsAvatar[foundUser.value.id];
-                console.log(props.friendRequestsAvatar.value);
-            }
-        }
+        const request = props.friendRequests.find(request => request.from_user.username === foundUser.value.username);
+        if (request)
+            Friends.acceptRequest(props.friends, props.friendsAvatar, props.friendRequests, props.friendRequestsAvatar, request);
     } catch (err) {
         console.error(err.message);
     }
@@ -86,15 +77,9 @@ const acceptRequest = async() => {
 
 const declineRequest = async() => {
     try {
-        const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
-        if (requestId) {
-            const declinedRequest = await Backend.delete(`/api/users/me/friends/requests/${requestId}`, {});
-            const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1) {
-                props.friendRequests.splice(indexToDelete, 1);
-                delete props.friendRequestsAvatar[foundUser.value.id];
-            }
-        }
+        const request = props.friendRequests.find(request => request.from_user.username === foundUser.value.username);
+        if (request)
+            Friends.declineOrCancelRequest('DECLINE', props.friendRequests, props.friendRequestsAvatar, request);
     } catch (err) {
         console.error(err.message);
     }
@@ -103,13 +88,10 @@ const declineRequest = async() => {
 
 const cancelRequest = async() => {
     try {
-        const requestId = props.pendingRequests.find(request => request.to_user.username === foundUser.value.username)?.id;
-        if (requestId) {
-            const cancelledRequest = await Backend.delete(`/api/users/me/friends/requests/${requestId}`, {});
-            const indexToDelete = props.pendingRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1)
-                props.pendingRequests.splice(indexToDelete, 1);
-        }
+        const request = props.pendingRequests.find(request => request.to_user.username === foundUser.value.username);
+        console.log(request);
+        if (request)
+            Friends.declineOrCancelRequest('CANCEL', props.pendingRequests, props.pendingRequestsAvatar, request);
     } catch (err) {
         console.error(err.message);
     }

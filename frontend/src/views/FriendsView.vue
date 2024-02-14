@@ -1,7 +1,8 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import Helpers from '../js/Helpers';
+import Avatar from '../js/Avatar';
+import Friends from '../js/Friends';
 import UserSearch from '../components/dashboard/UserSearch.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { onMounted, ref } from 'vue';
@@ -27,15 +28,15 @@ const fetchData = async () => {
     pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
     console.log(pendingRequests.value);
 	for (const friend of friends.value) {
-		const avatarUrl = await Helpers.getAvatarById(friend.id);
+		const avatarUrl = await Avatar.getAvatarById(friend.id);
 		friendsAvatar.value[friend.id] = avatarUrl;
 	}
 	for (const f of friendRequests.value) {
-		const avatarUrl = await Helpers.getAvatarById(f.from_user.id);
+		const avatarUrl = await Avatar.getAvatarById(f.from_user.id);
 		friendRequestsAvatar.value[f.from_user.id] = avatarUrl;
 	}
 	for (const p of pendingRequests.value) {
-		const avatarUrl = await Helpers.getAvatarById(p.to_user.id);
+		const avatarUrl = await Avatar.getAvatarById(p.to_user.id);
 		pendingRequestsAvatar.value[p.to_user.id] = avatarUrl;
 	}
   } catch (err) {
@@ -78,30 +79,12 @@ const delData = async(flag, id) => {
       indexToDelete = pendingRequests.value.findIndex(pendreq => pendreq.id === id);
       if(indexToDelete !== -1)
         pendingRequests.value.splice(indexToDelete, 1);
-		delete pendingRequests.value[id];
+		delete pendingRequestsAvatar.value[id];
     }
   } catch(err){
     console.log(err.message);
   }
 	closeModal();
-};
-
-const acceptRequest = async(requestid, username, userid) => {
-    try {
-      const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${requestid}`, {});
-      friends.value.push({"id": `${userid}`, "nickname": `${username}`});
-	  friendsAvatar.value[userid] = friendRequestsAvatar.value[userid];
-      const indexToDelete = friendRequests.value.findIndex(friendreq => friendreq.id === requestid);
-      if(indexToDelete !== -1){
-		friendRequests.value.splice(indexToDelete, 1);
-		console.log(friendRequestsAvatar.value);
-		delete friendRequestsAvatar.value[userid];
-		console.log(friendRequestsAvatar.value);
-	  }
-      console.log(acceptedRequest);
-    } catch (err) {
-        console.error(err.message);
-    }
 };
 
 onMounted(() => {
@@ -163,7 +146,9 @@ onMounted(() => {
 												</td>
 												<td class="bg-light align-middle">{{friend.from_user.nickname}}</td>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
-													<button class="btn btn-outline-success ms-auto me-2" @click="acceptRequest(friend.id, friend.from_user.nickname, friend.from_user.id)">✓</button>
+													<button class="btn btn-outline-success ms-auto me-2"
+														@click="Friends.acceptRequest(friends, friendsAvatar, friendRequests, friendRequestsAvatar, friend)"
+													>✓</button>
 													<button class="btn btn-outline-danger" @click="openModal('FRIENDREQ', friend.id)">X</button>
 												</td>
 											</tr>
