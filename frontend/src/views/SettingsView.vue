@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import { ref, onMounted } from 'vue';
+import Loading from '../components/common/Loading.vue';
 
 const input = ref({ nickname: '', password: '' })
 const password2 = ref('');
@@ -9,6 +10,7 @@ const user = ref([]);
 const useravatar = ref([]);
 let isUnique = ref(true);
 let successful = ref(0); // 0 nothing changed, 1 nickname, 2 password, 3 both
+const isLoaded = ref(false);
 
 onMounted(() => {
   fetchData();
@@ -16,10 +18,13 @@ onMounted(() => {
 
 const fetchData = async () => {
   try {
+    isLoaded.value = false;
     user.value = await Backend.get('/api/users/me');
     useravatar.value = await Backend.getAvatar(`/api/users/${user.value.id}/avatar`);
   } catch (err) {
     console.error(err.message);
+  } finally {
+    isLoaded.value = true;
   }
 };
 
@@ -69,7 +74,8 @@ const changeAvatar = async(event) => {
 
 <template>
     <div class="cont">
-      <div class="box">
+      <Loading v-if="!isLoaded"/>
+      <div v-if="isLoaded" class="box">
         <div class="row">
             <div class="col-sm-4 mt-4">
                 <div class="vstack gap-1">
