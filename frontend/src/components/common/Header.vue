@@ -104,7 +104,6 @@ watch(route, (newRoute) => {
 const AlreadyLoggedin = async () => {
   try {
     const response = await Backend.get('/api/users/me')
-    await new Promise(r => setTimeout(r, 2000))
     logged.value.status = true;
     logged.value.username = response.username;
   } catch {
