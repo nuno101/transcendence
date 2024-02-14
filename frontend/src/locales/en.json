@@ -73,6 +73,7 @@
 	  "creatortournamentnickname": "Your tournament nickname (creator)",
     "cancel" : "Cancel",
     "createatournament" : "Create a tournament",
+	"addtournament" : "Add a tournament",
     "description" : "description",
     "register" : "register",
     "registrationclosed" : "Registration closed",

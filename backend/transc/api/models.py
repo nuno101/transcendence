@@ -90,6 +90,7 @@ class Tournament(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	players = models.ManyToManyField(User, related_name='joined_tournaments', blank=True)
+	test = models.CharField(max_length=12, unique=True, null=True)
 
 	def __str__(self):
 		return self.title
@@ -101,7 +102,8 @@ class Tournament(models.Model):
         'description': self.description,
         'creator': {
 					'id' : self.creator.id,
-					'username': self.creator.username
+					'username': self.creator.username,
+					'nickname': self.creator.nickname
 				},
         'status': self.status,
         'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
