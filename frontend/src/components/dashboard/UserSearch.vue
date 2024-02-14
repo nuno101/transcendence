@@ -24,7 +24,6 @@ const fetchData = async () => {
   }
 };
 
-// FRIEND REQUEST !!!! instead of search user
 const searchUser = async (searchedUser) => {
   try {
     avatarLoaded.value = false;
@@ -53,45 +52,27 @@ const userRelation = (searchedUser) => {
     return('NOTHING');
 };
 
-const sendRequest = async() => {
+const handleRequests = async(flag) => {
     try {
-        const newRequest = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
-        props.pendingRequests.push(newRequest);
-        props.pendingRequestsAvatar[foundUser.value.id] = avatar.value;
-    } catch (err) {
-        console.error(err.message);
-    }
-    resetSearch();
-};
-
-const acceptRequest = async() => {
-    try {
-        const request = props.friendRequests.find(request => request.from_user.username === foundUser.value.username);
-        if (request)
-            Friends.acceptRequest(props.friends, props.friendsAvatar, props.friendRequests, props.friendRequestsAvatar, request);
-    } catch (err) {
-        console.error(err.message);
-    }
-    resetSearch();
-};
-
-const declineRequest = async() => {
-    try {
-        const request = props.friendRequests.find(request => request.from_user.username === foundUser.value.username);
-        if (request)
-            Friends.declineCancelDeleteRequest('DECLINEFRIENDREQ', props.friendRequests, props.friendRequestsAvatar, request);
-    } catch (err) {
-        console.error(err.message);
-    }
-    resetSearch();
-};
-
-const cancelRequest = async() => {
-    try {
-        const request = props.pendingRequests.find(request => request.to_user.username === foundUser.value.username);
-        console.log(request);
-        if (request)
-            Friends.declineCancelDeleteRequest('CANCELPENDREQ', props.pendingRequests, props.pendingRequestsAvatar, request);
+        if(flag === 'SENDREQ') {
+            const request = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
+            if(request) {
+                props.pendingRequests.push(request);
+                props.pendingRequestsAvatar[foundUser.value.id] = avatar.value;
+            }
+        } else if(flag === 'ACCEPTREQ') {
+            const request = props.friendRequests.find(request => request.from_user.username === foundUser.value.username);
+            if (request)
+                Friends.acceptRequest(props.friends, props.friendsAvatar, props.friendRequests, props.friendRequestsAvatar, request);
+        } else if (flag === 'DECLINEREQ') {
+            const request = props.friendRequests.find(request => request.from_user.username === foundUser.value.username);
+            if (request)
+                Friends.declineCancelDeleteRequest('DECLINEFRIENDREQ', props.friendRequests, props.friendRequestsAvatar, request);
+        } else if (flag === 'CANCELREQ') {
+            const request = props.pendingRequests.find(request => request.to_user.username === foundUser.value.username);
+            if (request)
+                Friends.declineCancelDeleteRequest('CANCELPENDREQ', props.pendingRequests, props.pendingRequestsAvatar, request);
+        }
     } catch (err) {
         console.error(err.message);
     }
@@ -122,12 +103,12 @@ watch(searchInput, () => {
             style="width: 50px; height: 50px; object-fit: cover;">
             {{ foundUser.nickname }}
             <div v-if="userRelation(searchInput) === 'FRIENDS'" class="ms-auto me-4 text-success">friends</div>
-            <button v-else-if="userRelation(searchInput) === 'PENDREQ'" class="btn btn-outline-danger ms-auto me-4" @click="cancelRequest">cancel sent request</button>
+            <button v-else-if="userRelation(searchInput) === 'PENDREQ'" class="btn btn-outline-danger ms-auto me-4" @click="handleRequests('CANCELREQ')">cancel sent request</button>
             <div v-else-if="userRelation(searchInput) === 'FRIENDREQ'" class="ms-auto me-4">
-                <button class="btn btn-outline-success me-2" @click="acceptRequest">accept</button>
-                <button class="btn btn-outline-danger" @click="declineRequest">decline</button>
+                <button class="btn btn-outline-success me-2" @click="handleRequests('ACCEPTREQ')">accept</button>
+                <button class="btn btn-outline-danger" @click="handleRequests('DECLINEREQ')">decline</button>
             </div>
-            <button v-else-if="userRelation(searchInput) === 'NOTHING'" type="button" class="btn btn-outline-success ms-auto me-4" @click="sendRequest">add friend</button>
+            <button v-else-if="userRelation(searchInput) === 'NOTHING'" type="button" class="btn btn-outline-success ms-auto me-4" @click="handleRequests('SENDREQ')">add friend</button>
             <button type="button" class="btn-close me-2" aria-label="Close" @click="resetSearch"></button>
         </div>
     </div>
