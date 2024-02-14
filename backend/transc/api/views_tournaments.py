@@ -52,15 +52,9 @@ class TournamentSingle(View):
 			tournament.title = request.json.get('title')
 		if request.json.get('description') is not None:
 			tournament.description = request.json.get('description')
-<<<<<<< HEAD
 		if request.json.get('player') is not None:
 			player_nickname = request.json.get('player')
 			player = User.objects.get(nickname=player_nickname)
-=======
-		player_username = request.json.get('player')
-		if player_username is not None:
-			player = User.objects.get(username=player_username)
->>>>>>> b025cd9b06c656aaf09122b636293c78e40910f5
 			tournament.players.add(player)
 		if request.json.get('state') is not None:
 			if request.json.get('state') == TournamentStatus.CANCELLED:

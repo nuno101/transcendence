@@ -15,7 +15,7 @@ const nickname = ref(null);
 const creator = ref(null);
 const players = ref([]);
 const isCreator = ref(false);
-const isJoined = ref(false);
+const isJoined = ref(localStorage.getItem('isJoined') === 'true'); 
 
 const fetchData = async () => {
   try {
@@ -44,11 +44,9 @@ const initValues = (data) => {
 };
 
 const joinTournament = async () => {
-    const currentPlayer = nickname.value;
-    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { player: currentPlayer });
+    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
 	isJoined.value = true;
-	console.log("PLAYERS : ");
-	console.log(status.value);
+	localStorage.setItem('isJoined', true);
 };
 
 onMounted(() => {
