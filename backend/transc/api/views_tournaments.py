@@ -3,6 +3,7 @@ from .decorators import *
 from django.views import View
 from django.http import JsonResponse, HttpResponse
 from .models import Tournament
+from .models import User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
 
@@ -52,8 +53,8 @@ class TournamentSingle(View):
 		if request.json.get('description') is not None:
 			tournament.description = request.json.get('description')
 		if request.json.get('player') is not None:
-			player_username = request.json.get('player')
-			player = User.objects.get(username=player_username)
+			player_nickname = request.json.get('player')
+			player = User.objects.get(nickname=player_nickname)
 			tournament.players.add(player)
 		if request.json.get('state') is not None:
 			if request.json.get('state') == TournamentStatus.CANCELLED:

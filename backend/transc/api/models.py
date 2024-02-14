@@ -101,7 +101,8 @@ class Tournament(models.Model):
         'description': self.description,
         'creator': {
 					'id' : self.creator.id,
-					'username': self.creator.username
+					'username': self.creator.username,
+					'nickname': self.creator.nickname
 				},
         'status': self.status,
         'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),

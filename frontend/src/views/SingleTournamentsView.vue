@@ -11,7 +11,7 @@ const description = ref(null);
 const status = ref(null);
 const created_at = ref(null);
 const updated_at = ref(null);
-const username = ref(null);
+const nickname = ref(null);
 const creator = ref(null);
 const players = ref([]);
 const isCreator = ref(false);
@@ -21,7 +21,7 @@ const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
 	const users = await Backend.get('/api/users/me');
-    username.value = users.username;
+    nickname.value = users.nickname;
     console.log(tournament.value);
 	initValues(tournament.value);
 	return tournament.value;
@@ -36,9 +36,9 @@ const initValues = (data) => {
 	status.value = data.status
 	created_at.value = data.created_at
 	updated_at.value = data.updated_at
-	creator.value = data.creator.username
+	creator.value = data.creator.nickname
 	players.value = data.players;
-	if (creator.value === username.value) {
+	if (creator.value === nickname.value) {
     	isCreator.value = true;
 }
 };
@@ -65,15 +65,15 @@ onMounted(() => {
                 <p>{{ description }}</p>
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        <p class="text-muted">Created at: {{ created_at.slice(0,10) }}</p>
+                        <p class="text-muted">Created at: {{ created_at ? created_at.slice(0,10) : '' }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="text-muted">Last updated: {{ updated_at.slice(0,10) }}</p>
+                        <p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0,10) : '' }}</p>
                     </div>
                 </div>
 				<button @click="joinTournament" :disabled="isJoined || isCreator" class="btn btn-primary mt-3">Join</button>
 				<button @click="startMatchmaking" :disabled="!isCreator" class="btn btn-primary mt-3">Matchmaking</button>
-				<p class="text-muted">Last updated: {{ username }}</p>
+				<p class="text-muted">Last updated: {{ nickname }}</p>
             </div>
             <div class="col-lg-4">
                 <h3 class="mb-3">Created by</h3>
@@ -82,13 +82,13 @@ onMounted(() => {
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Tournament's nickname</th>
+                            <th>Nickname</th>
                             <!-- Add more table headers if needed -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(username, index) in players" :key="index">
-                            <td>{{ username }}</td>
+                        <tr v-for="(nickname, index) in players" :key="index">
+                            <td>{{ nickname }}</td>
                             <!-- Add more table cells if needed -->
                         </tr>
                     </tbody>
