@@ -79,7 +79,7 @@ const declineRequest = async() => {
     try {
         const request = props.friendRequests.find(request => request.from_user.username === foundUser.value.username);
         if (request)
-            Friends.declineOrCancelRequest('DECLINE', props.friendRequests, props.friendRequestsAvatar, request);
+            Friends.declineCancelDeleteRequest('DECLINEFRIENDREQ', props.friendRequests, props.friendRequestsAvatar, request);
     } catch (err) {
         console.error(err.message);
     }
@@ -91,7 +91,7 @@ const cancelRequest = async() => {
         const request = props.pendingRequests.find(request => request.to_user.username === foundUser.value.username);
         console.log(request);
         if (request)
-            Friends.declineOrCancelRequest('CANCEL', props.pendingRequests, props.pendingRequestsAvatar, request);
+            Friends.declineCancelDeleteRequest('CANCELPENDREQ', props.pendingRequests, props.pendingRequestsAvatar, request);
     } catch (err) {
         console.error(err.message);
     }
