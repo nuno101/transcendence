@@ -24,8 +24,8 @@
             <button type="button" class="btn btn-secondary btn-empty disabled placeholder" data-bs-target="#signupModalToggle" data-bs-toggle="modal"></button>
           </div>
           <div v-else-if="logged.status">
-            <button type="button" class="btn btn-outline-light me-2">
-              <router-link to="/profile" class="nav-link">Profile</router-link>
+            <button type="button" class="btn btn-outline-info me-2 btn-empty">
+              <router-link to="/profile" class="nav-link">{{ logged.username }}</router-link>
             </button>
             <button @click="LogOut" type="button" class="btn btn-secondary">Logout</button>
           </div>
@@ -56,7 +56,7 @@ import { useRoute } from 'vue-router'
 import { watch } from "vue"
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
-const logged = ref({ loaded: false, status: false })
+const logged = ref({ loaded: false, status: false, username: '' })
 const signedup = ref(false) 
 
 const inactiveView = {
@@ -82,8 +82,8 @@ const navRoutes = [
     { name: 'game/onsite', button: 'onsite' }
   ], button: 'Game'}
 ]
-const logoutRoute = { name: 'home' }
-const restrictedRoutes = ['friends', 'settings']
+const logoutRoute = { name: 'logout' }
+const restrictedRoutes = ['friends', 'settings', 'profile']
 const forcelogin = ref(false)
 
 watch(route, (newRoute) => {
@@ -103,8 +103,10 @@ watch(route, (newRoute) => {
 
 const AlreadyLoggedin = async () => {
   try {
-    await Backend.get('/api/users/me')
+    const response = await Backend.get('/api/users/me')
+    await new Promise(r => setTimeout(r, 2000))
     logged.value.status = true;
+    logged.value.username = response.username;
   } catch {
     if (restrictedRoutes.includes(route.name))
       router.push({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
@@ -117,16 +119,16 @@ const LogOut = async () => {
   try {
     await Backend.post('/api/logout', {})
     logged.value.status = false
-    if (restrictedRoutes.includes(route.name))
-      router.push(logoutRoute)
+    logged.value.username = ''
+    router.push(logoutRoute)
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
   }
 }
 </script>
 
-<style>
-  .btn-empty {
-    width: 5rem;
+<style scoped>
+  header button {
+    min-width: 5rem;
   }
 </style>
