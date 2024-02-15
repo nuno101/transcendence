@@ -6,7 +6,6 @@ import { ref, onMounted } from 'vue';
 
 const tournaments = ref([])
 const submit = ref(false);
-const openModal = ref(false);
 const input = defineModel();
 input.value = {title: '', description: ''};
 
@@ -61,7 +60,6 @@ const deleteTournament = async (t_id) => {
 const resetInputFields = () => {
     input.value.title = '';
     input.value.description = '';
-    openModal.value = false;
 };
 
 onMounted(() => {
@@ -110,26 +108,40 @@ onMounted(() => {
             </table>
         </div>
     <div>
-    <button type="button" class="btn btn-primary" @click="openModal = !openModal">{{useI18n().t('tournamentsview.createatournament')}}</button>
-    <div v-show="openModal" class="modal-content">
-        <form @submit.prevent="submitForm">
-            <div class="form-group">
-                <label for="title">{{useI18n().t('tournamentsview.titleoftournament')}}</label>
-                <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateTournamentModal">
+		{{useI18n().t('tournamentsview.createatournament')}}
+	</button>
+
+<!-- Modal -->
+<div class="modal fade" id="CreateTournamentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CreateTournamentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="CreateTournamentModalLabel">{{ useI18n().t('tournamentsview.modaltitle') }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="form-group">
-                <label for="description">{{useI18n().t('tournamentsview.descriptionoftournament')}}</label>
-                <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
+            <div class="modal-body">
+                    <form @submit.prevent="submitForm">
+                        <div class="form-group">
+                            <label for="title">{{ useI18n().t('tournamentsview.titleoftournament') }}</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
+                            <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
+                        </div>
+                        <br/>
+                        <div>
+                            <button type="button" class="btn btn-danger" @click="resetInputFields" data-bs-dismiss="modal">{{ useI18n().t('tournamentsview.cancel') }}</button>
+                            <button type="submit" class="btn btn-success" @click="addNewTournament" data-bs-dismiss="modal">{{ useI18n().t('tournamentsview.addtournament') }}</button>
+                        </div>   
+                        <PostRequest v-if="submit" :apiPath="'/api/tournaments'" :data='formData'></PostRequest>
+                    </form >
             </div>
-            <br/>
-            <div>
-                <button type="button" class="btn btn-danger" @click="resetInputFields">{{useI18n().t('tournamentsview.cancel')}}</button>
-                <button type="submit" class="btn btn-success" @click="addNewTournament">{{useI18n().t('tournamentsview.addtournament')}}</button>
-            </div>   
-            <PostRequest v-if="submit" :apiPath="'/api/tournaments'" :data='formData'></PostRequest>
-        </form >
-    </div >
-  </div >
+        </div>
+    </div>
+</div>
+</div >
 </div>
 </template>
 
