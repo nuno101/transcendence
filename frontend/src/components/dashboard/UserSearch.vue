@@ -55,6 +55,8 @@ const userRelation = (searchedUser) => {
 const handleRequests = async(flag) => {
     try {
         if(flag === 'SENDREQ') {
+            // USE NICKNAME !!!
+            // DONT CHECK FOR USERS IN USER GET REQUEST --> POST DIRECTLY HANDLE RESPONSE
             const request = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
             if(request) {
                 props.pendingRequests.push(request);
