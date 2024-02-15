@@ -46,7 +46,9 @@ class Backend {
         };
         const respone = await fetch(path, arg);
 
-        if (!respone.ok) throw new Error(respone.statusText);
+        if (!respone.ok) {
+            throw new Error((await respone.json()).error); // TODO: check if this causes problems somewhere else
+        }
 
         return await respone.json();
     }
