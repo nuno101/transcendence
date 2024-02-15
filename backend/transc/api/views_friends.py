@@ -59,9 +59,11 @@ class FriendRequestCollection(View):
     if target.id == request.user.id:
       return JsonResponse({ERROR_FIELD: "Cannot add yourself"}, status=400)
 
-    # Check if user is already a friend or blocked
+    # Check if user is blocked
     if request.user.blocked.filter(id=target.id).exists():
       return JsonResponse({ERROR_FIELD: "User is blocked"}, status=400)
+
+    # Check if user is already a friend
     if request.user.friends.filter(id=target.id).exists():
       return JsonResponse({ERROR_FIELD: "User is already a friend"}, status=400)
 
@@ -72,6 +74,10 @@ class FriendRequestCollection(View):
     # Check if friend request was already sent
     if FriendRequest.objects.filter(from_user=request.user, to_user=target).exists():
       return JsonResponse({ERROR_FIELD: "Friend request already sent"}, status=400)
+
+    # Check if friend request was already received
+    if FriendRequest.objects.filter(from_user=target, to_user=request.user).exists():
+      return JsonResponse({ERROR_FIELD: "Friend request already received"}, status=400)
 
     friend_request = FriendRequest.objects.create(from_user=request.user, to_user=target)
 
