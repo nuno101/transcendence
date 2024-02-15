@@ -76,7 +76,6 @@ onMounted(() => {
 				<button @click="joinTournament" :disabled="isCreator || isJoined" class="btn btn-primary mt-3">Join</button>
 				 <!-- Hover over message -->
 				<button @click="startMatchmaking" :disabled="!isCreator" class="btn btn-primary mt-3">Matchmaking</button>
-				<p class="text-muted">Username: {{ username }}</p>
 				<p class="text-muted">isCreator: {{ isCreator }}</p>
 				<p class="text-muted">isJoined: {{ isJoined }}</p>
             </div>
