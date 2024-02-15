@@ -2,7 +2,7 @@
 
 Total number of urls: 28
 
-Total number of methods: 47
+Total number of methods: 48
 # Table of Contents
 
 - [/login](#login)
@@ -213,14 +213,14 @@ Total number of methods: 47
 
 <tr><th>Body Parameters</th><th></th></tr>
 
-<tr><td>username</td><td>
+<tr><td>nickname</td><td>
 <table>
 
 <tr><td>type</td><td>string</td></tr>
 
 <tr><td>required</td><td>True</td></tr>
 
-<tr><td>description</td><td>Username of the user to send the friend request to</td></tr>
+<tr><td>description</td><td>Nickname of the user to send the friend request to</td></tr>
 
 </table>
 
@@ -370,6 +370,8 @@ Total number of methods: 47
 
 ### GET
 
+### DELETE
+
 ### PATCH
 
 <table>
@@ -397,6 +399,19 @@ Total number of methods: 47
 <tr><td>required</td><td>False</td></tr>
 
 <tr><td>description</td><td>Description of the tournament</td></tr>
+
+</table>
+
+</td></tr>
+
+<tr><td>player</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>Nickname of the player to be added to the tournament</td></tr>
 
 </table>
 

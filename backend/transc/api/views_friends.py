@@ -51,7 +51,7 @@ class FriendRequestCollection(View):
   # Create new friend request
   def post(self, request):
     try:
-      target = User.objects.get(username=request.json.get('username'))
+      target = User.objects.get(nickname=request.json.get('nickname'))
     except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
@@ -85,7 +85,7 @@ class FriendRequestCollection(View):
                               friend_request.serialize())
     notification.create_notification(FRIEND_REQUEST,
                         f"{request.user.username} sent you a friend request",
-                        target)
+                        target)# TODO
     return JsonResponse(friend_request.serialize(), status=201)
 
 # Endpoint: /users/me/friends/requests/REQUEST_ID

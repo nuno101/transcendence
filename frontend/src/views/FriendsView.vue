@@ -75,8 +75,7 @@ onMounted(() => {
 <template>
 	<div class="cont">
 		<div class="box">
-			<UserSearch :pendingRequests="pendingRequests" :friends="friends" :friendRequests="friendRequests"
-				:pendingRequestsAvatar="pendingRequestsAvatar" :friendRequestsAvatar="friendRequestsAvatar" :friendsAvatar="friendsAvatar"/>
+			<UserSearch :pendingRequests="pendingRequests" :pendingRequestsAvatar="pendingRequestsAvatar"/>
 			<Loading v-if="!isLoaded"/>
 			<div v-if="isLoaded" class="con mt-5">
 					<div class="row">
