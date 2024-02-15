@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import { ref, onMounted, computed} from 'vue';
 import Backend from '../js/Backend';
-import Helpers from '../js/Helpers';
+import Avatar from '../js/Avatar';
 import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
@@ -35,7 +35,7 @@ const fetchData = async() => {
     friend.value = friends.value.find(friend => friend.nickname === friendname.value);
     if(friend.value) {
       games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
-      avatar.value = await Helpers.getAvatarById(friend.value.id);
+      avatar.value = await Avatar.getAvatarById(friend.value.id);
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;

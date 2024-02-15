@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { defineProps, ref, onMounted } from 'vue';
-import Helpers from '../../js/Helpers';
+import Avatar from '../../js/Avatar';
 import Loading from '../common/Loading.vue';
 
 const props = defineProps(['games', 'id']);
@@ -12,7 +12,7 @@ const fetchAvatars = async () => {
     try {
         for (const game of props.games) {
             const playerId = game.player1.id !== props.id ? game.player1.id : game.player2.id;
-            const avatarUrl = await Helpers.getAvatarById(playerId);
+            const avatarUrl = await Avatar.getAvatarById(playerId);
             avatars.value[playerId] = avatarUrl;
         }
     } catch (error) {
