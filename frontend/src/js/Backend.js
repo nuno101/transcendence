@@ -39,15 +39,12 @@ class Backend {
 				'Content-Type': 'application/json',
 			  },
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json' // Specify the content type as JSON
-            },
             body: JSON.stringify(patchData),
         };
         const respone = await fetch(path, arg);
 
         if (!respone.ok) {
-            throw new Error((await respone.json()).error); // TODO: check if this causes problems somewhere else
+            throw new Error((await respone.json()).error);
         }
 
         return await respone.json();
