@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import Helpers from '../js/Helpers';
+import Avatar from '../js/Avatar';
 import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
@@ -29,7 +29,7 @@ const fetchData = async () => {
     users.value = await Backend.get('/api/users/me');
     if(users.value) {
       games.value = await Backend.get(`/api/users/${users.value.id}/games`);
-      avatar.value = await Helpers.getAvatarById(users.value.id);
+      avatar.value = await Avatar.getAvatarById(users.value.id);
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;

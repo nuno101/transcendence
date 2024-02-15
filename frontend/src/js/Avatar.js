@@ -1,6 +1,6 @@
 import Backend from './Backend';
 
-class Helpers {
+class Avatar {
     static getAvatarById = async (id) => {
         try {
             const avatar = await Backend.getAvatar(`/api/users/${id}/avatar`);
@@ -10,10 +10,6 @@ class Helpers {
             return null;
         }
     };
-
-    static getAvatarUrl = (id) => {
-        return Helpers.getAvatarById(id);
-    };
 }
 
-export default Helpers
+export default Avatar
