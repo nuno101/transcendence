@@ -1,4 +1,4 @@
-# cCONF: Constants for websocket events
+# cCONF: Constants for outgoing websocket events (server -> client)
 
 # User events
 UPDATE_USER = "update_user" # Expected payload: SERIALIZED_USER

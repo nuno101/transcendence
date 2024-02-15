@@ -2,7 +2,7 @@ from asgiref.sync import sync_to_async
 from api.models import User
 import json
 
-# cCONF: Constants for client events
+# cCONF: Constants for incoming websocket events (client -> server)
 # Format "event": "handler"
 VALID_CLIENT_EVENTS = [
   {"ping": "ping"},
