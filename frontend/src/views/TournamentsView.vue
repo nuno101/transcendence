@@ -5,10 +5,11 @@ import Backend from '../js/Backend';
 import { ref, onMounted } from 'vue';
 
 const tournaments = ref([])
+const userTournaments = ref([])
 const submit = ref(false);
-const openModal = ref(false);
 const input = defineModel();
 input.value = {title: '', description: ''};
+const showAlert = ref(false);
 
 const fetchData = async () => {
   try {
@@ -22,11 +23,20 @@ const fetchData = async () => {
 
 const addNewTournament = async () => {
   try {
-    let data = await Backend.post('/api/tournaments', input.value);
-    console.log("in POST: " + data);
-    tournaments.value.push(data);
+	const existingTournament = tournaments.value.find(tournament => tournament.title === input.value.title);
+    if (existingTournament) {
+		resetInputFields();
+		showAlert.value = true;
+		return;
+    }
 
-    resetInputFields();
+    let data = await Backend.post('/api/tournaments', input.value);
+    tournaments.value.push(data);
+	resetInputFields();
+	showAlert.value = false;;
+	// userTournaments.value = await Backend.patch(`/api/users/me`, { "tournament_id": `${data.id}` });
+	// console.log('TEST')
+	// console.log(userTournaments.value.tournaments)
   } catch (err) {
     console.error(err.message);
   }
@@ -61,7 +71,6 @@ const deleteTournament = async (t_id) => {
 const resetInputFields = () => {
     input.value.title = '';
     input.value.description = '';
-    openModal.value = false;
 };
 
 onMounted(() => {
@@ -70,6 +79,7 @@ onMounted(() => {
 </script>
 
 <template>
+	<!-- First table for all tournaments -->
     <div>
         <h1>{{useI18n().t('tournamentsview.listoftournaments')}}</h1>
         <div>
@@ -109,28 +119,82 @@ onMounted(() => {
                 </tbody>
             </table>
         </div>
+	</div>
+
+	<div style="margin-top: 20px;"></div>
+
+ <!-- Button to create a new tournament -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateTournamentModal">
+	{{useI18n().t('tournamentsview.createatournament')}}
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="CreateTournamentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CreateTournamentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="CreateTournamentModalLabel">TO ADD</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+				<div v-if="showAlert" class="alert alert-danger" role="alert">
+       				 The title is already taken. Please choose a different title.
+    			</div>
+                <form @submit.prevent="submitForm">
+                        <div class="form-group">
+                            <label for="title">{{ useI18n().t('tournamentsview.titleoftournament') }}</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
+                            <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
+                        </div>
+                        <br/>
+
+                        <div>
+                            <button type="button" class="btn btn-danger" @click="resetInputFields" data-bs-dismiss="modal">{{ useI18n().t('tournamentsview.cancel') }}</button>
+                            <button type="submit" class="btn btn-success" @click="addNewTournament">{{ useI18n().t('tournamentsview.addtournament') }}</button>
+                        </div>   
+                        <PostRequest v-if="submit" :apiPath="'/api/tournaments'" :data='formData'></PostRequest>
+                </form >
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 100px;"></div>
+
+<!-- Second table for user's tournaments -->
+<h1>My Tournaments</h1>
     <div>
-    <button type="button" class="btn btn-primary" @click="openModal = !openModal">{{useI18n().t('tournamentsview.createatournament')}}</button>
-    <modal v-if="openModal" @close="openModal = false">
-        <form @submit.prevent="addNewTournament">
-            <div class="form-group">
-                <label for="title">{{useI18n().t('tournamentsview.titleoftournament')}}</label>
-                <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
-            </div>
-            <div class="form-group">
-                <label for="description">{{useI18n().t('tournamentsview.descriptionoftournament')}}</label>
-                <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
-            </div>
-            <br/>
-            <div>
-                <button type="button" class="btn btn-danger" @click="resetInputFields">{{useI18n().t('tournamentsview.cancel')}}</button>
-                <button type="submit" class="btn btn-success">{{useI18n().t('tournamentsview.addtournament')}}</button>
-            </div>   
-            <PostRequest v-if="submit" :apiPath="'/api/tournaments'" :data='formData'></PostRequest>
-        </form >
-	</modal>
-    </div >
-  </div >
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">{{ useI18n().t('tournamentsview.name') }}</th>
+            <th scope="col">{{ useI18n().t('tournamentsview.created_at') }}</th>
+            <th scope="col">{{ useI18n().t('tournamentsview.updated_at') }}</th>
+            <th scope="col">{{ useI18n().t('tournamentsview.status') }}</th>
+            <th scope="col">{{ useI18n().t('tournamentsview.actions') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="tournament in userTournaments" :key="tournament.id" v-if="tournament">
+            <td>
+              <router-link :to="'/tournaments/' + tournament.id">
+                {{ tournament.title }}
+              </router-link>
+            </td>
+            <td>{{ tournament.created_at }}</td>
+            <td>{{ tournament.updated_at }}</td>
+            <td>{{ tournament.status }}</td>
+            <td>
+              <!-- TODO: Add buttons for actions like deleting -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
 </template>
 
 <style>

@@ -12,6 +12,9 @@ def update_user(user: User, parameters: dict):
       user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
+    if parameters.get('tournament_id') is not None:
+      tournament = Tournament.objects.get(id=parameters.get('tournament_id'))
+      user.tournaments.add(tournament)
     user.save()
   except Exception as e:
     if 'duplicate key' in str(e):

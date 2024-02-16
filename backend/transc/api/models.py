@@ -18,6 +18,7 @@ class User(AbstractUser):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	avatar = models.ImageField(upload_to=avatar_path, null=True, blank=True)
+	tournaments = models.ManyToManyField('Tournament', related_name='participants', blank=True)
 
 	class States(models.TextChoices):
 			OFFLINE = "offline"
@@ -52,6 +53,7 @@ class User(AbstractUser):
 			'updated_at': str(self.updated_at),
 			'avatar': self.get_avatar_url(),
 			'status': self.status if private else None,
+			'tournaments': [tournament.id for tournament in self.tournaments.all()]
 		}
 
 class FriendRequest(models.Model):

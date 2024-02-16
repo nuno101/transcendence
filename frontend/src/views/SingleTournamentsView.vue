@@ -47,6 +47,8 @@ const joinTournament = async () => {
     await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
 	isJoined.value = true;
 	localStorage.setItem('isJoined', true);
+
+	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
 };
 
 onMounted(() => {
@@ -74,7 +76,6 @@ onMounted(() => {
 				<button @click="joinTournament" :disabled="isCreator || isJoined" class="btn btn-primary mt-3">Join</button>
 				 <!-- Hover over message -->
 				<button @click="startMatchmaking" :disabled="!isCreator" class="btn btn-primary mt-3">Matchmaking</button>
-				<p class="text-muted">Username: {{ username }}</p>
 				<p class="text-muted">isCreator: {{ isCreator }}</p>
 				<p class="text-muted">isJoined: {{ isJoined }}</p>
             </div>
