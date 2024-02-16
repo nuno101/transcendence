@@ -25,6 +25,10 @@ superuser:
 down:
 	docker compose down
 
+# follow backend logs
+blog:
+	docker logs -f backend
+
 documentation:
 	@echo "Changing directory to $(PWD)/tools"
 	@(cd tools && sh generate_api_docs.sh)
@@ -51,6 +55,29 @@ fclean: docker_fclean data_clean
 
 re: clean all
 
-# follow backend logs
-blog:
-	docker logs -f backend
+test:
+	@echo "$(HOME)"
+
+help:
+	@echo "all: build up migrate"
+	@echo "build: build the docker images"
+	@echo "up: start the docker containers"
+	@echo ""
+	@echo "init: migrate superuser"
+	@echo "migrate: run the migrations"
+	@echo "superuser: create a superuser"
+	@echo "down: stop the docker containers"
+	@echo ""
+	@echo "blog: follow the backend logs"
+	@echo "documentation: generate/update the API documentation"
+	@echo ""
+	@echo "docker_clean: remove all docker compose containers and volumes"
+	@echo "data_clean: remove all persistent data in the containers and the volumes"
+	@echo "volume_clean: remove all docker compose volumes"
+	@echo "docker_fclean: remove all docker compose containers, volumes and images"
+	@echo ""
+	@echo "clean: remove all docker compose containers and volumes"	
+	@echo "fclean: remove all docker compose containers, volumes and images"
+	@echo "re: clean all and start again"
+	@echo ""
+	@echo "help: show this message"
