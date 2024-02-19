@@ -26,7 +26,7 @@
     }
 
     // Establish WebSocket connection
-    const socket = new WebSocket('ws://localhost:8000/ws/notification'); // Replace 'your-server-address' with the actual server address
+    const socket = new WebSocket('ws://localhost:8000/ws/events'); // Replace 'your-server-address' with the actual server address
 
     // Event listener for when the connection is opened
     socket.addEventListener('open', (event) => {
