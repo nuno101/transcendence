@@ -14,7 +14,7 @@
     </button>
     <ul class="dropdown-menu" @click="toggleDropdown">
       <li v-for="(item, index) in filteredEvents" :key="index">
-        <div class="text-center">{{ JSON.parse(item).payload.content }}</div>
+        <div class="text-center">{{ JSON.parse(item).event }}</div>
         <div v-if="index !== filteredEvents.length - 1" class="dropdown-divider"></div>
       </li>
       <!-- ALTE EVENTS -->
@@ -30,6 +30,26 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import MyWebSocket from "../../js/Websocket"
 
 let dropdownShown = ref(false);
+const oldn = ref([]);
+const isLoaded = ref(false);
+
+onMounted(() => {
+  fetchData();
+})
+
+const fetchData = async () => {
+  try {
+    isLoaded.value = false;
+    oldn.value = await Backend.get('/api/users/me/notifications');
+    console.log(oldn.value);
+    await Backend.post('/api/users/me/notifications', {'type': 'custom_notificationcustom_notificationcustom_notificationcustom_notification', 'content' : 'this is a test messagend jdkeioakdji kdeok doek '});
+  } catch (err) {
+    console.error(err.message);
+  } finally {
+    isLoaded.value = true;
+  }
+};
+
 
 watch(() => MyWebSocket.m.value, () => {
   // Do something here
@@ -39,7 +59,7 @@ watch(() => MyWebSocket.m.value, () => {
 const filteredEvents = computed(() => {
   return MyWebSocket.m.value.filter(item => {
     const parsedItem = JSON.parse(item);
-    return parsedItem.event === 'create_notification';
+    return parsedItem.event === 'create_friend_request';
   });
 });
 

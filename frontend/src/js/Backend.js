@@ -11,7 +11,10 @@ class Backend {
         const respone = await fetch(path, arg)
 
         if (!respone.ok){
-            throw new Error((await respone.json()).error)
+            let error = (await respone.json()).error;
+            if(error.type === undefined)
+                throw new Error(error);
+            throw new Error(error.type);
         }
 
         return await respone.json()
