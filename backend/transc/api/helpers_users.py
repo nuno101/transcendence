@@ -14,12 +14,12 @@ def update_user(user: User, parameters: dict):
       user.set_password(parameters.get('password'))
     user.save()
   except Exception as e:
-    if 'duplicate key' in str(e):
-      return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
+    if 'duplicate key' and 'nickname' in str(e):
+      return JsonResponse({ERROR_FIELD: "Nickname already taken"}, status=400)
     else:
-      return JsonResponse({ERROR_FIELD: "Undefined error"}, status=500)
+      return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
   
-  # TODO: Implement websocket notification
+  # TODO: Implement websocket notification?
 
   return JsonResponse(user.serialize())
 
@@ -33,10 +33,6 @@ def delete_user(user: User):
   # user_id = user.id
   user.delete()
 
-  # TODO: Implement websocket notification
+  # TODO: Implement websocket notification?
 
   return HttpResponse(status=204)
-
-def update_avatar(user: User, avatar: str):
-  # Decode base64 image to binary
-  pass

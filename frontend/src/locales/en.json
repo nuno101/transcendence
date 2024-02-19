@@ -71,13 +71,15 @@
     "titleoftournament": "Title of tournament",
     "descriptionoftournament": "Description of tournament",
 	  "creatortournamentnickname": "Your tournament nickname (creator)",
-    "cancel" : "cancel",
+    "cancel" : "Cancel",
     "createatournament" : "Create a tournament",
+	"addtournament" : "Add a tournament",
     "description" : "description",
     "register" : "register",
-    "registrationclosed" : "registration closed",
+    "registrationclosed" : "Registration closed",
     "created_at": "Created at",
-    "updated_at": "Updated at"
+    "updated_at": "Updated at",
+    "delete": "Delete"
   },
   "gamemodesview": {
     "online": "online",

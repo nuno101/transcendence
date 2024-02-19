@@ -4,7 +4,10 @@ import router from './router';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle' // suffix .min.js is causing bugs for modals
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import Websocket from './js/Websocket';
 import i18n from './plugins/i18n';
+
+Websocket.initializeWebSocket();
 
 const app = createApp(App);
 

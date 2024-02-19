@@ -60,9 +60,8 @@ ENDPOINTS = {
 	}, "/users/me/avatar": {
 		"methods": {
 			"POST": {
-				# TODO: Specify parameters
 				"query_params": {},
-				"body_params": [],
+				"body_params": {}
 			}
 		}
 	}, "/users/me/blocked": {
@@ -107,15 +106,15 @@ ENDPOINTS = {
 						"description": "Type of the friend requests returned (all, sent, received)"
 					}
 				},
-				"body_params": [],
+				"body_params": {},
 			}, "POST": {
 				"content_type": "application/json", 
 				"query_params": {},
 				"body_params": {
-					"username": {
+					"nickname": {
 						"type": "string",
 						"required": True,
-						"description": "Username of the user to send the friend request to"
+						"description": "Nickname of the user to send the friend request to"
 					}
 				},
 			}
@@ -201,6 +200,7 @@ ENDPOINTS = {
 	}, "/tournaments/TOURNAMENT_ID": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
+			"DELETE": NO_PARAM_METHOD_TEMPLATE,
 			"PATCH": {
 				"content_type": "application/json",
 				"query_params": {},
@@ -213,6 +213,10 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Description of the tournament"
+					}, "player": {
+						"type": "string",
+						"required": False,
+						"description": "Nickname of the player to be added to the tournament"
 					}
 				},
 			}

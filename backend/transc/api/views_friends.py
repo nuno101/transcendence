@@ -51,7 +51,7 @@ class FriendRequestCollection(View):
   # Create new friend request
   def post(self, request):
     try:
-      target = User.objects.get(username=request.json.get('username'))
+      target = User.objects.get(nickname=request.json.get('nickname'))
     except:
       return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
@@ -59,9 +59,11 @@ class FriendRequestCollection(View):
     if target.id == request.user.id:
       return JsonResponse({ERROR_FIELD: "Cannot add yourself"}, status=400)
 
-    # Check if user is already a friend or blocked
+    # Check if user is blocked
     if request.user.blocked.filter(id=target.id).exists():
       return JsonResponse({ERROR_FIELD: "User is blocked"}, status=400)
+
+    # Check if user is already a friend
     if request.user.friends.filter(id=target.id).exists():
       return JsonResponse({ERROR_FIELD: "User is already a friend"}, status=400)
 
@@ -73,13 +75,17 @@ class FriendRequestCollection(View):
     if FriendRequest.objects.filter(from_user=request.user, to_user=target).exists():
       return JsonResponse({ERROR_FIELD: "Friend request already sent"}, status=400)
 
+    # Check if friend request was already received
+    if FriendRequest.objects.filter(from_user=target, to_user=request.user).exists():
+      return JsonResponse({ERROR_FIELD: "Friend request already received"}, status=400)
+
     friend_request = FriendRequest.objects.create(from_user=request.user, to_user=target)
 
     websocket.send_user_event(target.id, CREATE_FRIEND_REQUEST, 
                               friend_request.serialize())
     notification.create_notification(FRIEND_REQUEST,
                         f"{request.user.username} sent you a friend request",
-                        target)
+                        target)# TODO
     return JsonResponse(friend_request.serialize(), status=201)
 
 # Endpoint: /users/me/friends/requests/REQUEST_ID

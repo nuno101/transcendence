@@ -20,6 +20,14 @@ volumes:
       o: bind
       device: $HOME/data/transcendence/volumes/E # FIXME: Why mount here?
 
+  backend_device:
+    driver: local
+    name: backend_device
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/docker-data/transcendence/backend
+
   redis_device:
     driver: local
     name: redis_device
@@ -66,6 +74,7 @@ services:
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: ${DJANGO_DEBUG}
+      DJANGO_MEDIA_URL: ${DJANGO_MEDIA_URL}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -74,9 +83,11 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
       REDIS_HOST: ${REDIS_HOST}
 
-    #FIXME: for development to allow editing the code outside the container
+      DEFAULT_AVATAR_NAME: ${DEFAULT_AVATAR_NAME}
+
     volumes:
-      - ./backend/transc:/app/transc
+      - backend_device:/data/
+      - ./backend/transc:/app/transc # FIXME: for development to allow editing the code outside the container
     depends_on:
       database:
         condition: service_healthy
@@ -107,6 +118,8 @@ services:
       - ./frontend/public/:/app/public/:ro
     networks:
       - proxy-network
+    restart: unless-stopped
+
   proxy:
     container_name: proxy
     image: proxy

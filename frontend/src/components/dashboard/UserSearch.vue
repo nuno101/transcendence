@@ -1,144 +1,50 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
+import Avatar from '../../js/Avatar';
 import { ref, defineProps, watch } from 'vue';
 
 const searchInput = ref('');
-const searchStatus = ref(''); // Possible values: 'found', 'notFound', 'nothing'
-const usersData = ref([]);
-const foundUser = ref(null);
+const avatar = ref('');
+let updateErrorMessage = ref('');
 
-const props = defineProps(['pendingRequests', 'friendRequests', 'friends']);
 
-const fetchData = async () => {
-  try {
-    usersData.value = await Backend.get(`/api/users`);
-    return usersData;
-  } catch (err) {
-    console.error(err.message);
-  }
-};
+const props = defineProps(['pendingRequests','pendingRequestsAvatar']);
 
-// FRIEND REQUEST !!!! instead of search user
-const searchUser = async (searchedUser) => {
-  try {
-    await fetchData();
-    foundUser.value = usersData.value.find(user => user.nickname === searchedUser);
-    if (foundUser.value) {
-        searchStatus.value = 'found';
-    } else {
-        searchStatus.value = 'notFound';
-    }
-  } catch (error) {
-    console.error(error.message);
-  }
-};
-
-const userRelation = (searchedUser) => {
-    if (props.friends.find(friend => friend.nickname === searchedUser))
-        return('FRIENDS');
-    else if (props.friendRequests.find(friend => friend.from_user.nickname === searchedUser))
-        return('FRIENDREQ');
-    else if (props.pendingRequests.find(friend => friend.to_user.nickname === searchedUser))
-        return('PENDREQ');
-    return('NOTHING');
-};
-
-const sendRequest = async() => {
+const addFriend = async(nickname) => {
     try {
-        const newRequest = await Backend.post(`/api/users/me/friends/requests`, {"username": `${foundUser.value.username}`});
-        props.pendingRequests.push(newRequest);
-    } catch (err) {
-        console.error(err.message);
-    }
-    resetSearch();
-};
-
-const acceptRequest = async() => {
-    try {
-        const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
-        if (requestId) {
-            const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${requestId}`, {});
-            props.friends.push({"id": `${requestId}`, "username": `${foundUser.value.username}`});
-            const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1)
-                props.friendRequests.splice(indexToDelete, 1);
+        console.log(nickname);
+        const request = await Backend.post(`/api/users/me/friends/requests`, {"nickname": `${nickname}`});
+        if(request) {
+            props.pendingRequests.push(request);
+            avatar.value = await Avatar.getAvatarById(request.to_user.id);
+            props.pendingRequestsAvatar[request.to_user.id] = avatar.value;
+            resetSearch();
         }
+        updateErrorMessage.value = '';
     } catch (err) {
         console.error(err.message);
+        updateErrorMessage.value = err;
     }
-    resetSearch();
-};
-
-const declineRequest = async() => {
-    try {
-        const requestId = props.friendRequests.find(request => request.from_user.username === foundUser.value.username)?.id;
-        if (requestId) {
-            const declinedRequest = await Backend.delete(`/api/users/me/friends/requests/${requestId}`, {});
-            const indexToDelete = props.friendRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1)
-                props.friendRequests.splice(indexToDelete, 1);
-        }
-    } catch (err) {
-        console.error(err.message);
-    }
-    resetSearch();
-};
-
-const cancelRequest = async() => {
-    try {
-        const requestId = props.pendingRequests.find(request => request.to_user.username === foundUser.value.username)?.id;
-        if (requestId) {
-            const cancelledRequest = await Backend.delete(`/api/users/me/friends/requests/${requestId}`, {});
-            const indexToDelete = props.pendingRequests.findIndex(friendreq => friendreq.id === requestId);
-            if(indexToDelete !== -1)
-                props.pendingRequests.splice(indexToDelete, 1);
-        }
-    } catch (err) {
-        console.error(err.message);
-    }
-    resetSearch();
 };
 
 const resetSearch = () => {
-  searchStatus.value = '';
   searchInput.value = '';
 };
 
 watch(searchInput, () => {
-  searchStatus.value = '';
 });
 </script>
 
 <template>
     <div>
-    <div class="input-group">
-        <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search nickname" aria-label="Search" aria-describedby="search-addon" />
-        <button @click="searchUser(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-    </div>
-    <div v-if="searchStatus === 'found'">
-        <div class="alert alert-success d-flex align-items-center p-1" role="alert">
-            <img src="https://dogs-tiger.de/cdn/shop/articles/Magazin_1.png?v=1691506995"
-            alt="..."
-            class="img-thumbnail rounded me-4"
-            style="width: 50px; height: 50px; object-fit: cover;">
-            {{ foundUser.nickname }}
-            <div v-if="userRelation(searchInput) === 'FRIENDS'" class="ms-auto me-4 text-success">friends</div>
-            <button v-else-if="userRelation(searchInput) === 'PENDREQ'" class="btn btn-outline-danger ms-auto me-4" @click="cancelRequest">cancel sent request</button>
-            <div v-else-if="userRelation(searchInput) === 'FRIENDREQ'" class="ms-auto me-4">
-                <button class="btn btn-outline-success me-2" @click="acceptRequest">accept</button>
-                <button class="btn btn-outline-danger" @click="declineRequest">decline</button>
-            </div>
-            <button v-else-if="userRelation(searchInput) === 'NOTHING'" type="button" class="btn btn-outline-success ms-auto me-4" @click="sendRequest">add friend</button>
-            <button type="button" class="btn-close me-2" aria-label="Close" @click="resetSearch"></button>
+        <div class="input-group">
+            <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search nickname" aria-label="Search" aria-describedby="search-addon" />
+            <button @click="addFriend(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init><i class="bi bi-person-add"></i></button>
         </div>
-    </div>
-    <div v-else-if="searchStatus === 'notFound'">
-        <div class="alert alert-danger d-flex align-items-center p-1" role="alert">
-            User not found!
-            <button type="button" class="btn-close ms-auto me-2" aria-label="Close" @click="resetSearch"></button>
+        <div v-if="updateErrorMessage !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
+            {{ updateErrorMessage }}
         </div>
-    </div>
     </div>
 </template>
 

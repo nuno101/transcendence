@@ -2,11 +2,12 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from .decorators import *
 from django.http import JsonResponse, HttpResponse
-from .models import User, FriendRequest
+from .models import User, FriendRequest, Channel
 from .helpers_users import *
 from .constants_websocket_events import *
 from .constants_http_response import *
 from . import bridge_websocket as websocket
+import os
 
 # Endpoint: /users/me
 @method_decorator(check_structure("/users/me"), name='dispatch')
@@ -20,12 +21,28 @@ class UserPersonal(View):
   def delete(self, request):
     return delete_user(request.user)
 
+# cCONF: Allowed avatar file extensions
+ALLOWED_AVATAR_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp']
+
 # Endpoint: /users/me/avatar
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
   def post(self, request):
-    avatar = request.json.get('avatar')
-    return update_avatar(request.user, avatar)
+    avatar = request.FILES.get('avatar')
+    if not avatar:
+      return JsonResponse({ERROR_FIELD: "No avatar provided (needs to be a multipart/form-data field with key 'avatar')"}, status=400)
+    extension = avatar.name.split('.')[-1]
+    if extension not in ALLOWED_AVATAR_EXTENSIONS:
+      return JsonResponse({ERROR_FIELD: f"Invalid file extension '{extension}'"}, status=400)
+
+    # TODO: Delete old avatar if new one has different name
+
+    try:
+      request.user.avatar = avatar
+      request.user.save()
+    except Exception as e:
+      return JsonResponse({ERROR_FIELD: "Failed to update avatar"}, status=400)
+    return JsonResponse(request.user.serialize(), status=201)
 
 # Endpoint: /users/me/blocked
 @method_decorator(check_structure("/users/me/blocked"), name='dispatch')
@@ -34,7 +51,7 @@ class BlockedCollection(View):
     blocked = request.user.blocked.all()
     return JsonResponse([b.serialize() for b in blocked], safe=False)
 
-  def post(self, request): # TODO: Refactor this mess
+  def post(self, request):
     try:
       target_user = User.objects.get(id=request.json.get('user_id'))
     except:
@@ -60,9 +77,6 @@ class BlockedCollection(View):
     incoming_request = FriendRequest.objects.filter(from_user=target_user, to_user=request.user)
     if incoming_request.exists():
       incoming_request.delete()
-
-    # TODO: Delete all channels with only the blocked user and the current user
-    # TODO: Implement websocket notification
 
     # Block user
     request.user.blocked.add(target_user)

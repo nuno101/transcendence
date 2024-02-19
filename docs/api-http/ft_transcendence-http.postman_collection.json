@@ -61,6 +61,30 @@
 							]
 						},
 						{
+							"name": "Avatar",
+							"item": [
+								{
+									"name": "Get avatar",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/users/{{user_id}}/avatar",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"{{user_id}}",
+												"avatar"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "Get users",
 							"request": {
 								"method": "GET",
@@ -997,6 +1021,40 @@
 										"me",
 										"notifications",
 										"{{notification_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Avatar",
+					"item": [
+						{
+							"name": "Update avatar",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/users/me/avatar",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"avatar"
 									]
 								}
 							},
