@@ -1,7 +1,8 @@
 from django.views import View
 from django.utils.decorators import method_decorator
-from .decorators import *
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
+from .decorators import *
 from .models import User, FriendRequest, Channel
 from .helpers_users import *
 from .constants_websocket_events import *
@@ -39,9 +40,13 @@ class AvatarPersonal(View):
 
     try:
       request.user.avatar = avatar
+      request.user.avatar.full_clean()
       request.user.save()
+    except ValidationError as e:
+      return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
     except Exception as e:
-      return JsonResponse({ERROR_FIELD: "Failed to update avatar"}, status=400)
+      return JsonResponse({ERROR_FIELD: str(e)}, status=500)
+
     return JsonResponse(request.user.serialize(), status=201)
 
 # Endpoint: /users/me/blocked

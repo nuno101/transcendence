@@ -5,17 +5,6 @@ from . import bridge_websocket as websocket
 from .constants_websocket_events import *
 from .constants_http_response import *
 
-# Message instance management helpers
-def create_message(channel: Channel, user: User, parameters):
-  try:
-    message = Message.objects.create(channel=channel, author=user, 
-                                     content=parameters.get('content'))
-  except:
-    return JsonResponse({ERROR_FIELD: "Failed to create message"}, status=500)
-
-  websocket.send_channel_event(channel.id, CREATE_MESSAGE, message.serialize())
-  return JsonResponse(message.serialize(), status=201)
-
 def update_message(message: Message, parameters):
   try:
     message.content = parameters.get('content')
@@ -23,6 +12,7 @@ def update_message(message: Message, parameters):
     return JsonResponse({ERROR_FIELD: "Failed to update message"}, status=500)
 
   websocket.send_channel_event(message.channel.id, UPDATE_MESSAGE, message.serialize())
+  
   return JsonResponse(message.serialize())
 
 def delete_message(message: Message):

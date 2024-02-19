@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
 
-# cCONF: Avatar file path
+# cCONF: Avatar file path config
 AVATAR_PATH = 'avatars/'
 DEFAULT_AVATAR_NAME = os.getenv('DEFAULT_AVATAR_NAME', 'default.png')
 
@@ -90,7 +90,6 @@ class Tournament(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	players = models.ManyToManyField(User, related_name='joined_tournaments', blank=True)
-	test = models.CharField(max_length=12, unique=True, null=True)
 
 	def __str__(self):
 		return self.title

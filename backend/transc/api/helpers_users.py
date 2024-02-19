@@ -17,7 +17,7 @@ def update_user(user: User, parameters: dict):
     if 'duplicate key' and 'nickname' in str(e):
       return JsonResponse({ERROR_FIELD: "Nickname already taken"}, status=400)
     else:
-      return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
+      return JsonResponse({ERROR_FIELD: str(e)}, status=400) # TODO: Find a better error message handling
   
   # TODO: Implement websocket notification?
 
