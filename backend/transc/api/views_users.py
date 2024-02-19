@@ -1,9 +1,10 @@
 from django.views import View
 from django.utils.decorators import method_decorator
-from .decorators import *
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
-from .models import User, Game
 from django.db.models import Q
+from .decorators import *
+from .models import User, Game
 from .helpers_users import update_user
 from .helpers_games import get_user_games
 
@@ -17,14 +18,18 @@ class UserCollection(View):
 
 	def post(self, request):
 		try:
-			user = User.objects.create_user(username=request.json.get('username'),
+			user = User(username=request.json.get('username'),
 																			nickname=request.json.get('username'),
 																			password=request.json.get('password'))
-		except Exception as e: # TODO: Handle more exceptions, e. g. Username too long
-			if 'duplicate key' in str(e):
-				return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
-			else:
-				return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
+			user.full_clean()
+			user.save()
+		except ValidationError as e:
+			error_object = e.message_dict
+			error_object.pop('nickname', None)
+			return JsonResponse({"type": "object", ERROR_FIELD: error_object}, status=400)
+		except Exception as e:
+			return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
+
 		return JsonResponse(user.serialize(private=True), status=201)
 
 # Endpoint: /users/USER_ID
