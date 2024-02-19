@@ -63,4 +63,10 @@ function toggleDropdown() {
 </script>
 
 <style scoped>
+
+.dropdown-menu {
+  max-height: 196px;
+  overflow-y: auto;
+}
+
 </style>
