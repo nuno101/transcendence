@@ -34,20 +34,20 @@ documentation:
 	@(cd tools && sh generate_api_docs.sh)
 	@echo "Working directory changed to $(PWD)"
 
-docker_clean: down volume_clean
-	docker system prune -f
-
-data_clean: volume_clean
-	rm -rf $(HOME)/data/transcendence/volumes
-	rm -rf  $(HOME)/docker-data/transcendence
-
 volume_clean:
 	docker volume rm database_device -f
 	docker volume rm redis_device -f
 	docker volume rm backend_device -f
 
+docker_clean: down volume_clean
+	docker system prune -f
+
 docker_fclean: docker_clean
 	docker compose -f ./docker-compose.yml down --volumes --rmi all
+
+data_clean: volume_clean
+	rm -rf $(HOME)/data/transcendence/volumes
+	rm -rf  $(HOME)/docker-data/transcendence
 
 clean: docker_clean
 
@@ -71,10 +71,10 @@ help:
 	@echo "blog: follow the backend logs"
 	@echo "documentation: generate/update the API documentation"
 	@echo ""
-	@echo "docker_clean: remove all docker compose containers and volumes"
-	@echo "data_clean: remove all persistent data in the containers and the volumes"
 	@echo "volume_clean: remove all docker compose volumes"
-	@echo "docker_fclean: remove all docker compose containers, volumes and images"
+	@echo "docker_clean: down & volume_clean & delete project docker containers"
+	@echo "docker_fclean: docker_clean & delete project docker images"
+	@echo "data_clean: volume_clean & delete project data folders on host"
 	@echo ""
 	@echo "clean: remove all docker compose containers and volumes"	
 	@echo "fclean: remove all docker compose containers, volumes and images"

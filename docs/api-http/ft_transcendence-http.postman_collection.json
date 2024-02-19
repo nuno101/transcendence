@@ -268,7 +268,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"New\",\r\n    \"description\": \"New\"\r\n}",
+									"raw": "{\r\n    \"title\": \"New\",\r\n    \"description\": \"New\",\r\n    \"status\": \"next\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

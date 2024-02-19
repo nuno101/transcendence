@@ -451,6 +451,19 @@ Total number of methods: 49
 
 </td></tr>
 
+<tr><td>state</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>'next' -> advance to next tournament state, 'cancelled' -> cancel tournament</td></tr>
+
+</table>
+
+</td></tr>
+
 </table>
 
 ## games
