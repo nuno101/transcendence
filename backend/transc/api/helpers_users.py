@@ -27,6 +27,7 @@ def update_user(user: User, parameters: dict):
 def update_user_status(user, status):
   user.status = status
   user.save()
+
   websocket.send_user_status_event(
     user.id, UPDATE_USER, user.serialize(private=True))
 
