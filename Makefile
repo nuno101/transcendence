@@ -34,20 +34,20 @@ documentation:
 	@(cd tools && sh generate_api_docs.sh)
 	@echo "Working directory changed to $(PWD)"
 
-docker_clean: down volume_clean
-	docker system prune -f
-
-data_clean: volume_clean
-	rm -rf $(HOME)/data/transcendence/volumes
-	rm -rf  $(HOME)/docker-data/transcendence
-
 volume_clean:
 	docker volume rm database_device -f
 	docker volume rm redis_device -f
 	docker volume rm backend_device -f
 
+docker_clean: down volume_clean
+	docker system prune -f
+
 docker_fclean: docker_clean
 	docker compose -f ./docker-compose.yml down --volumes --rmi all
+
+data_clean: volume_clean
+	rm -rf $(HOME)/data/transcendence/volumes
+	rm -rf  $(HOME)/docker-data/transcendence
 
 clean: docker_clean
 
