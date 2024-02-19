@@ -232,6 +232,10 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Nickname of the player to be added to the tournament"
+					}, "status": {
+						"type": "string",
+						"required": False,
+						"description": "'next' -> advance to next tournament status, 'cancelled' -> cancel tournament"
 					}
 				},
 			}
