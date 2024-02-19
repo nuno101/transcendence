@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
 import { defineProps, onMounted, ref} from 'vue';
-import Helpers from '../../js/Helpers';
+import Avatar from '../../js/Avatar';
 import Loading from '../common/Loading.vue';
 
 const props = defineProps(['games', 'id']);
@@ -13,7 +13,7 @@ const fetchAvatars = async () => {
     try {
         for (const game of props.games) {
             const playerId = game.player1.id !== props.id ? game.player1.id : game.player2.id;
-            const avatarUrl = await Helpers.getAvatarById(playerId);
+            const avatarUrl = await Avatar.getAvatarById(playerId);
             avatars.value[playerId] = avatarUrl;
         }
     } catch (error) {
@@ -38,7 +38,8 @@ const isWin = (game) => {
 
 <template>
     <div class="gamestable col-md-5 rounded img-thumbnail d-md-none">
-    <table class="table">
+    <Loading v-if="!isLoaded"/>
+    <table v-if="isLoaded" class="table">
         <tbody>
         <tr v-if="props.games.length > 0" v-for="game in games" :key="game">
             <td :class="{ 'bg-success': isWin(game), 'bg-danger': !isWin(game) }"

@@ -39,14 +39,13 @@ class Backend {
 				'Content-Type': 'application/json',
 			  },
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json' // Specify the content type as JSON
-            },
             body: JSON.stringify(patchData),
         };
         const respone = await fetch(path, arg);
 
-        if (!respone.ok) throw new Error(respone.statusText);
+        if (!respone.ok) {
+            throw new Error((await respone.json()).error);
+        }
 
         return await respone.json();
     }
@@ -56,11 +55,11 @@ class Backend {
             method: 'DELETE',
             credentials: 'include'
         };
-
         const respone = await fetch(path, arg)
-        // RESPONE IS EMPTY IN DELETE CASE
-        // if (!respone.ok) throw new Error(respone.statusText);
-        // return await respone.json()
+        
+        if (!respone.ok) {
+            throw new Error((await respone.json()).error) 
+        }
     }
 
     // AVATAR FUNCTIONS

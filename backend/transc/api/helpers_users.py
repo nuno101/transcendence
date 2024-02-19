@@ -27,10 +27,10 @@ def update_user(user: User, parameters: dict):
     user.save()
 
   except Exception as e:
-    if 'duplicate key' in str(e):
-      return JsonResponse({ERROR_FIELD: "Username already taken"}, status=400)
+    if 'duplicate key' and 'nickname' in str(e):
+      return JsonResponse({ERROR_FIELD: "Nickname already taken"}, status=400)
     else:
-      return JsonResponse({ERROR_FIELD: "Undefined error"}, status=500)
+      return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
   
   # TODO: Implement websocket notification?
 

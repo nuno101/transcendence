@@ -115,10 +115,10 @@ ENDPOINTS = {
 				"content_type": "application/json", 
 				"query_params": {},
 				"body_params": {
-					"username": {
+					"nickname": {
 						"type": "string",
 						"required": True,
-						"description": "Username of the user to send the friend request to"
+						"description": "Nickname of the user to send the friend request to"
 					}
 				},
 			}
