@@ -2,11 +2,13 @@ import { ref } from 'vue';
 import Backend from './Backend';
 class Notifications {
     static messages = ref([]);
+    static reloadrequired = ref(false);
     static setupEventListener(ws) {
         ws.ws.addEventListener('message', async (event) => {
             ws.m.value = [...ws.m.value, event.data];
             // Post Event if event happens not on current page
-            await Notifications.postEvent(event.data);
+            if(!Notifications.checkPageAndEvents(window.location.pathname, JSON.parse(event.data).event))
+                await Notifications.postEvent(event.data);
         });
     }
 
@@ -43,6 +45,15 @@ class Notifications {
             accept_friend_request : (JSON.parse(eventData).payload.to_user?.nickname || "") + " accepted your friend request",
         }
         return message[JSON.parse(eventData).event] || "";
+    }
+
+    static checkPageAndEvents(url, event) {
+        if (url === '/friends' && ['accept_friend_request', 'create_friend_request', 'decline_friend_request'].includes(event)) {
+            // alert('Reload the page!');
+            this.reloadrequired.value = true;
+            return true;
+        }
+        return false;
     }
 } 
 export default Notifications
