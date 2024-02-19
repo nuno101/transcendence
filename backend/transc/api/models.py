@@ -45,6 +45,8 @@ class User(AbstractUser):
 		return self.avatar.url
 
 	def serialize(self, private=False):
+		tournaments_data = [tournament.serialize() for tournament in self.tournaments.all()]
+
 		return {
 			'id': self.id,
 			'username': self.username,
@@ -53,7 +55,7 @@ class User(AbstractUser):
 			'updated_at': str(self.updated_at),
 			'avatar': self.get_avatar_url(),
 			'status': self.status if private else None,
-			'tournaments': [tournament.id for tournament in self.tournaments.all()]
+			'tournaments': tournaments_data
 		}
 
 class FriendRequest(models.Model):

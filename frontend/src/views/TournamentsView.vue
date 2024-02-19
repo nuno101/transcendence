@@ -2,7 +2,8 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
 const tournaments = ref([])
 const userTournaments = ref([])
@@ -10,6 +11,7 @@ const submit = ref(false);
 const input = defineModel();
 input.value = {title: '', description: ''};
 const showAlert = ref(false);
+const personalTournaments = ref([]);
 
 const fetchData = async () => {
   try {
@@ -32,11 +34,11 @@ const addNewTournament = async () => {
 
     let data = await Backend.post('/api/tournaments', input.value);
     tournaments.value.push(data);
-	resetInputFields();
-	showAlert.value = false;;
-	// userTournaments.value = await Backend.patch(`/api/users/me`, { "tournament_id": `${data.id}` });
-	// console.log('TEST')
-	// console.log(userTournaments.value.tournaments)
+	cancelModal();
+	showAlert.value = false;
+	userTournaments.value = await Backend.patch(`/api/users/me`, { "tournament_id": `${data.id}` });
+	personalTournaments.value = userTournaments.value.tournaments;
+	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
   } catch (err) {
     console.error(err.message);
   }
@@ -68,14 +70,28 @@ const deleteTournament = async (t_id) => {
   }
 };
 
+const cancelModal = () => {
+	resetInputFields();
+	const modal = bootstrap.Modal.getInstance("#CreateTournamentModal");
+	modal.hide();
+};
+
 const resetInputFields = () => {
-    input.value.title = '';
-    input.value.description = '';
+   input.value.title = '';
+   input.value.description = '';
 };
 
 onMounted(() => {
   fetchData();
 })
+
+const filteredTournaments = computed(() => {
+  return tournaments.value.filter(
+    (tournament) =>
+      !personalTournaments.value.some((personalTournament) => personalTournament.id === tournament.id)
+  );
+});
+
 </script>
 
 <template>
@@ -150,9 +166,8 @@ onMounted(() => {
                             <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
                         </div>
                         <br/>
-
                         <div>
-                            <button type="button" class="btn btn-danger" @click="resetInputFields" data-bs-dismiss="modal">{{ useI18n().t('tournamentsview.cancel') }}</button>
+                            <button type="button" class="btn btn-danger" @click="cancelModal">{{ useI18n().t('tournamentsview.cancel') }}</button>
                             <button type="submit" class="btn btn-success" @click="addNewTournament">{{ useI18n().t('tournamentsview.addtournament') }}</button>
                         </div>   
                         <PostRequest v-if="submit" :apiPath="'/api/tournaments'" :data='formData'></PostRequest>
@@ -165,35 +180,46 @@ onMounted(() => {
 <div style="margin-top: 100px;"></div>
 
 <!-- Second table for user's tournaments -->
-<h1>My Tournaments</h1>
-    <div>
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">{{ useI18n().t('tournamentsview.name') }}</th>
-            <th scope="col">{{ useI18n().t('tournamentsview.created_at') }}</th>
-            <th scope="col">{{ useI18n().t('tournamentsview.updated_at') }}</th>
-            <th scope="col">{{ useI18n().t('tournamentsview.status') }}</th>
-            <th scope="col">{{ useI18n().t('tournamentsview.actions') }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="tournament in userTournaments" :key="tournament.id" v-if="tournament">
-            <td>
-              <router-link :to="'/tournaments/' + tournament.id">
-                {{ tournament.title }}
-              </router-link>
-            </td>
-            <td>{{ tournament.created_at }}</td>
-            <td>{{ tournament.updated_at }}</td>
-            <td>{{ tournament.status }}</td>
-            <td>
-              <!-- TODO: Add buttons for actions like deleting -->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div>
+        <h1>My Tournaments</h1>
+        <div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">{{useI18n().t('tournamentsview.name')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.creator')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.actions')}}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr v-for="tournament in personalTournaments" :key="tournament.id">
+                        <td>
+                            <router-link :to="'/tournaments/' + tournament.id">
+                                {{ tournament.title }}
+                            </router-link>
+                        </td>
+						<td>{{ tournament.creator.username }}</td>
+                        <td>{{ tournament.created_at }}</td>
+                        <td>{{ tournament.updated_at }}</td>
+                        <td>{{ tournament.status }}</td>
+                        <td>
+                            <!-- FIXME - the button s below are not working atm -->
+                            <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
+							              <button type="button" class="btn btn-primary" @click="updatestateTournament(tournament.id, 'cancelled')">{{useI18n().t('tournamentsview.cancel')}}</button>
+                            <!-- TODO - disable unless status is created -->
+                            <button type="button" class="btn btn-primary" @click="deleteTournament(tournament.id)">{{useI18n().t('tournamentsview.delete')}}</button>
+                            <!-- TODO - use icon below instead of button above for deletion -->
+                            &nbsp;<a href="" @click="deleteTournament"><i class="bi bi-trash3-fill"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+	</div>
 
 </template>
 
