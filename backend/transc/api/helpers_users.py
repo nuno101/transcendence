@@ -13,7 +13,7 @@ def update_user(user: User, parameters: dict):
       user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
-    user.clean_all()
+    user.full_clean()
     user.save()
   except ValidationError as e:
     return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)

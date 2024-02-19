@@ -86,7 +86,6 @@ def main():
             print(f"### {name}\n")
             generate_object_table(method_data["query_params"], "Query Parameters")
             generate_object_table(method_data["body_params"], "Body Parameters")
-            # TODO: Implement response documentation
 
 if __name__ == "__main__":
     main()

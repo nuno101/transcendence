@@ -9,7 +9,7 @@ from .constants_http_response import *
 def update_message(message: Message, parameters):
   try:
     message.content = parameters.get('content')
-    message.clean_all()
+    message.full_clean()
     message.save()
   except ValidationError as e:
     return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
