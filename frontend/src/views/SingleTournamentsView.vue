@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineProps } from 'vue';
 import { useRoute } from 'vue-router';
 
 const tournament = ref(null);
@@ -15,14 +15,16 @@ const nickname = ref(null);
 const creator = ref(null);
 const players = ref([]);
 const isCreator = ref(false);
-const isJoined = ref(localStorage.getItem('isJoined') === 'true'); 
+const isJoined = ref(localStorage.getItem('isJoined') || false);
+const currentUser = ref(false);
 
 const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
-	const users = await Backend.get('/api/users/me');
-    nickname.value = users.nickname;
-    console.log(tournament.value);
+	currentUser.value = await Backend.get('/api/users/me');
+    nickname.value = currentUser.value.nickname;
+	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
+	isJoined.value = localStorage.getItem(userTournamentKey) === 'true';
 	initValues(tournament.value);
 	return tournament.value;
   } catch (err) {
@@ -40,13 +42,14 @@ const initValues = (data) => {
 	players.value = data.players;
 	if (creator.value === nickname.value) {
     	isCreator.value = true;
-}
+	}
 };
 
 const joinTournament = async () => {
     await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
+	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = true;
-	localStorage.setItem('isJoined', true);
+	localStorage.setItem(userTournamentKey, JSON.stringify(true)); // Check this syntax 
 
 	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
 };
@@ -81,19 +84,21 @@ onMounted(() => {
             </div>
             <div class="col-lg-4">
                 <h3 class="mb-3">Created by</h3>
-                <p>{{ creator }}</p>
+				<b><p>{{ creator }}
+				<span v-if="isCreator">(You)</span></p></b>
                 <h3 class="mb-3 mt-4">Players</h3>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Nickname</th>
-                            <!-- Add more table headers if needed -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(nickname, index) in players" :key="index">
-                            <td>{{ nickname }}</td>
-                            <!-- Add more table cells if needed -->
+                        <tr v-for="(player, index) in players" :key="index"> <!-- Test it -->
+							<td>
+								<b v-if="player === nickname">{{ player }} (You)</b>
+        						<template v-else>{{ player }}</template>
+							</td>
                         </tr>
                     </tbody>
                 </table>

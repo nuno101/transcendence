@@ -112,7 +112,7 @@ class Tournament(models.Model):
         'status': self.status,
         'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
         'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
-		'players': [player.username for player in self.players.all()] # Necessary? 
+		'players': [player.nickname for player in self.players.all()] 
     }
 
 class Game(models.Model):

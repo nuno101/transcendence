@@ -2,8 +2,9 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { computed, ref, onMounted } from 'vue';
+import { ref, onMounted, defineProps } from 'vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
+import SingleTournamentsView from './SingleTournamentsView.vue';
 
 const tournaments = ref([])
 const userTournaments = ref([])
@@ -16,8 +17,13 @@ const personalTournaments = ref([]);
 const fetchData = async () => {
   try {
     tournaments.value = await Backend.get('/api/tournaments');
-    console.log(tournaments.value); // Log the response data to the console  
-    return tournaments.value;  // Return the data to be used in the template
+    console.log(tournaments.value);
+
+	userTournaments.value = await Backend.get(`/api/users/me`);
+	personalTournaments.value = userTournaments.value.tournaments;
+	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
+
+    return tournaments.value;
   } catch (err) {
     console.error(err.message);
   }
@@ -85,13 +91,6 @@ onMounted(() => {
   fetchData();
 })
 
-const filteredTournaments = computed(() => {
-  return tournaments.value.filter(
-    (tournament) =>
-      !personalTournaments.value.some((personalTournament) => personalTournament.id === tournament.id)
-  );
-});
-
 </script>
 
 <template>
@@ -107,7 +106,6 @@ const filteredTournaments = computed(() => {
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
-                    <th scope="col">{{useI18n().t('tournamentsview.actions')}}</th>
                     </tr>
                 </thead>
 
@@ -123,13 +121,13 @@ const filteredTournaments = computed(() => {
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
                         <td>
-                            <!-- FIXME - the button s below are not working atm -->
+                            <!-- FIXME - the button s below are not working atm
                             <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
-							              <button type="button" class="btn btn-primary" @click="updatestateTournament(tournament.id, 'cancelled')">{{useI18n().t('tournamentsview.cancel')}}</button>
-                            <!-- TODO - disable unless status is created -->
+							<button type="button" class="btn btn-primary" @click="updatestateTournament(tournament.id, 'cancelled')">{{useI18n().t('tournamentsview.cancel')}}</button>
+                            TODO - disable unless status is created
                             <button type="button" class="btn btn-primary" @click="deleteTournament(tournament.id)">{{useI18n().t('tournamentsview.delete')}}</button>
-                            <!-- TODO - use icon below instead of button above for deletion -->
-                            &nbsp;<a href="" @click="deleteTournament"><i class="bi bi-trash3-fill"></i></a>
+                            TODO - use icon below instead of button above for deletion
+                            &nbsp;<a href="" @click="deleteTournament"><i class="bi bi-trash3-fill"></i></a> -->
                         </td>
                     </tr>
                 </tbody>
@@ -163,7 +161,7 @@ const filteredTournaments = computed(() => {
                         </div>
                         <div class="form-group">
                             <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
-                            <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
+                            <input class="form-control" id="descripti`on" placeholder="Enter description" v-model="input.description" required>
                         </div>
                         <br/>
                         <div>
@@ -206,15 +204,9 @@ const filteredTournaments = computed(() => {
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
-                        <td>
-                            <!-- FIXME - the button s below are not working atm -->
-                            <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
-							              <button type="button" class="btn btn-primary" @click="updatestateTournament(tournament.id, 'cancelled')">{{useI18n().t('tournamentsview.cancel')}}</button>
-                            <!-- TODO - disable unless status is created -->
-                            <button type="button" class="btn btn-primary" @click="deleteTournament(tournament.id)">{{useI18n().t('tournamentsview.delete')}}</button>
-                            <!-- TODO - use icon below instead of button above for deletion -->
-                            &nbsp;<a href="" @click="deleteTournament"><i class="bi bi-trash3-fill"></i></a>
-                        </td>
+                        <td style="text-align: center;">
+    						<a href="#" @click="deleteTournament(tournament.id)"><i class="bi bi-trash3-fill"></i></a>
+						</td>
                     </tr>
                 </tbody>
             </table>

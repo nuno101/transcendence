@@ -9,15 +9,11 @@ from .models import Tournament
 # User instance management helpers
 def update_user(user: User, parameters: dict):
   try:
-    print('HI')
     if parameters.get('nickname') is not None:
       user.nickname = parameters.get('nickname')
-    print('HELLOOOOO')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
-    print('YOOOOOOO')
     test = parameters.get('tournament_id')
-    print(test)
     if test is not None:
       try:
         tournament = Tournament.objects.get(id=test)
