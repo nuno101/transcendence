@@ -1,5 +1,7 @@
-class Websocket {
+import { ref } from "vue";
+class MyWebSocket {
     static ws;
+    static m = ref([]);
 
     static initializeWebSocket() {
         // FIXME: Secure websocket (wss://)
@@ -11,8 +13,9 @@ class Websocket {
       });
   
       this.ws.addEventListener('message', (event) => {
-        console.log('Message from server:', event.data);
-        // Handle WebSocket messages and dispatch actions if using Vuex
+        // console.log('Message from server:', event.data);
+        this.m.value = [...this.m.value, event.data];
+        // console.log(this.m.value);
       });
     }
   
@@ -22,4 +25,4 @@ class Websocket {
     }
   }
 
-export default Websocket
+export default MyWebSocket
