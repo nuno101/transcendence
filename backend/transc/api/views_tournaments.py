@@ -1,7 +1,8 @@
 from django.utils.decorators import method_decorator
-from .decorators import *
-from django.views import View
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
+from django.views import View
+from .decorators import *
 from .models import Tournament
 from .models import User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
@@ -15,13 +16,19 @@ class TournamentCollection(View):
 		return JsonResponse([t.serialize() for t in tournaments], safe=False)
 
 	def post(self, request):
-		tournament = Tournament.objects.create(
-			title=request.json.get('title'),
-			description=request.json.get('description', ''),
-			creator=request.user
-		)
-
-		tournament.players.add(request.user)
+		try:
+			tournament = Tournament(
+				title=request.json.get('title'),
+				description=request.json.get('description', ''),
+				creator=request.user
+			)
+			tournament.full_clean()
+			tournament.save()
+			tournament.players.add(request.user)
+		except ValidationError as e:
+			return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
+		except Exception as e:
+			return JsonResponse({ERROR_FIELD: str(e)}, status=500)
 
 		# TODO: Implement websocket notification?
 

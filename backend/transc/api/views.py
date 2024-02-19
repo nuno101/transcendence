@@ -28,6 +28,7 @@ class Login(View):
 		expiration = None if request.GET.get('remember', "false") == 'true' else 0
 		request.session.set_expiry(expiration)
 		login(request, user)
+
 		return JsonResponse(user.serialize(private=True))
 
 # Endpoint: /logout
@@ -36,4 +37,5 @@ class Logout(View):
 	def post(self, request):
 		websocket.message_group(f'user_{request.user.id}', 'close_connection', {})
 		logout(request)
+
 		return JsonResponse({'response': "Successfully logged out"})

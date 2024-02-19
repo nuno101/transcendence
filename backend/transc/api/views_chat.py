@@ -16,9 +16,16 @@ class ChannelCollection(View):
     return JsonResponse([channel.serialize() for channel in channels], safe=False)
   
   def post(self, request):
-    channel = Channel(name=request.json.get('name'))
-    channel.save()
-    channel.members.add(request.user)
+    try:
+      channel = Channel(name=request.json.get('name'))
+      channel.full_clean()
+      channel.save()
+      channel.members.add(request.user)
+    except ValidationError as e:
+      return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
+    except Exception as e:
+      return JsonResponse({ERROR_FIELD: str(e)}, status=500)
+
     return JsonResponse(channel.serialize(), status=201)
 
 # Endpoint: /channels/CHANNEL_ID
@@ -65,6 +72,7 @@ class ChannelMemberCollection(View):
     websocket.send_user_event(user.id, CREATE_CHANNEL, channel.serialize())
     websocket.send_channel_event(channel.id, UPDATE_CHANNEL, channel.serialize())
     websocket.add_consumer_to_group(user.id, f'channel_{channel.id}')
+
     return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
 
 # Endpoint: /channels/CHANNEL_ID/members/USER_ID
@@ -96,8 +104,19 @@ class ChannelMessageCollection(View):
     return JsonResponse([m.serialize() for m in messages], safe=False)
 
   def post(self, request, channel_id):
-    channel = Channel.objects.get(id=channel_id)
-    return create_message(channel, request.user, request.json)
+    try:
+      message = Message(channel=request.channel, author=request.user, 
+                        content=parameters.get('content'))
+      message.full_clean()
+      message.save()
+    except ValidationError as e:
+      return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
+    except Exception as e:
+      return JsonResponse({ERROR_FIELD: str(e)}, status=500)
+
+    websocket.send_channel_event(request.channel.id, CREATE_MESSAGE, message.serialize())
+
+    return JsonResponse(message.serialize(), status=201)
 
 # Endpoint: /messages
 @method_decorator(check_structure("/messages"), name='dispatch')

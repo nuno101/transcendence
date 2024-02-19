@@ -127,6 +127,21 @@ ENDPOINTS = {
 	}, "/users/me/notifications": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {},
+				"body_params": {
+					"type": {
+						"type": "string",
+						"required": True,
+						"description": "Type of the notification"
+					}, "content": {
+						"type": "string",
+						"required": True,
+						"description": "Content of the notification"
+					}
+				},
+			}
 		}
 	}, "/users/me/notifications/NOTIFICATION_ID": {
 		"methods": {
