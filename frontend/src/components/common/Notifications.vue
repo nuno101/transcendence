@@ -7,30 +7,33 @@
         @click="toggleDropdown"
     >
         <i class="bi bi-bell-fill"></i>
-        <span v-if="filteredEvents.length > 0 && !dropdownShown"
+        <span v-if="Notifications.messages.value.length > 0 && dropdownShown > 0"
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">
-            {{filteredEvents.length}}<span class="visually-hidden">unread messages</span>
+            {{dropdownShown}}<span class="visually-hidden">unread messages</span>
         </span>
     </button>
     <ul class="dropdown-menu" @click="toggleDropdown">
-      <li v-for="(item, index) in filteredEvents" :key="index">
-        <div class="text-center">{{ JSON.parse(item).event }}</div>
-        <div v-if="index !== filteredEvents.length - 1" class="dropdown-divider"></div>
-      </li>
-      <!-- ALTE EVENTS -->
+        <li class="text-center" v-if="storedNotifications.length <= 0 && Notifications.messages.value.length <= 0">No notifications</li>
+        <li v-for="(item, index) in Notifications.messages.value.slice().reverse()" :key="index">
+          <div class="text-center">{{ item }}</div>
+          <div v-if="storedNotifications.length > 0" class="dropdown-divider"></div>
+        </li>
+        <li v-for="(item, index) in storedNotifications.slice().reverse()" :key="index">
+            <div class="text-center">{{ item.content }}</div>
+            <div v-if="index !== storedNotifications.length - 1" class="dropdown-divider"></div>
+        </li>
     </ul>
 </div>
 </template>
 
 <script setup>
 import Backend from "../../js/Backend"
-import { ref, computed } from 'vue'
+import Notifications from "../../js/Notifications"
+import { ref } from 'vue'
 import { watch, onMounted } from "vue"
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
-import MyWebSocket from "../../js/Websocket"
 
-let dropdownShown = ref(false);
-const oldn = ref([]);
+let dropdownShown = ref(0);
+const storedNotifications = ref([]);
 const isLoaded = ref(false);
 
 onMounted(() => {
@@ -40,8 +43,8 @@ onMounted(() => {
 const fetchData = async () => {
   try {
     isLoaded.value = false;
-    oldn.value = await Backend.get('/api/users/me/notifications');
-    console.log(oldn.value);
+    storedNotifications.value = await Backend.get('/api/users/me/notifications');
+    console.log(storedNotifications.value);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -49,23 +52,12 @@ const fetchData = async () => {
   }
 };
 
-
-watch(() => MyWebSocket.m.value, () => {
-  console.log(MyWebSocket.m.value);
+watch(() => Notifications.messages.value, () => {
+  dropdownShown.value++;
 });
 
-const filteredEvents = computed(() => {
-  return MyWebSocket.m.value.filter(item => {
-    const parsedItem = JSON.parse(item);
-    return parsedItem.event === 'create_friend_request';
-  });
-});
-
-// neue anhängen, alten vom Endpoint nach dem 1. Refresh
-// pro event neue funktion
-// wenn auf gleicher Seite --> reload required alert (?)
 function toggleDropdown() {
-  dropdownShown.value = !dropdownShown.value;
+  dropdownShown.value = 0;
 }
 
 </script>

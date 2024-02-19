@@ -1,33 +1,33 @@
 import { ref } from "vue";
-class MyWebSocket {
-    static ws;
-    static m = ref([]);
+import Backend from './Backend';
+import Notifications from './Notifications';
+class Websocket {
+    constructor(url) {
+      this.ws = new WebSocket('ws://' + window.location.host + url);
+      this.m = ref([]);
 
-    static initializeWebSocket() {
-        // FIXME: Secure websocket (wss://)
-      this.ws = new WebSocket('ws://' + window.location.host + '/api/ws/notification');
-        // this.ws.onopen
-        // this.ws.onmessage
       this.ws.addEventListener('open', () => {
         console.log('WebSocket connection opened');
       });
-  
-      this.ws.addEventListener('message', (event) => {
-        // console.log('Message from server:', event.data);
-        this.m.value = [...this.m.value, event.data];
-        // console.log(this.m.value);
-      });
+
+
+      const eventListeners = {
+        '/api/ws/events': Notifications.setupEventListener,
+        // Add more URLs and event listener functions as needed
+      };
+
+      const setupEventListener = eventListeners[url];
+      if (setupEventListener) {
+          setupEventListener(this);
+      } else {
+        console.log("NO EVENT LISTENER FOUND");
+      }
     }
-  
-    static sendWebSocketMessage(event, payload) {
+
+    sendWebSocketMessage(event, payload) {
       const message = JSON.stringify({ event, payload });
       this.ws.send(message);
     }
   }
 
-export default MyWebSocket
-// constructor mit argument path '/api/ws/notification'
-// onMessage triggert eventHandler
-// 1 eventhandler pro Websocket
-// in constructor Url + funktion, die die events handlet oder ganze eventListener Funktion
-// wenn sich WEbsocket schliesst --> message> u r offline, ...
+export default Websocket
