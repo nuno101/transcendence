@@ -64,11 +64,6 @@ def main():
         method_endpoint_count += len(c.ENDPOINTS[endpoint]["methods"].keys())
     print(f"Total number of methods: {method_endpoint_count}")
 
-    # print(f"- GET: {output['GET_endpoint_count']}")
-    # print(f"- POST: {output['POST_endpoint_count']}")
-    # print(f"- PATCH: {output['PATCH_endpoint_count']}")
-    # print(f"- DELETE: {output['DELETE_endpoint_count']}\n")
-
     print(f"# Table of Contents\n")
     for endpoint in c.ENDPOINTS.keys():
         link_name= endpoint.replace('/', '-')[1:]
