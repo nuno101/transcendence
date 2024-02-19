@@ -42,7 +42,6 @@ const fetchData = async () => {
     isLoaded.value = false;
     oldn.value = await Backend.get('/api/users/me/notifications');
     console.log(oldn.value);
-    await Backend.post('/api/users/me/notifications', {'type': 'custom_notificationcustom_notificationcustom_notificationcustom_notification', 'content' : 'this is a test messagend jdkeioakdji kdeok doek '});
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -52,7 +51,6 @@ const fetchData = async () => {
 
 
 watch(() => MyWebSocket.m.value, () => {
-  // Do something here
   console.log(MyWebSocket.m.value);
 });
 

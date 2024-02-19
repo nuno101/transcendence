@@ -26,3 +26,8 @@ class MyWebSocket {
   }
 
 export default MyWebSocket
+// constructor mit argument path '/api/ws/notification'
+// onMessage triggert eventHandler
+// 1 eventhandler pro Websocket
+// in constructor Url + funktion, die die events handlet oder ganze eventListener Funktion
+// wenn sich WEbsocket schliesst --> message> u r offline, ...
