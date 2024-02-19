@@ -1,6 +1,9 @@
 # transcendence
 Pong game as single-page web application 
 
+FIXME: Delete .env 
+FIXME: Remove debug template html files in ./backend/transc/*/templates/*
+
 The project requires 7🔺 major modules to be validated.
 🔺 Major module, 🔸 Minor module : 1🔺 = 2🔸
 

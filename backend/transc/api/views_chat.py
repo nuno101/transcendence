@@ -26,25 +26,23 @@ class ChannelCollection(View):
 @method_decorator(check_channel_member, name='dispatch')
 class ChannelSingle(View):
   def get(self, request, channel_id):
-    channel = Channel.objects.get(id=channel_id)
-    return JsonResponse(channel.serialize())
+    return JsonResponse(request.channel.serialize())
   
   def patch(self, request, channel_id):
-    return update_channel(Channel.objects.get(id=channel_id), request.json)
+    return update_channel(request.channel, request.json)
   
   def delete(self, request, channel_id):
-    return delete_channel(Channel.objects.get(id=channel_id))
+    return delete_channel(request.channel)
 
 # Endpoint: /channels/CHANNEL_ID/members
 @method_decorator(check_structure("/channels/CHANNEL_ID/members"), name='dispatch')
 @method_decorator(check_channel_member, name='dispatch')
 class ChannelMemberCollection(View):
   def get(self, request, channel_id):
-    channel = Channel.objects.get(id=channel_id)
-    return JsonResponse([m.serialize() for m in channel.members.all()], safe=False)
+    return JsonResponse([m.serialize() for m in crequest.channel.members.all()], safe=False)
   
   def post(self, request, channel_id):
-    channel = Channel.objects.get(id=channel_id)
+    channel = request.channel
 
     # Check if user exists
     try:
@@ -75,7 +73,7 @@ class ChannelMemberCollection(View):
 @method_decorator(check_object_exists(User, "user_id", USER_404), name='dispatch')
 class ChannelMemberSingle(View):
   def delete(self, request, channel_id, user_id):
-    channel = Channel.objects.get(id=channel_id)
+    channel = request.channel
 
     # Check if user is member
     user = User.objects.get(id=user_id)
@@ -94,7 +92,7 @@ class ChannelMemberSingle(View):
 @method_decorator(check_channel_member, name='dispatch')
 class ChannelMessageCollection(View):
   def get(self, request, channel_id):
-    messages = Message.objects.filter(channel=channel_id).order_by("-created_at")
+    messages = Message.objects.filter(channel=request.channel).order_by("-created_at")
     return JsonResponse([m.serialize() for m in messages], safe=False)
 
   def post(self, request, channel_id):
@@ -114,9 +112,7 @@ class MessageCollection(View):
 @method_decorator(check_message_author, name='dispatch')
 class MessageSingle(View):
   def patch(self, request, message_id):
-    message = Message.objects.get(id=message_id)
-    return update_message(message, request.json)
+    return update_message(request.message, request.json)
   
   def delete(self, request, message_id):
-    message = Message.objects.get(id=message_id)
-    return delete_message(message)
+    return delete_message(request.message)

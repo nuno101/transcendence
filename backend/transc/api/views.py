@@ -7,7 +7,11 @@ from .decorators import *
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.shortcuts import render
 
+import logging
+logger = logging.getLogger('api')
+
 def index(request):
+	logger.debug("Hello world from the custom debug log")
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
 def test_websocket(request): # FIXME: DEBUG: Remove later
