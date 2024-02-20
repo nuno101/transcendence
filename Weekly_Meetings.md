@@ -15,14 +15,15 @@ Nuno:
 * adding logic or a state-machine for managing the tournaments & games.
 
 Robert:
-* to check with Julia about the avatars
-* [ ] Websocket system bugfixing
 * [ ] Add avatar functionality in backend
-  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
   * [x] Implement working default avatar
-* [ ] Implement creating of notifications in database for relevant things like friend requests, etc.
-* [ ] Make use of notification system, e.g. for the creation of a friend request, etc
-* [ ] Extend/Improve functionality of automatic http api documentation generation?
+  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
+* [x] to check with Julia about the avatars
+* [x] Improve error checking/exception handling for PATCH endpoints updating database models
+* [ ] ~~Add parameter type verification/validation~~
+* [ ] ~~Extend/Improve functionality of automatic http api documentation generation?~~
+* [ ] ~~Implement creating of notifications in database for relevant things like friend requests, etc.~~
+* [ ] ~~Make use of notification system, e.g. for the creation of a friend request, etc~~ -> Creating notifications will be moved to the frontend
 
 # 2024-02-06 Discord meeting:
 Attended by Anouk, Jan, Julia, Robert

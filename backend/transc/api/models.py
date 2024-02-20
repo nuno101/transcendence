@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
 
-# cCONF: Avatar file path
+# cCONF: Avatar file path config
 AVATAR_PATH = 'avatars/'
 DEFAULT_AVATAR_NAME = os.getenv('DEFAULT_AVATAR_NAME', 'default.png')
 

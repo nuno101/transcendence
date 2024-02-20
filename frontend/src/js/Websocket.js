@@ -3,7 +3,7 @@ class Websocket {
 
     static initializeWebSocket() {
         // FIXME: Secure websocket (wss://)
-      this.ws = new WebSocket('ws://' + window.location.host + '/api/ws/notification');
+      this.ws = new WebSocket('ws://' + window.location.host + '/api/ws/events');
         // this.ws.onopen
         // this.ws.onmessage
       this.ws.addEventListener('open', () => {
