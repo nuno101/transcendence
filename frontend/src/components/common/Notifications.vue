@@ -13,15 +13,21 @@
             <!-- <audio ref="notificationSoundRef" :src="`../../assets/audio/notification.mp3`" preload="none" muted="muted"></audio> -->
         </span>
     </button>
-    <ul class="dropdown-menu" @click="toggleDropdown">
-        <li class="text-center" v-if="storedNotifications.length <= 0 && Notifications.messages.value.length <= 0">No notifications</li>
+    <ul class="p-0 dropdown-menu" @click="toggleDropdown">
+        <li v-if="storedNotifications.length <= 0 && Notifications.messages.value.length <= 0">No notifications</li>
         <li v-for="(item, index) in Notifications.messages.value.slice().reverse()" :key="index">
-          <div class="text-center">{{ item }}</div>
-          <div v-if="storedNotifications.length > 0" class="dropdown-divider"></div>
+          <div class="dropdown-item d-flex align-items-center me-2">
+            {{ item.content }}
+            <button type="button" class="btn btn-sm btn-outline-dark ms-auto" aria-label="Close" @click.stop="dismissNotification(item, 'NEW')">X</button>
+          </div>
+          <hr v-if="storedNotifications.length > 0" class="dropdown-divider m-0">
         </li>
         <li v-for="(item, index) in storedNotifications.slice().reverse()" :key="index">
-            <div class="text-center">{{ item.content }}</div>
-            <div v-if="index !== storedNotifications.length - 1" class="dropdown-divider"></div>
+            <div class="dropdown-item d-flex align-items-center me-2">
+              {{ item.content }}
+              <button type="button" class="btn btn-sm btn-outline-dark ms-auto" aria-label="Close" @click.stop="dismissNotification(item, 'STORED')">X</button>
+            </div>
+          <hr v-if="index !== storedNotifications.length - 1" class="dropdown-divider m-0">
         </li>
     </ul>
 </div>
@@ -37,6 +43,8 @@ import { watch, onMounted } from "vue"
 let dropdownShown = ref(0);
 const storedNotifications = ref([]);
 const isLoaded = ref(false);
+const idsToDeleteStored =ref([]);
+const idsToDeleteNew =ref([]);
 // const notificationSoundRef = ref(null);
 
 onMounted(() => {
@@ -66,6 +74,22 @@ function toggleDropdown() {
   dropdownShown.value = 0;
 }
 
+const dismissNotification = async(item, flag) => {
+  try {
+      await Backend.delete(`/api/users/me/notifications/${item.id}`);
+      if(flag === 'STORED'){
+        idsToDeleteStored.value.push(item.id);
+        storedNotifications.value = storedNotifications.value.filter(item => !idsToDeleteStored.value.includes(item.id));
+      }else if(flag === 'NEW') {
+        idsToDeleteNew.value.push(item.id);
+        Notifications.messages.value = Notifications.messages.value.filter(item => !idsToDeleteNew.value.includes(item.id));
+      }
+      dropdownShown.value--;
+    } catch (err) {
+      console.error(err.message);
+    }
+}
+
 // function playNotificationSound() {
 //   console.log(notificationSoundRef.value);
 //   console.log(notificationSoundRef);
@@ -75,6 +99,7 @@ function toggleDropdown() {
 //       console.error('Error playing audio:', error);
 //     });
 // }
+
 </script>
 
 <style scoped>
@@ -84,4 +109,7 @@ function toggleDropdown() {
   overflow-y: auto;
 }
 
+.dropdown-item:hover {
+    background-color: lightgrey;
+}
 </style>

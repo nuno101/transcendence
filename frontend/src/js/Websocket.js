@@ -10,7 +10,7 @@ class Websocket {
         console.log('WebSocket connection opened');
       });
 
-
+      // variable die funktion hält
       const eventListeners = {
         '/api/ws/events': Notifications.setupEventListener,
         // Add more URLs and event listener functions as needed

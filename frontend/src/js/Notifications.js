@@ -30,8 +30,8 @@ class Notifications {
 
         try {
             if(requestBody.content && requestBody !== ""){
-                this.messages.value = [...this.messages.value, requestBody.content];
-                await Backend.post('/api/users/me/notifications', requestBody);
+                const response = await Backend.post('/api/users/me/notifications', requestBody);
+                this.messages.value = [...this.messages.value, response];
             }
             requestBody.type = requestBody.content = "";
         } catch (err) {
@@ -48,8 +48,7 @@ class Notifications {
     }
 
     static checkPageAndEvents(url, event) {
-        if (url === '/friends' && ['accept_friend_request', 'create_friend_request', 'decline_friend_request'].includes(event)) {
-            // alert('Reload the page!');
+        if (url === '/friends' && ['accept_friend_request', 'create_friend_request', 'decline_friend_request', 'cancel_friend_request', 'remove_friend'].includes(event)) {
             this.reloadrequired.value = true;
             return true;
         }
@@ -58,3 +57,5 @@ class Notifications {
 } 
 export default Notifications
 // if websocket closes --> message> u r offline, ...
+
+// DELETE NOTIFICATIONS!!!
