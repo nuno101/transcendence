@@ -7,7 +7,7 @@ from . import views_friends, views_notifications
 
 urlpatterns = [
 	path("", views.index, name="index"),
-	path("websocket", views.test_websocket, name="websocket"), # FIXME: DEBUG: Remove later
+	path("websockets/events", views.test_websocket, name="websocket"), # FIXME: DEBUG: Remove later
 
 	path("login", views.Login.as_view()),
 	path("logout", views.Logout.as_view()),
@@ -39,7 +39,7 @@ urlpatterns = [
 
 	path("users/<int:user_id>/avatar", views_users.AvatarUser.as_view()),
 
-  	path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
+	path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
 
 	# Tournament paths
 	path('tournaments', views_tournaments.TournamentCollection.as_view()),
