@@ -4,6 +4,7 @@ from .models import User
 from . import bridge_websocket as websocket
 from .constants_http_response import *
 from .constants_websocket_events import *
+from .models import Tournament
 
 # User instance management helpers
 def update_user(user: User, parameters: dict):
@@ -12,7 +13,15 @@ def update_user(user: User, parameters: dict):
       user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
+    test = parameters.get('tournament_id')
+    if test is not None:
+      try:
+        tournament = Tournament.objects.get(id=test)
+        user.tournaments.add(tournament)
+      except Tournament.DoesNotExist:
+        print(f"Tournament with ID {test} does not exist.")
     user.save()
+
   except Exception as e:
     if 'duplicate key' and 'nickname' in str(e):
       return JsonResponse({ERROR_FIELD: "Nickname already taken"}, status=400)
