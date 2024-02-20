@@ -18,6 +18,7 @@ class User(AbstractUser):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	avatar = models.ImageField(upload_to=avatar_path, null=True, blank=True)
+	tournaments = models.ManyToManyField('Tournament', related_name='participants', blank=True)
 
 	class States(models.TextChoices):
 			OFFLINE = "offline"
@@ -44,6 +45,8 @@ class User(AbstractUser):
 		return self.avatar.url
 
 	def serialize(self, private=False):
+		tournaments_data = [tournament.serialize() for tournament in self.tournaments.all()]
+
 		return {
 			'id': self.id,
 			'username': self.username,
@@ -52,6 +55,7 @@ class User(AbstractUser):
 			'updated_at': str(self.updated_at),
 			'avatar': self.get_avatar_url(),
 			'status': self.status if private else None,
+			'tournaments': tournaments_data
 		}
 
 class FriendRequest(models.Model):
@@ -107,7 +111,7 @@ class Tournament(models.Model):
         'status': self.status,
         'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
         'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
-		'players': [player.username for player in self.players.all()] # Necessary? 
+		'players': [player.nickname for player in self.players.all()] 
     }
 
 class Game(models.Model):
