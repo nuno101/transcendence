@@ -1,3 +1,34 @@
+# 2024-02-20 Discord meeting:
+Attended by all.
+
+Jan:
+* bug fixing on header component
+* working on collision detection and ball speed issues game in separate branch to improve current game
+
+Jmatheis:
+* avatar working. Nuno reports some issues
+* working on notifications but not yet ready to push to main
+
+Amechain:
+* working on the tournaments page
+* added users.tournaments join table to keep track of users joining a tournament
+* some discussion with Nuno about state handling logic. Only creator can change a tournament state/status. To change state use PATCH /tournamnets/tournament_id/ with payload { status: "next" } of { status: "cancel" }
+
+Nuno:
+* added simple tournaments state handling. Robert has reviewed patched some issues
+* tournament.status to allow changes only by the creator
+* asked Robert about how to use Postman with authentication (demo after the meeting)
+  
+Robert:
+* [ ] Check and implement where websocket events are still missing
+* [ ] Add avatar functionality in backend
+  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
+  * [ ] Fix avatars not updating correctly
+* [x] ~~Add parameter type verification/validation in endpoint structure~~ --> Can be implemented via model field limit
+* [x] ~~Add parameter min/max validation in endpoint structure~~ --> Can be implemented via model field limit
+* [x] Implement max/min limits for game score --> Limits set at django model level
+
+
 # 2024-02-13 Discord meeting:
 
 Jan:

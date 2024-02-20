@@ -1115,7 +1115,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nickname\": \"Hello\"\r\n}",
+							"raw": "{\r\n    \"nickname\": \"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
