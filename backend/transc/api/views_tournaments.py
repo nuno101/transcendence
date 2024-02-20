@@ -3,8 +3,9 @@ from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
 from django.views import View
 from .decorators import *
-from .models import Tournament
+from .models import Tournament, Game
 from .models import User
+from .helpers_tournaments import create_games
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
 
@@ -64,12 +65,22 @@ class TournamentSingle(View):
 			player = User.objects.get(nickname=player_nickname)
 			tournament.players.add(player)
 		if request.json.get('status') is not None:
-			if request.json.get('status') == TournamentStatus.CANCELLED:
+			# Only the creator can change the status
+			if tournament.creator != request.user:
+				return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)
+			if request.json.get('status') == TournamentStatus.CANCELLED and tournament.status != TournamentStatus.DONE:
 				tournament.status = TournamentStatus.CANCELLED
 			elif request.json.get('status') == "next":
 				next_status = TournamentStatus.states[TournamentStatus.states.index(tournament.status) + 1]
-				if next_status != TournamentStatus.CANCELLED:
+				if next_status == "registration_closed":
+					if len(tournament.players.all()) < 2:
+						return JsonResponse({ERROR_FIELD: "Not enough players"}, status=400)
+					else:
+						# Schedule games to be played. Scores are set to 0 by default
+						create_games(tournament)
+				elif next_status != "cancel":
 					tournament.status = next_status
+
 			else:
 				return JsonResponse({ERROR_FIELD: "Invalid status"}, status=400) # FIXME: Better that raising exception?
 
