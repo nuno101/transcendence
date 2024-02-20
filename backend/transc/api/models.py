@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 import os
 
 # cCONF: Avatar file path config
@@ -129,8 +130,20 @@ class Game(models.Model):
 		choices=MatchStatus.choices,
 		default=MatchStatus.CREATED,
 	)
-	player1_score = models.IntegerField(default=0)
-	player2_score = models.IntegerField(default=0)
+	player1_score = models.IntegerField(
+		default=0,
+		validators=[
+        MaxValueValidator(3),
+        MinValueValidator(0)
+      ]
+	)
+	player2_score = models.IntegerField(
+		default=0,
+		validators=[
+        MaxValueValidator(3),
+        MinValueValidator(0)
+      ]
+	)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 

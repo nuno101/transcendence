@@ -24,8 +24,9 @@ Robert:
 * [ ] Add avatar functionality in backend
   * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
   * [ ] Fix avatars not updating correctly
-* [ ] Add parameter type verification/validation in endpoint structure
-* [ ] Add parameter min/max validation in endpoint structure
+* [x] ~~Add parameter type verification/validation in endpoint structure~~ --> Can be implemented via model field limit
+* [x] ~~Add parameter min/max validation in endpoint structure~~ --> Can be implemented via model field limit
+* [x] Implement max/min limits for game score --> Limits set at django model level
 
 
 # 2024-02-13 Discord meeting:
