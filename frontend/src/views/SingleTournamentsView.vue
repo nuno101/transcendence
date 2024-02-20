@@ -15,7 +15,7 @@ const nickname = ref(null);
 const creator = ref(null);
 const players = ref([]);
 const isCreator = ref(false);
-const isJoined = ref(localStorage.getItem('isJoined') || false);
+const isJoined = ref(false);
 const currentUser = ref(false);
 
 const fetchData = async () => {
