@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='tournament',
-            name='test',
-            field=models.CharField(max_length=12, null=True, unique=True),
-        ),
+     #   migrations.AddField(
+     #       model_name='tournament',
+     #       name='test',
+     #       field=models.CharField(max_length=12, null=True, unique=True),
+     #   ),
     ]
