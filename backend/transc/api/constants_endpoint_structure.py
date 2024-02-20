@@ -53,6 +53,10 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Password of the user"
+					}, "tournament_id": {
+						"type": "integer",
+						"required": False,
+						"description": "ID of the tournament joined"
 					}
 				},
 			}, "DELETE": NO_PARAM_METHOD_TEMPLATE
@@ -127,6 +131,21 @@ ENDPOINTS = {
 	}, "/users/me/notifications": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {},
+				"body_params": {
+					"type": {
+						"type": "string",
+						"required": True,
+						"description": "Type of the notification"
+					}, "content": {
+						"type": "string",
+						"required": True,
+						"description": "Content of the notification"
+					}
+				},
+			}
 		}
 	}, "/users/me/notifications/NOTIFICATION_ID": {
 		"methods": {
@@ -217,6 +236,10 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Nickname of the player to be added to the tournament"
+					}, "status": {
+						"type": "string",
+						"required": False,
+						"description": "'next' -> advance to next tournament status, 'cancelled' -> cancel tournament"
 					}
 				},
 			}

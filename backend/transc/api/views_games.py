@@ -1,7 +1,8 @@
 from django.utils.decorators import method_decorator
-from .decorators import *
+from django.core.exceptions import ValidationError
 from django.views import View
 from django.http import JsonResponse, HttpResponse
+from .decorators import *
 from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .helpers_games import update_game
@@ -29,10 +30,16 @@ class GameView(View):
 			return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 		if player1.id is player2.id:
 			return JsonResponse({ERROR_FIELD: "You can't play against yourself"}, status=400)
-		game = Game(tournament=tournament, player1=player1, player2=player2)
-		game.player1_score = request.json.get('player1_score', 0)
-		game.player2_score = request.json.get('player2_score', 0)
-		game.save()
+		try:
+			game = Game(tournament=tournament, player1=player1, player2=player2)
+			game.player1_score = request.json.get('player1_score', 0)
+			game.player2_score = request.json.get('player2_score', 0)
+			game.full_clean()
+			game.save()
+		except ValidationError as e:
+			return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
+		except Exception as e:
+			return JsonResponse({ERROR_FIELD: str(e)}, status=500)
 
 		# TODO: Implement websocket notification?
 

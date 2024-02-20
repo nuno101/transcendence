@@ -5,12 +5,13 @@ RUN pip install --upgrade pip
 RUN mkdir /app
 WORKDIR /app
 
+RUN apk add build-base
+RUN apk add libffi-dev
+
 # Copy conf
 RUN mkdir conf
 COPY conf/ conf
 
-RUN apk add build-base
-RUN apk add libffi-dev
 RUN pip install --no-cache-dir -r conf/requirements.txt
 
 # Copy app

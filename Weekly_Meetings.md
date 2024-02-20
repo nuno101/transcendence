@@ -1,3 +1,27 @@
+# 2024-02-20 Discord meeting:
+
+Jan:
+* bug fixing on header component
+* working on collision detection and ball speed issues game in separate branch to improve current game
+
+Jmatheis:
+* avatar working. Nuno reports some issues
+* working on notifications but not yet ready to push to main
+
+Amechain:
+* working on the tournaments page
+* added users.tournaments join table to keep track of users joining a tournament
+* some discussion with Nuno about state handling logic. Only creator can change a tournament state/status. To change state use PATCH /tournamnets/tournament_id/ with payload { status: "next" } of { status: "cancel" }
+
+Nuno:
+* added simple tournaments state handling. Robert has reviewed patched some issues
+* tournament.status to allow changes only by the creator
+* asked Robert about how to use Postman with authentication (demo after the meeting)
+  
+Robert:
+* TODO
+
+
 # 2024-02-13 Discord meeting:
 
 Jan:
@@ -15,14 +39,15 @@ Nuno:
 * adding logic or a state-machine for managing the tournaments & games.
 
 Robert:
-* to check with Julia about the avatars
-* [ ] Websocket system bugfixing
 * [ ] Add avatar functionality in backend
-  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
   * [x] Implement working default avatar
-* [ ] Implement creating of notifications in database for relevant things like friend requests, etc.
-* [ ] Make use of notification system, e.g. for the creation of a friend request, etc
-* [ ] Extend/Improve functionality of automatic http api documentation generation?
+  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
+* [x] to check with Julia about the avatars
+* [x] Improve error checking/exception handling for PATCH endpoints updating database models
+* [ ] ~~Add parameter type verification/validation~~
+* [ ] ~~Extend/Improve functionality of automatic http api documentation generation?~~
+* [ ] ~~Implement creating of notifications in database for relevant things like friend requests, etc.~~
+* [ ] ~~Make use of notification system, e.g. for the creation of a friend request, etc~~ -> Creating notifications will be moved to the frontend
 
 # 2024-02-06 Discord meeting:
 Attended by Anouk, Jan, Julia, Robert

@@ -82,6 +82,7 @@ def check_channel_member(view_func):
   def wrapped_view(request, *args, **kwargs):
     try:
       channel = Channel.objects.get(id=kwargs["channel_id"])
+      request.channel = channel
     except:
       return JsonResponse({ERROR_FIELD: CHANNEL_404}, status=404)
     if request.user not in channel.members.all():
@@ -93,6 +94,7 @@ def check_message_author(view_func):
   def wrapped_view(request, *args, **kwargs):
     try:
       message = models.Message.objects.get(id=kwargs["message_id"])
+      request.message = message
     except:
       return JsonResponse({ERROR_FIELD: MESSAGE_404}, status=404)
     if request.user.id is not message.author.id:

@@ -2,7 +2,7 @@
 
 Total number of urls: 28
 
-Total number of methods: 48
+Total number of methods: 49
 # Table of Contents
 
 - [/login](#login)
@@ -133,6 +133,19 @@ Total number of methods: 48
 
 </td></tr>
 
+<tr><td>tournament_id</td><td>
+<table>
+
+<tr><td>type</td><td>integer</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>ID of the tournament joined</td></tr>
+
+</table>
+
+</td></tr>
+
 </table>
 
 ### DELETE
@@ -237,6 +250,40 @@ Total number of methods: 48
 ## users-me-notifications
 
 ### GET
+
+### POST
+
+<table>
+
+<tr><th>Body Parameters</th><th></th></tr>
+
+<tr><td>type</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>Type of the notification</td></tr>
+
+</table>
+
+</td></tr>
+
+<tr><td>content</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>Content of the notification</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
 
 ## users-me-notifications-NOTIFICATION_ID
 
@@ -412,6 +459,19 @@ Total number of methods: 48
 <tr><td>required</td><td>False</td></tr>
 
 <tr><td>description</td><td>Nickname of the player to be added to the tournament</td></tr>
+
+</table>
+
+</td></tr>
+
+<tr><td>status</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>'next' -> advance to next tournament status, 'cancelled' -> cancel tournament</td></tr>
 
 </table>
 

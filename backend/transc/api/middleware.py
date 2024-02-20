@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from .constants_endpoint_structure import ENDPOINTS
+from .constants_endpoint_structure import BODY_METHODS, ENDPOINTS
 from .constants_http_response import ERROR_FIELD
 import json
 
@@ -29,16 +29,13 @@ class LoggedInCheckMiddleware:
 
 		return self.get_response(request)
 
-# cCONF: Methods that require a body
-METHODS_WITH_BODY = ["POST", "PATCH"]
-
 class JsonSyntaxCheckMiddleware:
 	def __init__(self, get_response):
 		self.get_response = get_response
 
 	def __call__(self, request):
 		request.json = None
-		if request.method in METHODS_WITH_BODY and request.content_type == "application/json":
+		if request.method in BODY_METHODS and request.content_type == "application/json":
 			try:
 				request.json = json.loads(request.body.decode("utf-8"))
 			except:
