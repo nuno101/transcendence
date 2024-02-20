@@ -16,6 +16,7 @@ NOTIFICATION_403 = "No permission to access notification"
 
 # Tournament errors
 TOURNAMENT_404 = "Tournament not found"
+TOURNAMENT_403 = "No permission to access tournament"
 
 # Games errors
 GAME_404 = "Game not found"
