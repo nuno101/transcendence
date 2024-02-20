@@ -79,19 +79,20 @@ class TournamentSingle(View):
 		except ValidationError as e:
 			return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
 		except Exception as e:
-			return JsonResponse({ERROR_FIELD: str(e)}, status=500)
+			return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 
 		# TODO: Implement websocket notification?
 
 		return JsonResponse(tournament.serialize())
 
-	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, tournament_id):
-		Tournament.objects.get(id=tournament_id).delete()
+		tournament = Tournament.objects.get(id=tournament_id)
+
+		if tournament.creator != request.user:
+			return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)
+
+		tournament.delete()
 
 		# TODO: Implement websocket notification?
 
 		return HttpResponse(status=204)
-
-
-
