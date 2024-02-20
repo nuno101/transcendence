@@ -24,7 +24,7 @@ class NotificationCollection(View):
 		except ValidationError as e:
 			return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
 		except Exception as e:
-			return JsonResponse({ERROR_FIELD: str(e)}, status=500)
+			return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 
 		return JsonResponse(notification.serialize(), status=201)
 

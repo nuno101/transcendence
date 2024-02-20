@@ -1,4 +1,5 @@
-.PHONY: all build up init migrate superuser down documentation clean re blog
+.PHONY: all build up init migrate superuser down blog documentation volume_clean docker_clean \
+				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
 all: build up migrate

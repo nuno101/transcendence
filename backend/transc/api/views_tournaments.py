@@ -63,29 +63,36 @@ class TournamentSingle(View):
 			player_nickname = request.json.get('player')
 			player = User.objects.get(nickname=player_nickname)
 			tournament.players.add(player)
-		if request.json.get('state') is not None:
-			if request.json.get('state') == TournamentStatus.CANCELLED:
-				tournament.state = TournamentStatus.CANCELLED
-			elif request.json.get('state') == "next":
-				next_state = TournamentStatus.states[TournamentStatus.states.index(tournament.state) + 1]
-				if next_state != TournamentStatus.CANCELLED:
-					tournament.state = next_state
+		if request.json.get('status') is not None:
+			if request.json.get('status') == TournamentStatus.CANCELLED:
+				tournament.status = TournamentStatus.CANCELLED
+			elif request.json.get('status') == "next":
+				next_status = TournamentStatus.states[TournamentStatus.states.index(tournament.status) + 1]
+				if next_status != TournamentStatus.CANCELLED:
+					tournament.status = next_status
 			else:
-				raise ValueError("Invalid state")
+				return JsonResponse({ERROR_FIELD: "Invalid status"}, status=400) # FIXME: Better that raising exception?
 
-		tournament.save()
+		try:
+			tournament.full_clean()
+			tournament.save()
+		except ValidationError as e:
+			return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
+		except Exception as e:
+			return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 
 		# TODO: Implement websocket notification?
 
 		return JsonResponse(tournament.serialize())
 
-	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, tournament_id):
-		Tournament.objects.get(id=tournament_id).delete()
+		tournament = Tournament.objects.get(id=tournament_id)
+
+		if tournament.creator != request.user:
+			return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)
+
+		tournament.delete()
 
 		# TODO: Implement websocket notification?
 
 		return HttpResponse(status=204)
-
-
-
