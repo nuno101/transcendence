@@ -12,7 +12,7 @@ def update_game(game: Game, parameters):
       game.title = parameters.get('title')
     if parameters.get('description') is not None:
       game.title = parameters.get('description')
-    game.clean_all()
+    game.full_clean()
     game.save()
   except ValidationError as e:
     return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)

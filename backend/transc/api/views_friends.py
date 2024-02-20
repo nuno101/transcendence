@@ -8,7 +8,6 @@ from .helpers_users import *
 from . import helpers_notifications as notification
 from .constants_websocket_events import *
 from .constants_http_response import *
-from .constants_notification_types import *
 from . import bridge_websocket as websocket
 
 # Endpoint: /users/me/friends

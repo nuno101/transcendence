@@ -11,7 +11,7 @@ def update_channel(channel: Channel, parameters):
   try:
     if parameters.get('name') is not None:
       channel.content = parameters.get('name')
-    channel.clean_all()
+    channel.full_clean()
     channel.save()
   except ValidationError as e:
     return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
