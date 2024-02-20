@@ -1,4 +1,5 @@
 # 2024-02-20 Discord meeting:
+Attended by all.
 
 Jan:
 * bug fixing on header component
@@ -19,7 +20,12 @@ Nuno:
 * asked Robert about how to use Postman with authentication (demo after the meeting)
   
 Robert:
-* TODO
+* [ ] Check and implement where websocket events are still missing
+* [ ] Add avatar functionality in backend
+  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
+  * [ ] Fix avatars not updating correctly
+* [ ] Add parameter type verification/validation in endpoint structure
+* [ ] Add parameter min/max validation in endpoint structure
 
 
 # 2024-02-13 Discord meeting:
