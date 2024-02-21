@@ -18,6 +18,8 @@ class UserCollection(View):
 
 	def post(self, request):
 		try:
+			if User.objects.filter(username=request.json.get('username')).exists():
+				return JsonResponse({ERROR_FIELD: "User already exists"}, status=409)
 			user = User(username=request.json.get('username'),
 									nickname=request.json.get('username'))
 			user.set_password(request.json.get('password'))	
