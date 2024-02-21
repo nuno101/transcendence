@@ -9,12 +9,17 @@ class Backend {
             body: JSON.stringify(postdata)
         }
         const respone = await fetch(path, arg)
-
-        if (!respone.ok){
+        console.log(respone);
+        if(!respone.ok){
             let error = (await respone.json()).error;
-            if(error.type === undefined)
+            console.log(error);
+            // OBJECT EXAMPLE: {username: ["User with this Username already exists."]}
+            // STRING EXAMPLE:Friend request already sents
+            console.log(typeof error);
+            if(typeof error === 'string')
                 throw new Error(error);
-            throw new Error(error.type);
+            const propertyNames = Object.keys(error);
+            throw new Error(error[propertyNames[0]][0]);
         }
 
         return await respone.json()
