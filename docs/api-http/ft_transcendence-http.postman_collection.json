@@ -268,7 +268,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"New\",\r\n    \"description\": \"New\"\r\n}",
+									"raw": "{\r\n    \"title\": \"New\",\r\n    \"description\": \"New\",\r\n    \"status\": \"next\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1007,6 +1007,34 @@
 							"response": []
 						},
 						{
+							"name": "Create notification",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"custom_notification\",\n    \"content\": \"A custom test notification\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/me/notifications",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Delete notification",
 							"request": {
 								"method": "DELETE",
@@ -1087,7 +1115,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nickname\": \"Hello\"\r\n}",
+							"raw": "{\r\n    \"nickname\": \"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

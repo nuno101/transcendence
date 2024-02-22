@@ -1,13 +1,13 @@
 from django.views import View
 from django.utils.decorators import method_decorator
-from .decorators import *
 from django.http import JsonResponse, HttpResponse
+from django.core.exceptions import ValidationError
+from .decorators import *
 from .models import User, FriendRequest
 from .helpers_users import *
 from . import helpers_notifications as notification
 from .constants_websocket_events import *
 from .constants_http_response import *
-from .constants_notification_types import *
 from . import bridge_websocket as websocket
 
 # Endpoint: /users/me/friends
@@ -79,13 +79,18 @@ class FriendRequestCollection(View):
     if FriendRequest.objects.filter(from_user=target, to_user=request.user).exists():
       return JsonResponse({ERROR_FIELD: "Friend request already received"}, status=400)
 
-    friend_request = FriendRequest.objects.create(from_user=request.user, to_user=target)
+    try:
+      friend_request = FriendRequest(from_user=request.user, to_user=target)
+      friend_request.full_clean()
+      friend_request.save()
+    except ValidationError as e:
+      return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
+    except Exception as e:
+      return JsonResponse({ERROR_FIELD: str(e)}, status=500)
 
     websocket.send_user_event(target.id, CREATE_FRIEND_REQUEST, 
                               friend_request.serialize())
-    notification.create_notification(FRIEND_REQUEST,
-                        f"{request.user.username} sent you a friend request",
-                        target)# TODO
+
     return JsonResponse(friend_request.serialize(), status=201)
 
 # Endpoint: /users/me/friends/requests/REQUEST_ID
@@ -111,6 +116,7 @@ class FriendRequestSingle(View):
     from_user = friend_request.from_user
     websocket.send_user_event(from_user.id, ACCEPT_FRIEND_REQUEST, 
                               friend_request.serialize())
+
     friend_request.delete()
     return JsonResponse(from_user.serialize(private=True), status=201)
 

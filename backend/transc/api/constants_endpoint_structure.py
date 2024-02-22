@@ -131,6 +131,21 @@ ENDPOINTS = {
 	}, "/users/me/notifications": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {},
+				"body_params": {
+					"type": {
+						"type": "string",
+						"required": True,
+						"description": "Type of the notification"
+					}, "content": {
+						"type": "string",
+						"required": True,
+						"description": "Content of the notification"
+					}
+				},
+			}
 		}
 	}, "/users/me/notifications/NOTIFICATION_ID": {
 		"methods": {
@@ -221,6 +236,10 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Nickname of the player to be added to the tournament"
+					}, "status": {
+						"type": "string",
+						"required": False,
+						"description": "'next' -> advance to next tournament status, 'cancelled' -> cancel tournament"
 					}
 				},
 			}
@@ -247,13 +266,11 @@ ENDPOINTS = {
 						"description": "ID of the second player"
 					}, "player1_score": {
 						"type": "integer",
-						"required": False,
-						"default": "0",
+						"required": True,
 						"description": "Score of the first player"
 					}, "player2_score": {
 						"type": "integer",
-						"required": False,
-						"default": "0",
+						"required": True,
 						"description": "Score of the second player"
 					}
 				},
