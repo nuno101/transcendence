@@ -22,7 +22,6 @@ const isJoined = ref(false);
 const currentUser = ref(false);
 const selectedOption = ref('option1');
 const closingTime = ref(0);
-const status = ref(null);
 
 const fetchData = async () => {
   try {
@@ -52,12 +51,21 @@ const initValues = (data) => {
 };
 
 const joinTournament = async () => {
+	console.log("Join")
     await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
+	console.log(players.value);
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = true;
 	localStorage.setItem(userTournamentKey, JSON.stringify(true)); // Check this syntax 
+};
 
-	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
+const unjoinTournament = async () => {
+	console.log("Unjoin")
+    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
+	console.log(players.value);
+	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
+	isJoined.value = false;
+	localStorage.setItem(userTournamentKey, JSON.stringify(false)); // Check this syntax 
 };
 
 const getMinClosingTime = () => {
@@ -70,15 +78,20 @@ const getMinClosingTime = () => {
     return minTime;
 };
 
-const confirmSettings = async () => {
+const changeState = async () => {
+	const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "next"});
+	status.value = response.data.status;
+};
+
+const openRegSettings = async () => {
     try {
         // Store closingTime and selectedOption locally for this tournament
-        localStorage.setItem(`tournament_${tournamentId.value}_closingTime`, closingTime.value);
         localStorage.setItem(`tournament_${tournamentId.value}_selectedOption`, selectedOption.value);
 
         if (selectedOption.value === 'option1') {
-            console.log("TEST1")
+			changeState();
         } else if (selectedOption.value === 'option2') {
+			localStorage.setItem(`tournament_${tournamentId.value}_closingTime`, closingTime.value);
             console.log("TEST2")
         }
         // Close the modal after confirming settings
@@ -89,11 +102,33 @@ const confirmSettings = async () => {
     }
 };
 
+const closeRegSettings = async () => {
+    try {
+		changeState();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+const printPlayers = async () => {
+	console.log(players.value);
+};
+
 
 onMounted(() => {
 	const route = useRoute();
   	tournamentId.value = route.params.id;
 	fetchData();
+
+	setInterval(() => {
+            if (selectedOption.value === 'option2' && closingTime.value) {
+                const currentTime = new Date();
+                const closingTimeDate = new Date(closingTime.value);
+                if (currentTime >= closingTimeDate) {
+                    changeState();
+                }
+            }
+        }, 1000);
 })
 </script>
 
@@ -113,6 +148,8 @@ onMounted(() => {
 						<p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                 </div>
+				<p>{{ selectedOption }}</p>
+				<template v-if="status === 'created'">
 				<!-- Button to trigger modal -->
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationSetting" v-if="isCreator">Open registration</button>
 				<!-- Alert message for when registration is not open -->
@@ -144,16 +181,26 @@ onMounted(() => {
 
 								<!-- Confirm and Cancel buttons -->
 								<div class="mt-3">
-									<button type="button" class="btn btn-primary" @click="confirmSettings">Confirm</button>
+									<button type="button" class="btn btn-primary" @click="openRegSettings">Confirm</button>
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 								</div>	
 							</div>
 						</div>
 					</div>
 				</div>	
+				</template>
+				
+				<template v-else-if="status === 'registration_open'">
+					<button type="button" class="btn btn-primary" v-if="isCreator && selectedOption === 'option1'" @click="closeRegSettings">Close registration</button>
+        			<template v-else-if="selectedOption === 'option2'">
+            			<p>{{ closingTime }}</p>
+        			</template>
+        			<button type="button" class="btn btn-primary" v-else @click="isJoined ? unjoinTournament() : joinTournament()">{{ isJoined ? 'Unjoin' : 'Join' }}</button>
+				</template>
 
-				<h1 class="display-4 mb-4">{{ selectedOption }}</h1>
-				<h1 class="display-4 mb-4">{{ closingTime }}</h1>
+				<template v-else-if="status === 'registration_closed'">
+				</template>
+
             </div>
             <div class="col-lg-4">
                 <h3 class="mb-3">Created by</h3>

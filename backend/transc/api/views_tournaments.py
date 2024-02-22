@@ -63,7 +63,10 @@ class TournamentSingle(View):
 		if request.json.get('player') is not None:
 			player_nickname = request.json.get('player')
 			player = User.objects.get(nickname=player_nickname)
-			tournament.players.add(player)
+			if player not in tournament.players.all():
+				tournament.players.add(player)
+			else:
+				tournament.players.remove(player)
 		if request.json.get('status') is not None:
 			# Only the creator can change the status
 			if tournament.creator != request.user:
