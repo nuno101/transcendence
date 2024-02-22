@@ -9,8 +9,7 @@ import SingleTournamentsView from './SingleTournamentsView.vue';
 const tournaments = ref([])
 const userTournaments = ref([])
 const submit = ref(false);
-const input = defineModel();
-input.value = {title: '', description: ''};
+const input = ref({ title: '', description: '' })
 const showAlert = ref(false);
 const personalTournaments = ref([]);
 
