@@ -232,10 +232,6 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Description of the tournament"
-					}, "player": {
-						"type": "string",
-						"required": False,
-						"description": "Nickname of the player to be added to the tournament"
 					}, "status": {
 						"type": "string",
 						"required": False,
@@ -243,6 +239,20 @@ ENDPOINTS = {
 					}
 				},
 			}
+		}
+        }, "/tournaments/TOURNAMENT_ID/play": {
+		"methods": {
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {},
+				"body_params": {
+					"play": {
+						"type": "string",
+						"required": True,
+						"description": "join on unjoin the tournament"
+					},
+				}
+			},
 		}
 	}, "/games": {
 		"methods": {

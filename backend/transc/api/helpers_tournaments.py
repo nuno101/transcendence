@@ -1,6 +1,6 @@
 from .models import Tournament, Game
 
-# create a games for each player in the tournament
+# create game among each registered players in the tournament
 def create_games(tournament):
     for player in tournament.players.all():
         for opponent in tournament.players.all():
