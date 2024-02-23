@@ -546,9 +546,7 @@ Total number of methods: 50
 
 <tr><td>type</td><td>integer</td></tr>
 
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>default</td><td>0</td></tr>
+<tr><td>required</td><td>True</td></tr>
 
 <tr><td>description</td><td>Score of the first player</td></tr>
 
@@ -561,9 +559,7 @@ Total number of methods: 50
 
 <tr><td>type</td><td>integer</td></tr>
 
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>default</td><td>0</td></tr>
+<tr><td>required</td><td>True</td></tr>
 
 <tr><td>description</td><td>Score of the second player</td></tr>
 
