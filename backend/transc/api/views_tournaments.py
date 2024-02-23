@@ -57,7 +57,7 @@ class TournamentSingle(View):
 		tournament = Tournament.objects.get(id=tournament_id)
 		# Only the creator can use this entrypoint
 		if tournament.creator != request.user:
-				return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)
+			return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)
 		
 		if request.json.get('title') is not None:
 			tournament.title = request.json.get('title')
@@ -117,11 +117,13 @@ class TournamentSinglePlay(View):
 
 	def post(self, request, tournament_id):
 		tournament = Tournament.objects.get(id=tournament_id)
-		if request.json.get('play') is not None:
-			if request.json.get('play') == "join":
-				tournament.players.add(request.user)
-			elif request.json.get('play') == "unjoin":
-				tournament.players.remove(request.user)
+		if tournament.status != "registration_open":
+			return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)
+				
+		if request.json.get('play') == "join":
+			tournament.players.add(request.user)
+		elif request.json.get('play') == "unjoin":
+			tournament.players.remove(request.user)
 
 		try:
 			tournament.full_clean()
