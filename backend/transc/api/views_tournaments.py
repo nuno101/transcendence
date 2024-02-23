@@ -71,7 +71,7 @@ class TournamentSingle(View):
 				tournament.status = TournamentStatus.CANCELLED
 			# status done can not be triggered manually.
 			# completion of all games will change tournament.status to done.
-			elif request.json.get('status') == "next" and (tournament.status != TournamentStatus.CANCELLED or tournament.status != TournamentStatus.DONE):
+			elif request.json.get('status') == "next" and (tournament.status != TournamentStatus.CANCELLED and tournament.status != TournamentStatus.DONE):
 				next_status = TournamentStatus.states[TournamentStatus.states.index(tournament.status) + 1]
 				if next_status == "registration_closed":
 					if len(tournament.players.all()) < 2:
