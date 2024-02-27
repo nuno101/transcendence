@@ -33,6 +33,9 @@
             <button type="button" class="btn btn-outline-light me-2" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Login</button>
             <button type="button" class="btn btn-secondary" data-bs-target="#signupModalToggle" data-bs-toggle="modal">Signup</button>
           </div>
+          <div v-if="logged.status" class="position-relative ms-3">
+            <Notifications />
+          </div>
         </div>
       </div>
     </header>
@@ -52,6 +55,7 @@ import { ref } from 'vue'
 import router from '../../router'
 import Login from '../auth/Login.vue'
 import Signup from '../auth/Signup.vue'
+import Notifications from '../common/Notifications.vue'
 import { useRoute } from 'vue-router'
 import { watch } from "vue"
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
