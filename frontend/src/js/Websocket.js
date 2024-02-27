@@ -1,6 +1,7 @@
 import { ref } from "vue";
 class Websocket {
     constructor(url, eventhandler) {
+      // FIXME: Replace ws with wss before evaluation
       this.ws = new WebSocket('ws://' + window.location.host + url);
       this.m = ref([]);
 
