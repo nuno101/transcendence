@@ -1,8 +1,8 @@
 # Statistics
 
-Total number of urls: 28
+Total number of urls: 29
 
-Total number of methods: 49
+Total number of methods: 50
 # Table of Contents
 
 - [/login](#login)
@@ -24,6 +24,7 @@ Total number of methods: 49
 - [/users/USER_ID/games](#users-USER_ID-games)
 - [/tournaments](#tournaments)
 - [/tournaments/TOURNAMENT_ID](#tournaments-TOURNAMENT_ID)
+- [/tournaments/TOURNAMENT_ID/play](#tournaments-TOURNAMENT_ID-play)
 - [/games](#games)
 - [/games/GAME_ID](#games-GAME_ID)
 - [/channels](#channels)
@@ -451,19 +452,6 @@ Total number of methods: 49
 
 </td></tr>
 
-<tr><td>player</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>description</td><td>Nickname of the player to be added to the tournament</td></tr>
-
-</table>
-
-</td></tr>
-
 <tr><td>status</td><td>
 <table>
 
@@ -472,6 +460,29 @@ Total number of methods: 49
 <tr><td>required</td><td>False</td></tr>
 
 <tr><td>description</td><td>'next' -> advance to next tournament status, 'cancelled' -> cancel tournament</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
+
+## tournaments-TOURNAMENT_ID-play
+
+### POST
+
+<table>
+
+<tr><th>Body Parameters</th><th></th></tr>
+
+<tr><td>play</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>join on unjoin the tournament</td></tr>
 
 </table>
 
