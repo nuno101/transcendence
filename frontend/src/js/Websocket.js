@@ -1,8 +1,6 @@
 import { ref } from "vue";
-import Backend from './Backend';
-import Notifications from './Notifications';
 class Websocket {
-    constructor(url) {
+    constructor(url, eventhandler) {
       this.ws = new WebSocket('ws://' + window.location.host + url);
       this.m = ref([]);
 
@@ -10,18 +8,7 @@ class Websocket {
         console.log('WebSocket connection opened');
       });
 
-      // variable die funktion hält
-      const eventListeners = {
-        '/api/ws/events': Notifications.setupEventListener,
-        // Add more URLs and event listener functions as needed
-      };
-
-      const setupEventListener = eventListeners[url];
-      if (setupEventListener) {
-          setupEventListener(this);
-      } else {
-        console.log("NO EVENT LISTENER FOUND");
-      }
+      eventhandler(this);
     }
 
     sendWebSocketMessage(event, payload) {
