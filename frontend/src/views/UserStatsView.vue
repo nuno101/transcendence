@@ -15,7 +15,7 @@ const defeatsRatio = ref(null);
 const winsRatio = ref(null);
 
 // INDIVIDUAL FRIEND
-const friendname = ref('');
+const nickname = ref('');
 const route = useRoute();
 const friends = ref({});
 const friend = ref(null);
@@ -25,14 +25,14 @@ const avatar = ref(null);
 const isLoaded = ref(false);
 
 onMounted(() => {
-  friendname.value = route.params.friendname;
+  nickname.value = route.params.nickname;
   fetchData();
 });
 
 const fetchData = async() => {
   try {
     friends.value = await Backend.get(`/api/users/me/friends`);
-    friend.value = friends.value.find(friend => friend.nickname === friendname.value);
+    friend.value = friends.value.find(friend => friend.nickname === nickname.value);
     if(friend.value) {
       games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
       avatar.value = await Avatar.getAvatarById(friend.value.id);
