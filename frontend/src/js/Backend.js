@@ -54,7 +54,6 @@ class Backend {
         };
 
         const respone = await fetch(path, arg);
-        console.log(respone);
 
         if (!respone.ok) {
             let error = (await respone.json()).error;
