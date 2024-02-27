@@ -77,7 +77,7 @@ const activeView = {
 
 const route = useRoute()
 const navRoutes = [
-  { name: 'dashboard', button: 'Dashboard' },
+  { name: 'home', button: 'Home' },
   { name: 'friends', button: 'Friends' },
   { name: 'settings', button: 'Settings' },
   { name: 'tournaments', button: 'Tournaments' },

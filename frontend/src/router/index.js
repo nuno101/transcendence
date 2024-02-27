@@ -30,12 +30,6 @@ const router = createRouter({
       name: 'logout',
       component: () => import('../views/Logout.vue')
     },
-    // DASHBOARD
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/DashboardView.vue')
-    },
     {
       path: '/profile',
       name: 'profile',
