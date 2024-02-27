@@ -12,10 +12,18 @@ const profileLinks = [
 
 <template>
   <div>
-  <main>
-    <h1>HOME VIEW</h1>
-    <h1>WELCOME TO OUR TRANSCENDENCE PROJECT</h1>
-  </main>
+    <div class="d-flex justify-content-center align-items-center" style="margin-top: 120px;">
+      <div class="text-center">
+        <h1 class="m-0 p-0">PONG GAME</h1>
+        <h5>Our Transcendence Project</h5>
+        <p>Transcendence is the last project of the Core Curriculum at 42. 
+          The goal of this project is to develop a web application that allows users to engage in a basic Pong Game 
+          while also providing a platform for social interaction with other users. 
+          It involves implementing various modules, making choices about technologies and libraries, 
+          and ensuring that all decisions align with the project's requirements and limitations.
+        </p>
+      </div>
+    </div>
   <footer class="container-fluid bg-light fixed-bottom p-3 text-center" style="z-index: -1;">
       <h6 class="text-uppercase fw-bold pb-1">Connect with us on Github</h6>
       <div class="d-flex flex-wrap justify-content-center">
