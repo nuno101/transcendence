@@ -36,6 +36,7 @@ class Notifications {
             requestBody.type = requestBody.content = "";
         } catch (err) {
             console.error(err.message);
+            // FIXME: ADD ERROR ALERT
         }
     }
 
