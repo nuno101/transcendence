@@ -3,6 +3,7 @@ import Backend from './Backend';
 import Notifications from './Notifications';
 class Websocket {
     constructor(url) {
+      // FIXME: Replace ws with wss before evaluation
       this.ws = new WebSocket('ws://' + window.location.host + url);
       this.m = ref([]);
 
