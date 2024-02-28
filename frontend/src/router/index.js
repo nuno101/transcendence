@@ -89,6 +89,12 @@ const router = createRouter({
       name: 'ponggame',
       component: () => import('../views/PongGameView.vue')
     },
+    // Chat
+    {
+      path: '/chat',
+      name: 'chat',
+      component: () => import('../views/ChatView.vue')
+    },
     // FALLBACK
     {
       path: '/:pathMatch(.*)*',
