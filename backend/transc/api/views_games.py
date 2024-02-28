@@ -47,6 +47,7 @@ class GameView(View):
 
 # Endpoint: /tournaments/TOURNAMENT_ID/games
 @method_decorator(check_structure("/tournaments/TOURNAMENT_ID/games"), name='dispatch')
+@method_decorator(check_object_exists(Tournament, 'tournament_id', TOURNAMENT_404), name='dispatch')
 class TournamentGameCollection(View):
 
 	def get(self, request, tournament_id):
