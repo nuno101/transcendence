@@ -240,7 +240,7 @@ ENDPOINTS = {
 				},
 			}
 		}
-        }, "/tournaments/TOURNAMENT_ID/play": {
+    }, "/tournaments/TOURNAMENT_ID/play": {
 		"methods": {
 			"POST": {
 				"content_type": "application/json",
@@ -254,6 +254,11 @@ ENDPOINTS = {
 				}
 			},
 		}
+	}, "/tournaments/TOURNAMENT_ID/games": {
+		"methods": {
+			"GET": NO_PARAM_METHOD_TEMPLATE,
+		}
+        
 	}, "/games": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
