@@ -11,16 +11,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/registration',
-      name: 'registration',
-      component: () => import('../views/RegistrationView.vue')
-    },
-    {
-      path: '/createprofile',
-      name: 'createprofile',
-      component: () => import('../views/CreateProfileView.vue')
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
@@ -29,12 +19,6 @@ const router = createRouter({
       path: '/logout',
       name: 'logout',
       component: () => import('../views/Logout.vue')
-    },
-    // DASHBOARD
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/DashboardView.vue')
     },
     {
       path: '/profile',
@@ -69,11 +53,6 @@ const router = createRouter({
 		component: () => import('../views/SingleTournamentsView.vue')
 	  },
     // GAME
-    {
-      path: '/game',
-      name: 'game',
-      component: () => import('../views/GameModesView.vue')
-    },
     {
       path: '/game/online',
       name: 'game/online',

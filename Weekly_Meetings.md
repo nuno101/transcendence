@@ -1,3 +1,33 @@
+# 2024-02-28 Discord meeting:
+Attended by all.
+
+Jan:
+- wants to improve the game physics
+- another week and it should be done
+
+Julia:
+- welcome page footer added
+- dashboard removed
+- websockets based notifications working
+- statistics of users to be updated to remove restrictions (all users can see all statistics)
+
+Anouk:
+- tournament logic implementation
+- rendering of tournaments
+
+Nuno:
+- added pull requests review with Robert: everyone fine with it
+- wants to finalise the games logic 
+- suggests freezing each module when good enough and asking someone who was not involved in its development to do some  independent testing/ review
+
+
+Robert:
+* [ ] Implement automatic check for user serialization to decide if private output should be included, e.g. online status in case requesting user is a friend 
+* [ ] Fix avatars not updating
+* [ ] Fix/Fully implement user online status
+- will work in the chat also to learn Vue.js
+
+
 # 2024-02-20 Discord meeting:
 Attended by all.
 
