@@ -79,6 +79,7 @@ const route = useRoute()
 const navRoutes = [
   { name: 'home', button: 'Home' },
   { name: 'friends', button: 'Friends' },
+  { name: 'chat', button: 'Chat' },
   { name: 'settings', button: 'Settings' },
   { name: 'tournaments', button: 'Tournaments' },
   { name: [
