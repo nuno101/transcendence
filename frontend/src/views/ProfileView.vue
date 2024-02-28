@@ -36,6 +36,7 @@ const fetchData = async () => {
     }
   } catch (err) {
     console.error(err.message);
+    alert(err.message);
   } finally {
     isLoaded.value = true; //data available
   }
