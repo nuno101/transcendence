@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref, onMounted, computed} from 'vue';
+import { ref, watch, onMounted, computed} from 'vue';
 import Backend from '../js/Backend';
 import Avatar from '../js/Avatar';
 import WinsTable from '../components/dashboard/WinsTable.vue';
@@ -16,7 +16,7 @@ const winsRatio = ref(null);
 
 // INDIVIDUAL FRIEND
 const userId = ref('');
-const userNickname = ref('');
+const user = ref({});
 const route = useRoute();
 const games = ref({});
 const avatar = ref(null);
@@ -28,10 +28,15 @@ onMounted(() => {
   fetchData();
 });
 
+watch(() => route.params.id, () => {
+  userId.value = route.params.id;
+  fetchData();
+});
+
 const fetchData = async() => {
   try {
+      user.value = await Backend.get(`/api/users/${userId.value}`);
       games.value = await Backend.get(`/api/users/${userId.value}/games`);
-      userNickname.value = games.value[0].player1.id === userId.value ? games.value[0].player1.nickname : games.value[0].player2.nickname;
       avatar.value = await Avatar.getAvatarById(userId.value);
 
       total.value = DefeatGames.value.length + WinGames.value.length;
@@ -93,7 +98,7 @@ const DefeatGames = computed(() => {
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{ userNickname }}</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{ user.nickname }}</div>
           </div>
             <div class="row mt-4">
               <DefeatsTable :id="Number(userId)" :games="DefeatGames"/>

@@ -87,14 +87,14 @@ const navRoutes = [
   ], button: 'Game'}
 ]
 const logoutRoute = { name: 'logout' }
-const restrictedRoutes = ['friends', 'settings', 'profile']
+const restrictedRoutes = ['friends', 'settings', 'user stats']
 const forcelogin = ref(false)
 
 watch(route, (newRoute) => {
   bootstrap.Modal.getInstance("#loginModalToggle")?.hide()
   bootstrap.Modal.getInstance("#signupModalToggle")?.hide()
   if (logged.value.loaded && !logged.value.status && restrictedRoutes.includes(newRoute.name))
-    router.replace({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
+    router.replace({ name: 'login', query: { continue: route.fullPath }})
   forcelogin.value = newRoute.name === 'login'
   if (forcelogin.value) {
     new bootstrap.Modal('#signupModalToggle', { keyboard: false, backdrop: 'static' })

@@ -1,12 +1,16 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { defineProps, ref, onMounted } from 'vue';
+import { defineProps, watch, ref, onMounted } from 'vue';
 import Avatar from '../../js/Avatar';
 import Loading from '../common/Loading.vue';
 
 const props = defineProps(['games', 'id']);
 const avatars = ref({});
 const isLoaded = ref(false);
+
+watch(() => props.games, () => {
+  fetchAvatars();
+});
 
 const fetchAvatars = async () => {
     try {

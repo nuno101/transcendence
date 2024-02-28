@@ -32,7 +32,7 @@ const router = createRouter({
     },
     {
       path: '/users/:id',
-      name: 'user/stats',
+      name: 'user stats',
       component: () => import('../views/UserStatsView.vue'),
       props: true
     },
