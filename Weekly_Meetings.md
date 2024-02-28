@@ -22,6 +22,9 @@ Nuno:
 
 
 Robert:
+* [ ] Implement automatic check for user serialization to decide if private output should be included, e.g. online status in case requesting user is a friend 
+* [ ] Fix avatars not updating
+* [ ] Fix/Fully implement user online status
 - will work in the chat also to learn Vue.js
 
 
