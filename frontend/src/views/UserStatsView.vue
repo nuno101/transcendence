@@ -15,31 +15,28 @@ const defeatsRatio = ref(null);
 const winsRatio = ref(null);
 
 // INDIVIDUAL FRIEND
-const nickname = ref('');
+const userId = ref('');
+const userNickname = ref('');
 const route = useRoute();
-const friends = ref({});
-const friend = ref(null);
 const games = ref({});
 const avatar = ref(null);
 
 const isLoaded = ref(false);
 
 onMounted(() => {
-  nickname.value = route.params.nickname;
+  userId.value = route.params.id;
   fetchData();
 });
 
 const fetchData = async() => {
   try {
-    friends.value = await Backend.get(`/api/users/me/friends`);
-    friend.value = friends.value.find(friend => friend.nickname === nickname.value);
-    if(friend.value) {
-      games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
-      avatar.value = await Avatar.getAvatarById(friend.value.id);
+      games.value = await Backend.get(`/api/users/${userId.value}/games`);
+      userNickname.value = games.value[0].player1.id === userId.value ? games.value[0].player1.nickname : games.value[0].player2.nickname;
+      avatar.value = await Avatar.getAvatarById(userId.value);
+
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
-    }
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -48,10 +45,10 @@ const fetchData = async() => {
 };
 
 const isWin = (game) => {
-  if(game.player1.id === friend.value.id &&
+  if(game.player1.id === Number(userId.value) &&
     game.player1_score >= game.player2_score)
-    return true;
-  else if (game.player2.id === friend.value.id &&
+      return true;
+  else if (game.player2.id === Number(userId.value) &&
     game.player1_score <= game.player2_score)
     return true;
   return (false);
@@ -96,18 +93,18 @@ const DefeatGames = computed(() => {
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{ friend.nickname}}</div>
+            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{ userNickname }}</div>
           </div>
             <div class="row mt-4">
-              <DefeatsTable :id="friend.id" :games="DefeatGames"/>
+              <DefeatsTable :id="Number(userId)" :games="DefeatGames"/>
               <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-              <WinsTable :id="friend.id" :games="WinGames"/>
-              <CommonTable :id="friend.id" :games="games"/>
+              <WinsTable :id="Number(userId)" :games="WinGames"/>
+              <CommonTable :id="Number(userId)" :games="games"/>
             </div>
           </div>
         </div>

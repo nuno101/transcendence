@@ -40,7 +40,7 @@ onMounted(fetchAvatars);
                 style="width: 50px; height: 50px; object-fit: cover;">
             </td>
             <td class="bg-danger align-middle text-start">
-              {{ game.player1.id === props.id ? game.player2.nickname : game.player1.nickname }}
+              {{ game.player1.id !== props.id ? game.player1.nickname : game.player2.nickname }}
             </td>
             <td class="bg-danger align-middle text-end">
                 {{ game.player1.id !== props.id

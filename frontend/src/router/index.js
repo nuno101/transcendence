@@ -36,7 +36,7 @@ const router = createRouter({
       component: () => import('../views/FriendsView.vue')
     },
     {
-      path: '/users/:nickname',
+      path: '/users/:id',
       name: 'user/stats',
       component: () => import('../views/UserStatsView.vue'),
       props: true

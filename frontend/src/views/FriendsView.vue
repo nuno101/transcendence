@@ -96,7 +96,7 @@ onMounted(() => {
 											/>
 										</td>
 										<td class="bg-light text-start align-middle">
-											<router-link :to="`/users/${friend.nickname}`">{{friend.nickname}}</router-link>
+											<router-link :to="`/users/${friend.id}`">{{friend.nickname}}</router-link>
 										</td>
 										<td class="bg-light text-end align-middle">
 											<button type="button" class="btn btn-outline-danger" aria-label="Close" @click="openModal('DELETEFRIEND', friend)">X</button>
