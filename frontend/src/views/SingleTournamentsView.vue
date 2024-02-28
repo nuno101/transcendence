@@ -22,6 +22,7 @@ const isJoined = ref(false);
 const currentUser = ref(false);
 const selectedOption = ref('option1');
 const closingTime = ref(0);
+const errors = ref(null);
 
 const fetchData = async () => {
   try {
@@ -50,6 +51,10 @@ const initValues = (data) => {
 	}
 };
 
+// use username instead of nickname 
+// use the same rror messg from back-end in the front-end 
+// implement new join/unjoin logic
+
 const joinTournament = async () => {
 	console.log("Join")
     await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
@@ -68,7 +73,7 @@ const unjoinTournament = async () => {
 	localStorage.setItem(userTournamentKey, JSON.stringify(false)); // Check this syntax 
 };
 
-const getMinClosingTime = () => {
+/* const getMinClosingTime = () => {
      // Get the current date and time
 	 const now = new Date();
     // Get the current time as HH:MM format
@@ -76,25 +81,47 @@ const getMinClosingTime = () => {
     // Format the current date and time to match the input type
     const minTime = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}T${currentTime}`;
     return minTime;
-};
+}; */
 
 const changeState = async () => {
-	const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "next"});
-	status.value = response.data.status;
+	try {
+		const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "next"});
+		console.log(response);
+		status.value = response.data.status;
+	} catch (error) {
+        console.error('Error:', error);
+		errors.value = error.message;
+    }	
 };
+
+/*  const startInterval = async () => {
+	setInterval(() => {
+        if (selectedOption.value === 'option2' && closingTime.value) {
+            const currentTime = new Date();
+            const closingTimeDate = new Date(closingTime.value);
+            if (currentTime >= closingTimeDate) {
+				console.log("closing Time : ", closingTime.value);
+				console.log("closingTimeDate : ", closingTimeDate.value);
+                console.log("TEST");
+            }
+        }
+    }, 1000);
+}; */
+
 
 const openRegSettings = async () => {
     try {
         // Store closingTime and selectedOption locally for this tournament
         localStorage.setItem(`tournament_${tournamentId.value}_selectedOption`, selectedOption.value);
+		console.log(selectedOption.value);
+		changeState();
 
-        if (selectedOption.value === 'option1') {
-			changeState();
-        } else if (selectedOption.value === 'option2') {
+		/* 
+        if (selectedOption.value === 'option2') {
 			localStorage.setItem(`tournament_${tournamentId.value}_closingTime`, closingTime.value);
-            console.log("TEST2")
-        }
-        // Close the modal after confirming settings
+			startInterval();
+        } */
+
 		const modal = bootstrap.Modal.getInstance("#RegistrationSetting");
 		modal.hide();
     } catch (error) {
@@ -102,33 +129,26 @@ const openRegSettings = async () => {
     }
 };
 
-const closeRegSettings = async () => {
-    try {
-		changeState();
-    } catch (error) {
-        console.error('Error:', error);
-    }
+const cancelTournament = async () => {
+  try {
+    const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "cancelled"});
+  } catch (err) {
+    console.error(err.message);
+  }
 };
 
-const printPlayers = async () => {
-	console.log(players.value);
+const deleteTournament = async () => {
+  try {
+    await Backend.delete(`/api/tournaments/${tournamentId.value}`);
+  } catch (err) {
+    console.error(err.message);
+  }
 };
-
 
 onMounted(() => {
 	const route = useRoute();
   	tournamentId.value = route.params.id;
 	fetchData();
-
-	setInterval(() => {
-            if (selectedOption.value === 'option2' && closingTime.value) {
-                const currentTime = new Date();
-                const closingTimeDate = new Date(closingTime.value);
-                if (currentTime >= closingTimeDate) {
-                    changeState();
-                }
-            }
-        }, 1000);
 })
 </script>
 
@@ -148,10 +168,10 @@ onMounted(() => {
 						<p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                 </div>
-				<p>{{ selectedOption }}</p>
 				<template v-if="status === 'created'">
 				<!-- Button to trigger modal -->
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationSetting" v-if="isCreator">Open registration</button>
+				<button type="button" class="btn btn-primary" @click="deleteTournament()" v-if="isCreator">Delete tournament</button>
 				<!-- Alert message for when registration is not open -->
 				<div class="alert alert-danger" v-else>Registration for this tournament is not yet open (contact <b>{{ creator }}</b> for more info)</div>
 				<!-- Modal component (conditionally rendered based on isCreator) -->
@@ -163,27 +183,30 @@ onMounted(() => {
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
+								<form @submit.prevent="openRegSettings"> <!-- Add form element with submit.prevent -->
 								<!-- Option 1: Close registration manually -->
 								<div class="form-check">
-            						<input class="form-check-input" type="radio" id="option1" name="registrationOption" value="option1" v-model="selectedOption">
-            						<label class="form-check-label" for="option1">Close registration manually</label>
-        						</div>
+									<input class="form-check-input" type="radio" id="option1" name="registrationOption" value="option1" v-model="selectedOption">
+									<label class="form-check-label" for="option1">Close registration manually</label>
+								</div>
 
 								<div class="form-check">
-									<input class="form-check-input" type="radio" id="option2" name="registrationOption" value="option2" v-model="selectedOption" @change="updateClosingTime">
+									<input class="form-check-input" type="radio" id="option2" name="registrationOption" value="option2" v-model="selectedOption">
 									<label class="form-check-label" for="option2">Set a closing time for registrations</label>
 								</div>
 
 								<div v-if="selectedOption === 'option2'">
 									<label for="closingTime">Closing Time:</label>
-									<input type="datetime-local" id="closingTime" v-model="closingTime" :min="getMinClosingTime()">
+									<input type="datetime-local" id="closingTime" v-model="closingTime" :min="getMinClosingTime()" required>
+									<!-- Add the required attribute to the input field -->
 								</div>
-
 								<!-- Confirm and Cancel buttons -->
 								<div class="mt-3">
-									<button type="button" class="btn btn-primary" @click="openRegSettings">Confirm</button>
+									<p>{{ selectedOption }}</p>
+									<button type="submit" class="btn btn-primary">Confirm</button> <!-- Change type to submit -->
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 								</div>	
+							</form>
 							</div>
 						</div>
 					</div>
@@ -191,14 +214,50 @@ onMounted(() => {
 				</template>
 				
 				<template v-else-if="status === 'registration_open'">
-					<button type="button" class="btn btn-primary" v-if="isCreator && selectedOption === 'option1'" @click="closeRegSettings">Close registration</button>
-        			<template v-else-if="selectedOption === 'option2'">
-            			<p>{{ closingTime }}</p>
-        			</template>
+					<button type="button" class="btn btn-primary" v-if="isCreator" @click=changeState() >Close registration</button>
+					
+					<!-- Modal for displaying error message -->
+					<!-- Should this modal only be for creator ? -->
+					<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true" v-if="errors">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="errorModalLabel">Error</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<p>{{ errors }}</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn btn-primary" v-if="isCreator" @click=cancelTournament() >Cancel tournament</button>
+
         			<button type="button" class="btn btn-primary" v-else @click="isJoined ? unjoinTournament() : joinTournament()">{{ isJoined ? 'Unjoin' : 'Join' }}</button>
+					<!-- Modal for success message -->
+					<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" v-if="isJoined">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="successModalLabel">Success</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<p>You've successfully joined the tournament!</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</template>
 
 				<template v-else-if="status === 'registration_closed'">
+					<button type="button" class="btn btn-primary" v-if="isCreator" @click= >Start tournament</button>
 				</template>
 
             </div>

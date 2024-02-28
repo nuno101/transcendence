@@ -36,7 +36,6 @@ const addNewTournament = async () => {
 		showAlert.value = true;
 		return;
     }
-
     let data = await Backend.post('/api/tournaments', input.value);
     tournaments.value.push(data);
 	cancelModal();
@@ -44,32 +43,6 @@ const addNewTournament = async () => {
 	userTournaments.value = await Backend.patch(`/api/users/me`, { "tournament_id": `${data.id}` });
 	personalTournaments.value = userTournaments.value.tournaments;
 	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-//FIXME -  the function below is not working atm
-const updatestateTournament = async (t_id, state) => {
-  try {
-    let data = await Backend.put('/api/tournaments/'+ t_id, state);
-    console.log("in POST: " + data);
-    //tournaments.value.push(data);
-
-    resetInputFields();
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-const deleteTournament = async (t_id) => {
-  try {
-    await Backend.delete('/api/tournaments/'+ t_id, input.value);
-    console.log("in POST: " + tournaments.value);
-    // FIXME - the line below is not working atm. should delete the tournament from the list
-    //tournaments.value.delete(t_id)
-
-    resetInputFields();
   } catch (err) {
     console.error(err.message);
   }
@@ -160,7 +133,7 @@ onMounted(() => {
                         </div>
                         <div class="form-group">
                             <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
-                            <input class="form-control" id="descripti`on" placeholder="Enter description" v-model="input.description" required>
+                            <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
                         </div>
                         <br/>
                         <div>
