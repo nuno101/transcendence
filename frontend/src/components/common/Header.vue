@@ -25,7 +25,7 @@
           </div>
           <div v-else-if="logged.status">
             <button type="button" class="btn btn-outline-info me-2 btn-empty">
-              <router-link to="/profile" class="nav-link">{{ logged.username }}</router-link>
+              <router-link :to="`/users/${logged.id}`" class="nav-link">{{ logged.username }}</router-link>
             </button>
             <button @click="LogOut" type="button" class="btn btn-secondary">Logout</button>
           </div>
@@ -60,7 +60,7 @@ import { useRoute } from 'vue-router'
 import { watch } from "vue"
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
-const logged = ref({ loaded: false, status: false, username: '' })
+const logged = ref({ loaded: false, status: false, username: '', id: ''})
 const signedup = ref(false) 
 
 const inactiveView = {
@@ -110,6 +110,7 @@ const AlreadyLoggedin = async () => {
     const response = await Backend.get('/api/users/me')
     logged.value.status = true;
     logged.value.username = response.username;
+    logged.value.id = response.id;
   } catch {
     if (restrictedRoutes.includes(route.name))
       router.push({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
