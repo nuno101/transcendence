@@ -45,6 +45,23 @@ class GameView(View):
 
 		return JsonResponse(game.serialize(), status=201)
 
+# Endpoint: /tournaments/TOURNAMENT_ID/games
+@method_decorator(check_structure("/tournaments/TOURNAMENT_ID/games"), name='dispatch')
+@method_decorator(check_object_exists(Tournament, 'tournament_id', TOURNAMENT_404), name='dispatch')
+class TournamentGameCollection(View):
+
+	def get(self, request, tournament_id):
+		tournament = Tournament.objects.get(id=tournament_id)
+		games = Game.objects.filter(tournament=tournament)
+		return JsonResponse([g.serialize() for g in games], safe=False)
+
+	# @method_decorator(staff_required, name='dispatch')
+	# def post(self, request, tournament_id):
+	# 	tournament = Tournament.objects.get(id=tournament_id)
+	# 	create_games(tournament)
+	# 	return JsonResponse({"message": "Games created"}, status=201)
+
+
 # Endpoint: /games/GAME_ID
 @method_decorator(check_structure("/games/GAME_ID"), name='dispatch')
 @method_decorator(check_object_exists(Game, 'game_id', GAME_404), name='dispatch')

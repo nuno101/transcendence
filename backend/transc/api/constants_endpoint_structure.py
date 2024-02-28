@@ -197,6 +197,11 @@ ENDPOINTS = {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
 		}
+		}, "/users/USER_ID/games_upcoming": {
+		"methods": {
+			"GET": NO_PARAM_METHOD_TEMPLATE,
+            "description": "Games with status created, i.e. not yet started"
+		}
 	}, "/tournaments": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
@@ -240,7 +245,7 @@ ENDPOINTS = {
 				},
 			}
 		}
-        }, "/tournaments/TOURNAMENT_ID/play": {
+    }, "/tournaments/TOURNAMENT_ID/play": {
 		"methods": {
 			"POST": {
 				"content_type": "application/json",
@@ -254,6 +259,11 @@ ENDPOINTS = {
 				}
 			},
 		}
+	}, "/tournaments/TOURNAMENT_ID/games": {
+		"methods": {
+			"GET": NO_PARAM_METHOD_TEMPLATE,
+		}
+        
 	}, "/games": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
