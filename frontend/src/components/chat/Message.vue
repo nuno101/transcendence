@@ -1,9 +1,7 @@
-<script>
-    export default {
-        props: {
-            message: Object
-        },
-    }
+<script setup>
+    defineProps({
+        message: Object,
+    })
 </script>
 
 <template>

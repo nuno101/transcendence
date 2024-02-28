@@ -1,9 +1,7 @@
-<script>
-    export default {
-        props: {
-            channel: Object
-        },
-    }
+<script setup>
+    defineProps({
+        channel: Object,
+    })
 </script>
 
 <template>

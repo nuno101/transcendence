@@ -1,54 +1,43 @@
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
 import Backend from '../js/Backend';
 import Channel from '../components/chat/Channel.vue';
 import Message from '../components/chat/Message.vue';
 
-export default {
-    components: {
-        Channel,
-        Message,
-    },
+const messages = ref([])
+const channels = ref([])
 
-    data() {
-        return {
-            messages: [],
-            channels: []
-        }
-    },
+onMounted(() => {
+    loadChannels();
+})
 
-    methods: {
-        loadChannels() {
-            let channels = Backend.get('/api/users/me/channels')
-            channels.then(value => {
-                this.channels = value
-            }).catch(err => {
-                console.log(err)
-                this.channels = []
-                // TODO: Display error message
-            })
-        },
+function loadChannels() {
+    let data = Backend.get('/api/users/me/channels')
+    data.then(value => {
+        channels.value = value
+    }).catch(err => {
+        console.log(err)
+        channels.value = []
+        // TODO: Display error message
+    })
+}
 
-        loadMessages(channel_id) {
-            try {
-                let messages = Backend.get(`/api/channels/${channel_id}/messages`)
-                messages.then(value => {
-                    this.messages = value
-                }).catch(err => {
-                    console.log(err)
-                    this.messages = []
-                })
-            } catch (err) {
-                console.log(err)
-                this.messages = []
-                // TODO: Display error message
-            }
-        }
-    },
-
-    mounted() {
-        this.loadChannels()
+function loadMessages(channel_id) {
+    try {
+        let data = Backend.get(`/api/channels/${channel_id}/messages`)
+        data.then(value => {
+            messages.value = value
+        }).catch(err => {
+            console.log(err)
+            messages.value = []
+        })
+    } catch (err) {
+        console.log(err)
+        messages.value = []
+        // TODO: Display error message
     }
 }
+
 </script>
 
 <template>
