@@ -40,6 +40,7 @@ urlpatterns = [
 	path("users/<int:user_id>/avatar", views_users.AvatarUser.as_view()),
 
 	path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
+	path("users/<int:user_id>/games_upcoming", views_users.GameCollectionUserUpcoming.as_view()),
 
 	# Tournament paths
 	path('tournaments', views_tournaments.TournamentCollection.as_view()),
