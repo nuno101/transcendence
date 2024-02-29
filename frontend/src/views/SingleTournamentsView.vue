@@ -23,6 +23,11 @@ const currentUser = ref(false);
 const selectedOption = ref('option1');
 const closingTime = ref(0);
 const errors = ref(null);
+const success = ref(null);
+const editingDescription = ref(false);
+const newDescription = ref('');
+const gamesInfo = ref(null);
+const isTournamentStarted = ref(false);
 
 const fetchData = async () => {
   try {
@@ -57,20 +62,24 @@ const initValues = (data) => {
 
 const joinTournament = async () => {
 	console.log("Join")
-    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
+    await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "join" });
 	console.log(players.value);
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = true;
-	localStorage.setItem(userTournamentKey, JSON.stringify(true)); // Check this syntax 
+	localStorage.setItem(userTournamentKey, JSON.stringify(true)); // Check this syntax
+	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
+	success.value = "You've successfully joined the tournament!"; // msg from vue-i18n
 };
 
 const unjoinTournament = async () => {
 	console.log("Unjoin")
-    await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "player": `${nickname.value}` });
+    await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "unjoin" });
 	console.log(players.value);
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = false;
-	localStorage.setItem(userTournamentKey, JSON.stringify(false)); // Check this syntax 
+	localStorage.setItem(userTournamentKey, JSON.stringify(false)); // Check this syntax
+	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
+	success.value = "You've successfully unjoined the tournament! "; // msg from vue-i18n
 };
 
 /* const getMinClosingTime = () => {
@@ -90,7 +99,9 @@ const changeState = async () => {
 		status.value = response.data.status;
 	} catch (error) {
         console.error('Error:', error);
-		errors.value = error.message;
+		errors.value = error.message; // should be translatable 
+		const modal = bootstrap.Modal.getInstance("#errorModal");
+		modal.show();
     }	
 };
 
@@ -131,7 +142,8 @@ const openRegSettings = async () => {
 
 const cancelTournament = async () => {
   try {
-    const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "cancelled"});
+    const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "cancel"});
+	success.value = "Tournament has been cancelled"; // msg from vue-i18n
   } catch (err) {
     console.error(err.message);
   }
@@ -140,10 +152,39 @@ const cancelTournament = async () => {
 const deleteTournament = async () => {
   try {
     await Backend.delete(`/api/tournaments/${tournamentId.value}`);
+	success.value = "Tournament has been deleted"; // msg from vue-i18n
   } catch (err) {
     console.error(err.message);
   }
 };
+
+const startEditing = () => {
+    editingDescription.value = true;
+};
+
+const updateDescription = async () => {
+    try {
+        // Make the PATCH request to update the description
+        await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "description": description.value });
+
+        // Optionally, display a success message or perform other actions
+        console.log('Description updated successfully! : ', description.value);
+		editingDescription.value = false;
+    } catch (error) {
+        console.error('Error updating description:', error);
+    }
+};
+
+const startTournament = async () => {
+    try {
+        gamesInfo.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
+        console.log('Response : ', gamesInfo.value);
+		isTournamentStarted.value = true;
+    } catch (error) {
+        console.error(error.message);
+    }
+};
+
 
 onMounted(() => {
 	const route = useRoute();
@@ -159,7 +200,16 @@ onMounted(() => {
         <div class="row">
             <div class="col-lg-8">
                 <p class="lead mb-4">Status: <span class="text-muted">{{ status }}</span></p>
-                <p>{{ description }}</p>
+				<div class="mb-3">
+					<label for="description" class="form-label">Description:</label>
+					<div class="description-container">
+						<span v-if="!editingDescription && isCreator && (status === 'created' || status === 'registration_open')" @click="startEditing">{{ description }}</span>
+						<textarea class="form-control" id="description" v-model="description" v-if="editingDescription && isCreator && (status === 'created' || status === 'registration_open')" rows="5"></textarea>
+						<button v-if="editingDescription && isCreator && (status === 'created' || status === 'registration_open')" class="btn btn-primary mt-3" @click="updateDescription">Update</button>
+						<span v-if="!isCreator">{{ description }}</span>
+					</div>
+				</div>
+
                 <div class="row mt-5">
                     <div class="col-md-6">
                         <p class="text-muted">Created at: {{ created_at ? created_at.slice(0, 10) : 'N/A' }}</p>
@@ -171,7 +221,8 @@ onMounted(() => {
 				<template v-if="status === 'created'">
 				<!-- Button to trigger modal -->
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationSetting" v-if="isCreator">Open registration</button>
-				<button type="button" class="btn btn-primary" @click="deleteTournament()" v-if="isCreator">Delete tournament</button>
+				<span>&nbsp;&nbsp;</span>
+				<button type="button" class="btn btn-primary" @click=deleteTournament() v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal">Delete tournament</button>
 				<!-- Alert message for when registration is not open -->
 				<div class="alert alert-danger" v-else>Registration for this tournament is not yet open (contact <b>{{ creator }}</b> for more info)</div>
 				<!-- Modal component (conditionally rendered based on isCreator) -->
@@ -215,10 +266,9 @@ onMounted(() => {
 				
 				<template v-else-if="status === 'registration_open'">
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click=changeState() >Close registration</button>
-					
-					<!-- Modal for displaying error message -->
-					<!-- Should this modal only be for creator ? -->
-					<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true" v-if="errors">
+					<!-- Modal for displaying error message 
+					Should this modal only be for creator ?  -->
+					<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -234,31 +284,48 @@ onMounted(() => {
 							</div>
 						</div>
 					</div>
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click=cancelTournament() >Cancel tournament</button>
+					<span>&nbsp;&nbsp;</span>
+					<button type="button" class="btn btn-primary" v-if="isCreator" @click=cancelTournament() data-bs-toggle="modal" data-bs-target="#successModal" >Cancel tournament</button>
 
-        			<button type="button" class="btn btn-primary" v-else @click="isJoined ? unjoinTournament() : joinTournament()">{{ isJoined ? 'Unjoin' : 'Join' }}</button>
-					<!-- Modal for success message -->
-					<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" v-if="isJoined">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="successModalLabel">Success</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<p>You've successfully joined the tournament!</p>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								</div>
-							</div>
-						</div>
-					</div>
+        			<button type="button" class="btn btn-primary" v-else @click="isJoined ? unjoinTournament() : joinTournament()" data-bs-toggle="modal" data-bs-target="#successModal" >{{ isJoined ? 'Unjoin' : 'Join' }}</button>
+				
 				</template>
 
 				<template v-else-if="status === 'registration_closed'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click= >Start tournament</button>
-				</template>
+				<button type="button" class="btn btn-primary" v-if="isCreator" @click="startTournament()">Start tournament</button>
+				<span>&nbsp;&nbsp;</span>
+				<button type="button" class="btn btn-primary" v-if="isCreator" @click="cancelTournament" data-bs-toggle="modal" data-bs-target="#successModal">Cancel tournament</button>
+				<!-- Overlay and message box for the creator -->
+				<h1 class="display-4 mb-4">{{ isTournamentStarted }}</h1>
+				<div class="overlay" v-if="isTournamentStarted && isCreator">
+					<div class="message-box">
+					<p v-if="gamesInfo && gamesInfo.length > 0">Tournament Bracket:</p>
+					<ul v-if="gamesInfo && gamesInfo.length > 0" class="tournament-bracket">
+						<!-- Iterate over gamesInfo array to display game information -->
+						<li class="bracket-column" v-for="(game, index) in gamesInfo" :key="index">
+							<p>Round {{ Math.ceil(index / 2) }}:</p>
+							<ul class="game">
+								<li>
+									<p>{{ game.player1.nickname }}</p>
+								</li>
+								<li>
+									<p>{{ game.player2.nickname }}</p>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<p v-else>No games information available.</p>
+				</div>
+
+				</div>
+				<div class="overlay" v-else-if="!isCreator">
+					<div class="message-box">
+						<!-- Message for non-creator users -->
+						<p>Time to join <b>{{ creator }}</b>. Please gather round at their computer.</p>
+					</div>
+				</div>
+			</template>
+
 
             </div>
             <div class="col-lg-4">
@@ -271,7 +338,7 @@ onMounted(() => {
                         <tr><th>Nickname</th></tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(player, index) in players" :key="index"> <!-- Test it -->
+                        <tr v-for="(player, index) in players" :key="index">
 							<td>
 								<b v-if="player === nickname">{{ player }} (You)</b>
         						<template v-else>{{ player }}</template>
@@ -282,6 +349,24 @@ onMounted(() => {
             </div>
         </div>
     </div>
+
+	<!-- Modal for success message -->
+	<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="successModalLabel">Success</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+                					<p>{{ success }}</p>
+            					</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
 </template>
 
   
@@ -289,6 +374,61 @@ onMounted(() => {
   
 
 <style>
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.message-box {
+    width: 80%; /* Set width to 80% of the screen */
+    max-width: 800px; /* Set a maximum width to ensure it doesn't exceed a certain size */
+    margin: 0 auto; /* Center the message box horizontally */
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    text-align: center; 
+}
+
+.tournament-bracket {
+    list-style-type: none;
+    padding: 0;
+}
+
+.game {
+    display: flex;
+    justify-content: space-between;
+	list-style-type: none;
+    padding: 10px 0;
+    flex-direction: column;
+}
+
+.game li {
+    flex: 1;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 5px;
+}
+
+.game p {
+    margin: 0;
+}
+
+.bracket-column {
+    width: 25%; /* Each bracket column takes up 25% of the message box width */
+}
+
+
 </style>
 
 <!--

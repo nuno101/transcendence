@@ -12,6 +12,7 @@ const submit = ref(false);
 const input = ref({ title: '', description: '' })
 const showAlert = ref(false);
 const personalTournaments = ref([]);
+const currentUser = ref(false);
 
 const fetchData = async () => {
   try {
@@ -21,7 +22,7 @@ const fetchData = async () => {
 	userTournaments.value = await Backend.get(`/api/users/me`);
 	personalTournaments.value = userTournaments.value.tournaments;
 	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
-
+	currentUser.value = userTournaments.value.username;
     return tournaments.value;
   } catch (err) {
     console.error(err.message);
@@ -43,6 +44,7 @@ const addNewTournament = async () => {
 	userTournaments.value = await Backend.patch(`/api/users/me`, { "tournament_id": `${data.id}` });
 	personalTournaments.value = userTournaments.value.tournaments;
 	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
+	
   } catch (err) {
     console.error(err.message);
   }
@@ -57,6 +59,14 @@ const cancelModal = () => {
 const resetInputFields = () => {
    input.value.title = '';
    input.value.description = '';
+};
+
+const deleteMyTournament = async () => {
+  try {
+    await Backend.delete(`/api/tournaments/${tournamentId.value}`);
+  } catch (err) {
+    console.error(err.message);
+  }
 };
 
 onMounted(() => {
@@ -161,7 +171,6 @@ onMounted(() => {
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
-                    <th scope="col">{{useI18n().t('tournamentsview.actions')}}</th>
                     </tr>
                 </thead>
 
@@ -172,13 +181,17 @@ onMounted(() => {
                                 {{ tournament.title }}
                             </router-link>
                         </td>
-						<td>{{ tournament.creator.username }}</td>
+						<td>
+							<template v-if="tournament.creator.username === currentUser">
+								<b>{{ tournament.creator.username }} (You)</b>
+							</template>
+							<template v-else>
+								{{ tournament.creator.username }}
+							</template>
+                    	</td>
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
-                        <td style="text-align: center;">
-    						<a href="#" @click="deleteTournament(tournament.id)"><i class="bi bi-trash3-fill"></i></a>
-						</td>
                     </tr>
                 </tbody>
             </table>
