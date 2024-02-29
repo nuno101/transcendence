@@ -43,7 +43,6 @@ const fetchData = async() => {
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
-      console.log(user.value);
   } catch (err) {
     console.error(err.message);
   } finally {
