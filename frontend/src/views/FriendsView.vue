@@ -122,7 +122,9 @@ onMounted(() => {
 														class="img-thumbnail rounded"
 														style="width: 50px; height: 50px; object-fit: cover;">
 												</td>
-												<td class="bg-light align-middle">{{friend.from_user.nickname}}</td>
+												<td class="bg-light align-middle">
+													<router-link :to="`/users/${friend.from_user.id}`">{{friend.from_user.nickname}}</router-link>
+												</td>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
 													<button class="btn btn-outline-success ms-auto me-2"
 														@click="Friends.acceptRequest(friends, friendsAvatar, friendRequests, friendRequestsAvatar, friend)"
@@ -147,7 +149,9 @@ onMounted(() => {
 														class="img-thumbnail rounded"
 														style="width: 50px; height: 50px; object-fit: cover;">
 												</td>
-												<td class="bg-light align-middle">{{friend.to_user.nickname}}</td>
+												<td class="bg-light align-middle">
+													<router-link :to="`/users/${friend.to_user.id}`">{{friend.to_user.nickname}}</router-link>
+												</td>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
 													<button class="btn btn-outline-danger" @click="openModal('CANCELPENDREQ', friend)">X</button>
 												</td>
