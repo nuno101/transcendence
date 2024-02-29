@@ -24,7 +24,8 @@ def update_game(game: Game, parameters):
   return JsonResponse(game.serialize())
 
 # Game serialization helpers
-def get_user_games(user_id):
-  games = Game.objects.filter(Q(player1=user_id) | Q(player2=user_id))
+def get_user_games_done(user_id):
+  games = Game.objects.filter((Q(player1=user_id) | Q(player2=user_id)) & Q(status=Game.MatchStatus.DONE) )
   games.order_by('-updated_at')
   return [g.serialize() for g in games]
+
