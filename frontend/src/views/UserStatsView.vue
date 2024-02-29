@@ -2,13 +2,11 @@
 import { useI18n } from 'vue-i18n';
 import { ref, watch, onMounted, computed} from 'vue';
 import Backend from '../js/Backend';
-import WinsTable from '../components/dashboard/WinsTable.vue';
-import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
-import CommonTable from '../components/dashboard/CommonTable.vue';
 import Loading from '../components/common/Loading.vue';
 import OnlineStatus from '../components/dashboard/OnlineStatus.vue';
 import { useRoute } from 'vue-router';
 import GetAvatar from '../components/common/GetAvatar.vue';
+import StatsTable from '../components/dashboard/StatsTable.vue';
 
 
 //  GENERAL
@@ -23,6 +21,7 @@ const route = useRoute();
 const games = ref({});
 
 const isLoaded = ref(false);
+// defineModel --> wait until all avatars are rendered?
 
 onMounted(() => {
   userId.value = route.params.id;
@@ -101,15 +100,15 @@ const DefeatGames = computed(() => {
             </div>
           </div>
             <div class="row mt-4">
-              <DefeatsTable :id="Number(userId)" :games="DefeatGames"/>
+              <StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
               <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-              <WinsTable :id="Number(userId)" :games="WinGames"/>
-              <CommonTable :id="Number(userId)" :games="games"/>
+              <StatsTable :id="Number(userId)" :games="games" :flag="'WINS'" />
+              <StatsTable :id="Number(userId)" :games="games" :flag="'GAMES'" />
             </div>
           </div>
         </div>
