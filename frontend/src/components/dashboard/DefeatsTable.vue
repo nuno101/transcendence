@@ -3,45 +3,20 @@ import { useI18n } from 'vue-i18n';
 import { defineProps, onMounted, watch, ref} from 'vue';
 import Avatar from '../../js/Avatar';
 import Loading from '../common/Loading.vue';
+import GetAvatar from '../common/GetAvatar.vue';
 
 const props = defineProps(['games', 'id']);
-const avatars = ref({});
-const isLoaded = ref(false);
-
-watch(() => props.games, () => {
-  fetchAvatars();
-});
-
-const fetchAvatars = async () => {
-    try {
-        for (const game of props.games) {
-            const playerId = game.player1.id !== props.id ? game.player1.id : game.player2.id;
-            const avatarUrl = await Avatar.getAvatarById(playerId);
-            avatars.value[playerId] = avatarUrl;
-        }
-    } catch (error) {
-      console.error(`Error fetching avatar for player:`, error.message);
-    } finally {
-    isLoaded.value = true;
-  }
-};
-
-onMounted(fetchAvatars);
 
 </script>
 
 <template>
     <div class="gamestable col-md-5 rounded img-thumbnail d-none d-md-block">
-    <Loading v-if="!isLoaded"/>
-    <table v-if="isLoaded" class="table">
+    <table class="table">
         <tbody>
         <tr v-if="props.games.length > 0" v-for="game in props.games" :key="game">
             <td class="bg-danger align-middle text-start">{{ game.updated_at.slice(0, 10)}}</td>
             <td class="bg-danger d-none d-lg-table-cell">
-            <img :src="avatars[game.player1.id !== props.id ? game.player1.id : game.player2.id]"
-                alt="..."
-                class="img-thumbnail rounded float-end"
-                style="width: 50px; height: 50px; object-fit: cover;">
+              <GetAvatar class="float-end" :id="game.player1.id !== props.id ? game.player1.id : game.player2.id" />
             </td>
             <td class="bg-danger align-middle text-start">
               {{ game.player1.id !== props.id ? game.player1.nickname : game.player2.nickname }}

@@ -1,20 +1,18 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import Avatar from '../js/Avatar';
 import Friends from '../js/Friends';
 import UserSearch from '../components/dashboard/UserSearch.vue';
 import OnlineStatus from '../components/dashboard/OnlineStatus.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { onMounted, ref } from 'vue';
 import Loading from '../components/common/Loading.vue';
+import GetAvatar from '../components/common/GetAvatar.vue';
+
 
 const friends = ref([]);
-const friendsAvatar = ref([]);
 const friendRequests = ref([]);
-const friendRequestsAvatar = ref([]);
 const pendingRequests = ref([]);
-const pendingRequestsAvatar = ref([]);
 
 const modalFlag = ref('');
 const modalRequest = ref('');
@@ -27,22 +25,10 @@ const fetchData = async () => {
     friends.value = await Backend.get(`/api/users/me/friends`);
     friendRequests.value = await Backend.get(`/api/users/me/friends/requests?type=received`);
     pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
-	for (const friend of friends.value) {
-		const avatarUrl = await Avatar.getAvatarById(friend.id);
-		friendsAvatar.value[friend.id] = avatarUrl;
-	}
-	for (const f of friendRequests.value) {
-		const avatarUrl = await Avatar.getAvatarById(f.from_user.id);
-		friendRequestsAvatar.value[f.from_user.id] = avatarUrl;
-	}
-	for (const p of pendingRequests.value) {
-		const avatarUrl = await Avatar.getAvatarById(p.to_user.id);
-		pendingRequestsAvatar.value[p.to_user.id] = avatarUrl;
-	}
   } catch (err) {
     console.error(err.message);
   } finally {
-	  isLoaded.value = true;
+	isLoaded.value = true;
   }
 };
 
@@ -58,11 +44,11 @@ const closeModal = async() => {
 
 const delData = async(flag, req) => {
 	if(flag === 'DELETEFRIEND')
-		Friends.declineCancelDeleteRequest(flag, friends, friendsAvatar, req);
+		Friends.declineCancelDeleteRequest(flag, friends, req);
 	if(flag === 'DECLINEFRIENDREQ')
-		Friends.declineCancelDeleteRequest(flag, friendRequests, friendRequestsAvatar, req);
+		Friends.declineCancelDeleteRequest(flag, friendRequests, req);
 		if(flag === 'CANCELPENDREQ')
-		Friends.declineCancelDeleteRequest(flag, pendingRequests, pendingRequestsAvatar, req);
+		Friends.declineCancelDeleteRequest(flag, pendingRequests, req);
 	closeModal();
 };
 
@@ -75,7 +61,7 @@ onMounted(() => {
 <template>
 	<div class="cont">
 		<div class="box">
-			<UserSearch :pendingRequests="pendingRequests" :pendingRequestsAvatar="pendingRequestsAvatar"/>
+			<UserSearch :pendingRequests="pendingRequests"/>
 			<Loading v-if="!isLoaded"/>
 			<div v-if="isLoaded" class="con mt-5">
 					<div class="row">
@@ -89,11 +75,7 @@ onMounted(() => {
 									<tr v-for="(friend, index) in friends" :key="friend">
 										<td class="bg-light text-center align-middle">{{index + 1}}</td>
 										<td class="bg-light d-none d-lg-table-cell">
-											<img :src="friendsAvatar[friend.id]"
-												alt="..."
-												class="img-thumbnail rounded"
-												style="width: 50px; height: 50px; object-fit: cover;"
-											/>
+              								<GetAvatar :id="friend.id" />
 										</td>
 										<td class="bg-light text-start align-middle">
 											<OnlineStatus :status="friend.status" :id="friend.id" class="me-2"/>
@@ -117,17 +99,14 @@ onMounted(() => {
 										<tbody v-if="friendRequests.length > 0">
 											<tr v-for="friend in friendRequests" :key="friend">
 												<td class="bg-light d-none d-lg-table-cell">
-													<img :src="friendRequestsAvatar[friend.from_user.id]"
-														alt="..."
-														class="img-thumbnail rounded"
-														style="width: 50px; height: 50px; object-fit: cover;">
+              										<GetAvatar :id="friend.from_user.id" />
 												</td>
 												<td class="bg-light align-middle">
 													<router-link :to="`/users/${friend.from_user.id}`">{{friend.from_user.nickname}}</router-link>
 												</td>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
 													<button class="btn btn-outline-success ms-auto me-2"
-														@click="Friends.acceptRequest(friends, friendsAvatar, friendRequests, friendRequestsAvatar, friend)"
+														@click="Friends.acceptRequest(friends, friendRequests, friend)"
 													>✓</button>
 													<button class="btn btn-outline-danger" @click="openModal('DECLINEFRIENDREQ', friend)">X</button>
 												</td>
@@ -144,10 +123,7 @@ onMounted(() => {
 										<tbody v-if="pendingRequests.length > 0">
 											<tr v-for="friend in pendingRequests" :key="friend">
 												<td class="bg-light d-none d-lg-table-cell">
-													<img :src="pendingRequestsAvatar[friend.to_user.id]"
-														alt="..."
-														class="img-thumbnail rounded"
-														style="width: 50px; height: 50px; object-fit: cover;">
+              										<GetAvatar :id="friend.to_user.id" />
 												</td>
 												<td class="bg-light align-middle">
 													<router-link :to="`/users/${friend.to_user.id}`">{{friend.to_user.nickname}}</router-link>

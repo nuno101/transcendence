@@ -2,13 +2,14 @@
 import { useI18n } from 'vue-i18n';
 import { ref, watch, onMounted, computed} from 'vue';
 import Backend from '../js/Backend';
-import Avatar from '../js/Avatar';
 import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
 import Loading from '../components/common/Loading.vue';
 import OnlineStatus from '../components/dashboard/OnlineStatus.vue';
 import { useRoute } from 'vue-router';
+import GetAvatar from '../components/common/GetAvatar.vue';
+
 
 //  GENERAL
 const total = ref(null);
@@ -20,7 +21,6 @@ const userId = ref('');
 const user = ref({});
 const route = useRoute();
 const games = ref({});
-const avatar = ref(null);
 
 const isLoaded = ref(false);
 
@@ -38,7 +38,6 @@ const fetchData = async() => {
   try {
       user.value = await Backend.get(`/api/users/${userId.value}`);
       games.value = await Backend.get(`/api/users/${userId.value}/games`);
-      avatar.value = await Avatar.getAvatarById(userId.value);
 
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
@@ -93,10 +92,7 @@ const DefeatGames = computed(() => {
             </div>
           </div>
           <div class="avatar-circle position-absolute start-50 translate-middle">
-            <img :src="avatar"
-              alt="..."
-              class="img-thumbnail rounded float-start"
-              style="width: 100px; height: 100px; object-fit: cover;">
+            <GetAvatar class="float-start" :id="user.id" :size="100" />
           </div>
           <div class="text-center">
             <div class="name bg-dark pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">
