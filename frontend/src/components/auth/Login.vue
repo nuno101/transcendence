@@ -95,7 +95,7 @@ const LogIn = async () => {
     logged.value.id = response.id
     if (props.forcelogin) {
       const urlParams = new URLSearchParams(document.location.search)
-      router.replace(urlParams.get('continue'))
+      router.replace(decodeURIComponent(urlParams.get('continue')))
     } else if (route.name === 'logout') {
       router.replace({ name: 'home' })
     }

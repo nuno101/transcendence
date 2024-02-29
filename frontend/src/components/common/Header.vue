@@ -94,7 +94,7 @@ watch(route, (newRoute) => {
   bootstrap.Modal.getInstance("#loginModalToggle")?.hide()
   bootstrap.Modal.getInstance("#signupModalToggle")?.hide()
   if (logged.value.loaded && !logged.value.status && restrictedRoutes.includes(newRoute.name))
-    router.replace({ name: 'login', query: { continue: route.fullPath }})
+    router.replace({ name: 'login', query: { continue: encodeURIComponent(route.fullPath) }})
   forcelogin.value = newRoute.name === 'login'
   if (forcelogin.value) {
     new bootstrap.Modal('#signupModalToggle', { keyboard: false, backdrop: 'static' })
@@ -113,7 +113,7 @@ const AlreadyLoggedin = async () => {
     logged.value.id = response.id;
   } catch {
     if (restrictedRoutes.includes(route.name))
-      router.push({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
+      router.push({ name: 'login', query: { continue: encodeURIComponent(route.fullPath) }})
   }
   logged.value.loaded = true;
 }
@@ -124,6 +124,7 @@ const LogOut = async () => {
     await Backend.post('/api/logout', {})
     logged.value.status = false
     logged.value.username = ''
+    logged.value.id = ''
     router.push(logoutRoute)
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)

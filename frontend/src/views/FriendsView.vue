@@ -4,6 +4,7 @@ import Backend from '../js/Backend';
 import Avatar from '../js/Avatar';
 import Friends from '../js/Friends';
 import UserSearch from '../components/dashboard/UserSearch.vue';
+import OnlineStatus from '../components/dashboard/OnlineStatus.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { onMounted, ref } from 'vue';
 import Loading from '../components/common/Loading.vue';
@@ -26,7 +27,7 @@ const fetchData = async () => {
     friends.value = await Backend.get(`/api/users/me/friends`);
     friendRequests.value = await Backend.get(`/api/users/me/friends/requests?type=received`);
     pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
-    console.log(pendingRequests.value);
+    console.log(friends.value);
 	for (const friend of friends.value) {
 		const avatarUrl = await Avatar.getAvatarById(friend.id);
 		friendsAvatar.value[friend.id] = avatarUrl;
@@ -97,6 +98,8 @@ onMounted(() => {
 										</td>
 										<td class="bg-light text-start align-middle">
 											<router-link :to="`/users/${friend.id}`">{{friend.nickname}}</router-link>
+											<!-- <OnlineStatus :status="friend.status"/> -->
+											{{friend.status}}
 										</td>
 										<td class="bg-light text-end align-middle">
 											<button type="button" class="btn btn-outline-danger" aria-label="Close" @click="openModal('DELETEFRIEND', friend)">X</button>
@@ -163,9 +166,9 @@ onMounted(() => {
 				<div class="modal-dialog" role="document">
 					<div class="modal-content rounded-4 shadow">
 						<div class="modal-body p-3 text-center">
-							<h6 v-if="modalFlag === 'FRIEND'">Are you sure you want to delete this friend?</h6>
-							<h6 v-if="modalFlag === 'FRIENDREQ'">Are you sure you want to decline this friend request?</h6>
-							<h6 v-if="modalFlag === 'PENDREQ'">Are you sure you want to withdraw this friend request?</h6>
+							<h6 v-if="modalFlag === 'DELETEFRIEND'">Are you sure you want to delete this friend?</h6>
+							<h6 v-if="modalFlag === 'DECLINEFRIENDREQ'">Are you sure you want to decline this friend request?</h6>
+							<h6 v-if="modalFlag === 'CANCELPENDREQ'">Are you sure you want to withdraw this friend request?</h6>
 							<button class="btn btn-danger mt-2 me-2" @click="delData(modalFlag, modalRequest);">Confirm</button>
 							<button class="btn btn-secondary mt-2 ms-2" @click="closeModal">Cancel</button>
 						</div>
