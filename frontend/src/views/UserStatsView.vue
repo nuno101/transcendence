@@ -7,6 +7,7 @@ import WinsTable from '../components/dashboard/WinsTable.vue';
 import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
 import CommonTable from '../components/dashboard/CommonTable.vue';
 import Loading from '../components/common/Loading.vue';
+import OnlineStatus from '../components/dashboard/OnlineStatus.vue';
 import { useRoute } from 'vue-router';
 
 //  GENERAL
@@ -42,6 +43,7 @@ const fetchData = async() => {
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
+      console.log(user.value);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -98,7 +100,10 @@ const DefeatGames = computed(() => {
               style="width: 100px; height: 100px; object-fit: cover;">
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{ user.nickname }}</div>
+            <div class="name bg-dark pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">
+              <!-- <OnlineStatus :status="user.status" :id="('stats' + Number(userId))"/> -->
+              {{ user.nickname }}
+            </div>
           </div>
             <div class="row mt-4">
               <DefeatsTable :id="Number(userId)" :games="DefeatGames"/>

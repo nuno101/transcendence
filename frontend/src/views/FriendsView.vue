@@ -27,7 +27,6 @@ const fetchData = async () => {
     friends.value = await Backend.get(`/api/users/me/friends`);
     friendRequests.value = await Backend.get(`/api/users/me/friends/requests?type=received`);
     pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
-    console.log(friends.value);
 	for (const friend of friends.value) {
 		const avatarUrl = await Avatar.getAvatarById(friend.id);
 		friendsAvatar.value[friend.id] = avatarUrl;
@@ -97,9 +96,8 @@ onMounted(() => {
 											/>
 										</td>
 										<td class="bg-light text-start align-middle">
+											<OnlineStatus :status="friend.status" :id="friend.id" class="me-2"/>
 											<router-link :to="`/users/${friend.id}`">{{friend.nickname}}</router-link>
-											<!-- <OnlineStatus :status="friend.status"/> -->
-											{{friend.status}}
 										</td>
 										<td class="bg-light text-end align-middle">
 											<button type="button" class="btn btn-outline-danger" aria-label="Close" @click="openModal('DELETEFRIEND', friend)">X</button>

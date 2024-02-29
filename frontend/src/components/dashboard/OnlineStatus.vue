@@ -1,29 +1,20 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { getCurrentInstance, onMounted, defineProps, ref} from 'vue';
+import { onMounted, defineProps, ref, watch} from 'vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
-const instance = getCurrentInstance();
-const props = defineProps(['status']);
-
-const reference = ref(null);
+const props = defineProps(['status', 'id']);
 
 onMounted(() => {
-    // if(props.status === 'online')
-        new bootstrap.Tooltip(reference.value);
-    // else if(props.status === 'offline')
-    //     new bootstrap.Tooltip(offRef.value);
+    if (props.status === 'online' || props.status === 'offline')
+        new bootstrap.Tooltip(`#${props.id}`);
 })
 
 </script>
 
 <template>
-    <!-- <i v-if="props.status === 'online'" class="ms-2 bi bi-circle-fill align-middle text-success"
-        data-bs-toggle="tooltip" data-bs-placement="top"
-        title="online" :ref="reference"
+    <i v-if="props.status === 'online' || props.status === 'offline'" class="ms-2 bi bi-circle-fill align-middle"
+        :class="{ 'text-secondary': props.status === 'offline', 'text-success': props.status === 'online' }"
+        :id="props.id" data-bs-placement="top" :title="props.status"
     ></i>
-    <i v-if="props.status === 'offline'" class="ms-2 bi bi-circle-fill align-middle text-secondary"
-    data-bs-toggle="tooltip" data-bs-placement="top"
-    title="offline" :ref="reference"
-    ></i> -->
 </template>

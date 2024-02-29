@@ -4,18 +4,16 @@ class Friends {
     static acceptRequest = async (friends, friendsAvatar, friendRequests, friendRequestsAvatar, request) => {
         try {
             const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${request.id}`, {});
-            friends.push({"id": `${request.from_user.id}`, "nickname": `${request.from_user.nickname}`});
+            friends.push(acceptedRequest);
             friendsAvatar[request.from_user.id] = friendRequestsAvatar[request.from_user.id];
             const indexToDelete = friendRequests.findIndex(friendreq => friendreq.id === request.id);
             if(indexToDelete !== -1){
               friendRequests.splice(indexToDelete, 1);
-              console.log(friendRequestsAvatar);
               delete friendRequestsAvatar[request.from_user.id];
-              console.log(friendRequestsAvatar);
             }
-            console.log(acceptedRequest);
           } catch (err) {
               console.error(err.message);
+              alert(err.message);
           }
     };
 
@@ -37,6 +35,7 @@ class Friends {
             }
         } catch (err) {
             console.error(err.message);
+            alert(err.message);
         }
     };
 }
