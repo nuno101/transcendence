@@ -6,7 +6,7 @@ from django.db.models import Q
 from .decorators import *
 from .models import User, Game
 from .helpers_users import update_user
-from .helpers_games import get_user_games
+from .helpers_games import get_user_games_done
 
 # Endpoint: /users
 @method_decorator(check_structure("/users"), name='dispatch')
@@ -64,5 +64,14 @@ class AvatarUser(View):
 @method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
 class GameCollectionUser(View):
 	def get(self, request, user_id):
-		games = get_user_games(user_id)
+		games = get_user_games_done(user_id)
 		return JsonResponse(games, safe=False)
+	
+# Endpoint: /users/USER_ID/games_upcoming
+@method_decorator(check_structure("/users/USER_ID/games_upcoming"), name='dispatch')
+@method_decorator(check_object_exists(User, 'user_id', USER_404), name='dispatch')
+class GameCollectionUserUpcoming(View):
+	def get(self, request, user_id):
+		games = Game.objects.filter((Q(player1=user_id) | Q(player2=user_id)) & Q(status=Game.MatchStatus.CREATED) )
+		games.order_by('-updated_at')
+		return JsonResponse([g.serialize() for g in games], safe=False)
