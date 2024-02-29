@@ -1,7 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { defineProps, onMounted, watch, ref} from 'vue';
-import Avatar from '../../js/Avatar';
 import Loading from '../common/Loading.vue';
 import GetAvatar from '../common/GetAvatar.vue';
 

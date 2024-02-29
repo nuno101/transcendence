@@ -2,7 +2,6 @@
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
 import { defineProps, watch, onMounted, ref} from 'vue';
-import Avatar from '../../js/Avatar';
 import Loading from '../common/Loading.vue';
 import GetAvatar from '../common/GetAvatar.vue';
 
