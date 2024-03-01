@@ -213,7 +213,7 @@ class Message(models.Model):
       return {
           'id': self.id,
           'content': self.content,
-          'author_id': self.author.id,
+          'author': self.author.serialize(),
           'channel_id': self.channel.id,
           'created_at': str(self.created_at),
           'updated_at': str(self.updated_at)
