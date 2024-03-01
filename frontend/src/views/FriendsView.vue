@@ -8,6 +8,7 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { onMounted, ref } from 'vue';
 import Loading from '../components/common/Loading.vue';
 import GetAvatar from '../components/common/GetAvatar.vue';
+import UserRow from '../components/common/UserRow.vue';
 
 
 const friends = ref([]);
@@ -74,13 +75,7 @@ onMounted(() => {
 								<tbody v-if="friends && friends.length > 0">
 									<tr v-for="(friend, index) in friends" :key="friend">
 										<td class="bg-light text-center align-middle">{{index + 1}}</td>
-										<td class="bg-light d-none d-lg-table-cell">
-              								<GetAvatar :id="friend.id" />
-										</td>
-										<td class="bg-light text-start align-middle">
-											<OnlineStatus :status="friend.status" :id="friend.id" class="me-2"/>
-											<router-link :to="`/users/${friend.id}`">{{friend.nickname}}</router-link>
-										</td>
+										<UserRow :user="friend"/>
 										<td class="bg-light text-end align-middle">
 											<button type="button" class="btn btn-outline-danger" aria-label="Close" @click="openModal('DELETEFRIEND', friend)">X</button>
 										</td>
@@ -98,12 +93,7 @@ onMounted(() => {
 											</thead>
 										<tbody v-if="friendRequests.length > 0">
 											<tr v-for="friend in friendRequests" :key="friend">
-												<td class="bg-light d-none d-lg-table-cell">
-              										<GetAvatar :id="friend.from_user.id" />
-												</td>
-												<td class="bg-light align-middle">
-													<router-link :to="`/users/${friend.from_user.id}`">{{friend.from_user.nickname}}</router-link>
-												</td>
+												<UserRow :user="friend.from_user"/>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
 													<button class="btn btn-outline-success ms-auto me-2"
 														@click="Friends.acceptRequest(friends, friendRequests, friend)"
@@ -122,13 +112,9 @@ onMounted(() => {
 											</thead>
 										<tbody v-if="pendingRequests.length > 0">
 											<tr v-for="friend in pendingRequests" :key="friend">
-												<td class="bg-light d-none d-lg-table-cell">
-              										<GetAvatar :id="friend.to_user.id" />
-												</td>
-												<td class="bg-light align-middle">
-													<router-link :to="`/users/${friend.to_user.id}`">{{friend.to_user.nickname}}</router-link>
-												</td>
+												<UserRow :user="friend.to_user"/>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
+													<button class="btn ms-auto me-2 invisible"></button>
 													<button class="btn btn-outline-danger" @click="openModal('CANCELPENDREQ', friend)">X</button>
 												</td>
 											</tr>

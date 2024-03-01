@@ -1,4 +1,5 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { onMounted, defineProps, ref} from 'vue';
 import Backend from '../../js/Backend';
 
@@ -15,11 +16,11 @@ const isLoaded = ref(false);
 
 const getAvatarById = async (id) => {
     try {
-        const avatar = await Backend.getAvatar(`/api/users/${id}/avatar`);
-        return avatar;
+      const avatar = await Backend.getAvatar(`/api/users/${id}/avatar`);
+      return avatar;
     } catch (err) {
-        console.error(err.message);
-        return null;
+      console.error(err.message);
+      return null;
     }
 };
 
@@ -39,8 +40,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <img v-if="isLoaded" :src="avatar"
-        alt="..."
-        class="img-thumbnail rounded"
-        :style="{ width: props.size + 'px', height: props.size + 'px', objectFit: 'cover' }">
+  <img v-if="isLoaded" :src="avatar"
+    alt="..."
+    class="img-thumbnail rounded"
+    :style="{ width: props.size + 'px', height: props.size + 'px', objectFit: 'cover' }"
+  >
 </template>
