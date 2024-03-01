@@ -1,8 +1,8 @@
 # Statistics
 
-Total number of urls: 29
+Total number of urls: 31
 
-Total number of methods: 50
+Total number of methods: 52
 # Table of Contents
 
 - [/login](#login)
@@ -22,9 +22,11 @@ Total number of methods: 50
 - [/users/USER_ID](#users-USER_ID)
 - [/users/USER_ID/avatar](#users-USER_ID-avatar)
 - [/users/USER_ID/games](#users-USER_ID-games)
+- [/users/USER_ID/games_upcoming](#users-USER_ID-games_upcoming)
 - [/tournaments](#tournaments)
 - [/tournaments/TOURNAMENT_ID](#tournaments-TOURNAMENT_ID)
 - [/tournaments/TOURNAMENT_ID/play](#tournaments-TOURNAMENT_ID-play)
+- [/tournaments/TOURNAMENT_ID/games](#tournaments-TOURNAMENT_ID-games)
 - [/games](#games)
 - [/games/GAME_ID](#games-GAME_ID)
 - [/channels](#channels)
@@ -376,6 +378,10 @@ Total number of methods: 50
 
 ### GET
 
+## users-USER_ID-games_upcoming
+
+### GET - Games with status created, i.e. not yet started
+
 ## tournaments
 
 ### GET
@@ -489,6 +495,10 @@ Total number of methods: 50
 </td></tr>
 
 </table>
+
+## tournaments-TOURNAMENT_ID-games
+
+### GET
 
 ## games
 

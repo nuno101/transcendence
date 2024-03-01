@@ -10,6 +10,11 @@ Julia:
 - dashboard removed
 - websockets based notifications working
 - statistics of users to be updated to remove restrictions (all users can see all statistics)
+- Online Status on FriendsView
+- UserStatsView instead of ProfileView
+- * [ ] create reusable avatar component
+- * [ ] create reusable component for FriendsView tables
+- * [ ] All StatsTables in one component
 
 Anouk:
 - tournament logic implementation
