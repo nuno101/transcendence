@@ -3,11 +3,9 @@ import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import Friends from '../js/Friends';
 import UserSearch from '../components/dashboard/UserSearch.vue';
-import OnlineStatus from '../components/dashboard/OnlineStatus.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { onMounted, ref } from 'vue';
 import Loading from '../components/common/Loading.vue';
-import GetAvatar from '../components/common/GetAvatar.vue';
 import UserRow from '../components/common/UserRow.vue';
 
 
