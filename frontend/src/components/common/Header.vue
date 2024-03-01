@@ -25,7 +25,7 @@
           </div>
           <div v-else-if="logged.status">
             <button type="button" class="btn btn-outline-info me-2 btn-empty">
-              <router-link to="/profile" class="nav-link">{{ logged.username }}</router-link>
+              <router-link :to="`/users/${logged.id}`" class="nav-link">{{ logged.username }}</router-link>
             </button>
             <button @click="LogOut" type="button" class="btn btn-secondary">Logout</button>
           </div>
@@ -60,7 +60,7 @@ import { useRoute } from 'vue-router'
 import { watch } from "vue"
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
-const logged = ref({ loaded: false, status: false, username: '' })
+const logged = ref({ loaded: false, status: false, username: '', id: ''})
 const signedup = ref(false) 
 
 const inactiveView = {
@@ -88,14 +88,14 @@ const navRoutes = [
   ], button: 'Game'}
 ]
 const logoutRoute = { name: 'logout' }
-const restrictedRoutes = ['friends', 'settings', 'profile']
+const restrictedRoutes = ['friends', 'settings', 'user stats']
 const forcelogin = ref(false)
 
 watch(route, (newRoute) => {
   bootstrap.Modal.getInstance("#loginModalToggle")?.hide()
   bootstrap.Modal.getInstance("#signupModalToggle")?.hide()
   if (logged.value.loaded && !logged.value.status && restrictedRoutes.includes(newRoute.name))
-    router.replace({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
+    router.replace({ name: 'login', query: { continue: encodeURIComponent(route.fullPath) }})
   forcelogin.value = newRoute.name === 'login'
   if (forcelogin.value) {
     new bootstrap.Modal('#signupModalToggle', { keyboard: false, backdrop: 'static' })
@@ -111,9 +111,10 @@ const AlreadyLoggedin = async () => {
     const response = await Backend.get('/api/users/me')
     logged.value.status = true;
     logged.value.username = response.username;
+    logged.value.id = response.id;
   } catch {
     if (restrictedRoutes.includes(route.name))
-      router.push({ name: 'login', query: { continue: encodeURIComponent(route.name) }})
+      router.push({ name: 'login', query: { continue: encodeURIComponent(route.fullPath) }})
   }
   logged.value.loaded = true;
 }
@@ -124,6 +125,7 @@ const LogOut = async () => {
     await Backend.post('/api/logout', {})
     logged.value.status = false
     logged.value.username = ''
+    logged.value.id = ''
     router.push(logoutRoute)
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
