@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 import formatTimestamp from '../../js/TimeFormat';
-import { ref } from 'vue';
+import GetAvatar from '../common/GetAvatar.vue';
+import UserRow from '../common/GetAvatar.vue';
 
 defineProps({
   message: Object,
@@ -14,9 +15,11 @@ defineProps({
     <div class="card">
       <div class="card-header message-header d-flex justify-content-between align-items-center">
         <div>
+          <GetAvatar :id="message.author.id" :size=35 class="avatar"/>
           <strong class="message-author">{{ message.author.username }}</strong> 
           <small class="text-muted">{{ formatTimestamp(message.created_at) }}</small>
         </div>
+        <!-- TODO: Only display if message belongs to currently logged in user-->
         <button class="btn btn-sm btn-danger" @click="$emit('deleted')">
           <i class="bi bi-trash"></i>
         </button>
@@ -29,11 +32,23 @@ defineProps({
 </template>
 
 <style scoped>
+.avatar {
+  margin-right: 10px;
+}
+
 .message {
   margin-bottom: 10px;
 }
 
+.message-header {
+  padding: 5px 10px;
+}
+
 .message-author {
   margin-right: 10px;
+}
+
+.message-body {
+  padding: 5px 10px;
 }
 </style>

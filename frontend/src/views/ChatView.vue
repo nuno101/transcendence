@@ -1,9 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import Backend from '../js/Backend';
 import Channel from '../components/chat/Channel.vue';
 import Message from '../components/chat/Message.vue';
-import { useRoute } from 'vue-router';
+import UserRow from '../components/common/UserRow.vue';
 
 const route = useRoute();
 
@@ -14,7 +15,7 @@ const messageInput = ref('')
 
 onMounted(() => {
     loadChannels();
-    
+
     // If the route has a channel_id parameter, load the messages for that channel
     if (route.params.id) {
         console.log(route.params.id)
@@ -68,7 +69,7 @@ function sendMessage() {
         // Update the channel's updated_at field
         let channel = channels.value.find(c => c.id === channel_id)
         channel.updated_at = value.created_at
-        
+
         // Move the channel to the top of the list
         channels.value = channels.value.filter(c => c.id !== channel_id)
         channels.value.unshift(channel)
@@ -93,34 +94,31 @@ function deleteMessage(message) {
 </script>
 
 <template>
-    <div class="d-flex">
+    <div class="row mb-3 ">
         <!-- Sidebar with channels -->
-        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-light">
-            <div class="list-group list-group-flush border-bottom scrollarea">
+        <div class="col-md-2">
+            <div class="">
                 <Channel v-for="channel in channels" :key="channel.id" :channel="channel"
                     @selected="loadMessages(channel)" />
             </div>
         </div>
 
-        <!-- Main area with messages (will not grow larger than height of site) and is scrollable -->
-        <div class="d-flex flex-column flex-grow-1 ms-3">
-            <div class="flex-grow-1 overflow-auto">
-                <Message v-for="message in messages" :key="message.id" :message="message" 
-                    @deleted="deleteMessage(message)" />
-            </div>
-            <div class="input-group">
-                <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
-                <button class="btn btn-primary" @click="sendMessage">Send</button>
-            </div>
-        </div>
+        <!-- Container for selected channels -->
+        <div v-if="selected_channel" class="col-md-8">
 
-        <!-- Right sidebar with user list -->
-        <div v-if="selected_channel" class="d-flex flex-column align-items-stretch flex-shrink-0 bg-light">
-            <div class="list-group list-group-flush border-bottom scrollarea">
-                <div v-for="user in selected_channel.members" :key="user.id" class="list-group-item list-group-item-action py-3 lh-sm">
-                    <div class="d-flex w-100 justify-content-between align-items-center">
-                        <h5 class="mb-1">{{ user.username }}</h5>
+            <div class="row">
+                <div class="col-md-8">
+                    <Message v-for="message in messages" :key="message.id" :message="message"
+                        @deleted="deleteMessage(message)" />
+                    <div class="input-group">
+                        <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
+                        <button class="btn btn-primary" @click="sendMessage">Send</button>
                     </div>
+                </div>
+                <div class="col-md-2 flex">
+                    <tr v-for="user in selected_channel.members">
+                        <UserRow :user="user" />
+                    </tr>
                 </div>
             </div>
         </div>
