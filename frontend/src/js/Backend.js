@@ -10,8 +10,19 @@ class Backend {
         }
         const respone = await fetch(path, arg)
 
-        if (!respone.ok){
-            throw new Error((await respone.json()).error)
+        if(!respone.ok){
+            let error = (await respone.json()).error;
+            // OBJECT EXAMPLE: {username: ["User with this Username already exists."]}
+            // STRING EXAMPLE:Friend request already sents
+            if(typeof error === 'string')
+                throw new Error(error);
+
+            const propertyNames = Object.keys(error);
+            let messages = '';
+            for(let i = 0; i < propertyNames.length; i++)
+                messages += ('\n' + error[propertyNames[i]][0]);
+
+            throw new Error(messages);
         }
 
         return await respone.json()
@@ -35,16 +46,26 @@ class Backend {
     static async patch(path, patchData) {
         const arg = {
             method: 'PATCH',
+            credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
-			  },
-            credentials: 'include',
+			},
             body: JSON.stringify(patchData),
         };
+
         const respone = await fetch(path, arg);
 
         if (!respone.ok) {
-            throw new Error((await respone.json()).error);
+            let error = (await respone.json()).error;
+            if(typeof error === 'string')
+                throw new Error(error);
+            
+            const propertyNames = Object.keys(error);
+            let messages = '';
+            for(let i = 0; i < propertyNames.length; i++)
+                messages += ('\n' + error[propertyNames[i]][0]);
+
+            throw new Error(messages);
         }
 
         return await respone.json();
