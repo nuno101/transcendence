@@ -3,7 +3,7 @@ class Websocket {
     constructor(url, eventhandler) {
       // FIXME: Replace ws with wss before evaluation
       this.ws = new WebSocket('ws://' + window.location.host + url);
-      this.m = ref([]);
+      this.m = ref([]); // TODO: Where is this used? is this needed?
 
       this.ws.addEventListener('open', () => {
         console.log('WebSocket connection opened');
