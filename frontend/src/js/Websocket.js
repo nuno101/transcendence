@@ -9,7 +9,9 @@ class Websocket {
         console.log('WebSocket connection opened');
       });
 
-      eventhandler(this);
+      this.ws.addEventListener('message', async (event) => {
+        eventhandler(event)
+      });
     }
 
     sendWebSocketMessage(event, payload) {
