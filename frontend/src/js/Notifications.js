@@ -4,14 +4,15 @@ class Notifications {
     static messages = ref([]);
     static reloadrequired = ref(false);
 
-    static setupEventListener(ws) {
-        ws.ws.addEventListener('message', async (event) => {
-            ws.m.value = [...ws.m.value, event.data];
-            // Post Event if event happens not on current page
-            if(!checkPageAndEvents(window.location.pathname, JSON.parse(event.data).event))
-                await postNotification(event.data);
-        });
-    }
+    // TODO: Still needed -> has been replaced with mainHandler for /ws/events websocket
+    // static setupEventListener(ws) {
+    //     ws.ws.addEventListener('message', async (event) => {
+    //         ws.m.value = [...ws.m.value, event.data];
+    //         // Post Event if event happens not on current page
+    //         if(!checkPageAndEvents(window.location.pathname, JSON.parse(event.data).event))
+    //             await postNotification(event.data);
+    //     });
+    // }
 
     /*
         1. event on current page --> alert reload page!, implement event
