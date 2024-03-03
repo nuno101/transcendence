@@ -87,7 +87,7 @@ const navRoutes = [
   ], button: 'Game'}
 ]
 const logoutRoute = { name: 'logout' }
-const restrictedRoutes = ['friends', 'settings', 'user stats']
+const restrictedRoutes = ['friends', 'settings', 'user stats', 'game/onsite', 'game/online']
 const forcelogin = ref(false)
 
 watch(route, (newRoute) => {

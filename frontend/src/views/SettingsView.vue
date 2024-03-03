@@ -9,7 +9,6 @@ const inputavatar = ref('');
 const password2 = ref('');
 const user = ref([]);
 const useravatar = ref([]);
-let isUnique = ref(true);
 const isLoaded = ref(false);
 let updateErrorMessage = ref('');
 
@@ -101,9 +100,6 @@ const changeAvatar = async(event) => {
                   <label class="col-md-3 col-sm-4 col-xs-12 control-label">Nickname</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="text" class="form-control" :placeholder="user.nickname" v-model="input.nickname">
-                      <div v-if="!isUnique" class="p-2 mt-1 alert alert-danger" role="alert">
-                        Nickname is already taken
-                      </div>
                   </div>
               </div>
               <div class="form-group row mt-3 align-items-center">
