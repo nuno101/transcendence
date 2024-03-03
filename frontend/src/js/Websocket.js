@@ -3,13 +3,14 @@ class Websocket {
     constructor(url, eventhandler) {
       // FIXME: Replace ws with wss before evaluation
       this.ws = new WebSocket('ws://' + window.location.host + url);
-      this.m = ref([]);
 
       this.ws.addEventListener('open', () => {
         console.log('WebSocket connection opened');
       });
 
-      eventhandler(this);
+      this.ws.addEventListener('message', async (event) => {
+        eventhandler(event)
+      });
     }
 
     sendWebSocketMessage(event, payload) {
