@@ -3,7 +3,7 @@ import Notifications from '../Notifications'
 // TODO: Add structure to define a function/event handler for each event that is being
 // by the websocket event handler
 
-export async function mainHandler(event) {
+export async function wsEventHandler(event) {
     console.log(event)
 
     // TODO: Use Structure here to decide which function to forward the event to
@@ -15,3 +15,6 @@ export async function mainHandler(event) {
         await Notifications.postNotification(event.data);
 }
 // ----------------------------------------------------------------------------------------------------
+
+// INFO: Placeholder function where a potential game event handler could be implemented
+export async function wsGameHandler(event) {}

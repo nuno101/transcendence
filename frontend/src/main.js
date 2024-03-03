@@ -6,9 +6,9 @@ import 'bootstrap/dist/js/bootstrap.bundle' // suffix .min.js is causing bugs fo
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Websocket from './js/Websocket';
 import i18n from './plugins/i18n';
-import { mainHandler } from './js/event_handler/MainHandler';
+import { wsEventHandler } from './js/event_handler/MainHandlers';
 
-export const globalWS = new Websocket('/api/ws/events', mainHandler);
+export const globalWS = new Websocket('/api/ws/events', wsEventHandler);
 
 const app = createApp(App);
 
