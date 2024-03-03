@@ -3,14 +3,16 @@ import Backend from './Backend';
 class Notifications {
     static messages = ref([]);
     static reloadrequired = ref(false);
-    static setupEventListener(ws) {
-        ws.ws.addEventListener('message', async (event) => {
-            ws.m.value = [...ws.m.value, event.data];
-            // Post Event if event happens not on current page
-            if(!Notifications.checkPageAndEvents(window.location.pathname, JSON.parse(event.data).event))
-                await Notifications.postEvent(event.data);
-        });
-    }
+
+    // TODO: Still needed -> has been replaced with mainHandler for /ws/events websocket
+    // static setupEventListener(ws) {
+    //     ws.ws.addEventListener('message', async (event) => {
+    //         ws.m.value = [...ws.m.value, event.data];
+    //         // Post Event if event happens not on current page
+    //         if(!checkPageAndEvents(window.location.pathname, JSON.parse(event.data).event))
+    //             await postNotification(event.data);
+    //     });
+    // }
 
     /*
         1. event on current page --> alert reload page!, implement event
@@ -23,7 +25,7 @@ class Notifications {
             - create_friend_request "X sent you a friend request"
             - accept_friend_request "X accepted your friend request"
     */
-    static async postEvent(eventData) {
+    static async postNotification(eventData) {
         let requestBody = {};
         requestBody.type = JSON.parse(eventData).event;
         requestBody.content = this.getMessageOfEvent(eventData);
