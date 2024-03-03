@@ -15,6 +15,7 @@ Julia:
 - * [ ] create reusable avatar component
 - * [ ] create reusable component for FriendsView tables
 - * [ ] All StatsTables in one component
+* [ ] Implement second player authentication for onsite game
 
 Anouk:
 - tournament logic implementation
@@ -38,6 +39,7 @@ Robert:
   * [ ] Implement feature to delete messages in a channel
   * [ ] Implement feature to create new channel
   * [ ] Implement feature to delete (or leave?) channels
+* [ ] Add endpoint/feature to check if user credentials are correct without logging in
 
 
 # 2024-02-20 Discord meeting:
