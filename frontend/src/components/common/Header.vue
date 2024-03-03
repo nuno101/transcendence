@@ -19,7 +19,7 @@
             </div>
           </ul>
           
-          <div v-if="!logged" class="text-end">
+          <div v-if="!logged.loaded" class="text-end">
             <button type="button" class="btn btn-outline-light btn-empty disabled placeholder me-2" data-bs-target="#loginModalToggle" data-bs-toggle="modal"></button>
             <button type="button" class="btn btn-secondary btn-empty disabled placeholder" data-bs-target="#signupModalToggle" data-bs-toggle="modal"></button>
           </div>
@@ -122,7 +122,9 @@ AlreadyLoggedin()
 const LogOut = async () => {
   try {
     await Backend.post('/api/logout', {})
-    logged.value = {};
+    logged.value.status = false
+    logged.value.username = ''
+    logged.value.id = ''
     router.push(logoutRoute)
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
