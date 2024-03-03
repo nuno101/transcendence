@@ -92,9 +92,10 @@ const LogIn = async () => {
     bsLoginModal.hide()
     logged.value.status = true
     logged.value.username = response.username
+    logged.value.id = response.id
     if (props.forcelogin) {
       const urlParams = new URLSearchParams(document.location.search)
-      router.replace(urlParams.get('continue'))
+      router.replace(decodeURIComponent(urlParams.get('continue')))
     } else if (route.name === 'logout') {
       router.replace({ name: 'home' })
     }

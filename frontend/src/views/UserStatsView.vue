@@ -1,13 +1,13 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref, onMounted, computed} from 'vue';
+import { ref, watch, onMounted, computed} from 'vue';
 import Backend from '../js/Backend';
-import Avatar from '../js/Avatar';
-import WinsTable from '../components/dashboard/WinsTable.vue';
-import DefeatsTable from '../components/dashboard/DefeatsTable.vue';
-import CommonTable from '../components/dashboard/CommonTable.vue';
 import Loading from '../components/common/Loading.vue';
+import OnlineStatus from '../components/dashboard/OnlineStatus.vue';
 import { useRoute } from 'vue-router';
+import GetAvatar from '../components/common/GetAvatar.vue';
+import StatsTable from '../components/dashboard/StatsTable.vue';
+
 
 //  GENERAL
 const total = ref(null);
@@ -15,31 +15,32 @@ const defeatsRatio = ref(null);
 const winsRatio = ref(null);
 
 // INDIVIDUAL FRIEND
-const nickname = ref('');
+const userId = ref('');
+const user = ref({});
 const route = useRoute();
-const friends = ref({});
-const friend = ref(null);
 const games = ref({});
-const avatar = ref(null);
 
 const isLoaded = ref(false);
+// defineModel --> wait until all avatars are rendered?
 
 onMounted(() => {
-  nickname.value = route.params.nickname;
+  userId.value = route.params.id;
+  fetchData();
+});
+
+watch(() => route.params.id, () => {
+  userId.value = route.params.id;
   fetchData();
 });
 
 const fetchData = async() => {
   try {
-    friends.value = await Backend.get(`/api/users/me/friends`);
-    friend.value = friends.value.find(friend => friend.nickname === nickname.value);
-    if(friend.value) {
-      games.value = await Backend.get(`/api/users/${friend.value.id}/games`);
-      avatar.value = await Avatar.getAvatarById(friend.value.id);
+      user.value = await Backend.get(`/api/users/${userId.value}`);
+      games.value = await Backend.get(`/api/users/${userId.value}/games`);
+
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
-    }
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -48,10 +49,10 @@ const fetchData = async() => {
 };
 
 const isWin = (game) => {
-  if(game.player1.id === friend.value.id &&
+  if(game.player1.id === Number(userId.value) &&
     game.player1_score >= game.player2_score)
-    return true;
-  else if (game.player2.id === friend.value.id &&
+      return true;
+  else if (game.player2.id === Number(userId.value) &&
     game.player1_score <= game.player2_score)
     return true;
   return (false);
@@ -90,24 +91,24 @@ const DefeatGames = computed(() => {
             </div>
           </div>
           <div class="avatar-circle position-absolute start-50 translate-middle">
-            <img :src="avatar"
-              alt="..."
-              class="img-thumbnail rounded float-start"
-              style="width: 100px; height: 100px; object-fit: cover;">
+            <GetAvatar class="float-start" :id="user.id" :size="100" />
           </div>
           <div class="text-center">
-            <div class="name bg-primary pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">{{ friend.nickname}}</div>
+            <div class="name bg-dark pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">
+              <!-- <OnlineStatus :status="user.status" :id="('stats' + Number(userId))"/> -->
+              {{ user.nickname }}
+            </div>
           </div>
             <div class="row mt-4">
-              <DefeatsTable :id="friend.id" :games="DefeatGames"/>
+              <StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
               <div class="col-md-2 d-none d-md-block">
                 <div class="bar-chart rounded">
                   <div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
                   <div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
                 </div>
               </div>
-              <WinsTable :id="friend.id" :games="WinGames"/>
-              <CommonTable :id="friend.id" :games="games"/>
+              <StatsTable :id="Number(userId)" :games="games" :flag="'WINS'" />
+              <StatsTable :id="Number(userId)" :games="games" :flag="'GAMES'" />
             </div>
           </div>
         </div>
