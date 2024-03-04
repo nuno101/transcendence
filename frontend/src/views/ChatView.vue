@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Backend from '../js/Backend';
+import Chat from '../js/Chat';
 import Channel from '../components/chat/Channel.vue';
 import Message from '../components/chat/Message.vue';
 import UserRow from '../components/common/UserRow.vue';
@@ -105,11 +106,11 @@ function deleteMessage(message) {
 
         <!-- Container for selected channels -->
         <div v-if="selected_channel" class="col-md-8">
-
             <div class="row">
                 <div class="col-md-8">
+                    <div class="message-container">
                     <Message v-for="message in messages" :key="message.id" :message="message"
-                        @deleted="deleteMessage(message)" />
+                        @deleted="deleteMessage(message)" /></div>
                     <div class="input-group">
                         <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
                         <button class="btn btn-primary" @click="sendMessage">Send</button>
@@ -124,3 +125,10 @@ function deleteMessage(message) {
         </div>
     </div>
 </template>
+
+<style>
+.message-container {
+    height: 85vh;
+    overflow-y: scroll;
+}
+</style>
