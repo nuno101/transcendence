@@ -153,7 +153,7 @@ class Game(models.Model):
 	def serialize(self):
 		return {
 			'id': self.id,
-			'tournament_id':  self.tournament.id if self.tournament else None,
+			'tournament':  self.tournament.serialize() if self.tournament else None,
 			'player1': self.player1.serialize(),
 			'player2': self.player2.serialize(),
 			'status': self.status,
