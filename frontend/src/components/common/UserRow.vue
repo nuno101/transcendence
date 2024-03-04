@@ -8,15 +8,19 @@ const props = defineProps({
   size: {
     type: Number,
     default: 50
+  },
+  bgColor: {
+    type: String,
+    default: "bg-light"
   }
 });
 </script>
 
 <template>
-    <td class="bg-light d-none d-lg-table-cell align-middle">
+    <td class="d-none d-lg-table-cell align-middle" :class="bgColor">
         <GetAvatar :id="props.user.id" :size="props.size" />
     </td>
-    <td class="bg-light text-start align-middle">
+    <td class="text-start align-middle" :class="bgColor">
         <OnlineStatus :status="props.user.status" :id="props.user.id" class="me-2"/>
         <router-link :to="`/users/${props.user.id}`">{{props.user.nickname}}</router-link>
     </td>

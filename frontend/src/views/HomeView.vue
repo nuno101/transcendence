@@ -1,4 +1,5 @@
 <script setup>
+import UpcomingGames from '../components/game/UpcomingGames.vue';
 
 const profileLinks = [
   { link: 'https://github.com/Anoukmch', name: 'amechain' },
@@ -12,6 +13,7 @@ const profileLinks = [
 
 <template>
   <div>
+    <UpcomingGames />
     <div class="d-flex justify-content-center align-items-center" style="margin-top: 120px;">
       <div class="text-center">
         <h1 class="m-0 p-0">PONG GAME</h1>

@@ -3,7 +3,7 @@ import Backend from './Backend';
 class Notifications {
     static messages = ref([]);
     static reloadrequired = ref(false);
-
+    // STORED NOTIFICATION HANDLE HERE EVERYTHING!!
     // TODO: Still needed -> has been replaced with mainHandler for /ws/events websocket
     // static setupEventListener(ws) {
     //     ws.ws.addEventListener('message', async (event) => {
