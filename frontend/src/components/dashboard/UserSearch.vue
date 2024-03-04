@@ -1,15 +1,13 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../../js/Backend';
-import Avatar from '../../js/Avatar';
 import { ref, defineProps, watch } from 'vue';
 
 const searchInput = ref('');
-const avatar = ref('');
 let updateErrorMessage = ref('');
 
 
-const props = defineProps(['pendingRequests','pendingRequestsAvatar']);
+const props = defineProps(['pendingRequests']);
 
 const addFriend = async(nickname) => {
     try {
@@ -17,8 +15,6 @@ const addFriend = async(nickname) => {
         const request = await Backend.post(`/api/users/me/friends/requests`, {"nickname": `${nickname}`});
         if(request) {
             props.pendingRequests.push(request);
-            avatar.value = await Avatar.getAvatarById(request.to_user.id);
-            props.pendingRequestsAvatar[request.to_user.id] = avatar.value;
             resetSearch();
         }
         updateErrorMessage.value = '';

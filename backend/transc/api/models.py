@@ -9,7 +9,7 @@ AVATAR_PATH = 'avatars/'
 DEFAULT_AVATAR_NAME = os.getenv('DEFAULT_AVATAR_NAME', 'default.png')
 
 class User(AbstractUser):
-	def avatar_path(instance, filename):
+	def get_avatar_path(instance, filename):
 		# Get file extension
 		ext = filename.split('.')[-1]
 		return f'{AVATAR_PATH}{instance.id}.{ext}'
@@ -18,7 +18,7 @@ class User(AbstractUser):
 	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	avatar = models.ImageField(upload_to=avatar_path, null=True, blank=True)
+	avatar = models.ImageField(upload_to=get_avatar_path, null=True, blank=True)
 	tournaments = models.ManyToManyField('Tournament', related_name='participants', blank=True)
 
 	class States(models.TextChoices):
