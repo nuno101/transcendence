@@ -1,64 +1,40 @@
 import { ref } from 'vue';
 import Backend from './Backend';
+
+const parser = {
+    "create_message": newMessage,
+}
+
+async function newMessage(payload) {
+    return {
+        type: "new_message",
+        content: "Go to chat to see new messages"
+    }
+}
+
+async function generateNotification(event) {
+    for (const [key, value] of Object.entries(parser)) {
+        if (event.event === key) {
+            return await value(event);
+        }
+    }
+    return "Parser for event type missing"
+}
+
 class Notifications {
     static messages = ref([]);
     static reloadrequired = ref(false);
 
-    // TODO: Still needed -> has been replaced with mainHandler for /ws/events websocket
-    // static setupEventListener(ws) {
-    //     ws.ws.addEventListener('message', async (event) => {
-    //         ws.m.value = [...ws.m.value, event.data];
-    //         // Post Event if event happens not on current page
-    //         if(!checkPageAndEvents(window.location.pathname, JSON.parse(event.data).event))
-    //             await postNotification(event.data);
-    //     });
-    // }
-
-    /*
-        1. event on current page --> alert reload page!, implement event
-            "FRIEND" --> FriendsView.vue
-            UPDATE_USER (nickname, avatar) --> FriendsView, FriendsStatsView, ...?
-    */
-
-    /*
-        2. event on other page --> notification:
-            - create_friend_request "X sent you a friend request"
-            - accept_friend_request "X accepted your friend request"
-    */
-    static async postNotification(eventData) {
-        let requestBody = {};
-        requestBody.type = JSON.parse(eventData).event;
-        requestBody.content = this.getMessageOfEvent(eventData);
+    static async post(event) {
+        let body = await generateNotification(event)
 
         try {
-            if(requestBody.content && requestBody !== ""){
-                const response = await Backend.post('/api/users/me/notifications', requestBody);
-                this.messages.value = [...this.messages.value, response];
-            }
-            requestBody.type = requestBody.content = "";
+            const response = await Backend.post('/api/users/me/notifications', body);
+            this.messages.value = [...this.messages.value, response];
         } catch (err) {
             console.error(err.message);
-            // FIXME: ADD ERROR ALERT
+            // TODO: ADD ERROR ALERT
         }
-    }
-
-    static getMessageOfEvent(eventData) {
-        const message = {
-            create_friend_request : (JSON.parse(eventData).payload.from_user?.nickname || "") + " sent you a friend request",
-            accept_friend_request : (JSON.parse(eventData).payload.to_user?.nickname || "") + " accepted your friend request",
-        }
-        return message[JSON.parse(eventData).event] || "";
-    }
-
-    static checkPageAndEvents(url, event) {
-        if (url === '/friends' && ['accept_friend_request', 'create_friend_request', 'decline_friend_request', 'cancel_friend_request', 'remove_friend'].includes(event)) {
-            this.reloadrequired.value = true;
-            return true;
-        }
-        return false;
     }
 } 
 export default Notifications
-// if websocket closes --> message> u r offline, ...
-
-// DELETE NOTIFICATIONS!!!

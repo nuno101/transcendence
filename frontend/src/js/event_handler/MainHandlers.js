@@ -18,12 +18,6 @@ export async function wsEventHandler(event) {
             await value(event);
         }
     }
-
-    // TODO: Instead of checking here if the page reload message should be displayed move this
-    // functionality into the event handlers for specific events and sites
-    // Post Event if event happens not on current page
-    // if(!Notifications.checkPageAndEvents(window.location.pathname, JSON.parse(event.data).event))
-    //     await Notifications.postNotification(event.data);
 }
 // ----------------------------------------------------------------------------------------------------
 
