@@ -42,7 +42,7 @@ function loadMessages(channel) {
     try {
         let data = Backend.get(`/api/channels/${channel.id}/messages`)
         data.then(value => {
-            Chat.messages.value = value.reverse()
+            Chat.messages.value = value
             Chat.selected_channel.value = channel
         }).catch(err => {
             console.log(err)
@@ -80,7 +80,7 @@ function deleteMessage(message) {
 </script>
 
 <template>
-    <div class="row mb-3 ">
+    <div class="row mb-3">
         <!-- Sidebar with channels -->
         <div class="col-md-2">
             <div class="">
@@ -92,12 +92,12 @@ function deleteMessage(message) {
         <!-- Container for selected channels -->
         <div v-if="Chat.selected_channel" class="col-md-8">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="message-container">
                         <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
                             @deleted="deleteMessage(message)" />
                     </div>
-                    <div class="input-group">
+                    <div class="input-group send-input-group">
                         <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
                         <button class="btn btn-primary" @click="sendMessage">Send</button>
                     </div>
@@ -110,6 +110,12 @@ function deleteMessage(message) {
 <style>
 .message-container {
     height: 70vh;
-    overflow-y: scroll;
+    overflow: auto;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column-reverse;
+}
+.send-input-group {
+    margin-top: 6px;
 }
 </style>

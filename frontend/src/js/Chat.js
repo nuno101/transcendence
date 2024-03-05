@@ -18,7 +18,7 @@ class Chat {
 
             let selected_channel = Chat.selected_channel.value
             if (selected_channel && selected_channel.id == channel_id) {
-                Chat.messages.value.push(event.payload)
+                Chat.messages.value.unshift(event.payload)
             }
 
             // Update the channel's updated_at field
