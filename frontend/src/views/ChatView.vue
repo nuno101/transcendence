@@ -62,18 +62,6 @@ function sendMessage() {
         content: messageInput.value
     })
     data.then(value => {
-        console.log(value)
-        Chat.messages.value.push(value)
-
-        // Update the channel's updated_at field
-        let channel = Chat.channels.value.find(c => c.id === channel_id)
-        channel.updated_at = value.created_at
-
-        // Move the channel to the top of the list
-        Chat.channels.value = Chat.channels.value.filter(c => c.id !== channel_id)
-        Chat.channels.value.unshift(channel)
-
-        // Clear the input field after sending message
         messageInput.value = '';
     }).catch(err => {
         console.log(err)
@@ -84,7 +72,6 @@ function deleteMessage(message) {
     let data = Backend.delete(`/api/messages/${message.id}`)
     data.then(value => {
         console.log(value)
-        Chat.messages.value = Chat.messages.value.filter(m => m.id !== message.id)
     }).catch(err => {
         console.log(err)
     })
