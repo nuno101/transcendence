@@ -2,12 +2,17 @@ import { ref } from 'vue';
 import Backend from './Backend';
 
 class Chat {
+    static messages = ref([])
+    static channels = ref([])
+    static selected_channel = ref(null)
+
     static async createMessage(event) {
-        console.log(event)
+        console.log(event) // DEBUG -> TODO: remove
+        console.log(this.messages)
     }
 
     static async deleteMessage(event) {
-        console.log(event)
+        console.log(event) // DEBUG -> TODO: remove
     }
 }
 
