@@ -5,28 +5,29 @@ import SecondPlayerAuth from '../components/auth/SecondPlayerAuth.vue';
 import { useRouter } from 'vue-router';
 import Backend from '../js/Backend';
 import InstructionInfo from '../components/game/InstructionInfo.vue';
+import { globalUser } from '../main';
 
 const router = useRouter();
-const input = ref({ username: '', password: ''});
+const input = ref({ nickname: '', id: ''});
 const isAuthenticated = ref(false);
 const shouldOpenModal = ref(false);
-const user = ref({});
+// const user = ref({});
 
-const fetchData = async () => {
-  try {
-    user.value = await Backend.get(`/api/users/me`);
-  } catch (err) {
-    console.error(err.message);
-  }
-};
+// const fetchData = async () => {
+//   try {
+//     user.value = await Backend.get(`/api/users/me`);
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// };
 
 const startGame = () => {
   router.push('/ponggame');
 };
 
-onMounted(() => {
-  fetchData();
-})
+// onMounted(() => {
+//   fetchData();
+// })
 </script>
 
 <template>
@@ -35,6 +36,7 @@ onMounted(() => {
     <button v-if="!isAuthenticated" type="button" class="btn btn-outline-dark" @click="shouldOpenModal = true">Authenticate second player</button>
     <SecondPlayerAuth
       v-if="shouldOpenModal"
+      v-model:input="input"
       v-model:isAuthenticated="isAuthenticated"
       v-model:shouldOpenModal="shouldOpenModal"
     />
@@ -43,7 +45,7 @@ onMounted(() => {
         <i class="bi bi-person-fill-check"></i>
         Second player successfully authenticated
       </div>
-      <InstructionInfo :firstplayer="'Test'" :secondplayer="user.nickname"/>
+      <InstructionInfo :firstplayer="input.nickname" :secondplayer="globalUser?.nickname"/>
       <button type="button" class="btn btn-outline-success" @click="startGame">Start Game</button>
     </div>
 </template>

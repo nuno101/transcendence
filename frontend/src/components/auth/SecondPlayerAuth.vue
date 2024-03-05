@@ -35,9 +35,9 @@ import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 
+const input = defineModel('input');
 const isAuthenticated = defineModel('isAuthenticated');
 const shouldOpenModal = defineModel('shouldOpenModal');
-const input = { username: '', password: '' }
 const alerts = ref([])
 const loading = ref(false)
 
@@ -59,6 +59,8 @@ const authenticate = async () => {
   try {
     alerts.value = []
     // const response = await Backend.post('/api/login', input)
+    input.value.nickname ="DUMMY";
+    input.value.id ="DUMMY";
     isAuthenticated.value = true;
     closeModal();
   } catch (err) {
