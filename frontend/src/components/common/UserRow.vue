@@ -17,6 +17,7 @@ const props = defineProps({
 </script>
 
 <template>
+    <td class="d-lg-none" :class="bgColor"></td>
     <td class="d-none d-lg-table-cell align-middle" :class="bgColor">
         <GetAvatar :id="props.user.id" :size="props.size" />
     </td>

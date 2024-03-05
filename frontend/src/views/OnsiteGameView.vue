@@ -11,23 +11,10 @@ const router = useRouter();
 const input = ref({ nickname: '', id: ''});
 const isAuthenticated = ref(false);
 const shouldOpenModal = ref(false);
-// const user = ref({});
-
-// const fetchData = async () => {
-//   try {
-//     user.value = await Backend.get(`/api/users/me`);
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// };
 
 const startGame = () => {
   router.push('/ponggame');
 };
-
-// onMounted(() => {
-//   fetchData();
-// })
 </script>
 
 <template>
