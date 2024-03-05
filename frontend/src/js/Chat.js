@@ -8,7 +8,6 @@ class Chat {
 
     static async createMessage(event) {
         console.log(event) // DEBUG -> TODO: remove
-        console.log(this.messages)
     }
 
     static async deleteMessage(event) {

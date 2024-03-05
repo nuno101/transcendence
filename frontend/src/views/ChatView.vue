@@ -107,8 +107,9 @@ function deleteMessage(message) {
             <div class="row">
                 <div class="col-md-8">
                     <div class="message-container">
-                    <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
-                        @deleted="deleteMessage(message)" /></div>
+                        <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
+                            @deleted="deleteMessage(message)" />
+                    </div>
                     <div class="input-group">
                         <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
                         <button class="btn btn-primary" @click="sendMessage">Send</button>
@@ -121,7 +122,7 @@ function deleteMessage(message) {
 
 <style>
 .message-container {
-    height: 85vh;
+    height: 70vh;
     overflow-y: scroll;
 }
 </style>
