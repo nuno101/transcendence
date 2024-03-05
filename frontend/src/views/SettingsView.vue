@@ -19,7 +19,8 @@ onMounted(() => {
 const fetchData = async () => {
   try {
     isLoaded.value = false;
-    useravatar.value = await Backend.getAvatar(`/api/users/${globalUser.value.id}/avatar`);
+    if(globalUser.value !== null)
+      useravatar.value = await Backend.getAvatar(`/api/users/${globalUser.value.id}/avatar`);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -67,7 +68,7 @@ const changeAvatar = async(event) => {
 <template>
     <div class="cont">
       <Loading v-if="!isLoaded"/>
-      <div v-if="isLoaded" class="box">
+      <div v-if="isLoaded && globalUser !== null" class="box">
         <div class="row">
             <div class="col-sm-4 mt-4">
                 <div class="vstack gap-1">
