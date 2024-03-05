@@ -53,6 +53,7 @@ import { globalUser} from '../../main.js';
 
 const props = defineProps({ forcelogin: Boolean })
 const signedup = defineModel('signedup')
+const status = defineModel('status')
 const input = { username: '', password: '' }
 const loginModal = ref(null)
 const alerts = ref([])
@@ -88,6 +89,8 @@ const LogIn = async () => {
     loading.value = true
     globalUser.value = await Backend.post('/api/login?remember=' + remember, input)
     loading.value = false
+    status.value = true
+    localStorage.setItem('globalUser', JSON.stringify(globalUser.value));
     let bsLoginModal = bootstrap.Modal.getInstance("#loginModalToggle")
     bsLoginModal.hide()
     if (props.forcelogin) {

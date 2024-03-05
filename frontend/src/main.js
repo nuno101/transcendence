@@ -9,7 +9,7 @@ import i18n from './plugins/i18n';
 import { wsEventHandler } from './js/event_handler/MainHandlers';
 
 export const globalWS = new Websocket('/api/ws/events', wsEventHandler);
-export const globalUser = ref(null);
+export const globalUser = ref(localStorage.getItem('globalUser') ? JSON.parse(localStorage.getItem('globalUser')) : null);
 
 const app = createApp(App);
 
