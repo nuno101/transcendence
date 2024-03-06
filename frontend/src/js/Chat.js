@@ -8,8 +8,6 @@ class Chat {
     static selected_channel = ref(null)
 
     static async createMessage(event) {
-        console.log(event)
-
         let url = window.location.pathname
 
         if (url.startsWith("/chat")) {
@@ -34,8 +32,6 @@ class Chat {
     }
 
     static async deleteMessage(event) {
-        console.log(event) // DEBUG -> TODO: remove
-
         let url = window.location.pathname
 
         if (url.startsWith("/chat")) {

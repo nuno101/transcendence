@@ -16,7 +16,7 @@ defineProps({
       <div class="card-header message-header d-flex justify-content-between align-items-center">
         <div>
           <GetAvatar :id="message.author.id" :size=35 class="avatar"/>
-          <strong class="message-author">{{ message.author.username }}</strong> 
+          <router-link class="message-author" :to="'/users/' + message.author.id">{{ message.author.username }}</router-link>
           <small class="text-muted">{{ formatTimestamp(message.created_at) }}</small>
         </div>
         <!-- TODO: Only display if message belongs to currently logged in user-->

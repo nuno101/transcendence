@@ -71,7 +71,6 @@ function sendMessage() {
 function deleteMessage(message) {
     let data = Backend.delete(`/api/messages/${message.id}`)
     data.then(value => {
-        console.log(value)
     }).catch(err => {
         console.log(err)
     })
