@@ -8,8 +8,7 @@ import Websocket from './js/Websocket';
 import i18n from './plugins/i18n';
 import Chat from './js/Chat'
 
-// cCONF: Structure where all event handlers for incoming event for 
-//        the global event webocket
+// cCONF: Structure where all event handlers are defined for the global event websocket
 const handlersEvent = {
     "create_message": Chat.createMessage,
     "delete_message": Chat.deleteMessage,

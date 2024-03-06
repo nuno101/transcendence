@@ -5,12 +5,18 @@ const parser = {
     "create_message": newMessage,
 }
 
-async function newMessage(payload) {
+// cCONF: Parser function to generate custom dynamic notification for 
+//        different websocket events
+// ----------------------------------------------------------------------------
+
+async function newMessage(data) {
     return {
-        type: "new_message",
+        type: data.event,
         content: "Go to chat to see new messages"
     }
 }
+
+// ----------------------------------------------------------------------------
 
 async function generateNotification(event) {
     for (const [key, value] of Object.entries(parser)) {
