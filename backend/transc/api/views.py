@@ -6,9 +6,9 @@ from . import bridge_websocket as websocket
 from .decorators import *
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.shortcuts import render
-
 import logging
-logger = logging.getLogger('api')
+
+logger = logging.getLogger(__name__)
 
 def index(request):
 	logger.debug("Hello world from the custom debug log")

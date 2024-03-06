@@ -219,7 +219,7 @@ export default {
       <div class="button-container">
       <!-- IN BOTH CASES: POST RESULT OF GAME TO BACKEND BEFORE RESETTING -->
       <button @click="handleEndOfGame('rematch')" type="button" class="btn btn-outline-primary">Rematch</button>
-      <router-link to="/dashboard">
+      <router-link to="/">
         <button @click="handleEndOfGame('')" type="button" class="btn btn-outline-primary">Back to Menu</button>
       </router-link>
       </div>

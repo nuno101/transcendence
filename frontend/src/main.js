@@ -5,10 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle' // suffix .min.js is causing bugs for modals
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Websocket from './js/Websocket';
-import Notifications from './js/Notifications';
 import i18n from './plugins/i18n';
+import { wsEventHandler } from './js/event_handler/MainHandlers';
 
-export const globalWS = new Websocket('/api/ws/events', Notifications.setupEventListener);
+export const globalWS = new Websocket('/api/ws/events', wsEventHandler);
 
 const app = createApp(App);
 

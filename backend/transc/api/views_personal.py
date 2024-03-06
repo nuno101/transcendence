@@ -25,29 +25,34 @@ class UserPersonal(View):
 # cCONF: Allowed avatar file extensions
 ALLOWED_AVATAR_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp']
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 # Endpoint: /users/me/avatar
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
-  def post(self, request):
-    avatar = request.FILES.get('avatar')
-    if not avatar:
-      return JsonResponse({ERROR_FIELD: "No avatar provided (needs to be a multipart/form-data field with key 'avatar')"}, status=400)
-    extension = avatar.name.split('.')[-1]
-    if extension not in ALLOWED_AVATAR_EXTENSIONS:
-      return JsonResponse({ERROR_FIELD: f"Invalid file extension '{extension}'"}, status=400)
+    def post(self, request):
+        avatar = request.FILES.get('avatar')
+        if not avatar:
+            return JsonResponse({ERROR_FIELD: "No avatar provided (needs to be a multipart/form-data field with key 'avatar')"}, status=400)
+        
+        extension = avatar.name.split('.')[-1]
+        if extension not in ALLOWED_AVATAR_EXTENSIONS:
+            return JsonResponse({ERROR_FIELD: f"Invalid file extension '{extension}'"}, status=400)
 
-    # TODO: Delete old avatar if new one has different name
+        try:
+            request.user.avatar = avatar
+            request.user.save()
+            logger.debug(f"Avatar updated for user {request.user.username}")
+        except ValidationError as e:
+            logger.error(f"Validation error while saving avatar for user {request.user.username}: {e.message_dict}")
+            return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
+        except Exception as e:
+            logger.error(f"Error while saving avatar for user {request.user.username}: {str(e)}")
+            return JsonResponse({ERROR_FIELD: str(e)}, status=500)
 
-    try:
-      request.user.avatar = avatar
-      request.user.avatar.full_clean()
-      request.user.save()
-    except ValidationError as e:
-      return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
-    except Exception as e:
-      return JsonResponse({ERROR_FIELD: str(e)}, status=500)
-
-    return JsonResponse(request.user.serialize(), status=201)
+        return JsonResponse(request.user.serialize(), status=201)
 
 # Endpoint: /users/me/blocked
 @method_decorator(check_structure("/users/me/blocked"), name='dispatch')

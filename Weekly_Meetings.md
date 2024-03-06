@@ -10,6 +10,12 @@ Julia:
 - dashboard removed
 - websockets based notifications working
 - statistics of users to be updated to remove restrictions (all users can see all statistics)
+- Online Status on FriendsView
+- UserStatsView instead of ProfileView
+- * [ ] create reusable avatar component
+- * [ ] create reusable component for FriendsView tables
+- * [ ] All StatsTables in one component
+* [ ] Implement second player authentication for onsite game
 
 Anouk:
 - tournament logic implementation
@@ -22,10 +28,21 @@ Nuno:
 
 
 Robert:
+- will work in the chat also to learn Vue.js
 * [ ] Implement automatic check for user serialization to decide if private output should be included, e.g. online status in case requesting user is a friend 
 * [ ] Fix avatars not updating
-* [ ] Fix/Fully implement user online status
-- will work in the chat also to learn Vue.js
+* [ ] ~~Fix/Fully implement user online status -> current state enough?~~
+* [ ] Implement chat
+  * [x] Implement listing of channels
+  * [x] Implement feature to select the channel to view the messages of
+  * [x] Implement feature to send messages in a channel
+  * [x] Implement feature to delete messages in a channel
+  * [ ] Implement feature to create new channel
+  * [ ] Implement feature to delete (or leave?) channels
+  * [ ] Implement feature to add users to channels
+  * [ ] Implement feature to remove users from channels
+  * [ ] Implement feature to block/unblock user
+* [ ] Add endpoint/feature to check if user credentials are correct without logging in
 
 
 # 2024-02-20 Discord meeting:

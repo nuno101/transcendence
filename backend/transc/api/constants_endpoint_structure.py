@@ -199,8 +199,11 @@ ENDPOINTS = {
 		}
 		}, "/users/USER_ID/games_upcoming": {
 		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
-            "description": "Games with status created, i.e. not yet started"
+			"GET": {
+				"description": "Games with status created, i.e. not yet started",
+				"query_params": {},
+				"body_params": {},
+			},
 		}
 	}, "/tournaments": {
 		"methods": {

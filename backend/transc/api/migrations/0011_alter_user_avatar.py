@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='avatar',
-            field=models.ImageField(blank=True, null=True, upload_to=api.models.User.avatar_path),
+            field=models.ImageField(blank=True, null=True, upload_to=api.models.User.get_avatar_path),
         ),
     ]
