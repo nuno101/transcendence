@@ -48,7 +48,7 @@ urlpatterns = [
 	path('tournaments/<int:tournament_id>/play', views_tournaments.TournamentSinglePlay.as_view()),
 	# Tournament games paths
 	path('tournaments/<int:tournament_id>/games', views_games.TournamentGameCollection.as_view()),
-
+	path('tournaments/<int:tournament_id>/games/<int:game_id>', views_games.TournamentGameSingle.as_view()),
 
 	# Game paths
 	path('games', views_games.GameView.as_view()),
