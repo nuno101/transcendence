@@ -71,7 +71,6 @@ class TournamentGameSingle(View):
 		game = Game.objects.get(id=game_id)
 		return JsonResponse(game.serialize())
 
-	@method_decorator(staff_required, name='dispatch')
 	def patch(self, request, tournament_id, game_id):
 		game = Game.objects.get(id=game_id)
 		# verify the user is one of the players - skipped for now
