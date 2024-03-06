@@ -44,7 +44,7 @@ onMounted(() => {
 const fetchData = async () => {
   try {
     if(globalUser.value)
-      upcomingGames.value = await Backend.get(`api/users/${globalUser.value.id}/games_upcoming`);
+      upcomingGames.value = await Backend.get(`/api/users/${globalUser.value.id}/games_upcoming`);
     console.log(upcomingGames.value);
   } catch (err) {
     console.error(err.message);
