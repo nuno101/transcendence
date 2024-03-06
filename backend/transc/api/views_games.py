@@ -90,7 +90,6 @@ class TournamentGameSingle(View):
 		else:
 			return JsonResponse({ERROR_FIELD: "Change not allowed"}, status=400)
 
-	@method_decorator(staff_required, name='dispatch')
 	def delete(self, request, tournament_id, game_id):
 		game = Game.objects.get(id=game_id)
 		# verify the user is the creator of the tournament
