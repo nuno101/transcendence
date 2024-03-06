@@ -7,6 +7,9 @@ class Chat {
     static channels = ref([])
     static selected_channel = ref(null)
 
+    // Websocket event handler functions
+    // ----------------------------------------------------------------------------
+
     static async createMessage(event) {
         let url = window.location.pathname
 
@@ -39,6 +42,8 @@ class Chat {
             Chat.messages.value = Chat.messages.value.filter(m => m.id !== message_id)
         }
     }
+    
+    // ----------------------------------------------------------------------------
 }
 
 export default Chat
