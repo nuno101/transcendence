@@ -133,14 +133,14 @@ class Game(models.Model):
 	player1_score = models.IntegerField(
 		default=0,
 		validators=[
-        MaxValueValidator(3),
+        MaxValueValidator(11),
         MinValueValidator(0)
       ]
 	)
 	player2_score = models.IntegerField(
 		default=0,
 		validators=[
-        MaxValueValidator(3),
+        MaxValueValidator(11),
         MinValueValidator(0)
       ]
 	)

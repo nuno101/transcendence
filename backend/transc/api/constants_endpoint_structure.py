@@ -38,6 +38,26 @@ ENDPOINTS = {
 		"methods": {
 			"POST": NO_PARAM_METHOD_TEMPLATE,
 		}
+	}, "/authenticate": {
+		"methods": {
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {
+				},
+				"body_params": {
+					"username": {
+						"type": "string",
+						"required": True,
+						"description": "Username of the user"
+					},
+					"password": {
+						"type": "string",
+						"required": True,
+						"description": "Password of the user"
+					}
+				},
+			}
+		}
 	}, "/users/me": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
