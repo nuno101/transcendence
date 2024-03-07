@@ -29,6 +29,7 @@ const newDescription = ref('');
 const gamesInfo = ref(null);
 const isClicked = ref(false);
 const completedGames = ref(false);
+const gameStarted = ref(localStorage.getItem('gameStarted') === 'true' || false);
 
 const fetchData = async () => {
   try {
@@ -174,21 +175,13 @@ const updateDescription = async () => {
     }
 };
 
-const startTournament = async () => {
-    try {
-		changeState();
-    } catch (error) {
-        console.error(error.message);
-    }
-};
-
 const handleGameClick = (index) => {
-	console.log("TEST", index);
     isClicked.value = index;
 };
 
 const startGame = () => {
-    console.log('Start the game:', gamesInfo.value[isClicked.value]);
+	gameStarted.value = true;
+    localStorage.setItem('gameStarted', 'true');
 };
 
 document.body.addEventListener('click', (event) => {
@@ -310,7 +303,7 @@ onMounted(() => {
 				</div>
 
 				<div v-if="status === 'registration_closed'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click="startTournament()">Start tournament</button>
+					<button type="button" class="btn btn-primary" v-if="isCreator" @click="changeState()">Start tournament</button>
 					<span>&nbsp;&nbsp;</span>
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click="cancelTournament" data-bs-toggle="modal" data-bs-target="#successModal">Cancel tournament</button>
 
@@ -322,7 +315,7 @@ onMounted(() => {
 						<div class="message-box">
 							<p v-if="gamesInfo && gamesInfo.length > 0">Tournament Progress:</p>
 
-							<div class="container">
+							<div class="tcontainer">
 								<div class="tournament-bracket tournament-bracket--rounded">                                                     
 									<div class="tournament-bracket__round">
 									<h3 class="tournament-bracket__round-title">Select a game</h3> <!-- NOT IF ALL GAMES ARE DONE -->
@@ -349,13 +342,18 @@ onMounted(() => {
 													</tr>
 
 												</tbody>
+												<div style="margin-top: 10px;"></div>
+												<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
 												</table>
 											</div>
 											
 											<div v-if="isClicked === (index + 1)">
 												<button v-if="isCreator" class="btn btn-danger" @click="cancelGame(isClicked)">Cancel Game</button>
-												<button class="btn btn-success start-game-button" @click="startGame">Start Game</button>
-											</div>					
+												<button class="btn btn-success" @click="startGame()">Start Game</button>
+												<p>gameStarted:  {{ gameStarted }} </p>
+												<!-- <SecondAuth v-if="gameStarted && currentUser.nickname === game.player1.nickname" /> --> 
+												<p v-if="gameStarted && currentUser.nickname === game.player2.nickname">Gather a computer</p>
+											</div>
 										</li>	
 									</ul>
 									<p v-else>No games information available.</p>
@@ -386,9 +384,9 @@ onMounted(() => {
 															</span>
 														</td>
 													</tr>
-
-
 												</tbody>
+												<div style="margin-top: 10px;"></div>
+												<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
 												</table>
 											</div>
 										</li>
@@ -493,7 +491,8 @@ onMounted(() => {
  * Licensed under MIT (https://opensource.org/licenses/MIT)
  */
 
-.container {
+
+.tcontainer {
   width: 90%;
   min-width: 18em;
   margin: 20px auto;
@@ -664,6 +663,7 @@ onMounted(() => {
   width: 200%;
   background-color: #ffffff;
   padding: 1.5em;
+  padding-bottom: 0.5em;
   border: 1px solid transparent;
   border-radius: 0.2em;
   box-shadow: 0 2px 0 0 #e5e5e5;
@@ -931,22 +931,6 @@ onMounted(() => {
     background-color: #ffee58;
     border-color: spin(shade(#ffee58, 2%), -10);
   }
-}
-
-.tournament-bracket__medal {
-  padding: 0 0.5em;
-}
-
-.tournament-bracket__medal--gold {
-  color: #FFD700;
-}
-
-.tournament-bracket__medal--silver {
-  color: #C0C0C0;
-}
-
-.tournament-bracket__medal--bronze {
-  color: #CD7F32;
 }
 
 </style>
