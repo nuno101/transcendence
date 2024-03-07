@@ -65,6 +65,8 @@ class ChannelMemberCollection(View):
     for member in channel.members.all():
       if user in member.blocked.all():
         return JsonResponse({ERROR_FIELD: "User is blocked by a member"}, status=400)
+      elif member in user.blocked.all():
+        return JsonResponse({ERROR_FIELD: "User blocked a member"}, status=400)
 
     # Add user to channel
     channel.members.add(user)
