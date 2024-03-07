@@ -1,6 +1,7 @@
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from .models import User
 from django.utils.decorators import method_decorator
 from . import bridge_websocket as websocket
 from .decorators import *
@@ -39,3 +40,13 @@ class Logout(View):
 		logout(request)
 
 		return JsonResponse({'response': "Successfully logged out"})
+
+# TODO - test: Endpoint: /authenticate
+@method_decorator(check_structure("/authenticate"), name='dispatch')
+class Authenticate(View):
+	def post(self, request):
+		user = authenticate(username=request.json.get('username'), password=request.json.get('password'))
+		if isinstance(user, User):
+			return JsonResponse({'response': "Authenticated"})
+		else:
+			return JsonResponse({'response': "Not authenticated"}, status=401)
