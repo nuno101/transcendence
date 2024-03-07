@@ -92,7 +92,7 @@ const startGame = () => {
 const createSingleGame = async(playerId1, playerId2) => {
   const response = ref(null);
   try{
-    response.value = await Backend.post('/api/games', {  player1_id: `${playerId1}`,  "player1_score": 0, player2_id: `${playerId2}`, "player2_score": 0});
+    response.value = await Backend.post('/api/games', {  player1_id: `${playerId1}`, player2_id: `${playerId2}` });
   } catch (err) {
     console.log(err);
     alert(err);
