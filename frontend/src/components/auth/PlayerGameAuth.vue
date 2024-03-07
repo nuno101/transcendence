@@ -25,11 +25,11 @@
                 </form>
                 <div v-if="player.isAuthenticated" class="alert alert-success py-1" role="alert">
                   <i class="bi bi-person-fill-check"></i>
-                  {{player.username}} successfully authenticated
+                  {{player.username}} with nickname <strong>{{player.nickname}}</strong> successfully authenticated
                 </div>
               </div>
               <div class="mx-auto mb-2 text-center pb-5" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
-                <InstructionInfo :firstplayer="authPlayers[0].username" :secondplayer="authPlayers[1].username"/>
+                <InstructionInfo :firstplayer="authPlayers[0].nickname" :secondplayer="authPlayers[1].nickname"/>
                 <button type="button" class="btn btn-success" @click="startGame">Start Game</button>
               </div>
             </div>
@@ -114,6 +114,7 @@ const authenticate = async (player) => {
     } else {
       const response = await Backend.post('/api/authenticate', { username: `${player.username}`, password: `${player.password}`});
       player.userId = response.id;
+      player.nickname = response.nickname;
       player.isAuthenticated = true;
     } 
   } catch (err) {
