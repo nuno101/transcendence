@@ -7,9 +7,9 @@
                 <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div v-for="player in authPlayers" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
-                <div v-for="alert in alerts" :class="alert.type">
+                <div v-for="alert in player.alerts" :class="alert.type">
                   <div>{{ alert.message }}</div>
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeModal"></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
                   <div class="form-floating mb-3">
@@ -27,7 +27,7 @@
                   {{player.username}} successfully authenticated
                 </div>
               </div>
-              <div class="mx-auto mb-2 text-center" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
+              <div class="mx-auto mb-2 text-center pb-5" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
                 <InstructionInfo :firstplayer="authPlayers[0].username" :secondplayer="authPlayers[1].username"/>
                 <button type="button" class="btn btn-success" @click="startGame">Start Game</button>
               </div>
@@ -49,7 +49,6 @@ import { globalUser } from '../../main';
 const props = defineProps(['game_id']);
 
 const authPlayers = ref([]);
-const alerts = ref([])
 const loading = ref(false)
 
 const game = ref({});
@@ -61,8 +60,8 @@ onMounted(() => {
 const fetchData = async () => {
   try {
       game.value = await Backend.get(`/api/games/${props.game_id}`);
-      authPlayers.value.push({ ...game.value.player1, isAuthenticated: game.value.player1.username === globalUser.value.username });
-      authPlayers.value.push({ ...game.value.player2, isAuthenticated: game.value.player2.username === globalUser.value.username });
+      authPlayers.value.push({ ...game.value.player1, isAuthenticated: game.value.player1.username === globalUser.value.username, alerts: [] });
+      authPlayers.value.push({ ...game.value.player2, isAuthenticated: game.value.player2.username === globalUser.value.username, alerts: [] });
   } catch (err) {
     console.error('Error fetching upcoming games:', err);
   }
@@ -87,19 +86,16 @@ const startGame = () => {
 
 const authenticate = async (player) => {
   try {
-    alerts.value = []
-    console.log(player.username);
-    console.log(player.password);
-    // USERNAME: player.username
-    // PASSWORD: player.password
-    // const response = await Backend.post('/api/login', { username: `${player.username}`, password: `${player.password}`});
+    player.alerts = []
+    await Backend.post('/api/authenticate', { username: `${player.username}`, password: `${player.password}`});
     player.isAuthenticated = true;
   } catch (err) {
     console.log(err);
-    alerts.value.push({
+    player.alerts.push({
       message: err.message,
       type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
     })
+    player.password = '';
   }
 }
 
