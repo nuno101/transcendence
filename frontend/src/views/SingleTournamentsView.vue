@@ -28,14 +28,16 @@ const editingDescription = ref(false);
 const newDescription = ref('');
 const gamesInfo = ref(null);
 const isClicked = ref(false);
+const completedGames = ref(false);
 
 const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
 	currentUser.value = await Backend.get('/api/users/me');
     nickname.value = currentUser.value.nickname;
-	gamesInfo.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
-	console.log("gamesInfo:", gamesInfo.value);
+	gamesInfo.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);	
+	completedGames.value = gamesInfo.value.filter(game => game.status === 'done' || game.status === 'cancel');
+	gamesInfo.value = gamesInfo.value.filter(game => !completedGames.value.some(pt => pt.id === game.id));
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = localStorage.getItem(userTournamentKey) === 'true';
 	initValues(tournament.value);
@@ -58,9 +60,6 @@ const initValues = (data) => {
 	}
 };
 
-// use username instead of nickname 
-// use the same rror messg from back-end in the front-end 
-// implement new join/unjoin logic
 
 const joinTournament = async () => {
 	console.log("Join")
@@ -166,10 +165,8 @@ const startEditing = () => {
 
 const updateDescription = async () => {
     try {
-        // Make the PATCH request to update the description
         await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "description": description.value });
 
-        // Optionally, display a success message or perform other actions
         console.log('Description updated successfully! : ', description.value);
 		editingDescription.value = false;
     } catch (error) {
@@ -191,29 +188,22 @@ const handleGameClick = (index) => {
 };
 
 const startGame = () => {
-    // Start the game based on the index stored in isClicked
-    // Example: gamesInfo[isClicked].start(); (You need to define the start method in your game objects)
     console.log('Start the game:', gamesInfo.value[isClicked.value]);
 };
 
 document.body.addEventListener('click', (event) => {
-    // Check if the clicked element is not within the "tournament-bracket__match" elements
     if (!event.target.closest('.tournament-bracket__match')) {
-        // Reset the isClicked value to 0
         isClicked.value = 0;
     }
 });
 
-const isAllGamesDone = computed(() => {
-   	//if (gamesInfo.value) {
-    //    return gamesInfo.value.every(game => game.player1.player1_score !== null && game.player2.player2_score !== null);
-    //}
-    //return false;
-
-	// How to check that round 1 is done?
-
-});
-
+const cancelGame = async () => {
+  try {
+    // Cancel a game 
+  } catch (err) {
+    console.error(err.message);
+  }
+};
 
 onMounted(() => {
 	const route = useRoute();
@@ -247,7 +237,7 @@ onMounted(() => {
 						<p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                 </div>
-				<template v-if="status === 'created'">
+				<div v-if="status === 'created'">
 
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationSetting" v-if="isCreator">Open registration</button>
 				<span>&nbsp;&nbsp;</span>
@@ -291,9 +281,9 @@ onMounted(() => {
 						</div>
 					</div>
 				</div>	
-				</template>
+				</div>
 				
-				<template v-else-if="status === 'registration_open'">
+				<div v-if="status === 'registration_open'">
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click=changeState() >Close registration</button>
 
 					<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -317,22 +307,18 @@ onMounted(() => {
 
         			<button type="button" class="btn btn-primary" v-else @click="isJoined ? unjoinTournament() : joinTournament()" data-bs-toggle="modal" data-bs-target="#successModal" >{{ isJoined ? 'Unjoin' : 'Join' }}</button>
 				
-				</template>
+				</div>
 
-				<template v-else-if="status === 'registration_closed'">
+				<div v-if="status === 'registration_closed'">
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click="startTournament()">Start tournament</button>
 					<span>&nbsp;&nbsp;</span>
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click="cancelTournament" data-bs-toggle="modal" data-bs-target="#successModal">Cancel tournament</button>
 
-					<div class="overlay" v-if="!isCreator">
-						<div class="message-box">
-							<p>Time to join <b>{{ creator }}</b>. Please gather round at their computer.</p>
-						</div>
-					</div>
-				</template>
+					<div class="alert alert-success" v-else>The tournament will start soon</div>
+				</div>
 
-				<template v-else-if="status === 'ongoing'">
-					<div class="overlay" v-if="isCreator">
+				<div v-if="status === 'ongoing'">
+					<div class="overlay">
 						<div class="message-box">
 							<p v-if="gamesInfo && gamesInfo.length > 0">Tournament Progress:</p>
 
@@ -340,17 +326,45 @@ onMounted(() => {
 								<div class="tournament-bracket tournament-bracket--rounded">                                                     
 									<div class="tournament-bracket__round">
 									<h3 class="tournament-bracket__round-title">Select a game</h3> <!-- NOT IF ALL GAMES ARE DONE -->
-									<ul v-if="gamesInfo && gamesInfo.length > 0" class="tournament-bracket__list">
+									<ul v-if="gamesInfo" class="tournament-bracket__list">
 										<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
-											<div class="tournament-bracket__match" :class="{ 'done': game.status === 'done' }" tabindex="0" @click="handleGameClick(index + 1)">						
+											<div class="tournament-bracket__match" :class="{ 'user-not-player': currentUser.nickname !== game.player1.nickname && currentUser.nickname !== game.player2.nickname }" tabindex="0" @click="handleGameClick(index + 1)">						
 												<table class="tournament-bracket__table">
-												<caption class="tournament-bracket__caption"></caption>
-												<thead class="sr-only">
-													<tr>
-													<th>Nickname</th>
-													<th>Score</th>
+												<tbody class="tournament-bracket__content">
+													<tr class="tournament-bracket__team">
+														<td class="tournament-bracket__country">
+															<abbr class="tournament-bracket__code">{{ game.player1.nickname }}</abbr>
+														</td>
+														<td class="tournament-bracket__score">
+															<span class="tournament-bracket__number">_</span>
+														</td>
 													</tr>
-												</thead>  
+													<tr class="tournament-bracket__team">
+														<td class="tournament-bracket__country">
+															<abbr class="tournament-bracket__code">{{ game.player2.nickname }}</abbr>
+														</td>
+														<td class="tournament-bracket__score">
+															<span class="tournament-bracket__number">_</span>
+														</td>
+													</tr>
+
+												</tbody>
+												</table>
+											</div>
+											
+											<div v-if="isClicked === (index + 1)">
+												<button v-if="isCreator" class="btn btn-danger" @click="cancelGame(isClicked)">Cancel Game</button>
+												<button class="btn btn-success start-game-button" @click="startGame">Start Game</button>
+											</div>					
+										</li>	
+									</ul>
+									<p v-else>No games information available.</p>
+
+									<h3 class="tournament-bracket__round-title">Finished games</h3>
+									<ul v-if="completedGames" class="tournament-bracket__list">
+										<li v-for="(game, index) in completedGames" :key="index" class="tournament-bracket__item">
+											<div class="tournament-bracket__match done"  tabindex="0">						
+												<table class="tournament-bracket__table">
 												<tbody class="tournament-bracket__content">
 													<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player1_score >= game.player2_score }">
 														<td class="tournament-bracket__country">
@@ -358,7 +372,7 @@ onMounted(() => {
 														</td>
 														<td class="tournament-bracket__score">
 															<span class="tournament-bracket__number">
-																{{ game.player1_score !== undefined && game.player1_score !== '' ? game.player1_score : '_' }}
+																{{ game.player1_score !== undefined && game.player1_score !== '' ? game.player1_score : '_' }} <!-- OR CANCELLED -->
 															</span>
 														</td>
 													</tr>
@@ -373,27 +387,19 @@ onMounted(() => {
 														</td>
 													</tr>
 
+
 												</tbody>
 												</table>
 											</div>
-										</li>	
+										</li>
 									</ul>
-									<p v-else>No games information available.</p>
 									</div>
 								</div>
 							</div>
-							<button v-if="isClicked" class="btn btn-primary start-game-button" @click="startGame">Start Game</button>
 							<!-- <Game View component> Do I insert Game component or do I use the router to change View? --> 
 						</div>
 					</div>
-
-					<div class="overlay" v-else-if="!isCreator">
-						<div class="message-box">
-							<p>Time to join <b>{{ creator }}</b>. Please gather round at their computer.</p>
-						</div>
-					</div>
-				</template>
-				
+				</div>
             </div>
             <div class="col-lg-4">
                 <h3 class="mb-3">Created by</h3>
@@ -417,24 +423,23 @@ onMounted(() => {
         </div>
     </div>
 
-
 	<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="successModalLabel">Success</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-                					<p>{{ success }}</p>
-            					</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								</div>
-							</div>
-						</div>
-					</div>  
-</template>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="successModalLabel">Success</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>{{ success }}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div> 
+</template> 
 
 
 <style>
@@ -477,10 +482,12 @@ onMounted(() => {
 
 .start-game-button {
     width: auto; /* Set width to auto to make the button less wide */
-	float: right; /* Float the button to the right */
     margin-top: 1px; /* Adjust the top margin as needed */
-	align-items: center;
+	margin-left: 5px;
+
 }
+
+
 
 /*!
  * Responsive Tournament Bracket
@@ -557,14 +564,12 @@ body {
 }
 
 .tournament-bracket__list {
-  display: flex;
   flex-direction: column;
   flex-flow: column wrap;
   justify-content: center;
-  height: 92%;
-  min-height: 92%;
+  height: 60%;
+  min-height: 60%;
   border-bottom: 1px dashed #e5e5e5;
-  margin-bottom: 2em;
   transition: padding 0.2s ease-in-out, margin 0.2s ease-in-out;
   
   @media (max-width: @breakpoint-xs) {
@@ -759,6 +764,13 @@ body {
     }
   }
 }
+
+.user-not-player {
+  background-color: #00000009;;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 
 .done {
   background-color: #00000009;;
