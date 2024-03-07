@@ -13,11 +13,11 @@
                 </div>
                 <form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
                   <div class="form-floating mb-3">
-                     <input type="text" class="form-control rounded-3" :id="'AuthUsername' + player.id" placeholder="" disabled>
+                     <input type="text" class="form-control rounded-3" :id="'AuthUsername' + player.id" placeholder="player.username" disabled required>
                       <label :for="'AuthUsername' + player.id">{{player.username}}</label>
                   </div>
                   <div class="form-floating mb-3">
-                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + player.id" placeholder="Password">
+                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + player.id" placeholder="Password" required>
                       <label :for="'AuthPassword' + player.id">Password</label>
                   </div>
                   <SubmitButton :loading="loading">Authenticate</SubmitButton>
