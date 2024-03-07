@@ -330,28 +330,28 @@ onMounted(() => {
 										<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
 											<div class="tournament-bracket__match" :class="{ 'user-not-player': currentUser.nickname !== game.player1.nickname && currentUser.nickname !== game.player2.nickname }" tabindex="0" @click="handleGameClick(index + 1)">						
 												<table class="tournament-bracket__table">
-												<tbody class="tournament-bracket__content">
-													<tr class="tournament-bracket__team">
-														<td class="tournament-bracket__country">
-															<abbr class="tournament-bracket__code">{{ game.player1.nickname }}</abbr>
-														</td>
-														<td class="tournament-bracket__score">
-															<span class="tournament-bracket__number">_</span>
-														</td>
-													</tr>
-													<tr class="tournament-bracket__team">
-														<td class="tournament-bracket__country">
-															<abbr class="tournament-bracket__code">{{ game.player2.nickname }}</abbr>
-														</td>
-														<td class="tournament-bracket__score">
-															<span class="tournament-bracket__number">_</span>
-														</td>
-													</tr>
-
-												</tbody>
+													<tbody class="tournament-bracket__content">
+														<tr class="tournament-bracket__team">
+															<td class="tournament-bracket__country">
+																<abbr class="tournament-bracket__code">{{ game.player1.nickname }}</abbr>
+															</td>
+															<td class="tournament-bracket__score">
+																<span class="tournament-bracket__number">_</span>
+															</td>
+														</tr>
+														<tr class="tournament-bracket__team">
+															<td class="tournament-bracket__country">
+																<abbr class="tournament-bracket__code">{{ game.player2.nickname }}</abbr>
+															</td>
+															<td class="tournament-bracket__score">
+																<span class="tournament-bracket__number">_</span>
+															</td>
+														</tr>
+													</tbody>
+													<div style="margin-top: 10px;"></div>
+													<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
 												</table>
 											</div>
-											
 											<div v-if="isClicked === (index + 1)">
 												<button v-if="isCreator" class="btn btn-danger" @click="cancelGame(isClicked)">Cancel Game</button>
 												<button class="btn btn-success start-game-button" @click="startGame">Start Game</button>
@@ -386,9 +386,9 @@ onMounted(() => {
 															</span>
 														</td>
 													</tr>
-
-
 												</tbody>
+												<div style="margin-top: 10px;"></div>
+												<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
 												</table>
 											</div>
 										</li>
@@ -494,34 +494,6 @@ onMounted(() => {
  * Copyright 2016 Jakub Hájek
  * Licensed under MIT (https://opensource.org/licenses/MIT)
  */
-
-@import 'https://fonts.googleapis.com/css?family=Work+Sans:300,400,600,700&subset=latin-ext';
-
-@breakpoint-xs: 24em;
-@breakpoint-sm: 38em;
-@breakpoint-md: 52em;
-@breakpoint-lg: 72em;
-
-* {
-  &,
-  &::before,
-  &::after {
-    box-sizing: border-box;
-  }
-}
-
-html {
-  font-size: 15px;
-  
-  @media (min-width: @breakpoint-sm) { font-size: 14px; }
-  @media (min-width: @breakpoint-md) { font-size: 15px; }
-  @media (min-width: @breakpoint-lg) { font-size: 16px; }
-}
-
-body {
-  background-color: #f1f1f1;
-  font-family: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
-}
 
 .container {
   width: 90%;
@@ -694,6 +666,7 @@ body {
   width: 200%;
   background-color: #ffffff;
   padding: 1.5em;
+  padding-bottom: 0.5em;
   border: 1px solid transparent;
   border-radius: 0.2em;
   box-shadow: 0 2px 0 0 #e5e5e5;
