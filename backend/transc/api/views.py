@@ -48,6 +48,6 @@ class Authenticate(View):
 	def post(self, request):
 		user = authenticate(username=request.json.get('username'), password=request.json.get('password'))
 		if isinstance(user, User):
-			return JsonResponse({'response': "Authenticated"})
+			return JsonResponse(user.serialize())
 		else:
 			return JsonResponse({ERROR_FIELD: "Not authenticated"}, status=401)
