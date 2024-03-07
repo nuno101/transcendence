@@ -1,9 +1,10 @@
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 import datetime
-from .models import Game
+from .models import Game, Tournament
 from .constants_http_response import *
 from django.db.models import Q
+
 
 # Game instance management helpers
 def update_game(game: Game, parameters):
@@ -22,6 +23,17 @@ def update_game(game: Game, parameters):
   # TODO: Implement websocket notification?
 
   return JsonResponse(game.serialize())
+
+# Update tournament status if all games are done and/or cancelled
+def update_tournament_status(tournament):
+  games = Game.objects.filter(tournament=tournament)
+  games_count = games.count()
+
+  games_done = games.filter(status=Game.MatchStatus.DONE).count()
+  games_cancelled = games.filter(status=Game.MatchStatus.CANCELLED).count()
+  if games_count == (games_done + games_cancelled):
+    tournament.status = Tournament.TournamentStatus.DONE
+    tournament.save()
 
 # Game serialization helpers
 def get_user_games_done(user_id):

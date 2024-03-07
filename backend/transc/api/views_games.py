@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponse
 from .decorators import *
 from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .helpers_games import update_game
+from .helpers_games import update_game, update_tournament_status
 #import logging
 #logging.basicConfig(level=logging.INFO)
 #logger = logging.getLogger(__name__)
@@ -58,12 +58,6 @@ class TournamentGameCollection(View):
 		games = Game.objects.filter(tournament=tournament)
 		return JsonResponse([g.serialize() for g in games], safe=False)
 
-	# @method_decorator(staff_required, name='dispatch')
-	# def post(self, request, tournament_id):
-	# 	tournament = Tournament.objects.get(id=tournament_id)
-	# 	create_games(tournament)
-	# 	return JsonResponse({"message": "Games created"}, status=201)
-
 # Endpoint: /tournaments/TOURNAMENT_ID/games/GAME_ID
 @method_decorator(check_structure("/tournaments/TOURNAMENT_ID/games/GAME_ID"), name='dispatch')
 @method_decorator(check_object_exists(Tournament, 'tournament_id', TOURNAMENT_404), name='dispatch')
@@ -87,7 +81,8 @@ class TournamentGameSingle(View):
 				game.player2_score = player2_score
 				game.status = Game.MatchStatus.DONE
 				game.save()
-				#TODO: if all tournament games are done or cancelled, update tournament status to DONE
+				#if all tournament games are done and/or cancelled then update the tournament.status to DONE
+				update_tournament_status(game.tournament)
 				return JsonResponse(game.serialize())
 			else:
 				return JsonResponse({ERROR_FIELD: "Invalid player(s) score"}, status=400)
