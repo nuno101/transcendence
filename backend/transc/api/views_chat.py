@@ -109,6 +109,11 @@ class ChannelMessageCollection(View):
                         content=request.json.get('content'))
       message.full_clean()
       message.save()
+
+      channel = request.channel
+      channel.updated_at = message.created_at
+      channel.full_clean()
+      channel.save()
     except ValidationError as e:
       return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
     except Exception as e:
