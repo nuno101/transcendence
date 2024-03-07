@@ -43,12 +43,6 @@ ENDPOINTS = {
 			"POST": {
 				"content_type": "application/json",
 				"query_params": {
-					"remember": {
-						"type": "boolean",
-						"required": False,
-						"default": False,
-						"description": "If false, the session will be deleted after the browser is closed"
-					}
 				},
 				"body_params": {
 					"username": {
