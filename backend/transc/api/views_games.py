@@ -6,6 +6,9 @@ from .decorators import *
 from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from .helpers_games import update_game
+#import logging
+#logging.basicConfig(level=logging.INFO)
+#logger = logging.getLogger(__name__)
 
 # Endpoint: /games
 @method_decorator(check_structure("/games"), name='dispatch')
@@ -76,14 +79,15 @@ class TournamentGameSingle(View):
 		# verify the user is one of the players - skipped for now
 		#if game.player1_id != request.user.id and game.player2_id != request.user.id:
 		#	return JsonResponse({ERROR_FIELD: "You are not a player in this game"}, status=400)
-		if game.status == Game.MatchStatus.CREATED:
-			player1_score = request.json.get('player1_score', 0)
-			player2_score = request.json.get('player2_score', 0)
+		if game.status == Game.MatchStatus.CREATED and game.tournament.status == Tournament.TournamentStatus.ONGOING:
+			player1_score = int(request.json.get('player1_score', 0))
+			player2_score = int(request.json.get('player2_score', 0))
 			if (player1_score == 11 or player2_score == 11) and (player1_score + player1_score < 22):
 				game.player1_score = player1_score
 				game.player2_score = player2_score
 				game.status = Game.MatchStatus.DONE
 				game.save()
+				#TODO: if all tournament games are done or cancelled, update tournament status to DONE
 				return JsonResponse(game.serialize())
 			else:
 				return JsonResponse({ERROR_FIELD: "Invalid player(s) score"}, status=400)
