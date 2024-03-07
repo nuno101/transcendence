@@ -18,14 +18,13 @@
               </li>
             </div>
           </ul>
-          
-          <div v-if="!logged.loaded" class="text-end">
+          <div v-if="!loaded" class="text-end">
             <button type="button" class="btn btn-outline-light btn-empty disabled placeholder me-2" data-bs-target="#loginModalToggle" data-bs-toggle="modal"></button>
             <button type="button" class="btn btn-secondary btn-empty disabled placeholder" data-bs-target="#signupModalToggle" data-bs-toggle="modal"></button>
           </div>
-          <div v-else-if="logged.status">
+          <div v-else-if="status">
             <button type="button" class="btn btn-outline-info me-2 btn-empty">
-              <router-link :to="`/users/${logged.id}`" class="nav-link">{{ logged.username }}</router-link>
+              <router-link :to="`/users/${globalUser.id}`" class="nav-link">{{ globalUser.nickname }}</router-link>
             </button>
             <button @click="LogOut" type="button" class="btn btn-secondary">Logout</button>
           </div>
@@ -33,14 +32,14 @@
             <button type="button" class="btn btn-outline-light me-2" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Login</button>
             <button type="button" class="btn btn-secondary" data-bs-target="#signupModalToggle" data-bs-toggle="modal">Signup</button>
           </div>
-          <div v-if="logged.status" class="position-relative ms-3">
+          <div v-if="status" class="position-relative ms-3">
             <Notifications />
           </div>
         </div>
       </div>
     </header>
     <Login
-      v-model:logged="logged"
+      v-model:status="status"
       v-model:signedup="signedup"
       :forcelogin="forcelogin" />
     <Signup
@@ -59,8 +58,8 @@ import Notifications from '../common/Notifications.vue'
 import { useRoute } from 'vue-router'
 import { watch } from "vue"
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
+import { globalUser } from "../../main"
 
-const logged = ref({ loaded: false, status: false, username: '', id: ''})
 const signedup = ref(false) 
 
 const inactiveView = {
@@ -79,6 +78,7 @@ const route = useRoute()
 const navRoutes = [
   { name: 'home', button: 'Home' },
   { name: 'friends', button: 'Friends' },
+  { name: 'chat', button: 'Chat' },
   { name: 'settings', button: 'Settings' },
   { name: 'tournaments', button: 'Tournaments' },
   { name: [
@@ -87,13 +87,16 @@ const navRoutes = [
   ], button: 'Game'}
 ]
 const logoutRoute = { name: 'logout' }
-const restrictedRoutes = ['friends', 'settings', 'user stats']
+const restrictedRoutes = ['friends', 'settings', 'user stats', 'game/onsite', 'game/online']
 const forcelogin = ref(false)
+const loaded = ref(false);
+const status = ref(false);
+
 
 watch(route, (newRoute) => {
   bootstrap.Modal.getInstance("#loginModalToggle")?.hide()
   bootstrap.Modal.getInstance("#signupModalToggle")?.hide()
-  if (logged.value.loaded && !logged.value.status && restrictedRoutes.includes(newRoute.name))
+  if (loaded.value && !status.value && restrictedRoutes.includes(newRoute.name))
     router.replace({ name: 'login', query: { continue: encodeURIComponent(route.fullPath) }})
   forcelogin.value = newRoute.name === 'login'
   if (forcelogin.value) {
@@ -105,26 +108,25 @@ watch(route, (newRoute) => {
   }
 })
 
-const AlreadyLoggedin = async () => {
+const AlreadyLoggedin = async() => {
   try {
-    const response = await Backend.get('/api/users/me')
-    logged.value.status = true;
-    logged.value.username = response.username;
-    logged.value.id = response.id;
+    globalUser.value = await Backend.get('/api/users/me');
+    status.value = true;
   } catch {
+    globalUser.value = null;
     if (restrictedRoutes.includes(route.name))
       router.push({ name: 'login', query: { continue: encodeURIComponent(route.fullPath) }})
   }
-  logged.value.loaded = true;
+  loaded.value = true;
 }
 AlreadyLoggedin()
 
 const LogOut = async () => {
   try {
     await Backend.post('/api/logout', {})
-    logged.value.status = false
-    logged.value.username = ''
-    logged.value.id = ''
+    localStorage.removeItem('globalUser');
+    globalUser.value = null;
+    status.value = false;
     router.push(logoutRoute)
   } catch (err) {
     console.log('post(/api/logout): error: ' + err.message)
