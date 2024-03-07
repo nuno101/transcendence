@@ -53,6 +53,7 @@ const fetchData = async () => {
   try {
     isLoaded.value = false;
     storedNotifications.value = await Backend.get('/api/users/me/notifications');
+    // notifications.messages.value.push(NEW NOTIFICAITON);
     console.log(storedNotifications.value);
   } catch (err) {
     console.error(err.message);
