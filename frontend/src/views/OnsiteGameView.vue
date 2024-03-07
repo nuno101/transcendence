@@ -16,10 +16,10 @@ const auth = ref(null);
     <button type="button" class="btn btn-outline-dark" @click="auth.openModal()">Authenticate second player</button>
     <PlayerGameAuth
       ref="auth"
-      :game_id="gameid"
-      :player1="p1"
-      :player2="p2"
     />
+      <!-- :game_id="gameid"
+      :player1="p1"
+      :player2="p2" -->
 </template>
 
 <style>
