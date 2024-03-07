@@ -1,25 +1,29 @@
+import { ref } from "vue";
 class Websocket {
-    static ws;
+  constructor(url, distributorStructure) {
+    // FIXME: Replace ws with wss before evaluation
+    this.ws = new WebSocket('ws://' + window.location.host + url);
 
-    static initializeWebSocket() {
-        // FIXME: Secure websocket (wss://)
-      this.ws = new WebSocket('ws://' + window.location.host + '/api/ws/events');
-        // this.ws.onopen
-        // this.ws.onmessage
-      this.ws.addEventListener('open', () => {
-        console.log('WebSocket connection opened');
-      });
-  
-      this.ws.addEventListener('message', (event) => {
-        console.log('Message from server:', event.data);
-        // Handle WebSocket messages and dispatch actions if using Vuex
-      });
-    }
-  
-    static sendWebSocketMessage(event, payload) {
-      const message = JSON.stringify({ event, payload });
-      this.ws.send(message);
-    }
+    this.ws.addEventListener('open', () => {
+      console.log('WebSocket connection opened');
+    });
+
+    this.ws.addEventListener('message', async (event) => {
+      event = JSON.parse(event.data);
+      console.log(event) // TODO: Debug -> remove
+
+      for (const [key, value] of Object.entries(distributorStructure)) {
+        if (event.event === key) {
+          await value(event);
+        }
+      }
+    });
   }
+
+  sendWebSocketMessage(event, payload) {
+    const message = JSON.stringify({ event, payload });
+    this.ws.send(message);
+  }
+}
 
 export default Websocket

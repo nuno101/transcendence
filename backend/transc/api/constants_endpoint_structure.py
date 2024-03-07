@@ -38,6 +38,26 @@ ENDPOINTS = {
 		"methods": {
 			"POST": NO_PARAM_METHOD_TEMPLATE,
 		}
+	}, "/authenticate": {
+		"methods": {
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {
+				},
+				"body_params": {
+					"username": {
+						"type": "string",
+						"required": True,
+						"description": "Username of the user"
+					},
+					"password": {
+						"type": "string",
+						"required": True,
+						"description": "Password of the user"
+					}
+				},
+			}
+		}
 	}, "/users/me": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
@@ -197,6 +217,14 @@ ENDPOINTS = {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
 		}
+		}, "/users/USER_ID/games_upcoming": {
+		"methods": {
+			"GET": {
+				"description": "Games with status created, i.e. not yet started",
+				"query_params": {},
+				"body_params": {},
+			},
+		}
 	}, "/tournaments": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
@@ -232,15 +260,54 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Description of the tournament"
-					}, "player": {
-						"type": "string",
-						"required": False,
-						"description": "Nickname of the player to be added to the tournament"
 					}, "status": {
 						"type": "string",
 						"required": False,
 						"description": "'next' -> advance to next tournament status, 'cancelled' -> cancel tournament"
 					}
+				},
+			}
+		}
+    }, "/tournaments/TOURNAMENT_ID/play": {
+		"methods": {
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {},
+				"body_params": {
+					"play": {
+						"type": "string",
+						"required": True,
+						"description": "join on unjoin the tournament"
+					},
+				}
+			},
+		}
+	}, "/tournaments/TOURNAMENT_ID/games": {
+		"methods": {
+			"GET": NO_PARAM_METHOD_TEMPLATE,
+		}
+	}, "/tournaments/TOURNAMENT_ID/games/GAME_ID": {
+        "methods": {
+            "GET": NO_PARAM_METHOD_TEMPLATE,
+            "DELETE": NO_PARAM_METHOD_TEMPLATE,
+            "PATCH": {
+                "content_type": "application/json",
+				"query_params": {},
+				"body_params": {
+					"player1_score": {
+						"type": "integer",
+						"required": False,
+						"description": "Score of the first player"
+					}, "player2_score": {
+						"type": "integer",
+						"required": False,
+						"description": "Score of the second player"
+					}
+					#}, "status": {
+					#	"type": "string",
+					#	"required": False,
+					#	"description": "Status of the game"
+					#}
 				},
 			}
 		}
@@ -267,12 +334,12 @@ ENDPOINTS = {
 					}, "player1_score": {
 						"type": "integer",
 						"required": False,
-						"default": "0",
+						"default": 0,
 						"description": "Score of the first player"
 					}, "player2_score": {
 						"type": "integer",
 						"required": False,
-						"default": "0",
+						"default": 0,
 						"description": "Score of the second player"
 					}
 				},

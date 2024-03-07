@@ -1,15 +1,14 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import Loading from '../components/common/Loading.vue';
+import { globalUser } from '../main';
 
 const input = ref({ nickname: '', password: ''});
 const inputavatar = ref('');
 const password2 = ref('');
-const user = ref([]);
 const useravatar = ref([]);
-let isUnique = ref(true);
 const isLoaded = ref(false);
 let updateErrorMessage = ref('');
 
@@ -20,8 +19,8 @@ onMounted(() => {
 const fetchData = async () => {
   try {
     isLoaded.value = false;
-    user.value = await Backend.get('/api/users/me');
-    useravatar.value = await Backend.getAvatar(`/api/users/${user.value.id}/avatar`);
+    if(globalUser.value !== null)
+      useravatar.value = await Backend.getAvatar(`/api/users/${globalUser.value.id}/avatar`);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -39,7 +38,7 @@ const submitChanges = async() => {
 
     if(requestBody !== {})
       await Backend.patch(`/api/users/me`, requestBody);
-    if(input.value.nickname !== '') user.value.nickname = input.value.nickname; input.value.nickname = '';
+    if(input.value.nickname !== '') globalUser.value.nickname = input.value.nickname; input.value.nickname = '';
     if(input.value.password !== '') password2.value = input.value.password = '';
 
     if(inputavatar.value !== ''){
@@ -47,7 +46,7 @@ const submitChanges = async() => {
       formData.append('avatar', inputavatar.value);
 
       await Backend.postAvatar('/api/users/me/avatar', formData);
-      useravatar.value = await Backend.getAvatar(`/api/users/${user.value.id}/avatar`);
+      useravatar.value = await Backend.getAvatar(`/api/users/${globalUser.value.id}/avatar`);
       inputavatar.value = '';
     }
     updateErrorMessage.value = '';
@@ -69,7 +68,7 @@ const changeAvatar = async(event) => {
 <template>
     <div class="cont">
       <Loading v-if="!isLoaded"/>
-      <div v-if="isLoaded" class="box">
+      <div v-if="isLoaded && globalUser !== null" class="box">
         <div class="row">
             <div class="col-sm-4 mt-4">
                 <div class="vstack gap-1">
@@ -94,16 +93,13 @@ const changeAvatar = async(event) => {
               <div class="form-group row mt-3 align-items-center">
                   <label class="col-md-3 col-sm-4 col-xs-12 control-label">Username</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
-                      <input type="text" class="form-control" :placeholder="user.username" disabled>
+                      <input type="text" class="form-control" :placeholder="globalUser.username" disabled>
                   </div>
               </div>
               <div class="form-group row mt-3 align-items-center">
                   <label class="col-md-3 col-sm-4 col-xs-12 control-label">Nickname</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
-                      <input type="text" class="form-control" :placeholder="user.nickname" v-model="input.nickname">
-                      <div v-if="!isUnique" class="p-2 mt-1 alert alert-danger" role="alert">
-                        Nickname is already taken
-                      </div>
+                      <input type="text" class="form-control" :placeholder="globalUser.nickname" v-model="input.nickname">
                   </div>
               </div>
               <div class="form-group row mt-3 align-items-center">

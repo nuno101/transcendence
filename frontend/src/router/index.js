@@ -11,16 +11,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/registration',
-      name: 'registration',
-      component: () => import('../views/RegistrationView.vue')
-    },
-    {
-      path: '/createprofile',
-      name: 'createprofile',
-      component: () => import('../views/CreateProfileView.vue')
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
@@ -29,17 +19,6 @@ const router = createRouter({
       path: '/logout',
       name: 'logout',
       component: () => import('../views/Logout.vue')
-    },
-    // DASHBOARD
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/DashboardView.vue')
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('../views/ProfileView.vue')
     },
     {
       path: '/settings',
@@ -52,9 +31,9 @@ const router = createRouter({
       component: () => import('../views/FriendsView.vue')
     },
     {
-      path: '/friends/:friendname',
-      name: 'friends/stats',
-      component: () => import('../views/FriendStatsView.vue'),
+      path: '/users/:id',
+      name: 'user stats',
+      component: () => import('../views/UserStatsView.vue'),
       props: true
     },
     // TOURNAMENTS
@@ -70,11 +49,6 @@ const router = createRouter({
 	  },
     // GAME
     {
-      path: '/game',
-      name: 'game',
-      component: () => import('../views/GameModesView.vue')
-    },
-    {
       path: '/game/online',
       name: 'game/online',
       component: () => import('../views/OnlineGameView.vue')
@@ -88,6 +62,12 @@ const router = createRouter({
       path: '/ponggame',
       name: 'ponggame',
       component: () => import('../views/PongGameView.vue')
+    },
+    // Chat
+    {
+      path: '/chat/:id?',
+      name: 'chat',
+      component: () => import('../views/ChatView.vue')
     },
     // FALLBACK
     {

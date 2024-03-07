@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 import os
 
 # cCONF: Avatar file path config
@@ -8,7 +9,7 @@ AVATAR_PATH = 'avatars/'
 DEFAULT_AVATAR_NAME = os.getenv('DEFAULT_AVATAR_NAME', 'default.png')
 
 class User(AbstractUser):
-	def avatar_path(instance, filename):
+	def get_avatar_path(instance, filename):
 		# Get file extension
 		ext = filename.split('.')[-1]
 		return f'{AVATAR_PATH}{instance.id}.{ext}'
@@ -17,7 +18,7 @@ class User(AbstractUser):
 	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	avatar = models.ImageField(upload_to=avatar_path, null=True, blank=True)
+	avatar = models.ImageField(upload_to=get_avatar_path, null=True, blank=True)
 	tournaments = models.ManyToManyField('Tournament', related_name='participants', blank=True)
 
 	class States(models.TextChoices):
@@ -129,8 +130,20 @@ class Game(models.Model):
 		choices=MatchStatus.choices,
 		default=MatchStatus.CREATED,
 	)
-	player1_score = models.IntegerField(default=0)
-	player2_score = models.IntegerField(default=0)
+	player1_score = models.IntegerField(
+		default=0,
+		validators=[
+        MaxValueValidator(11),
+        MinValueValidator(0)
+      ]
+	)
+	player2_score = models.IntegerField(
+		default=0,
+		validators=[
+        MaxValueValidator(11),
+        MinValueValidator(0)
+      ]
+	)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
@@ -140,7 +153,7 @@ class Game(models.Model):
 	def serialize(self):
 		return {
 			'id': self.id,
-			'tournament_id':  self.tournament.id if self.tournament else None,
+			'tournament':  self.tournament.serialize() if self.tournament else None,
 			'player1': self.player1.serialize(),
 			'player2': self.player2.serialize(),
 			'status': self.status,
@@ -200,7 +213,7 @@ class Message(models.Model):
       return {
           'id': self.id,
           'content': self.content,
-          'author_id': self.author.id,
+          'author': self.author.serialize(),
           'channel_id': self.channel.id,
           'created_at': str(self.created_at),
           'updated_at': str(self.updated_at)

@@ -1,14 +1,16 @@
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from .models import User
 from django.utils.decorators import method_decorator
 from . import bridge_websocket as websocket
 from .decorators import *
+from .constants_http_response import *
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.shortcuts import render
-
 import logging
-logger = logging.getLogger('api')
+
+logger = logging.getLogger(__name__)
 
 def index(request):
 	logger.debug("Hello world from the custom debug log")
@@ -39,3 +41,13 @@ class Logout(View):
 		logout(request)
 
 		return JsonResponse({'response': "Successfully logged out"})
+
+# TODO - test: Endpoint: /authenticate
+@method_decorator(check_structure("/authenticate"), name='dispatch')
+class Authenticate(View):
+	def post(self, request):
+		user = authenticate(username=request.json.get('username'), password=request.json.get('password'))
+		if isinstance(user, User):
+			return JsonResponse(user.serialize())
+		else:
+			return JsonResponse({ERROR_FIELD: "Not authenticated"}, status=401)
