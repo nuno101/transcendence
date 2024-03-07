@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, ref } from 'vue';
 import App from './App.vue';
 import router from './router';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -7,6 +7,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import Websocket from './js/Websocket';
 import i18n from './plugins/i18n';
 import Chat from './js/Chat'
+
+export const globalUser = ref(localStorage.getItem('globalUser') ? JSON.parse(localStorage.getItem('globalUser')) : null);
 
 // cCONF: Structure where all event handlers are defined for the global event websocket
 const handlersEvent = {
