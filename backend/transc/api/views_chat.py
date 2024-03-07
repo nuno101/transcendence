@@ -26,6 +26,9 @@ class ChannelCollection(View):
     except Exception as e:
       return JsonResponse({ERROR_FIELD: str(e)}, status=500)
 
+    websocket.add_consumer_to_group(request.user.id, f'channel_{channel.id}')
+    websocket.send_channel_event(channel.id, CREATE_CHANNEL, channel.serialize())
+
     return JsonResponse(channel.serialize(), status=201)
 
 # Endpoint: /channels/CHANNEL_ID
