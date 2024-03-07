@@ -89,7 +89,7 @@ function deleteMessage(message) {
         </div>
 
         <!-- Container for selected channels -->
-        <div v-if="Chat.selected_channel" class="col-md-8">
+        <div v-if="Chat.selected_channel.value" class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
                     <div class="message-container">
