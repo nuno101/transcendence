@@ -1,12 +1,13 @@
 # Statistics
 
-Total number of urls: 31
+Total number of urls: 33
 
-Total number of methods: 52
+Total number of methods: 56
 # Table of Contents
 
 - [/login](#login)
 - [/logout](#logout)
+- [/authenticate](#authenticate)
 - [/users/me](#users-me)
 - [/users/me/avatar](#users-me-avatar)
 - [/users/me/blocked](#users-me-blocked)
@@ -27,6 +28,7 @@ Total number of methods: 52
 - [/tournaments/TOURNAMENT_ID](#tournaments-TOURNAMENT_ID)
 - [/tournaments/TOURNAMENT_ID/play](#tournaments-TOURNAMENT_ID-play)
 - [/tournaments/TOURNAMENT_ID/games](#tournaments-TOURNAMENT_ID-games)
+- [/tournaments/TOURNAMENT_ID/games/GAME_ID](#tournaments-TOURNAMENT_ID-games-GAME_ID)
 - [/games](#games)
 - [/games/GAME_ID](#games-GAME_ID)
 - [/channels](#channels)
@@ -99,6 +101,63 @@ Total number of methods: 52
 ## logout
 
 ### POST
+
+## authenticate
+
+### POST
+
+<table>
+
+<tr><th>Query Parameters</th><th></th></tr>
+
+<tr><td>remember</td><td>
+<table>
+
+<tr><td>type</td><td>boolean</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>default</td><td>False</td></tr>
+
+<tr><td>description</td><td>If false, the session will be deleted after the browser is closed</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
+
+<table>
+
+<tr><th>Body Parameters</th><th></th></tr>
+
+<tr><td>username</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>Username of the user</td></tr>
+
+</table>
+
+</td></tr>
+
+<tr><td>password</td><td>
+<table>
+
+<tr><td>type</td><td>string</td></tr>
+
+<tr><td>required</td><td>True</td></tr>
+
+<tr><td>description</td><td>Password of the user</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
 
 ## users-me
 
@@ -499,6 +558,46 @@ Total number of methods: 52
 ## tournaments-TOURNAMENT_ID-games
 
 ### GET
+
+## tournaments-TOURNAMENT_ID-games-GAME_ID
+
+### GET
+
+### DELETE
+
+### PATCH
+
+<table>
+
+<tr><th>Body Parameters</th><th></th></tr>
+
+<tr><td>player1_score</td><td>
+<table>
+
+<tr><td>type</td><td>integer</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>Score of the first player</td></tr>
+
+</table>
+
+</td></tr>
+
+<tr><td>player2_score</td><td>
+<table>
+
+<tr><td>type</td><td>integer</td></tr>
+
+<tr><td>required</td><td>False</td></tr>
+
+<tr><td>description</td><td>Score of the second player</td></tr>
+
+</table>
+
+</td></tr>
+
+</table>
 
 ## games
 
