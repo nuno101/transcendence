@@ -10,6 +10,18 @@ class Chat {
     // cCONF: ChatView websocket event handler functions
     // ----------------------------------------------------------------------------
 
+    static createChannel = async (data) => {
+        let channel = data.payload
+
+        this.channels.value.unshift(channel)
+    }
+
+    static deleteChannel = async (data) => {
+        let channel_id = data.payload.id
+
+        this.channels.value = this.channels.value.filter(c => c.id !== channel_id)
+    }
+
     static createMessage = async (data) => {
         let url = window.location.pathname
 
@@ -34,16 +46,18 @@ class Chat {
         }
     }
 
-    static deleteMessage = async (event) => {
+    static deleteMessage = async (data) => {
         let url = window.location.pathname
 
         if (url.startsWith("/chat")) {
-            let message_id = event.payload.id
+            let message_id = data.payload.id
             this.messages.value = this.messages.value.filter(m => m.id !== message_id)
         }
     }
 
     // ----------------------------------------------------------------------------
+
+    
 }
 
 export default Chat

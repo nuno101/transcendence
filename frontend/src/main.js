@@ -12,6 +12,8 @@ export const globalUser = ref(localStorage.getItem('globalUser') ? JSON.parse(lo
 
 // cCONF: Structure where all event handlers are defined for the global event websocket
 const handlersEvent = {
+    "create_channel": Chat.createChannel,
+    "delete_channel": Chat.deleteChannel,
     "create_message": Chat.createMessage,
     "delete_message": Chat.deleteMessage,
 }

@@ -55,6 +55,16 @@ function loadMessages(channel) {
     }
 }
 
+function createChannel() {
+    let data = Backend.post(`/api/channels`, {
+        name: "New channel"
+    })
+    data.then(value => {
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
 function sendMessage() {
     let channel_id = Chat.selected_channel.value.id
     // TODO: error handling
@@ -80,13 +90,15 @@ function deleteMessage(message) {
 
 <template>
     <div class="row mb-3">
-        <!-- Sidebar with channels -->
-        <div class="col-md-2">
-            <div class="">
-                <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
-                    @selected="loadMessages(channel)" />
-            </div>
+        <div class="input-group send-input-group">
+            <button class="btn btn-primary" @click="createChannel">Create</button>
         </div>
+
+        <!-- Sidebar with channels -->
+        <ul class="col-md-3 channel-container list-group">
+            <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
+                @selected="loadMessages(channel)" />
+        </ul>
 
         <!-- Container for selected channels -->
         <div v-if="Chat.selected_channel.value" class="col-md-8">
@@ -107,6 +119,13 @@ function deleteMessage(message) {
 </template>
 
 <style>
+.channel-container {
+    height: 70vh;
+    overflow: auto;
+    display: flex;
+    flex: 0 0 auto;
+}
+
 .message-container {
     height: 70vh;
     overflow: auto;
@@ -114,6 +133,7 @@ function deleteMessage(message) {
     flex: 0 0 auto;
     flex-direction: column-reverse;
 }
+
 .send-input-group {
     margin-top: 6px;
 }
