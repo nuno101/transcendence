@@ -487,8 +487,6 @@ onMounted(() => {
 
 }
 
-
-
 /*!
  * Responsive Tournament Bracket
  * Copyright 2016 Jakub Hájek
