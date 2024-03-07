@@ -46,26 +46,15 @@ import router from '../../router';
 import { globalUser } from '../../main';
 
 
-const props = defineProps(['game_id']);
+const props = defineProps(['game_id', 'player1', 'player2']);
 
 const authPlayers = ref([]);
 const loading = ref(false)
 
-const game = ref({});
-
 onMounted(() => {
-  fetchData();
+  authPlayers.value.push({ id: 1, username: props.player1, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
+  authPlayers.value.push({ id: 2, username: props.player2, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
 })
-
-const fetchData = async () => {
-  try {
-      game.value = await Backend.get(`/api/games/${props.game_id}`);
-      authPlayers.value.push({ ...game.value.player1, isAuthenticated: game.value.player1.username === globalUser.value.username, alerts: [] });
-      authPlayers.value.push({ ...game.value.player2, isAuthenticated: game.value.player2.username === globalUser.value.username, alerts: [] });
-  } catch (err) {
-    console.error('Error fetching upcoming games:', err);
-  }
-};
 
 const openModal = () => {
   if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
