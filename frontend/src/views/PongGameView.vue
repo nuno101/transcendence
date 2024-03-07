@@ -1,422 +1,233 @@
-<!-- <script setup>
-import Map from '../components/game/GameMap.vue';
-import Paddle from '../components/game/GamePaddle.vue';
-import BallandScores from '../components/game/GameBallandScores.vue';
-import { ref, reactive } from 'vue';
-
-  const mapWidth = 624;
-  const mapHeight = 351;
-  let canvas = ref(null);
-  let context = ref(null);
-const paddle1 = reactive({
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  color: ''
-});
-
-const paddle2 = reactive({
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  color: ''
-});
-
-  const handleCanvasUpdate = (updateCanvas) => {
-    canvas.value = updateCanvas;
-    context.value = updateCanvas.getContext('2d');
-  };
-</script> -->
-
 <template>
-  <div class="container d-flex justify-content-center align-items-center">
-    <canvas ref="canvas"></canvas>
-    <div class="middle-line"></div>
-  </div>
+	<div class="container d-flex justify-content-center align-items-center">
+		<canvas ref="canvas"></canvas>
+	</div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import Vector from '../js/Vector'
+import { onMounted, onUnmounted, ref } from 'vue';
+import Vector from '../js/game/Vector'
+import Polygon from '../js/game/Polygon'
+import Circle from '../js/game/Circle'
+import Scene from '../js/game/Scene'
+import Style from '../js/game/Style'
+import Scores from '../js/game/Scores'
+import fps from '../js/game/fps'
 
 const canvas = ref(null)
-const keys = new Set()
-
-const getMousePos = (canvas, evt) => {
-  var rect = canvas.getBoundingClientRect()
-  return new Vector(evt.clientX - rect.left, evt.clientY - rect.top)
-}
-
-const handleKeys = (speed) => {
-  var direction = new Vector(0.0, 0.0)
-  
-  if (keys.has('w'))
-  direction.y -= speed
-if (keys.has('s'))
-direction.y += speed
-if (keys.has('a'))
-direction.x -= speed
-if (keys.has('d'))
-direction.x += speed
-
-return direction
-}
-
-class Scene {
-  init(canvas, width, height) {
-    this.canvas = canvas
-    this.width = width
-    this.height = height
-    this.canvas.width = width
-    this.canvas.height = height
-    this.ctx = this.canvas.getContext('2d')
-    this.translate = new Vector(this.width / 2, this.height / 2)
-  }
-  clear() {
-    this.ctx.clearRect(0, 0, this.width, this.height)
-  }
-  transform(v) {
-    return new Vector(v.x * this.translate.y + this.translate.x, v.y * this.translate.y + this.translate.y)
-  }
-  drawLine(a, b, color = 'white', lineWidth = 5) {
-    const a1 = this.transform(a)
-    const b1 = this.transform(b)
-
-    this.ctx.beginPath()
-    this.ctx.moveTo(a1.x, a1.y)
-    this.ctx.lineTo(b1.x, b1.y)
-    this.ctx.strokeStyle = color
-    this.ctx.lineWidth = lineWidth
-    this.ctx.stroke()
-  }
-  drawCircle(position, radius, color = 'white', lineWidth = 5) {
-    const position1 = this.transform(position)
-    const radius1 = radius * this.translate.y
-    this.ctx.beginPath()
-    this.ctx.moveTo(position1.x + radius1, position1.y)
-    this.ctx.arc(position1.x, position1.y, radius1, 0, Math.PI * 2, true)
-    this.ctx.strokeStyle = color
-    this.ctx.lineWidth = lineWidth
-    this.ctx.stroke()
-  }
-  normalize(v) {
-    v.x -= scene.translate.x
-    v.x /= scene.translate.y 
-    v.y -= scene.translate.y
-    v.y /= scene.translate.y
-  }
-}
-
-var timeOfLastFrame = 0.0
-var mousePos = new Vector(0, 0)
-var playerPos = new Vector(0.0, 0.0)
-var playerRadius = 0.1
-var mouseUp = false
-var move = new Vector(0, 0)
-var shouldMove = 0.0
-var pause = false
-var lastKeyPress = 0.0
-const scene = new Scene()
-const lines = {
-  top: [
-    // {
-    //   a: new Vector(-0.5, 0.5),
-    //   b: new Vector(0.5, 0.5)
-    // }
-  ],
-  bottom: [
-    {
-      a: new Vector(-0.5, -0.5),
-      b: new Vector(0.5, -0.5)
-    }
-  ],
-  right: [
-    // {
-    //   a: new Vector(-0.5, -0.5),
-    //   b: new Vector(-0.5, 0.5),
-    // },
-  ],
-  left: [
-    {
-      a: new Vector(0.5, -0.5),
-      b: new Vector(0.5, 0.5),
-    },
-    {
-      a: new Vector(playerRadius, -0.5),
-      b: new Vector(playerRadius, 0.5),
-    },
-  ]
-}
-const sides = [
-  {
-    filter: (direction) => {
-      return direction.y < 0
-    },
-    delta: new Vector(0, -playerRadius),
-    side: 'bottom'
-  },
-  {
-    filter: (direction) => {
-      return direction.y > 0
-    },
-    delta: new Vector(0, playerRadius),
-    side: 'top'
-  },
-  {
-    filter: (direction) => {
-      return direction.x < 0
-    },
-    delta: new Vector(-playerRadius, 0),
-    side: 'right'
-  },
-  {
-    filter: (direction) => {
-      return direction.x > 0
-    },
-    delta: new Vector(playerRadius, 0),
-    side: 'left'
-  }
+const startTimerInitialValue = 1000
+let startTimer = startTimerInitialValue
+let gameStarted = false
+const paddleSpeed = 0.002
+const playerSpeed = 0.002
+const player = new Circle(0.05)
+const paddle = new Polygon([
+	new Vector(-0.01, -0.1),
+	new Vector(0.01, -0.1),
+	new Vector(0.01, 0.1),
+	new Vector(-0.01, 0.1),
+])
+const border = new Polygon([
+	new Vector(-2, -1),
+	new Vector(2, -1),
+	new Vector(2, 1),
+	new Vector(-2, 1),
+])
+const objects = [
+	player,
+	border.copy(),
+	border.copy(),
+	border.copy(),
+	border.copy(),
 ]
 
-const collidesWithLine = (position, direction, line, horizontalLine) => {
-  let factor
-  if (horizontalLine)
-    factor = Vector.factorToYOf(line.a.y, position, direction)
-  else
-    factor = Vector.factorToXOf(line.a.x, position, direction)
+const playerCollision = (objects, player, depth) => {
+	if (depth === undefined) depth = 0
 
-  if (factor < 0 || factor > 1) return 1
-  let intersection = direction.clone()
-  intersection.scalarMul(factor)
-  intersection.add(position)
-  if (horizontalLine) {
-    if (intersection.x < Math.min(line.a.x, line.b.x) || intersection.x > Math.max(line.a.x, line.b.x))
-      return 1
-  } else {
-    if (intersection.y < Math.min(line.a.y, line.b.y) || intersection.y > Math.max(line.a.y, line.b.y))
-      return 1
-  }
-  return factor
+	let intersection = { factor: 1, dir: [] }
+
+	objects.forEach((object) => {
+		if (object instanceof Circle) return
+		const current = player.intersectionPolygon(object)
+		if (current.factor < intersection.factor) {
+			intersection = current
+		} else if (current.factor === intersection.factor) {
+			intersection.dir.push(...current.dir)
+		}
+	})
+
+	if (depth && intersection.factor === 0) {
+		console.warn('player is stuck')
+		return
+	}
+	
+	player.position.add(Vector.scalarMul(player.direction, intersection.factor))
+	if (intersection.factor === 1) return
+	player.direction = Vector.scalarMul(player.direction, 1 - intersection.factor)
+	const directionLength = player.direction.length
+	const dirDelta = new Vector()
+	intersection.dir.forEach((dir) => {
+		const factors = Vector.factorsToEdge(player.direction, dir, new Vector(), dir.orthogonal(), new Vector())
+		dirDelta.add( Vector.scalarMul(dir, factors[0] * 2) )
+	})
+	player.direction.add(dirDelta)
+	player.direction.length = directionLength
+
+	playerCollision(objects, player, ++depth)
 }
 
-const calcLine = (position, direction) => {
-  const sideFiltered = sides.filter((side) => { return side.filter(direction) })
+const paddleCollision = (objects) => {
+	
+	objects.forEach((object, i) => {
+		if (object instanceof Circle) return
 
-  let lowestFactor = 1
-  let sideOfLowestFactor
+		let intersection = { factor: 1, dir: [] }
+		objects.forEach((other) => {
+			if (object === other) return
+			let current
+			if (other instanceof Circle)
+				current = object.intersectionCircle(other)
+			else if (other instanceof Polygon)
+				current = object.intersectionPolygon(other)
 
-  sideFiltered.forEach((side) => {
+			if (current.factor < intersection.factor) {
+				intersection = current
+			} else if (current.factor === intersection.factor) {
+				intersection.dir.push(...current.dir)
+			}
+		})
 
-    const deltaPos = position.clone()
-    const deltaDir = direction.clone()
-    deltaPos.add(side.delta)
-
-    lines[side.side].forEach((line) => {
-        let factor = collidesWithLine(deltaPos, deltaDir, line, side.side === 'top' || side.side === 'bottom')
-        if (factor < lowestFactor) {
-          lowestFactor = factor
-          sideOfLowestFactor = side
-        }
-    })
-  })
-  
-  if (lowestFactor !== 1) {
-    const start = position.clone()
-    const circle = direction.clone()
-    circle.scalarMul(lowestFactor)
-    circle.add(position)
-    scene.drawCircle(circle, playerRadius, 'green')    
-    start.add(sideOfLowestFactor.delta)
-
-    const dirBeforeIntersection = direction.clone()
-    dirBeforeIntersection.scalarMul(lowestFactor)
-    position.add(dirBeforeIntersection)
-
-    dirBeforeIntersection.add(start)
-    scene.drawLine(start, dirBeforeIntersection, 'green')
-    
-    // after intersection
-    direction.scalarMul(1 - lowestFactor)
-    if (sideOfLowestFactor.side === 'top' || sideOfLowestFactor.side === 'bottom') {
-      direction.y *= -1
-    } else {
-      direction.x *= -1
-    }
-    
-    calcLine(position, direction)
-  } else {
-    const end = direction.clone()
-    end.add(position)
-    scene.drawLine(position, end, 'blue')
-
-    position.add(direction)
-    scene.drawCircle(position, playerRadius, 'blue')
-  }
+		object.position = Vector.add(object.position, Vector.scalarMul(object.direction, intersection.factor))
+	})
 }
 
-const calcMove = (position, direction, move) => {
-  const sideFiltered = sides.filter((side) => { return side.filter(direction) })
-
-  let lowestFactor = 1
-  let sideOfLowestFactor
-
-  sideFiltered.forEach((side) => {
-
-    const deltaPos = position.clone()
-    deltaPos.add(side.delta)
-
-    lines[side.side].forEach((line) => {
-        let factor = collidesWithLine(deltaPos, direction, line, side.side === 'top' || side.side === 'bottom')
-        if (factor < lowestFactor) {
-          lowestFactor = factor
-          sideOfLowestFactor = side
-        }
-    })
-  })
-  
-  if (lowestFactor !== 1) {
-    const dirBeforeIntersection = direction.clone()
-    dirBeforeIntersection.scalarMul(lowestFactor)
-    position.add(dirBeforeIntersection)
-    
-    direction.scalarMul(1 - lowestFactor)
-    if (sideOfLowestFactor.side === 'top' || sideOfLowestFactor.side === 'bottom') {
-      direction.y *= -1
-      move.y *= -1
-    } else {
-      direction.x *= -1
-      move.x *= -1
-    }
-    
-    calcLine(position, direction, move)
-  } else {
-    position.add(direction)
-  }
+const onscored = () => {
+	objects[1].position = Vector.mul(objects[1].position, new Vector(1, 0))
+	objects[2].position = Vector.mul(objects[2].position, new Vector(1, 0))
+	
+	player.position = new Vector(0, 10)
+	player.direction = new Vector(0, 0)
 }
 
-const instantMove = false
+const loophook = () => {
+	Scene.clear()
+	Scene.drawLine(new Vector(0, -1), new Vector(0, 1), 'darkblue', 5, [10, 20], 5)
 
-const loop = (timeOfCurrentFrame) => {
-  const deltaTime = timeOfCurrentFrame - timeOfLastFrame
-  timeOfLastFrame = timeOfCurrentFrame
+	if (player.direction.length === 0) {
+		startTimer -= Scene.deltaTime
+		if (startTimer <= 0) {
+			initPlayer(player)
+		}
+	} else {
+		startTimer = startTimerInitialValue
+	}
 
-  scene.clear()
+	if (player.position.x < -4 / 3) Scores.rightScored(onscored)
+	if (player.position.x > 4 / 3) Scores.leftScored(onscored)
+	if (gameStarted && Scores.winner()) {
+		gameStarted = false
+		endOfGame()
+	}
 
-  const speed = deltaTime * 0.001
-  
-  
-  const dir = handleKeys(speed)
+	Scene.drawText(Scores.leftScore(), new Vector(-0.5, -0.5), '64px Monospace', new Style('darkblue'))
+	Scene.drawText(Scores.rightScore(), new Vector(0.5, -0.5), '64px Monospace', new Style('darkblue'))
 
+	fps.update()
+	fps.draw()
 
-  const mouseDir = mousePos.clone()
-  scene.normalize(mouseDir)
-  mouseDir.sub(playerPos)
-  calcLine(playerPos.clone(), mouseDir.clone())
+	if (gameStarted) paddleInput(Scene.keys, Scene.deltaTime)
 
-  if (mouseUp) {
-    shouldMove = mouseDir.length()
-    move = mouseDir.clone()
-    if (!instantMove) move.normalize()
-    mouseUp = false
-  }
+	for (let i = 0; i < 3; ++i) {
+		Scene.drawObject(objects[i])
+	}
 
-  const deltaTimeMove = move.clone()
-  if (!instantMove) deltaTimeMove.scalarMul(speed)
-
-  if (shouldMove) {
-    const shoudlMoveInstead = shouldMove
-    shouldMove -= deltaTimeMove.length()
-    if (shouldMove < 0) {
-      deltaTimeMove.normalize()
-      deltaTimeMove.scalarMul(shoudlMoveInstead)
-      shouldMove = 0.0
-    }
-  }
-
-  calcMove(playerPos, deltaTimeMove, move)
-  playerPos.add(dir)
-
-  if (!shouldMove) {
-    move = new Vector(0, 0)
-  }
-
-  scene.drawCircle(playerPos, playerRadius, 'white', 2)
-  
-  for (let side in lines) {
-    lines[side].forEach((line) => {
-      scene.drawLine(line.a, line.b)
-    })
-  }
-
-  if (timeOfLastFrame - lastKeyPress > 10000) pause = true
-
-  if (!pause) {
-    requestAnimationFrame(loop)
-  } else {
-    scene.ctx.beginPath()
-    scene.ctx.font = '64px serif'
-    scene.ctx.fillStyle = 'white'
-    scene.ctx.textAlign = 'center'
-    scene.ctx.fillText('Paused', canvas.value.width / 2, canvas.value.height / 2)
-  }
+	player.direction.length = Scene.deltaTime * playerSpeed
+	paddleCollision(objects)
+	playerCollision(objects, objects[0])
 }
 
-onMounted(() => {  
-  document.onmousemove = (evt) => {
-    lastKeyPress = timeOfLastFrame
-    mousePos = getMousePos(canvas.value, evt)
-    if (pause) {
-      pause = false
-      requestAnimationFrame(loop)
-    }
-  }
-  document.onkeydown = (evt) => {
-    
-    keys.add(evt.key.toLowerCase())
-    if (evt.key === ' ')
-    {
-      pause = !pause
-      if (!pause) requestAnimationFrame(loop)
-    }
-  }
-  document.onkeyup = (evt) => {
-    lastKeyPress = timeOfLastFrame
-    keys.delete(evt.key.toLowerCase())
-  }
-  document.onmouseup = (evt) => {
-    lastKeyPress = timeOfLastFrame
-    mouseUp = true
-  }
+const pausehook = () => {
+	Scene.drawText('Paused', new Vector(0, 0.6), '64px Monospace')
+}
 
-  scene.init(canvas.value, 800, 600)
-  requestAnimationFrame(loop)
+const keyhook = (key) => {
+	if (key === ' ') {
+		if (!gameStarted) {
+			gameStarted = true
+			if (Scores.winner()) Scores.reset()
+			objects[1] = paddle.copy()
+			objects[2] = paddle.copy()
+			objects[1].position = new Vector(-1, 0)
+			objects[2].position = new Vector(1, 0)
+			player.direction = new Vector()
+			player.position = new Vector(0, 10)
+		} else {
+			Scene.stop = !Scene.stop
+		}
+	}
+
+	if (key === 'f') {
+		fps.show = !fps.show
+	}
+}
+
+const paddleInput = (keys, deltaTime) => {
+	const deltaPaddleSpeed = deltaTime * paddleSpeed
+	objects[2].direction.y = deltaPaddleSpeed * keys.has('arrowdown') - deltaPaddleSpeed * keys.has('arrowup')
+	objects[1].direction.y = deltaPaddleSpeed * keys.has('s') - deltaPaddleSpeed * keys.has('w')
+}
+
+const initPlayer = (player) => {
+	const startLeft = Math.random() < 0.5
+	let rotationAngle = -Math.PI * 3 / 8
+	rotationAngle += Math.random() * Math.PI * 3 / 4
+	rotationAngle += Math.PI * startLeft
+
+	player.position = new Vector(-0.5 + startLeft, Math.random() - 0.5)
+	player.direction = new Vector(1, 0)
+	player.direction.rotate(rotationAngle)	
+}
+
+const initGame = () => {
+	initPlayer(player)
+	Scores.init()
+	fps.reset()
+	objects[1].position = new Vector(-10 / 3, 0)
+	objects[2].position = new Vector(10 / 3, 0)
+	objects[3].position = new Vector(0, -2)
+	objects[4].position = new Vector(0, 2)
+}
+
+const endOfGame = () => {
+	console.log('post scores to backend: [', Scores.leftScore(), ':', Scores.rightScore(), ']') // TODO
+	Scores.resetLocalStorage()
+	objects[1] = border.copy()
+	objects[2] = border.copy()
+	objects[1].position = new Vector(-10 / 3, 0)
+	objects[2].position = new Vector(10 / 3, 0)
+}
+
+onMounted(() => {
+	initGame()
+	Scene.init(canvas.value, 800, 600)
+	Scene.onupdate = loophook
+	Scene.onkeyup = keyhook
+	Scene.onstop = pausehook
+	Scene.loop()
+})
+
+onUnmounted(() => {
+	Scene.unmount()
 })
 </script>
 
 <style scoped>
 canvas {
-    border: 1px solid black;
-    position: absolute;
-    top: 20%;
-    background: #111111;
-    width: 800px;
-    height: 600px;
-}
-
-.middle-line {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  width: 2px;
-  height: 600px;
-  background: repeating-linear-gradient(
-    to bottom,
-    #fff,
-    #fff 14px,
-    #0000 14px,
-    #0000 28px
-  );
+		border: 1px solid black;
+		position: absolute;
+		top: 20%;
+		background: #111111;
+		width: 800px;
+		height: 600px;
 }
 </style>
