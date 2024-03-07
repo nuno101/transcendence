@@ -14,13 +14,13 @@ def update_user(user: User, parameters: dict):
       user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
       user.set_password(parameters.get('password'))
-    test = parameters.get('tournament_id')
-    if test is not None:
-      try:
-        tournament = Tournament.objects.get(id=test)
+    tournament_id = parameters.get('tournament_id')
+    if tournament_id is not None:
+      tournament = Tournament.objects.get(id=tournament_id)
+      if tournament in user.tournaments.all():
+        user.tournaments.remove(tournament)
+      else:
         user.tournaments.add(tournament)
-      except Tournament.DoesNotExist:
-        print(f"Tournament with ID {test} does not exist.")
     user.full_clean()
     user.save()
   except ValidationError as e:
