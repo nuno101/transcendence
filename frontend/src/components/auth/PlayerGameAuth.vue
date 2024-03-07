@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">Second Player Authentication</h1>
+                <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">Authentication</h1>
                 <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div v-for="player in authPlayers" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
@@ -13,7 +13,7 @@
                 </div>
                 <form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
                   <div class="form-floating mb-3">
-                      <input type="text" class="form-control rounded-3" :id="'AuthUsername' + player.id" placeholder="" disabled>
+                     <input type="text" class="form-control rounded-3" :id="'AuthUsername' + player.id" placeholder="" disabled>
                       <label :for="'AuthUsername' + player.id">{{player.username}}</label>
                   </div>
                   <div class="form-floating mb-3">
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, defineProps } from 'vue';
 import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
 import InstructionInfo from '../game/InstructionInfo.vue';
@@ -56,8 +56,6 @@ const game = ref({});
 
 onMounted(() => {
   fetchData();
-    new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
-    openModal();
 })
 
 const fetchData = async () => {
@@ -71,6 +69,8 @@ const fetchData = async () => {
 };
 
 const openModal = () => {
+  if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
+    new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
 	bootstrap.Modal.getInstance("#playerAuthToggle").show();
 };
 
@@ -88,9 +88,10 @@ const startGame = () => {
 const authenticate = async (player) => {
   try {
     alerts.value = []
-    console.log(player);
+    console.log(player.username);
+    console.log(player.password);
     // USERNAME: player.username
-    // PASSWOrD: player.password
+    // PASSWORD: player.password
     // const response = await Backend.post('/api/login', { username: `${player.username}`, password: `${player.password}`});
     player.isAuthenticated = true;
   } catch (err) {
@@ -106,4 +107,7 @@ const areAllPlayersAuthenticated = computed(() => {
   return authPlayers.value.every(player => player.isAuthenticated);
 });
 
+defineExpose({
+  openModal,
+});
 </script>

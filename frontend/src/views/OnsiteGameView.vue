@@ -1,23 +1,19 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref, onMounted } from 'vue';
-import SecondPlayerAuth from '../components/auth/SecondPlayerAuth.vue';
-import { useRouter } from 'vue-router';
-import Backend from '../js/Backend';
-import InstructionInfo from '../components/game/InstructionInfo.vue';
-import { globalUser } from '../main';
-
-const shouldOpenModal = ref(false);
+import { ref } from 'vue';
+import PlayerGameAuth from '../components/auth/PlayerGameAuth.vue';
 
 const gameid = ref(23);
+const auth = ref(null);
 
 </script>
 
 <template>
   <h1>Onsite game</h1>
   <h1>Play on the same keyboard</h1>
-    <button type="button" class="btn btn-outline-dark" @click="shouldOpenModal = true">Authenticate second player</button>
-    <SecondPlayerAuth v-if="shouldOpenModal"
+    <button type="button" class="btn btn-outline-dark" @click="auth.openModal()">Authenticate second player</button>
+    <PlayerGameAuth
+      ref="auth"
       :game_id="gameid"
     />
 </template>
