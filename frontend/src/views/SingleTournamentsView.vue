@@ -487,41 +487,11 @@ onMounted(() => {
 
 }
 
-
-
 /*!
  * Responsive Tournament Bracket
  * Copyright 2016 Jakub Hájek
  * Licensed under MIT (https://opensource.org/licenses/MIT)
  */
-
-@import 'https://fonts.googleapis.com/css?family=Work+Sans:300,400,600,700&subset=latin-ext';
-
-@breakpoint-xs: 24em;
-@breakpoint-sm: 38em;
-@breakpoint-md: 52em;
-@breakpoint-lg: 72em;
-
-* {
-  &,
-  &::before,
-  &::after {
-    box-sizing: border-box;
-  }
-}
-
-html {
-  font-size: 15px;
-  
-  @media (min-width: @breakpoint-sm) { font-size: 14px; }
-  @media (min-width: @breakpoint-md) { font-size: 15px; }
-  @media (min-width: @breakpoint-lg) { font-size: 16px; }
-}
-
-body {
-  background-color: #f1f1f1;
-  font-family: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
-}
 
 .container {
   width: 90%;
