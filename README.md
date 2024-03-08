@@ -20,12 +20,6 @@ The project requires 7🔺 major modules to be validated.
 - store credentials in .env file and do not committ this file
 - support 2 browsers: Chrome and Firefox
 - docker-compose up --build
-- 🔺 Implementing a remote authentication.
-  - Password hashing using SHA512
-- Login using the OAuth system of 42 intranet
-  - two-factor authentication. For instance, Google Authenticator or sending a text message to their phone
-  - user login status
-
 
 ## User management
   - 🔺 Standard user management, authentication, users across tournaments.
@@ -37,56 +31,53 @@ The project requires 7🔺 major modules to be validated.
   - matchmaking
   - queue
   - 🔸 Game Customization Options
-  - handle network issues
-    - pause game?
-  - 🔺 Remote players?
+  - pause game?
 
-   
 
 
 ## Summary of scores
 
-**Web**
+**Web 2**
 - 🔺 **Use a Framework as backend.**
 - 🔸 **Use a front-end framework or toolkit.**
 - 🔸 **Use a database for the backend.**
 - 🔺 Store the score of a tournament in the Blockchain.
   
-**User management**
+**User management 2+1**
 - 🔺 **Standard user management, authentication, users across tournaments.**
-- 🔺 **Implementing a remote authentication.**
+- 🔺 Implementing a remote authentication.
   
-**Gameplay and user experience**
+**Gameplay and user experience 3+1.5**
 - 🔺 Remote players
 - 🔺 Multiplayers (more than 2 in the same game).
 - 🔺 Add Another Game with User History and Matchmaking.
-- 🔸 Game Customization Options.
-- 🔺 Live chat.
+- 🔸 **Game Customization Options.**
+- 🔺 **Live chat.**
 
-**IA-Algo**
+**IA-Algo 4.5+0.5**
 - 🔺 Introduce an AI Opponent.
-- 🔸 User and Game Stats Dashboards
+- 🔸 **User and Game Stats Dashboards**
 
-**Cybersecurity**
+**Cybersecurity 5+0**
 - 🔺 Implement WAF/ModSecurity with Hardened Configuration and HashiCorp Vault for Secrets Management.
-- 🔸 **GDPR Compliance options with user anonymizations, local data management and account deletion**
-- 🔺 **Implement Two-Factor Authentication (2FA) and JWT.**
+- 🔸 GDPR Compliance options with user anonymizations, local data management and account deletion
+- 🔺 Implement Two-Factor Authentication (2FA) and JWT.
 
-**Devops**
+**Devops 5+1**
 - 🔺 Infrastructure Setup for Log Management.
 - 🔸 Monitoring system.
 - 🔺 **Designing the Backend as Microservices.**
 
-**Graphics**
+**Graphics 6**
 - 🔺 Use of advanced 3D techniques.
   
-**Accessibility**
+**Accessibility 6+1**
 - 🔸 Support on all devices
-- 🔸 Expanding browser compatibility
+- 🔸 **Expanding browser compatibility**
 - 🔸 **Multiple language supports.**
 - 🔸 Add accessibility for Visually Impaired Users.
 - 🔸 Server-Side Rendering (SSR) Integration.
   
-**Object oriented**
-- 🔺 **Replacing Basic Pong with Server-Side Pong and Implementing an API.**
+**Object oriented 7+0**
+- 🔺 Replacing Basic Pong with Server-Side Pong and Implementing an API.
 - 🔺 Enabling Pong Gameplay via CLI against Web Users with API Integration.
