@@ -18,13 +18,6 @@ class Polygon {
             this.edges.push(Vector.sub(vertices.at(i - 1), vertices.at(i)))
         }
         this.#translate()
-        // Object.defineProperty(this, 'position', {
-        //     get: () => { return this.#position },
-        //     set: (value) => {
-        //         this.#position = value
-        //         this.#translate()
-        //     }
-        // })
     }
 
     get position() {
