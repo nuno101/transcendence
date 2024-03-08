@@ -6,20 +6,20 @@
                 <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">Authentication</h1>
                 <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div v-for="player in authPlayers" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
+            <div v-for="(player, index) in authPlayers" :key="index" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
                 <div v-for="alert in player.alerts" :class="alert.type">
                   <div>{{ alert.message }}</div>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
                   <div class="form-floating mb-3">
-                     <input v-if="player.isGiven" type="text" class="form-control rounded-3" :id="'AuthUsername' + player.countId" placeholder="player.username" disabled required>
-                     <input v-else v-model="player.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + player.countId" placeholder="Enter Username" required>
-                      <label :for="'AuthUsername' + player.countId">{{player.isGiven ? player.username : "Enter username"}}</label>
+                     <input v-if="player.isGiven" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="player.username" disabled required>
+                     <input v-else v-model="player.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="Enter Username" required>
+                      <label :for="'AuthUsername' + index">{{player.isGiven ? player.username : "Enter username"}}</label>
                   </div>
                   <div class="form-floating mb-3">
-                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + player.countId" placeholder="Password" required>
-                      <label :for="'AuthPassword' + player.countId">Password</label>
+                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + index" placeholder="Password" required>
+                      <label :for="'AuthPassword' + index">Password</label>
                   </div>
                   <SubmitButton :loading="loading">Authenticate</SubmitButton>
                 </form>
@@ -63,8 +63,8 @@ const loading = ref(false)
 
 onMounted(() => {
   console.log(props);
-  authPlayers.value.push({ countId: 1, username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
-  authPlayers.value.push({ countId: 2, username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
+  authPlayers.value.push({ username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
+  authPlayers.value.push({ username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
 })
 
 const openModal = () => {
@@ -77,16 +77,15 @@ const closeModal = () => {
 	bootstrap.Modal.getInstance("#playerAuthToggle").hide();
 };
 
-const startGame = () => {
-  // CREATE GAME IF NO GAME EXISTS (SINGLE GAME)
-  const singleGameId = ref(null);
-  if(!props.game_id){
-    singleGameId.value = createSingleGame(authPlayers.value[0].userId, authPlayers.value[1].userId);
-    // PUSH TO ROUTER WITH SINGLEGAMEID
-  }
-  // ELSE: PUSH TO ROUTER WITH PROPS.GAME_ID
+// CREATE GAME IF NO GAME_ID EXISTS (SINGLE GAME)
+const startGame = async() => {
+  let gameId;
+  if(!props.game_id)
+    gameId = await createSingleGame(authPlayers.value[0].userId, authPlayers.value[1].userId);
+  else
+    gameId = props.game_id;
   closeModal();
-  router.push('/ponggame');
+  router.push({ name: 'ponggame', params: { id: `${gameId}`} });
 };
 
 const createSingleGame = async(playerId1, playerId2) => {

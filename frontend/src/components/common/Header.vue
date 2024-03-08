@@ -87,7 +87,7 @@ const navRoutes = [
   ], button: 'Game'}
 ]
 const logoutRoute = { name: 'logout' }
-const restrictedRoutes = ['friends', 'settings', 'user stats', 'game/onsite', 'game/online']
+const restrictedRoutes = ['friends', 'settings', 'user stats', 'game/onsite', 'game/online', 'ponggame']
 const forcelogin = ref(false)
 const loaded = ref(false);
 const status = ref(false);

@@ -59,9 +59,10 @@ const router = createRouter({
       component: () => import('../views/OnsiteGameView.vue')
     },   
     {
-      path: '/ponggame',
+      path: '/ponggame/:id',
       name: 'ponggame',
-      component: () => import('../views/PongGameView.vue')
+      component: () => import('../views/PongGameView.vue'),
+      props: true
     },
     // Chat
     {
