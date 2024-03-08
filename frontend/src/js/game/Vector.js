@@ -156,14 +156,6 @@ class Vector {
 			(-b - Math.sqrt(radicant)) / (2 * a)
 		]
 	}
-
-	// static helper(posA, dirA, posB, dirB) {
-	//     const factorA = (dirA.x)
-	//     const factorB = (posA.x + dirA.x * factorA - posB.x) / dirB.x
-
-	//     return [factorA, factorB]
-	// }
-
 	static factorsToOther(posA, dirA, posB, dirB) {
 		const denominator = dirB.y * dirA.x - dirB.x * dirA.y
 		if (denominator === 0) return []
