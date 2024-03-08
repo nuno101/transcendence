@@ -1,6 +1,6 @@
 <template>
 	<div class="container d-flex justify-content-center align-items-center">
-		<canvas ref="canvas"></canvas>
+		<canvas class="game-canvas" ref="canvas"></canvas>
 	</div>
 </template>
 
