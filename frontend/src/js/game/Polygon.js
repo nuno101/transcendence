@@ -154,7 +154,4 @@ class Polygon {
         return { factor: shortestFactor, dir: intersectionDir }
     }
 }
-
-// Object.defineProperty(Polygon, 'position', {})
-
 export default Polygon
