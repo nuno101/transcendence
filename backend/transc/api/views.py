@@ -5,6 +5,7 @@ from .models import User
 from django.utils.decorators import method_decorator
 from . import bridge_websocket as websocket
 from .decorators import *
+from .constants_http_response import *
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.shortcuts import render
 import logging
@@ -47,6 +48,6 @@ class Authenticate(View):
 	def post(self, request):
 		user = authenticate(username=request.json.get('username'), password=request.json.get('password'))
 		if isinstance(user, User):
-			return JsonResponse({'response': "Authenticated"})
+			return JsonResponse(user.serialize())
 		else:
-			return JsonResponse({'response': "Not authenticated"}, status=401)
+			return JsonResponse({ERROR_FIELD: "Not authenticated"}, status=401)
