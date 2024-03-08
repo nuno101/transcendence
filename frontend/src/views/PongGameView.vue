@@ -222,7 +222,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-canvas {
+.game-canvas {
 		border: 1px solid black;
 		position: absolute;
 		top: 20%;
