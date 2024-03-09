@@ -8,11 +8,6 @@ import { onMounted, ref } from 'vue';
 import Loading from '../components/common/Loading.vue';
 import UserRow from '../components/common/UserRow.vue';
 
-
-const friends = ref([]);
-const friendRequests = ref([]);
-const pendingRequests = ref([]);
-
 const modalFlag = ref('');
 const modalRequest = ref('');
 
@@ -21,9 +16,9 @@ const isLoaded = ref(false);
 
 const fetchData = async () => {
   try {
-    friends.value = await Backend.get(`/api/users/me/friends`);
-    friendRequests.value = await Backend.get(`/api/users/me/friends/requests?type=received`);
-    pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
+    Friends.friends.value = await Backend.get(`/api/users/me/friends`);
+    Friends.friendRequests.value = await Backend.get(`/api/users/me/friends/requests?type=received`);
+    Friends.pendingRequests.value = await Backend.get(`/api/users/me/friends/requests?type=sent`);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -43,12 +38,41 @@ const closeModal = async() => {
 
 const delData = async(flag, req) => {
 	if(flag === 'DELETEFRIEND')
-		Friends.declineCancelDeleteRequest(flag, friends, req);
+		declineCancelDeleteRequest(flag, Friends.friends.value, req);
 	if(flag === 'DECLINEFRIENDREQ')
-		Friends.declineCancelDeleteRequest(flag, friendRequests, req);
+		declineCancelDeleteRequest(flag, Friends.friendRequests.value, req);
 		if(flag === 'CANCELPENDREQ')
-		Friends.declineCancelDeleteRequest(flag, pendingRequests, req);
+		declineCancelDeleteRequest(flag, Friends.pendingRequests.value, req);
 	closeModal();
+};
+
+const acceptRequest = async (request) => {
+        try {
+            const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${request.id}`, {});
+            Friends.friends.value.push(acceptedRequest);
+            const indexToDelete = Friends.friendRequests.value.findIndex(friendreq => friendreq.id === request.id);
+            if(indexToDelete !== -1)
+              Friends.friendRequests.value.splice(indexToDelete, 1);
+          } catch (err) {
+              console.error(err.message);
+              alert(err.message);
+          }
+    };
+
+const declineCancelDeleteRequest = async(flag, requestArr, request) => {
+	try {
+		if(flag === 'DELETEFRIEND')
+			await Backend.delete(`/api/users/me/friends/${request.id}`, {});
+		else if (flag === 'DECLINEFRIENDREQ' || flag === 'CANCELPENDREQ')
+			await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
+		const indexToDelete = requestArr.findIndex(friendreq => friendreq.id === request.id);
+		if(indexToDelete !== -1) {
+			requestArr.splice(indexToDelete, 1);
+		}
+	} catch (err) {
+		console.error(err.message);
+		alert(err.message);
+	}
 };
 
 onMounted(() => {
@@ -60,7 +84,7 @@ onMounted(() => {
 <template>
 	<div class="cont">
 		<div class="box">
-			<UserSearch :pendingRequests="pendingRequests"/>
+			<UserSearch :pendingRequests="Friends.pendingRequests.value"/>
 			<Loading v-if="!isLoaded"/>
 			<div v-if="isLoaded" class="con mt-5">
 					<div class="row">
@@ -70,8 +94,8 @@ onMounted(() => {
 								<thead class="table-dark">
 									<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.listoffriends')}}</th></tr>
 								</thead>
-								<tbody v-if="friends && friends.length > 0">
-									<tr v-for="(friend, index) in friends" :key="friend">
+								<tbody v-if="Friends.friends.value && Friends.friends.value.length > 0">
+									<tr v-for="(friend, index) in Friends.friends.value" :key="friend">
 										<td class="bg-light text-center align-middle">{{index + 1}}</td>
 										<UserRow :user="friend"/>
 										<td class="bg-light text-end align-middle">
@@ -89,12 +113,12 @@ onMounted(() => {
 											<thead class="table-dark">
 												<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
 											</thead>
-										<tbody v-if="friendRequests.length > 0">
-											<tr v-for="friend in friendRequests" :key="friend">
+										<tbody v-if="Friends.friendRequests.value.length > 0">
+											<tr v-for="friend in Friends.friendRequests.value" :key="friend">
 												<UserRow :user="friend.from_user"/>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
 													<button class="btn btn-outline-success ms-auto me-2"
-														@click="Friends.acceptRequest(friends, friendRequests, friend)"
+														@click="acceptRequest(friend)"
 													>✓</button>
 													<button class="btn btn-outline-danger" @click="openModal('DECLINEFRIENDREQ', friend)">X</button>
 												</td>
@@ -108,8 +132,8 @@ onMounted(() => {
 											<thead class="table-dark">
 												<tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.pendingrequests')}}</th></tr>
 											</thead>
-										<tbody v-if="pendingRequests.length > 0">
-											<tr v-for="friend in pendingRequests" :key="friend">
+										<tbody v-if="Friends.pendingRequests.value.length > 0">
+											<tr v-for="friend in Friends.pendingRequests.value" :key="friend">
 												<UserRow :user="friend.to_user"/>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
 													<button class="btn ms-auto me-2 invisible"></button>

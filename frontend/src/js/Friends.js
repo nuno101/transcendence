@@ -1,34 +1,82 @@
 import Backend from './Backend';
-
+import { ref } from 'vue';
+import Notifications from './Notifications';
 class Friends {
-    static acceptRequest = async (friends, friendRequests, request) => {
-        try {
-            const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${request.id}`, {});
-            friends.push(acceptedRequest);
-            const indexToDelete = friendRequests.findIndex(friendreq => friendreq.id === request.id);
-            if(indexToDelete !== -1)
-              friendRequests.splice(indexToDelete, 1);
-          } catch (err) {
-              console.error(err.message);
-              alert(err.message);
-          }
-    };
+    static friends = ref([]);
+    static friendRequests = ref([]);
+    static pendingRequests = ref([]);
 
-    static declineCancelDeleteRequest = async(flag, requestArr, request) => {
-        try {
-            if(flag === 'DELETEFRIEND')
-                await Backend.delete(`/api/users/me/friends/${request.id}`, {});
-            else if (flag === 'DECLINEFRIENDREQ' || flag === 'CANCELPENDREQ')
-                await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
-            const indexToDelete = requestArr.value.findIndex(friendreq => friendreq.id === request.id);
+    // websockeet functions
+    static async declineFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            const indexToDelete = Friends.pendingRequests.value.findIndex(friendreq => friendreq.id === data.payload.id);
             if(indexToDelete !== -1) {
-                requestArr.value.splice(indexToDelete, 1);
+                Friends.pendingRequests.value.splice(indexToDelete, 1);
             }
-        } catch (err) {
-            console.error(err.message);
-            alert(err.message);
         }
-    };
+        // else {
+        //     await Notifications.post(data);
+        // }
+    }
+
+    static async cancelFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            const indexToDelete = Friends.friendRequests.value.findIndex(friendreq => friendreq.id === data.payload.id);
+            if(indexToDelete !== -1) {
+                Friends.friendRequests.value.splice(indexToDelete, 1);
+            }
+        }
+        // else {
+        //     await Notifications.post(data);
+        // }
+    }
+
+    static async removeFriend(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            const indexToDelete = Friends.friends.value.findIndex(friendreq => friendreq.id === data.payload.id);
+            if(indexToDelete !== -1) {
+                Friends.friends.value.splice(indexToDelete, 1);
+            }
+        }
+        // else {
+        //     await Notifications.post(data);
+        // }
+    }
+
+    static async createFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            Friends.friendRequests.value.push(data.payload);
+        } else {
+            await Notifications.post(data);
+        }
+    }
+
+    static async acceptFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            const indexToDelete = Friends.pendingRequests.value.findIndex(friendreq => friendreq.id === data.payload.id);
+            if(indexToDelete !== -1) {
+                Friends.friends.value.push(Friends.pendingRequests.value[indexToDelete].to_user); //what needs to be pushed here???
+                Friends.pendingRequests.value.splice(indexToDelete, 1);
+            }
+        } else {
+            await Notifications.post(data);
+        }
+    }
+    
+    // other functions
+    
 }
+
+// Friends.js?t=1710021097442:54 {id: 310, from_user: {…}, to_user: {…}, created_at: '2024-03-09 21:52:17.373550+00:00'}
 
 export default Friends

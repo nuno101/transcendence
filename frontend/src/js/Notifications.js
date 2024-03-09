@@ -3,6 +3,8 @@ import Backend from './Backend';
 
 const parser = {
     "create_message": newMessage,
+    "create_friend_request" : newFriendRequest,
+    "accept_friend_request" : newFriend,
 }
 
 // cCONF: Parser function to generate custom dynamic notification for 
@@ -16,6 +18,19 @@ async function newMessage(data) {
     }
 }
 
+async function newFriendRequest(data) {
+    return {
+        type: data.event,
+        content: "Go to friends to see new friend request"
+    }
+}
+
+async function newFriend(data) {
+    return {
+        type: data.event,
+        content: "Go to friends to see new friend"
+    }
+}
 // ----------------------------------------------------------------------------
 
 async function generateNotification(event) {
