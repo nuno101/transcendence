@@ -36,16 +36,6 @@ const closeModal = async() => {
 	bootstrap.Modal.getInstance("#friendsModalToggle").hide();
 };
 
-const delData = async(flag, req) => {
-	if(flag === 'DELETEFRIEND')
-		declineCancelDeleteRequest(flag, Friends.friends.value, req);
-	if(flag === 'DECLINEFRIENDREQ')
-		declineCancelDeleteRequest(flag, Friends.friendRequests.value, req);
-		if(flag === 'CANCELPENDREQ')
-		declineCancelDeleteRequest(flag, Friends.pendingRequests.value, req);
-	closeModal();
-};
-
 const acceptRequest = async (request) => {
         try {
             const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${request.id}`, {});
@@ -59,16 +49,27 @@ const acceptRequest = async (request) => {
           }
     };
 
-const declineCancelDeleteRequest = async(flag, requestArr, request) => {
+const declineCancelDeleteRequest = async(flag, request) => {
+	let requestArr;
 	try {
-		if(flag === 'DELETEFRIEND')
+		if(flag === 'DELETEFRIEND') {
 			await Backend.delete(`/api/users/me/friends/${request.id}`, {});
-		else if (flag === 'DECLINEFRIENDREQ' || flag === 'CANCELPENDREQ')
+			requestArr = Friends.friends.value;
+		}
+		else if (flag === 'DECLINEFRIENDREQ') {
 			await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
+			requestArr = Friends.friendRequests.value;
+		}
+		else if (flag === 'CANCELPENDREQ') {
+			await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
+			requestArr = Friends.pendingRequests.value;
+		}
+
 		const indexToDelete = requestArr.findIndex(friendreq => friendreq.id === request.id);
 		if(indexToDelete !== -1) {
 			requestArr.splice(indexToDelete, 1);
 		}
+		closeModal();
 	} catch (err) {
 		console.error(err.message);
 		alert(err.message);
@@ -155,7 +156,7 @@ onMounted(() => {
 							<h6 v-if="modalFlag === 'DELETEFRIEND'">Are you sure you want to delete this friend?</h6>
 							<h6 v-if="modalFlag === 'DECLINEFRIENDREQ'">Are you sure you want to decline this friend request?</h6>
 							<h6 v-if="modalFlag === 'CANCELPENDREQ'">Are you sure you want to withdraw this friend request?</h6>
-							<button class="btn btn-danger mt-2 me-2" @click="delData(modalFlag, modalRequest);">Confirm</button>
+							<button class="btn btn-danger mt-2 me-2" @click="declineCancelDeleteRequest(modalFlag, modalRequest);">Confirm</button>
 							<button class="btn btn-secondary mt-2 ms-2" @click="closeModal">Cancel</button>
 						</div>
 					</div>
