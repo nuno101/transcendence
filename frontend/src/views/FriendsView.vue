@@ -40,9 +40,7 @@ const acceptRequest = async (request) => {
         try {
             const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${request.id}`, {});
             Friends.friends.value.push(acceptedRequest);
-            const indexToDelete = Friends.friendRequests.value.findIndex(friendreq => friendreq.id === request.id);
-            if(indexToDelete !== -1)
-              Friends.friendRequests.value.splice(indexToDelete, 1);
+			Friends.friendRequests.value = Friends.friendRequests.value.filter(friend => friend.id !== request.id);
           } catch (err) {
               console.error(err.message);
               alert(err.message);
@@ -50,24 +48,18 @@ const acceptRequest = async (request) => {
     };
 
 const declineCancelDeleteRequest = async(flag, request) => {
-	let requestArr;
 	try {
 		if(flag === 'DELETEFRIEND') {
 			await Backend.delete(`/api/users/me/friends/${request.id}`, {});
-			requestArr = Friends.friends.value;
+			Friends.friends.value = Friends.friends.value.filter(friend => friend.id !== request.id);
 		}
 		else if (flag === 'DECLINEFRIENDREQ') {
 			await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
-			requestArr = Friends.friendRequests.value;
+			Friends.friendRequests.value = Friends.friendRequests.value.filter(friend => friend.id !== request.id);
 		}
 		else if (flag === 'CANCELPENDREQ') {
 			await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
-			requestArr = Friends.pendingRequests.value;
-		}
-
-		const indexToDelete = requestArr.findIndex(friendreq => friendreq.id === request.id);
-		if(indexToDelete !== -1) {
-			requestArr.splice(indexToDelete, 1);
+			Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friend => friend.id !== request.id);
 		}
 		closeModal();
 	} catch (err) {

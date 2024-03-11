@@ -11,10 +11,12 @@ class Friends {
         let url = window.location.pathname
 
         if (url.startsWith("/friends")) {
-            const indexToDelete = Friends.pendingRequests.value.findIndex(friendreq => friendreq.id === data.payload.id);
-            if(indexToDelete !== -1) {
-                Friends.pendingRequests.value.splice(indexToDelete, 1);
-            }
+            Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friendreq => friendreq.id !== data.payload.id);
+            // Friends.friends.value = Friends.friends.value.filter(friend => friend.id !== request.id);
+            // const indexToDelete = Friends.pendingRequests.value.findIndex(friendreq => friendreq.id === data.payload.id);
+            // if(indexToDelete !== -1) {
+            //     Friends.pendingRequests.value.splice(indexToDelete, 1);
+            // }
         }
         // else {
         //     await Notifications.post(data);
@@ -25,10 +27,11 @@ class Friends {
         let url = window.location.pathname
 
         if (url.startsWith("/friends")) {
-            const indexToDelete = Friends.friendRequests.value.findIndex(friendreq => friendreq.id === data.payload.id);
-            if(indexToDelete !== -1) {
-                Friends.friendRequests.value.splice(indexToDelete, 1);
-            }
+            Friends.friendRequests.value = Friends.friendRequests.value.filter(friendreq => friendreq.id !== data.payload.id);
+            // const indexToDelete = Friends.friendRequests.value.findIndex(friendreq => friendreq.id === data.payload.id);
+            // if(indexToDelete !== -1) {
+            //     Friends.friendRequests.value.splice(indexToDelete, 1);
+            // }
         }
         // else {
         //     await Notifications.post(data);
@@ -39,10 +42,12 @@ class Friends {
         let url = window.location.pathname
 
         if (url.startsWith("/friends")) {
-            const indexToDelete = Friends.friends.value.findIndex(friendreq => friendreq.id === data.payload.id);
-            if(indexToDelete !== -1) {
-                Friends.friends.value.splice(indexToDelete, 1);
-            }
+            Friends.friends.value = Friends.friends.value.filter(friend => friend.id !== data.payload.id);
+
+            // const indexToDelete = Friends.friends.value.findIndex(friendreq => friendreq.id === data.payload.id);
+            // if(indexToDelete !== -1) {
+            //     Friends.friends.value.splice(indexToDelete, 1);
+            // }
         }
         // else {
         //     await Notifications.post(data);
