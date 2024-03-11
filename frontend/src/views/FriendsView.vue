@@ -8,8 +8,8 @@ import { onMounted, ref } from 'vue';
 import Loading from '../components/common/Loading.vue';
 import UserRow from '../components/common/UserRow.vue';
 
-const modalFlag = ref('');
 const modalRequest = ref('');
+const modalFunction = ref('');
 
 const isLoaded = ref(false);
 
@@ -26,8 +26,8 @@ const fetchData = async () => {
   }
 };
 
-const openModal = async(flag, id) => {
-	modalFlag.value = flag;
+const openModal = async(func, id) => {
+	modalFunction.value = func;
 	modalRequest.value = id;
 	bootstrap.Modal.getInstance("#friendsModalToggle").show();
 };
@@ -47,25 +47,35 @@ const acceptRequest = async (request) => {
           }
     };
 
-const declineCancelDeleteRequest = async(flag, request) => {
+const deleteFriend = async () => {
+  await Backend.delete(`/api/users/me/friends/${modalRequest.value.id}`, {});
+  Friends.friends.value = Friends.friends.value.filter(friend => friend.id !== modalRequest.value.id);
+};
+
+const declineFriendRequest = async () => {
+  await Backend.delete(`/api/users/me/friends/requests/${modalRequest.value.id}`, {});
+  Friends.friendRequests.value = Friends.friendRequests.value.filter(friend => friend.id !== modalRequest.value.id);
+};
+
+const cancelFriendRequest = async () => {
+  await Backend.delete(`/api/users/me/friends/requests/${modalRequest.value.id}`, {});
+  Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friend => friend.id !== modalRequest.value.id);
+};
+
+const declineCancelDeleteRequest = async() => {
 	try {
-		if(flag === 'DELETEFRIEND') {
-			await Backend.delete(`/api/users/me/friends/${request.id}`, {});
-			Friends.friends.value = Friends.friends.value.filter(friend => friend.id !== request.id);
-		}
-		else if (flag === 'DECLINEFRIENDREQ') {
-			await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
-			Friends.friendRequests.value = Friends.friendRequests.value.filter(friend => friend.id !== request.id);
-		}
-		else if (flag === 'CANCELPENDREQ') {
-			await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
-			Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friend => friend.id !== request.id);
-		}
+		await modalFunction.value(modalRequest.value);
 		closeModal();
 	} catch (err) {
 		console.error(err.message);
 		alert(err.message);
 	}
+};
+
+const modalTitles = {
+  deleteFriend: 'Are you sure you want to delete this friend?',
+  declineFriendRequest: 'Are you sure you want to decline this friend request?',
+  cancelFriendRequest: 'Are you sure you want to withdraw this friend request?',
 };
 
 onMounted(() => {
@@ -92,7 +102,7 @@ onMounted(() => {
 										<td class="bg-light text-center align-middle">{{index + 1}}</td>
 										<UserRow :user="friend"/>
 										<td class="bg-light text-end align-middle">
-											<button type="button" class="btn btn-outline-danger" aria-label="Close" @click="openModal('DELETEFRIEND', friend)">X</button>
+											<button type="button" class="btn btn-outline-danger" aria-label="Close" @click="openModal(deleteFriend, friend)">X</button>
 										</td>
 									</tr>
 								</tbody>
@@ -113,7 +123,7 @@ onMounted(() => {
 													<button class="btn btn-outline-success ms-auto me-2"
 														@click="acceptRequest(friend)"
 													>✓</button>
-													<button class="btn btn-outline-danger" @click="openModal('DECLINEFRIENDREQ', friend)">X</button>
+													<button class="btn btn-outline-danger" @click="openModal(declineFriendRequest, friend)">X</button>
 												</td>
 											</tr>
 										</tbody>
@@ -130,7 +140,7 @@ onMounted(() => {
 												<UserRow :user="friend.to_user"/>
 												<td class="bg-light text-end align-middle d-none d-md-table-cell">
 													<button class="btn ms-auto me-2 invisible"></button>
-													<button class="btn btn-outline-danger" @click="openModal('CANCELPENDREQ', friend)">X</button>
+													<button class="btn btn-outline-danger" @click="openModal(cancelFriendRequest, friend)">X</button>
 												</td>
 											</tr>
 										</tbody>
@@ -145,10 +155,8 @@ onMounted(() => {
 				<div class="modal-dialog" role="document">
 					<div class="modal-content rounded-4 shadow">
 						<div class="modal-body p-3 text-center">
-							<h6 v-if="modalFlag === 'DELETEFRIEND'">Are you sure you want to delete this friend?</h6>
-							<h6 v-if="modalFlag === 'DECLINEFRIENDREQ'">Are you sure you want to decline this friend request?</h6>
-							<h6 v-if="modalFlag === 'CANCELPENDREQ'">Are you sure you want to withdraw this friend request?</h6>
-							<button class="btn btn-danger mt-2 me-2" @click="declineCancelDeleteRequest(modalFlag, modalRequest);">Confirm</button>
+							<h6>{{ modalTitles[modalFunction.name] || '' }}</h6>
+							<button class="btn btn-danger mt-2 me-2" @click="declineCancelDeleteRequest();">Confirm</button>
 							<button class="btn btn-secondary mt-2 ms-2" @click="closeModal">Cancel</button>
 						</div>
 					</div>
