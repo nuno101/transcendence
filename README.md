@@ -66,7 +66,7 @@ The project requires 7🔺 major modules to be validated.
 **Devops 5+1**
 - 🔺 Infrastructure Setup for Log Management.
 - 🔸 Monitoring system.
-- 🔺 **Designing the Backend as Microservices.**
+- 🔺 Designing the Backend as Microservices.
 
 **Graphics 6**
 - 🔺 Use of advanced 3D techniques.
