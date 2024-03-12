@@ -43,14 +43,22 @@ const avatarBootstrap = computed(() => {
   };
 });
 
-onMounted(() => {
+
+const initializeTooltips = () => {
   for (const game of filteredGames.value) {
     if (game.tournament !== null) {
       new bootstrap.Tooltip(`#${props.flag + game.id}`);
     }
   }
+};
+
+onMounted(() => {
+  initializeTooltips();
 });
 
+watch(filteredGames, () => {
+  initializeTooltips();
+});
 </script>
 
 <template>
