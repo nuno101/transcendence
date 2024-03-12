@@ -1,0 +1,26 @@
+name: "🦟 Bug report"
+description: File a bug report
+labels: ['bug']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      placeholder: What's the bug?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Reproduction steps
+      placeholder: How to reproduce the bug?
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details (logs, screenshots, etc)
+  - type: textarea
+    id: fixes
+    attributes:
+      label: Potential fixes
