@@ -3,13 +3,13 @@ import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import ModalSettings from '../components/tournaments/ModalSettings.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-
+import ModalSettings from '../components/tournaments/ModalSettings.vue';
+import GameSelection from '../components/tournaments/GameSelection.vue';
 
 const tournament = ref(null);
 const tournamentId = ref(null);
-const title = ref(null);
+const title = ref(null); // try to use tournament.X instead of creating a ref for all
 const description = ref(null);
 const status = ref(null);
 const created_at = ref(null);
@@ -20,25 +20,15 @@ const players = ref([]);
 const isCreator = ref(false);
 const isJoined = ref(false);
 const currentUser = ref(false);
-const selectedOption = ref('option1');
-const closingTime = ref(0);
-const errors = ref(null);
-const success = ref(null);
+const message = ref(null);
 const editingDescription = ref(false);
 const newDescription = ref('');
-const gamesInfo = ref(null);
-const isClicked = ref(false);
-const completedGames = ref(false);
-const gameStarted = ref(localStorage.getItem('gameStarted') === 'true' || false);
 
 const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
 	currentUser.value = await Backend.get('/api/users/me');
     nickname.value = currentUser.value.nickname;
-	gamesInfo.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);	
-	completedGames.value = gamesInfo.value.filter(game => game.status === 'done' || game.status === 'cancel');
-	gamesInfo.value = gamesInfo.value.filter(game => !completedGames.value.some(pt => pt.id === game.id));
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = localStorage.getItem(userTournamentKey) === 'true';
 	initValues(tournament.value);
@@ -61,38 +51,25 @@ const initValues = (data) => {
 	}
 };
 
-
 const joinTournament = async () => {
-	console.log("Join")
     await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "join" });
 	console.log(players.value);
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = true;
 	localStorage.setItem(userTournamentKey, JSON.stringify(true)); // Check this syntax
 	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
-	success.value = "You've successfully joined the tournament!"; // msg from vue-i18n
+	message.value = "You've successfully joined the tournament!"; // msg from vue-i18n
 };
 
 const unjoinTournament = async () => {
-	console.log("Unjoin")
     await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "unjoin" });
 	console.log(players.value);
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = false;
 	localStorage.setItem(userTournamentKey, JSON.stringify(false)); // Check this syntax
 	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
-	success.value = "You've successfully unjoined the tournament! "; // msg from vue-i18n
+	message.value = "You've successfully unjoined the tournament! "; // msg from vue-i18n
 };
-
-/* const getMinClosingTime = () => {
-     // Get the current date and time
-	 const now = new Date();
-    // Get the current time as HH:MM format
-    const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-    // Format the current date and time to match the input type
-    const minTime = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}T${currentTime}`;
-    return minTime;
-}; */
 
 const changeState = async () => {
 	try {
@@ -101,51 +78,16 @@ const changeState = async () => {
 		status.value = response.value.status;
 	} catch (error) {
         console.error('Error:', error);
-		errors.value = error.message; // should be translatable 
-		const modal = bootstrap.Modal.getInstance("#errorModal");
+		message.value = error.message; // should be translatable 
+		const modal = bootstrap.Modal.getInstance("#successModal");
 		modal.show();
     }	
-};
-
-/*  const startInterval = async () => {
-	setInterval(() => {
-        if (selectedOption.value === 'option2' && closingTime.value) {
-            const currentTime = new Date();
-            const closingTimeDate = new Date(closingTime.value);
-            if (currentTime >= closingTimeDate) {
-				console.log("closing Time : ", closingTime.value);
-				console.log("closingTimeDate : ", closingTimeDate.value);
-                console.log("TEST");
-            }
-        }
-    }, 1000);
-}; */
-
-
-const openRegSettings = async () => {
-    try {
-        // Store closingTime and selectedOption locally for this tournament
-        localStorage.setItem(`tournament_${tournamentId.value}_selectedOption`, selectedOption.value);
-		console.log(selectedOption.value);
-		changeState();
-
-		/* 
-        if (selectedOption.value === 'option2') {
-			localStorage.setItem(`tournament_${tournamentId.value}_closingTime`, closingTime.value);
-			startInterval();
-        } */
-
-		const modal = bootstrap.Modal.getInstance("#RegistrationSetting");
-		modal.hide();
-    } catch (error) {
-        console.error('Error:', error);
-    }
 };
 
 const cancelTournament = async () => {
   try {
     const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "cancel"});
-	success.value = "Tournament has been cancelled"; // msg from vue-i18n
+	message.value = "Tournament has been cancelled"; // msg from vue-i18n
   } catch (err) {
     console.error(err.message);
   }
@@ -154,7 +96,7 @@ const cancelTournament = async () => {
 const deleteTournament = async () => {
   try {
     await Backend.delete(`/api/tournaments/${tournamentId.value}`);
-	success.value = "Tournament has been deleted"; // msg from vue-i18n
+	message.value = "Tournament has been deleted"; // msg from vue-i18n
   } catch (err) {
     console.error(err.message);
   }
@@ -173,29 +115,6 @@ const updateDescription = async () => {
     } catch (error) {
         console.error('Error updating description:', error);
     }
-};
-
-const handleGameClick = (index) => {
-    isClicked.value = index;
-};
-
-const startGame = () => {
-	gameStarted.value = true;
-    localStorage.setItem('gameStarted', 'true');
-};
-
-document.body.addEventListener('click', (event) => {
-    if (!event.target.closest('.tournament-bracket__match')) {
-        isClicked.value = 0;
-    }
-});
-
-const cancelGame = async () => {
-  try {
-    // Cancel a game 
-  } catch (err) {
-    console.error(err.message);
-  }
 };
 
 onMounted(() => {
@@ -230,175 +149,48 @@ onMounted(() => {
 						<p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                 </div>
+
 				<div v-if="status === 'created'">
+					<button type="button" class="btn btn-primary" @click=changeState() v-if="isCreator">Open registration</button>
+					<span>&nbsp;&nbsp;</span>
+					<button type="button" class="btn btn-primary" @click=deleteTournament() v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal">Delete tournament</button> <!-- is the modal opening? -->
 
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationSetting" v-if="isCreator">Open registration</button>
-				<span>&nbsp;&nbsp;</span>
-				<button type="button" class="btn btn-primary" @click=deleteTournament() v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal">Delete tournament</button>
-
-				<div class="alert alert-danger" v-else>Registration for this tournament is not yet open (contact <b>{{ creator }}</b> for more info)</div>
-
-				<div class="modal fade" id="RegistrationSetting" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="RegistrationSettingModal" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="RegistrationSettingModal">Choose the registration settings</h1>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<form @submit.prevent="openRegSettings"> 
-
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="option1" name="registrationOption" value="option1" v-model="selectedOption">
-									<label class="form-check-label" for="option1">Close registration manually</label>
-								</div>
-
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="option2" name="registrationOption" value="option2" v-model="selectedOption">
-									<label class="form-check-label" for="option2">Set a closing time for registrations</label>
-								</div>
-
-								<div v-if="selectedOption === 'option2'">
-									<label for="closingTime">Closing Time:</label>
-									<input type="datetime-local" id="closingTime" v-model="closingTime" :min="getMinClosingTime()" required>
-
-								</div>
-
-								<div class="mt-3">
-									<p>{{ selectedOption }}</p>
-									<button type="submit" class="btn btn-primary">Confirm</button>
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-								</div>	
-							</form>
-							</div>
-						</div>
-					</div>
-				</div>	
+					<div class="alert alert-danger" v-else>Registration for this tournament is not yet open (contact <b>{{ creator }}</b> for more info)</div>
 				</div>
 				
 				<div v-if="status === 'registration_open'">
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click=changeState() >Close registration</button>
-
-					<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="errorModalLabel">Error</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<p>{{ errors }}</p>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								</div>
-							</div>
-						</div>
-					</div>
 					<span>&nbsp;&nbsp;</span>
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click=cancelTournament() data-bs-toggle="modal" data-bs-target="#successModal" >Cancel tournament</button>
-
         			<button type="button" class="btn btn-primary" v-else @click="isJoined ? unjoinTournament() : joinTournament()" data-bs-toggle="modal" data-bs-target="#successModal" >{{ isJoined ? 'Unjoin' : 'Join' }}</button>
-				
+					<ModalSettings
+					  :message_child="message"
+					  type_child="Success"
+					/>				
 				</div>
 
 				<div v-if="status === 'registration_closed'">
 					<button type="button" class="btn btn-primary" v-if="isCreator" @click="changeState()">Start tournament</button>
 					<span>&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click="cancelTournament" data-bs-toggle="modal" data-bs-target="#successModal">Cancel tournament</button>
-
+					<button type="button" class="btn btn-primary" v-if="isCreator" @click="cancelTournament()" data-bs-toggle="modal" data-bs-target="#successModal">Cancel tournament</button>
 					<div class="alert alert-success" v-else>The tournament will start soon</div>
 				</div>
 
 				<div v-if="status === 'ongoing'">
 					<div class="overlay">
 						<div class="message-box">
-							<p v-if="gamesInfo && gamesInfo.length > 0">Tournament Progress:</p>
-
+							<p>Tournament Progress:</p>
 							<div class="tcontainer">
-								<div class="tournament-bracket tournament-bracket--rounded">                                                     
-									<div class="tournament-bracket__round">
-									<h3 class="tournament-bracket__round-title">Select a game</h3> <!-- NOT IF ALL GAMES ARE DONE -->
-									<ul v-if="gamesInfo" class="tournament-bracket__list">
-										<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
-											<div class="tournament-bracket__match" :class="{ 'user-not-player': currentUser.nickname !== game.player1.nickname && currentUser.nickname !== game.player2.nickname }" tabindex="0" @click="handleGameClick(index + 1)">						
-												<table class="tournament-bracket__table">
-												<tbody class="tournament-bracket__content">
-													<tr class="tournament-bracket__team">
-														<td class="tournament-bracket__country">
-															<abbr class="tournament-bracket__code">{{ game.player1.nickname }}</abbr>
-														</td>
-														<td class="tournament-bracket__score">
-															<span class="tournament-bracket__number">_</span>
-														</td>
-													</tr>
-													<tr class="tournament-bracket__team">
-														<td class="tournament-bracket__country">
-															<abbr class="tournament-bracket__code">{{ game.player2.nickname }}</abbr>
-														</td>
-														<td class="tournament-bracket__score">
-															<span class="tournament-bracket__number">_</span>
-														</td>
-													</tr>
-
-												</tbody>
-												<div style="margin-top: 10px;"></div>
-												<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
-												</table>
-											</div>
-											
-											<div v-if="isClicked === (index + 1)">
-												<button v-if="isCreator" class="btn btn-danger" @click="cancelGame(isClicked)">Cancel Game</button>
-												<button class="btn btn-success" @click="startGame()">Start Game</button>
-												<p>gameStarted:  {{ gameStarted }} </p>
-												<!-- <SecondAuth v-if="gameStarted && currentUser.nickname === game.player1.nickname" /> --> 
-												<p v-if="gameStarted && currentUser.nickname === game.player2.nickname">Gather a computer</p>
-											</div>
-										</li>	
-									</ul>
-									<p v-else>No games information available.</p>
-
-									<h3 class="tournament-bracket__round-title">Finished games</h3>
-									<ul v-if="completedGames" class="tournament-bracket__list">
-										<li v-for="(game, index) in completedGames" :key="index" class="tournament-bracket__item">
-											<div class="tournament-bracket__match done"  tabindex="0">						
-												<table class="tournament-bracket__table">
-												<tbody class="tournament-bracket__content">
-													<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player1_score >= game.player2_score }">
-														<td class="tournament-bracket__country">
-															<abbr class="tournament-bracket__code">{{ game.player1.nickname }}</abbr>
-														</td>
-														<td class="tournament-bracket__score">
-															<span class="tournament-bracket__number">
-																{{ game.player1_score !== undefined && game.player1_score !== '' ? game.player1_score : '_' }} <!-- OR CANCELLED -->
-															</span>
-														</td>
-													</tr>
-													<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player2_score >= game.player1_score }">
-														<td class="tournament-bracket__country">
-															<abbr class="tournament-bracket__code">{{ game.player2.nickname }}</abbr>
-														</td>
-														<td class="tournament-bracket__score">
-															<span class="tournament-bracket__number">
-																{{ game.player2_score !== undefined && game.player2_score !== '' ? game.player2_score : '_' }}
-															</span>
-														</td>
-													</tr>
-												</tbody>
-												<div style="margin-top: 10px;"></div>
-												<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
-												</table>
-											</div>
-										</li>
-									</ul>
-									</div>
+								<div class="tournament-bracket__round">
+									<GameSelection title="Select a game" :is_Creator="isCreator" :tournament_Id="tournamentId"/>										
+									<GameSelection title="Finished games" :is_Creator="isCreator" :tournament_Id="tournamentId"/>	
 								</div>
 							</div>
-							<!-- <Game View component> Do I insert Game component or do I use the router to change View? --> 
 						</div>
 					</div>
 				</div>
             </div>
+
             <div class="col-lg-4">
                 <h3 class="mb-3">Created by</h3>
 				<b><p>{{ creator }}
@@ -420,23 +212,6 @@ onMounted(() => {
             </div>
         </div>
     </div>
-
-	<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="successModalLabel">Success</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p>{{ success }}</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div> 
 </template> 
 
 
@@ -478,24 +253,22 @@ onMounted(() => {
     }
 }
 
-.start-game-button {
-    width: auto; /* Set width to auto to make the button less wide */
-    margin-top: 1px; /* Adjust the top margin as needed */
-	margin-left: 5px;
-
-}
-
 /*!
  * Responsive Tournament Bracket
  * Copyright 2016 Jakub Hájek
  * Licensed under MIT (https://opensource.org/licenses/MIT)
  */
 
-
 .tcontainer {
   width: 90%;
   min-width: 18em;
   margin: 20px auto;
+}
+
+.tournament-bracket__round {
+  display: block;
+  margin-left: -3px;
+  flex: 1;
 }
 
 .sr-only {
@@ -516,12 +289,6 @@ onMounted(() => {
   @media (min-width: @breakpoint-sm) {
     flex-direction: row;
   }
-}
-
-.tournament-bracket__round {
-  display: block;
-  margin-left: -3px;
-  flex: 1;
 }
 
 .tournament-bracket__round-title {
