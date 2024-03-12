@@ -7,6 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import Websocket from './js/Websocket';
 import i18n from './plugins/i18n';
 import Chat from './js/Chat'
+import Friends from './js/Friends'
 
 export const globalUser = ref(localStorage.getItem('globalUser') ? JSON.parse(localStorage.getItem('globalUser')) : null);
 
@@ -16,6 +17,11 @@ const handlersEvent = {
     "delete_channel": Chat.deleteChannel,
     "create_message": Chat.createMessage,
     "delete_message": Chat.deleteMessage,
+    "create_friend_request" : Friends.createFriendRequest,
+    "accept_friend_request" : Friends.acceptFriendRequest,
+    "cancel_friend_request" : Friends.cancelFriendRequest,
+    "decline_friend_request" : Friends.declineFriendRequest,
+    "remove_friend" : Friends.removeFriend
 }
 
 // The websocket that will handle all global events

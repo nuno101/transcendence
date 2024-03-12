@@ -1,3 +1,39 @@
+# 2024-03-12 Discord meeting:
+Attended by Jan, Julia, Robert and Nuno.
+
+Jan points to talk about:
+* blackhole: 68 days left for Nuno. (19th of May 2024)
+* next milestones - complete the 5 modules.
+  * created list of all issues in Github
+  * tickets scrubbing - fix all known issues!
+  * code freeze/ pre-release - everyone tests again and tries to find issues.
+  * all chosen modules should be working correctly.
+  * keep a list of enhancements if desired
+* some discussion about the single game workflow - Jan/ Julia to agree on this.
+* redirection on a game when part of the tournament
+
+Current Modules status:
+ * Major - use framework as backend - complete 
+ * Minor - use frontend framework - complete
+ * Minor - use DB for the backend - complete
+ * Major - user management - 
+	* known issue: avatar update
+ 	* known issue: add name of tournament
+	* user stats: show users list to allow visibility of statistics: Nuno TODO
+ * Major - Live Chat - development ongoing 
+	* Tournament start - status change to ongoing should trigger notifications/chat message to users - part of Live Chat module. Nuno to work with Robert to implement this.
+	* block user logic to be reviewed - involves at least Friends requests and Chat.
+	* button for user invite another user for a game to trigger a live-chat message
+ * Minor - expand browser compatibility - using Chrome and Firefox
+ * Minor - multiple language support
+	* user lacking language property
+	* 2 known issues open
+
+* TODO tasks
+ * add proxy for https support
+ * deploy at school and see whether everything works as expected
+
+
 # 2024-03-06 Discord meeting:
 Attended by all.
 

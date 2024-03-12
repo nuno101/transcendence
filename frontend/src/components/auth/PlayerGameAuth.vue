@@ -6,29 +6,30 @@
                 <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">Authentication</h1>
                 <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div v-for="player in authPlayers" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
-                <div v-for="alert in alerts" :class="alert.type">
+            <div v-for="(player, index) in authPlayers" :key="index" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
+                <div v-for="alert in player.alerts" :class="alert.type">
                   <div>{{ alert.message }}</div>
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeModal"></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
                   <div class="form-floating mb-3">
-                     <input type="text" class="form-control rounded-3" :id="'AuthUsername' + player.id" placeholder="" disabled>
-                      <label :for="'AuthUsername' + player.id">{{player.username}}</label>
+                     <input v-if="player.isGiven" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="player.username" disabled required>
+                     <input v-else v-model="player.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="Enter Username" required>
+                      <label :for="'AuthUsername' + index">{{player.isGiven ? player.username : "Enter username"}}</label>
                   </div>
                   <div class="form-floating mb-3">
-                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + player.id" placeholder="Password">
-                      <label :for="'AuthPassword' + player.id">Password</label>
+                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + index" placeholder="Password" required>
+                      <label :for="'AuthPassword' + index">Password</label>
                   </div>
                   <SubmitButton :loading="loading">Authenticate</SubmitButton>
                 </form>
                 <div v-if="player.isAuthenticated" class="alert alert-success py-1" role="alert">
                   <i class="bi bi-person-fill-check"></i>
-                  {{player.username}} successfully authenticated
+                  {{player.username}} with nickname <strong>{{player.nickname}}</strong> successfully authenticated
                 </div>
               </div>
-              <div class="mx-auto mb-2 text-center" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
-                <InstructionInfo :firstplayer="authPlayers[0].username" :secondplayer="authPlayers[1].username"/>
+              <div class="mx-auto mb-2 text-center pb-5" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
+                <InstructionInfo :firstplayer="authPlayers[0].nickname" :secondplayer="authPlayers[1].nickname"/>
                 <button type="button" class="btn btn-success" @click="startGame">Start Game</button>
               </div>
             </div>
@@ -45,28 +46,26 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import router from '../../router';
 import { globalUser } from '../../main';
 
-
-const props = defineProps(['game_id']);
+const props = defineProps({
+  game_id: {
+    default: null
+  },
+  player1: {
+    default: null
+  },
+  player2: {
+    default: null
+  }
+});
 
 const authPlayers = ref([]);
-const alerts = ref([])
 const loading = ref(false)
 
-const game = ref({});
-
 onMounted(() => {
-  fetchData();
+  console.log(props);
+  authPlayers.value.push({ username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
+  authPlayers.value.push({ username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
 })
-
-const fetchData = async () => {
-  try {
-      game.value = await Backend.get(`/api/games/${props.game_id}`);
-      authPlayers.value.push({ ...game.value.player1, isAuthenticated: game.value.player1.username === globalUser.value.username });
-      authPlayers.value.push({ ...game.value.player2, isAuthenticated: game.value.player2.username === globalUser.value.username });
-  } catch (err) {
-    console.error('Error fetching upcoming games:', err);
-  }
-};
 
 const openModal = () => {
   if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
@@ -78,28 +77,54 @@ const closeModal = () => {
 	bootstrap.Modal.getInstance("#playerAuthToggle").hide();
 };
 
-const startGame = () => {
+// CREATE GAME IF NO GAME_ID EXISTS (SINGLE GAME)
+const startGame = async() => {
+  let gameId;
+  if(!props.game_id)
+    gameId = await createSingleGame(authPlayers.value[0].userId, authPlayers.value[1].userId);
+  else
+    gameId = props.game_id;
   closeModal();
-  router.push('/ponggame');
-  // props.game.value.id
-  // add gameid here
+  router.push({ name: 'ponggame', params: { id: `${gameId}`} });
 };
+
+const createSingleGame = async(playerId1, playerId2) => {
+  const response = ref(null);
+  try{
+    response.value = await Backend.post('/api/games', {  player1_id: `${playerId1}`, player2_id: `${playerId2}` });
+  } catch (err) {
+    console.log(err);
+    alert(err);
+  }
+  return(response.value.id);
+}
 
 const authenticate = async (player) => {
   try {
-    alerts.value = []
-    console.log(player.username);
-    console.log(player.password);
-    // USERNAME: player.username
-    // PASSWORD: player.password
-    // const response = await Backend.post('/api/login', { username: `${player.username}`, password: `${player.password}`});
-    player.isAuthenticated = true;
+    player.alerts = []
+
+    // CHECK DUPLICATED PLAYERS FOR SINGLE GAMES
+    const duplicatePlayer = authPlayers.value.find(p => p !== player && p.username === player.username);
+    if(duplicatePlayer) {
+      player.alerts.push({
+        message: "Username " + `${player.username} already taken`,
+        type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
+      });
+    } else {
+      const response = await Backend.post('/api/authenticate', { username: `${player.username}`, password: `${player.password}`});
+      player.userId = response.id;
+      player.nickname = response.nickname;
+      player.isAuthenticated = true;
+    } 
   } catch (err) {
     console.log(err);
-    alerts.value.push({
+    player.alerts.push({
       message: err.message,
       type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
     })
+    player.password = '';
+    if(!player.isGiven)
+      player.username = '';
   }
 }
 
