@@ -348,25 +348,25 @@ ENDPOINTS = {
 	}, "/games/GAME_ID": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
-			# "PATCH": {
-			# 	"content_type": "application/json",
-			# 	"query_params": {},
-			# 	"body_params": {
-			# 		"player1_score": {
-			# 			"type": "integer",
-			# 			"required": False,
-			# 			"description": "Score of the first player"
-			# 		}, "player2_score": {
-			# 			"type": "integer",
-			# 			"required": False,
-			# 			"description": "Score of the second player"
-			# 		}, "status": {
-			# 			"type": "string",
-			# 			"required": False,
-			# 			"description": "Status of the game"
-			# 		}
-			# 	},
-			# }, "DELETE": NO_PARAM_METHOD_TEMPLATE,
+			"PATCH": {
+				"content_type": "application/json",
+				"query_params": {},
+				"body_params": {
+					"player1_score": {
+						"type": "integer",
+						"required": False,
+						"description": "Score of the first player"
+					}, "player2_score": {
+						"type": "integer",
+						"required": False,
+						"description": "Score of the second player"
+					}, "status": {
+						"type": "string",
+						"required": False,
+						"description": "Status of the game"
+					}
+				},
+			}, "DELETE": NO_PARAM_METHOD_TEMPLATE,
 		}
 	}, "/channels": {
 		"methods": {
