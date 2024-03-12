@@ -35,7 +35,7 @@ class User(AbstractUser):
 	blocked = models.ManyToManyField("self", blank=True, symmetrical=False)
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = []
+	REQUIRED_FIELDS = ['nickname']
 
 	def __str__(self):
 		return self.username
