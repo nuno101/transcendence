@@ -56,7 +56,7 @@ The project requires 7🔺 major modules to be validated.
 
 **IA-Algo 4.5+0.5**
 - 🔺 Introduce an AI Opponent.
-- 🔸 **User and Game Stats Dashboards**
+- 🔸 User and Game Stats Dashboards
 
 **Cybersecurity 5+0**
 - 🔺 Implement WAF/ModSecurity with Hardened Configuration and HashiCorp Vault for Secrets Management.
