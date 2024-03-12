@@ -11,7 +11,6 @@ const props = defineProps(['pendingRequests']);
 
 const addFriend = async(nickname) => {
     try {
-        console.log(nickname);
         const request = await Backend.post(`/api/users/me/friends/requests`, {"nickname": `${nickname}`});
         if(request) {
             props.pendingRequests.push(request);

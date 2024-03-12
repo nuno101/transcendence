@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 import PlayerGameAuth from '../components/auth/PlayerGameAuth.vue';
 
-const gameid = ref(23);
+const gameid = ref(35);
 const p1 = ref("test11");
 const p2 = ref("test3");
 const auth = ref(null);
