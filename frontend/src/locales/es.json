@@ -60,11 +60,18 @@
         "winsandlosses": "Victorias / Derrotas",
         "numberofgames": "Número de Partidas"
     },
+    "usersview": {
+        "listofusers": "Lista de utilizadores",
+        "username": "Nombre de usuario",
+        "nickname": "Apodo",
+        "created_at": "Creado en",
+        "updated_at": "Actualizado en"
+    },
     "tournamentsview": {
         "tournaments": "Torneos",
         "titleoftournament": "Título del torneo",
         "descriptionoftournament": "Descripción del torneo",
-		"creatortournamentnickname": "Su apodo del torneo (creador)",
+        "creatortournamentnickname": "Su apodo del torneo (creador)",
         "cancel" : "cancelar",
         "addtournament" : "add tournament",
         "addnewtournament" : "añadir torneo",
