@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
 from .decorators import *
-from .models import User, FriendRequest, Channel
+from .models import User, FriendRequest, Channel, DEFAULT_AVATAR_NAME
 from .helpers_users import *
 from .constants_websocket_events import *
 from .constants_http_response import *
@@ -42,8 +42,18 @@ class AvatarPersonal(View):
             return JsonResponse({ERROR_FIELD: f"Invalid file extension '{extension}'"}, status=400)
 
         try:
+            oldavatar = request.user.avatar
+            logger.debug(f"Avatar old {oldavatar}")
             request.user.avatar = avatar
+            logger.debug(f"Avatar old after change to new {oldavatar}")
+            logger.debug(f"default  {DEFAULT_AVATAR_NAME}")
             request.user.save()
+            logger.debug(f"Avatar old after new saved {oldavatar}")
+            logger.debug(f"new avatar  {request.user.avatar}")
+
+            if oldavatar:
+              oldavatar.delete(save=False)
+            logger.debug(f"new avatar  {request.user.avatar}")
             logger.debug(f"Avatar updated for user {request.user.username}")
         except ValidationError as e:
             logger.error(f"Validation error while saving avatar for user {request.user.username}: {e.message_dict}")
