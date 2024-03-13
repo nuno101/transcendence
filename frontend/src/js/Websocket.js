@@ -1,18 +1,19 @@
 import { ref } from "vue";
 class Websocket {
-  constructor(url, distributorStructure) {
-    // FIXME: Replace ws with wss before evaluation
-    this.ws = new WebSocket('ws://' + window.location.host + url);
+  constructor(url, handlerStructure) {
+    this.url = url
+    this.handlerStructure = handlerStructure
+    this.init()
+  }
 
-    this.ws.addEventListener('open', () => {
-      console.log('WebSocket connection opened');
-    });
+  init() { 
+    // FIXME: Replace ws with wss before evaluation
+    this.ws = new WebSocket('ws://' + window.location.host + this.url)
 
     this.ws.addEventListener('message', async (event) => {
       event = JSON.parse(event.data);
-      console.log(event) // TODO: Debug -> remove
 
-      for (const [key, value] of Object.entries(distributorStructure)) {
+      for (const [key, value] of Object.entries(this.handlerStructure)) {
         if (event.event === key) {
           await value(event);
         }
@@ -20,9 +21,13 @@ class Websocket {
     });
   }
 
-  sendWebSocketMessage(event, payload) {
+  send(event, payload) {
     const message = JSON.stringify({ event, payload });
     this.ws.send(message);
+  }
+
+  reload() {
+    this.init()
   }
 }
 

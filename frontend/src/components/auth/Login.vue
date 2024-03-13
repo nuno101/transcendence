@@ -49,7 +49,7 @@ import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import router from '../../router';
-import { globalUser} from '../../main.js';
+import { globalUser, globalWS } from '../../main.js';
 
 const props = defineProps({ forcelogin: Boolean })
 const signedup = defineModel('signedup')
@@ -99,6 +99,7 @@ const LogIn = async () => {
     } else if (route.name === 'logout') {
       router.replace({ name: 'home' })
     }
+    globalWS.reload()
   } catch (err) {
     globalUser.value = null;
     loading.value = false
