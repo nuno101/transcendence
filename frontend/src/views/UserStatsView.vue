@@ -32,7 +32,6 @@ const resetState = () => {
 };
 
 onMounted(() => {
-  resetState();
   userId.value = route.params.id;
   fetchData();
 });
