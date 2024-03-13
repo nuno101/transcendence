@@ -8,7 +8,6 @@ import { useRoute } from 'vue-router';
 import GetAvatar from '../components/common/GetAvatar.vue';
 import StatsTable from '../components/dashboard/StatsTable.vue';
 
-
 //  GENERAL
 const total = ref(null);
 const defeatsRatio = ref(null);
