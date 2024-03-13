@@ -51,13 +51,6 @@
     "friendrequests": "Friend Requests",
     "pendingrequests": "Pending Requests"
   },
-  "usersview": {
-    "listofusers": "Users List",
-    "username": "Username",
-    "nickname": "Nickname",
-    "created_at": "Created at",
-    "updated_at": "Updated at"
-  },
   "friendstatsview": {
     "profile": "Profile",
     "nickname": "Nickname",
@@ -66,6 +59,13 @@
     "matchhistory": "Match History",
     "winsandlosses": "Win / Losses",
     "numberofgames": "Number of Games"
+  },
+  "usersview": {
+    "listofusers": "Users List",
+    "username": "Username",
+    "nickname": "Nickname",
+    "created_at": "Created at",
+    "updated_at": "Updated at"
   },
   "tournamentsview": {
     "listoftournaments": "List of Tournaments",

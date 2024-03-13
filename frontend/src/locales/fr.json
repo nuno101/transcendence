@@ -60,6 +60,13 @@
         "winsandlosses": "Victoires / Défaites",
         "numberofgames": "Nombre de Parties"
     },
+    "usersview": {
+        "listofusers" : "Liste des utilisateurs",
+        "username" : "Nom d'utilisateur",
+        "nickname" : "pseudo",
+        "created_at" : "Créé le",
+        "updated_at" : "Mis à jour le"
+      },
     "tournamentsview": {
         "tournaments": "Tournois",
         "titleoftournament": "Titre du tournoi",

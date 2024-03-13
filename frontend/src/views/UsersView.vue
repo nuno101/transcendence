@@ -3,8 +3,6 @@
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import { ref, onMounted, defineProps } from 'vue';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
-//import SingleTournamentsView from './SingleTournamentsView.vue';
 
 const users = ref([])
 const submit = ref(false);
@@ -15,10 +13,9 @@ const currentUser = ref(false);
 const fetchData = async () => {
   try {
     users.value = await Backend.get('/api/users');
-    //console.log(tournaments.value);
-
-	current_user = await Backend.get(`/api/users/me`);
-	currentUser.value = current_user.username;
+    //FIXME do we need this?
+	let current_user = await Backend.get(`/api/users/me`);
+	//currentUser.value = current_user.username;
     return users.value;
   } catch (err) {
     console.error(err.message);
@@ -48,9 +45,7 @@ onMounted(() => {
                 <tbody>
                     <tr v-for="user in users" :key="user.id">
                         <td>
-                            <router-link :to="'/users/' + user.id">
-                                {{ user.nickname }}
-                            </router-link>
+                            <router-link :to="`/users/${user.id}`">{{user.nickname}}</router-link>
                         </td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.created_at }}</td>
