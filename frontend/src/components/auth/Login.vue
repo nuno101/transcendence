@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <h1 class="fw-bold mb-0 fs-2"  id="loginModalToggleLabel">Log In</h1>
+                <h1 class="fw-bold mb-0 fs-2"  id="loginModalToggleLabel">Login</h1>
                 <button @click="CloseModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -27,7 +27,7 @@
                         Remember me
                     </label>
                 </div>
-                <SubmitButton :loading="loading">Log In</SubmitButton>
+                <SubmitButton :loading="loading">Login</SubmitButton>
                 <small class="text-body-secondary">New? <a href="#signupModalToggle" data-bs-target="#signupModalToggle" data-bs-toggle="modal">Sign up</a></small>
                 <!-- FIXME: <hr class="my-4">
                 <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
