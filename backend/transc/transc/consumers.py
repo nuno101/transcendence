@@ -1,6 +1,6 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-from api.models import Channel
+from api.models import Channel, User
 from asgiref.sync import sync_to_async
 from . import handler_consumers as handlers
 from api.helpers_users import update_user_status
