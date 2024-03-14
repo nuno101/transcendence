@@ -40,13 +40,15 @@
         "winsandlosses": "Victoires / Défaites",
         "numberofgames": "Nombre de Parties"
     },
-    "settingsview": {
-        "editprofile": "Éditer le Profil",
+    "settings": {
+        "saveChanges": "Enregistrer les modifications",
         "nickname": "Pseudo",
-        "avatar": "Avatar",
-        "upload": "Télécharger",
-        "deletecurrent": "Supprimer l'actuel",
-        "savechanges": "Enregistrer les Changements"
+        "username": "Nom d'utilisateur",
+        "changeAvatar": "Changer l'avatar",
+        "password": "Mot de passe",
+        "newPassword": "Nouveau mot de passe",
+        "confirmNewPassword": "Confirmer le nouveau mot de passe",
+        "passwordsDoNotMatch": "les mots de passe ne correspondent pas"
     },
     "friendsview": {
         "friends": "Amis",

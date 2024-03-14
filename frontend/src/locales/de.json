@@ -40,13 +40,15 @@
       "winsandlosses": "Gewinne / Verluste",
       "numberofgames": "Anzahl der Spiele"
     },
-    "settingsview": {
-      "editprofile": "Profil bearbeiten",
+    "settings": {
+      "saveChanges": "Änderungen speichern",
       "nickname": "Nickname",
-      "avatar": "Avatar",
-      "upload": "Hochladen",
-      "deletecurrent": "Aktuellen Avatar löschen",
-      "savechanges": "Änderungen speichern"
+      "username": "Benutzername",
+      "changeAvatar": "Avatar ändern",
+      "password": "Passwort",
+      "newPassword": "neues Passwort",
+      "confirmNewPassword": "neues Passwort bestätigen",
+      "passwordsDoNotMatch": "Passwörter stimmen nicht überein"
     },
     "friendsview": {
       "friends": "Freunde",

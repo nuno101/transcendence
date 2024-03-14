@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import Loading from '../components/common/Loading.vue';
 import { globalUser } from '../main';
 
@@ -82,7 +82,7 @@ const changeAvatar = async(event) => {
                     <div class="text-center">
                         <div class="btn-group">
                             <label class="btn btn-outline-dark btn-sm rounded fs-md-6" for="avatar">
-                                Change avatar
+                                {{useI18n().t('settings.changeAvatar')}}
                             </label>
                             <input type="file" class="form-control d-none" id="avatar" @change="changeAvatar($event, 'Image')" />
                         </div>
@@ -91,29 +91,29 @@ const changeAvatar = async(event) => {
             </div>
             <div class="col-sm-8 mt-sm-none mt-3">
               <div class="form-group row mt-3 align-items-center">
-                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">Username</label>
+                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('settings.username')}}</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="text" class="form-control" :placeholder="globalUser.username" disabled>
                   </div>
               </div>
               <div class="form-group row mt-3 align-items-center">
-                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">Nickname</label>
+                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('settings.nickname')}}</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="text" class="form-control" :placeholder="globalUser.nickname" v-model="input.nickname">
                   </div>
               </div>
               <div class="form-group row mt-3 align-items-center">
-                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">Password</label>
+                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('settings.password')}}</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
-                      <input type="password" class="mt-1 form-control" placeholder="new password" v-model="input.password">
-                      <input type="password" class="mt-1 form-control" placeholder="confirm new password" v-model="password2">
+                      <input type="password" class="mt-1 form-control" :placeholder="useI18n().t('settings.newPassword')" v-model="input.password">
+                      <input type="password" class="mt-1 form-control" :placeholder="useI18n().t('settings.confirmNewPassword')" v-model="password2">
                       <div v-if="input.password !== password2" class="p-2 mt-1 alert alert-danger" role="alert">
-                        Passwords do not match
+                        {{useI18n().t('settings.passwordsDoNotMatch')}}
                       </div>
                   </div>
               </div>
               <div class="mt-5 text-center text-sm-start">
-              <button type="button" class="btn btn-outline-primary" @click="submitChanges" :disabled="input.password !== password2">Update Profile</button>
+              <button type="button" class="btn btn-outline-primary" @click="submitChanges" :disabled="input.password !== password2">{{useI18n().t('settings.saveChanges')}}</button>
               <div v-if="updateErrorMessage !== ''" class="p-2 mt-1 alert alert-danger" role="alert">
                  {{ updateErrorMessage }}
               </div>

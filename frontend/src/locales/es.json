@@ -40,13 +40,15 @@
         "winsandlosses": "Victorias / Derrotas",
         "numberofgames": "Número de Partidas"
     },
-    "settingsview": {
-        "editprofile": "Editar Perfil",
+    "settings": {
+        "saveChanges": "Guardar cambios",
         "nickname": "Apodo",
-        "avatar": "Avatar",
-        "upload": "Subir",
-        "deletecurrent": "Eliminar el actual",
-        "savechanges": "Guardar Cambios"
+        "username": "Nombre de usuario",
+        "changeAvatar": "Cambiar avatar",
+        "password": "Contraseña",
+        "newPassword": "Nueva contraseña",
+        "confirmNewPassword": "Confirmar nueva contraseña",
+        "passwordsDoNotMatch": "las contraseñas no coinciden"
     },
     "friendsview": {
         "friends": "Amigos",

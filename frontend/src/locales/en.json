@@ -40,13 +40,15 @@
     "winsandlosses": "Wins / Losses",
     "numberofgames": "Number of Games"
   },
-  "settingsview": {
-    "editprofile": "Edit Profile",
+  "settings": {
+    "saveChanges": "Save Changes",
     "nickname": "Nickname",
-    "avatar": "Avatar",
-    "upload": "Uplad",
-    "deletecurrent": "Delete current one",
-    "savechanges": "Save Changes"
+    "username": "Username",
+    "changeAvatar": "Change Avatar",
+    "password": "Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "passwordsDoNotMatch": "passwords do not match"
   },
   "friendsview": {
     "friends": "Friends",
