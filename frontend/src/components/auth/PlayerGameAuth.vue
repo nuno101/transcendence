@@ -77,7 +77,6 @@ authPlayers.value.push({
   isAuthenticated: props.player2 === globalUser.value.username, 
   alerts: [] 
 });
-  console.log(authPlayers.value);
 };
 
 const closeModal = () => {
