@@ -79,7 +79,7 @@ const DefeatGames = computed(() => {
 
 <template>
     <div class="cont">
-      <Loading v-if="!isLoaded.value"/>
+      <Loading v-if="!isLoaded"/>
       <div v-if="isLoaded && user.value" class="box">
         <div class="con mt-5">
             <div class="row">
