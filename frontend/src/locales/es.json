@@ -1,5 +1,7 @@
 {
     "language": "Español",
+    "confirm": "confirmar",
+    "cancel": "cancelar",
     "gobacktodashboard": "Tablero",
     "homeview": {
       "register": "Registrarse",
@@ -47,9 +49,16 @@
         "savechanges": "Guardar Cambios"
     },
     "friendsview": {
-        "listoffriends": "Lista de Amigos",
+        "friends": "Amigos",
         "friendrequests": "Solicitudes de Amistad",
-        "pendingrequests": "Solicitudes Pendientes"
+        "pendingrequests": "Solicitudes Pendientes",
+        "deleteFriend": "¿Deseas eliminar a este amigo?",
+        "declineFriendRequest": "¿Deseas rechazar esta solicitud de amistad?",
+        "cancelFriendRequest": "¿Deseas cancelar esta solicitud de amistad?",
+        "noFriends": "sin amigos",
+        "noFriendRequests": "sin solicitudes de amistad",
+        "noPendingRequests": "sin solicitudes pendientes",
+        "searchNickname": "Buscar apodo"
     },
     "friendstatsview": {
         "profile": "Perfil",

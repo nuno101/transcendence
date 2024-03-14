@@ -1,5 +1,7 @@
 {
   "language": "English",
+  "confirm": "confirm",
+  "cancel": "cancel",
   "gobacktodashboard": "Dashboard",
   "homeview": {
     "register": "Register",
@@ -47,9 +49,16 @@
     "savechanges": "Save Changes"
   },
   "friendsview": {
-    "listoffriends": "List of Friends",
+    "friends": "Friends",
     "friendrequests": "Friend Requests",
-    "pendingrequests": "Pending Requests"
+    "pendingrequests": "Pending Requests",
+    "deleteFriend": "Do you want to delete this friend?",
+    "declineFriendRequest": "Do you want to decline this friend request?",
+    "cancelFriendRequest": "Do you want to withdraw this friend request?",
+    "noFriends": "no friends",
+    "noFriendRequests": "no friend requests",
+    "noPendingRequests": "no pending requests",
+    "searchNickname": "search nickname"
   },
   "friendstatsview": {
     "profile": "Profile",

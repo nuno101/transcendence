@@ -1,5 +1,7 @@
 {
     "language": "Français",
+    "confirm": "confirmer",
+    "cancel": "annuler",
     "gobacktodashboard": "Tableau de bord",
     "homeview": {
       "register": "S'inscrire",
@@ -47,9 +49,16 @@
         "savechanges": "Enregistrer les Changements"
     },
     "friendsview": {
-        "listoffriends": "Liste d'Amis",
+        "friends": "Amis",
         "friendrequests": "Demandes d'Amis",
-        "pendingrequests": "Demandes en Attente"
+        "pendingrequests": "Demandes en Attente",
+        "deleteFriend": "Voulez-vous supprimer cet ami ?",
+        "declineFriendRequest": "Voulez-vous refuser cette demande d'ami ?",
+        "cancelFriendRequest": "Voulez-vous retirer cette demande d'ami ?",
+        "noFriends": "pas d'amis",
+        "noFriendRequests": "pas de demandes d'amis",
+        "noPendingRequests": "pas de demandes en attente",
+        "searchNickname": "Rechercher un pseudonyme"
     },
     "friendstatsview": {
         "profile": "Profil",

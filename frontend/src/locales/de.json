@@ -1,5 +1,7 @@
 {
     "language": "Deutsch",
+    "confirm": "bestätigen",
+    "cancel": "abbrechen",
     "gobacktodashboard": "Dashboard",
     "homeview": {
       "register": "Registrieren",
@@ -47,9 +49,16 @@
       "savechanges": "Änderungen speichern"
     },
     "friendsview": {
-      "listoffriends": "Freundesliste",
+      "friends": "Freunde",
       "friendrequests": "Freundschaftsanfragen",
-      "pendingrequests": "Ausstehende Anfragen"
+      "pendingrequests": "Ausstehende Anfragen",
+      "deleteFriend": "Möchtest du diesen Freund entfernen?",
+      "declineFriendRequest": "Möchtest du diese Freundschaftsanfrage ablehnen?",
+      "cancelFriendRequest": "Möchtest du diese Freundschaftsanfrage zurückziehen?",
+      "noFriends": "keine Freunde",
+      "noFriendRequests": "keine Freundschaftsanfragen",
+      "noPendingRequests": "keine ausstehenden Anfragen",
+      "searchNickname": "Nickname suchen"
     },
     "friendstatsview": {
       "profile": "Profil",
