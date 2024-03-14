@@ -128,9 +128,11 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80"
+      - "443:443"
     networks:
       - proxy-network
     volumes:
       - ./proxy/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+      - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
+      - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
     restart: unless-stopped
