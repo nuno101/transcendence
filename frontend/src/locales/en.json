@@ -60,14 +60,12 @@
     "noPendingRequests": "no pending requests",
     "searchNickname": "search nickname"
   },
-  "friendstatsview": {
-    "profile": "Profile",
-    "nickname": "Nickname",
-    "avatar": "Avatar",
-    "statistics": "Statistics",
-    "matchhistory": "Match History",
-    "winsandlosses": "Win / Losses",
-    "numberofgames": "Number of Games"
+  "userstats": {
+    "wins" : "Wins",
+    "defeats": "Defeats",
+    "noWins": "no wins",
+    "noDefeats": "no defeats",
+    "noGames": "no games"
   },
   "tournamentsview": {
     "listoftournaments": "List of Tournaments",

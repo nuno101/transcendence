@@ -55,19 +55,17 @@
         "deleteFriend": "Voulez-vous supprimer cet ami ?",
         "declineFriendRequest": "Voulez-vous refuser cette demande d'ami ?",
         "cancelFriendRequest": "Voulez-vous retirer cette demande d'ami ?",
-        "noFriends": "pas d'amis",
-        "noFriendRequests": "pas de demandes d'amis",
-        "noPendingRequests": "pas de demandes en attente",
+        "noFriends": "aucun ami",
+        "noFriendRequests": "aucune demande d'ami",
+        "noPendingRequests": "aucune demande en attente",
         "searchNickname": "Rechercher un pseudonyme"
     },
-    "friendstatsview": {
-        "profile": "Profil",
-        "nickname": "Pseudo",
-        "avatar": "Avatar",
-        "statistics": "Statistiques",
-        "matchhistory": "Historique des Parties",
-        "winsandlosses": "Victoires / Défaites",
-        "numberofgames": "Nombre de Parties"
+    "userstats": {
+        "wins" : "Victoires",
+        "defeats": "Défaites",
+        "noWins": "aucune victoire",
+        "noDefeats": "aucune défaite",
+        "noGames": "aucun match"
     },
     "tournamentsview": {
         "tournaments": "Tournois",

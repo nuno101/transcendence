@@ -85,7 +85,7 @@ const DefeatGames = computed(() => {
               <div class="col-6">
                 <div class="bg-danger rounded-pill">
                   <div class="ms-4 p-2 ps-0 text-white d-flex justify-content-between">
-                    <div class="p-0">Defeats</div>
+                    <div class="p-0">{{useI18n().t('userstats.defeats')}}</div>
                     <div class="text-end pe-5">{{ DefeatGames.length }}</div>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ const DefeatGames = computed(() => {
                 <div class="bg-success rounded-pill">
                 <div class="me-4 p-2 pe-0 text-white d-flex justify-content-between">
                   <div class="ps-5">{{ WinGames.length }}</div>
-                  <div class="text-end">Wins</div>
+                  <div class="text-end">{{useI18n().t('userstats.wins')}}</div>
                 </div>
               </div>
             </div>

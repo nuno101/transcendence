@@ -60,14 +60,12 @@
         "noPendingRequests": "sin solicitudes pendientes",
         "searchNickname": "Buscar apodo"
     },
-    "friendstatsview": {
-        "profile": "Perfil",
-        "nickname": "Apodo",
-        "avatar": "Avatar",
-        "statistics": "Estadísticas",
-        "matchhistory": "Historial de Partidas",
-        "winsandlosses": "Victorias / Derrotas",
-        "numberofgames": "Número de Partidas"
+    "userstats": {
+        "wins" : "Victorias",
+        "defeats": "Derrotas",
+        "noWins": "sin victorias",
+        "noDefeats": "sin derrotas",
+        "noGames": "sin juegos"
     },
     "tournamentsview": {
         "tournaments": "Torneos",
