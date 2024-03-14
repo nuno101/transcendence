@@ -49,10 +49,11 @@ import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import router from '../../router';
+import { globalUser, globalWS } from '../../main.js';
 
 const props = defineProps({ forcelogin: Boolean })
-const logged = defineModel('logged')
 const signedup = defineModel('signedup')
+const status = defineModel('status')
 const input = { username: '', password: '' }
 const loginModal = ref(null)
 const alerts = ref([])
@@ -86,20 +87,21 @@ const LogIn = async () => {
   try {
     alerts.value = []
     loading.value = true
-    const response = await Backend.post('/api/login?remember=' + remember, input)
+    globalUser.value = await Backend.post('/api/login?remember=' + remember, input)
     loading.value = false
+    status.value = true
+    localStorage.setItem('globalUser', JSON.stringify(globalUser.value));
     let bsLoginModal = bootstrap.Modal.getInstance("#loginModalToggle")
     bsLoginModal.hide()
-    logged.value.status = true
-    logged.value.username = response.username
-    logged.value.id = response.id
     if (props.forcelogin) {
       const urlParams = new URLSearchParams(document.location.search)
       router.replace(decodeURIComponent(urlParams.get('continue')))
     } else if (route.name === 'logout') {
       router.replace({ name: 'home' })
     }
+    globalWS.reload()
   } catch (err) {
+    globalUser.value = null;
     loading.value = false
     alerts.value.push({
       message: err.message,

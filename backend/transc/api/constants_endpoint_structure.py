@@ -38,6 +38,26 @@ ENDPOINTS = {
 		"methods": {
 			"POST": NO_PARAM_METHOD_TEMPLATE,
 		}
+	}, "/authenticate": {
+		"methods": {
+			"POST": {
+				"content_type": "application/json",
+				"query_params": {
+				},
+				"body_params": {
+					"username": {
+						"type": "string",
+						"required": True,
+						"description": "Username of the user"
+					},
+					"password": {
+						"type": "string",
+						"required": True,
+						"description": "Password of the user"
+					}
+				},
+			}
+		}
 	}, "/users/me": {
 		"methods": {
 			"GET": NO_PARAM_METHOD_TEMPLATE,
@@ -293,7 +313,7 @@ ENDPOINTS = {
 		}
 	}, "/games": {
 		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
+			#"GET": NO_PARAM_METHOD_TEMPLATE,
 			"POST": {
 				"content_type": "application/json",
 				"query_params": {},
@@ -313,11 +333,13 @@ ENDPOINTS = {
 						"description": "ID of the second player"
 					}, "player1_score": {
 						"type": "integer",
-						"required": True,
+						"required": False,
+						"default": 0,
 						"description": "Score of the first player"
 					}, "player2_score": {
 						"type": "integer",
-						"required": True,
+						"required": False,
+						"default": 0,
 						"description": "Score of the second player"
 					}
 				},

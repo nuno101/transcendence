@@ -1,0 +1,6 @@
+/C=DE
+/ST=Baden-Wuerttemberg
+/L=Heilbronn
+/O=SelfSigned_42HN
+/OU=user
+/CN=42

@@ -1,0 +1,30 @@
+<script setup>
+import { useI18n } from 'vue-i18n';
+import { defineProps } from 'vue';
+
+const props = defineProps(['firstplayer', 'secondplayer']);
+
+const svgW = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+    <text x="3" y="12" font-family="Arial" font-size="11" fill="currentColor">W</text>
+    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+  </svg>
+`;
+
+const svgS = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+    <text x="4" y="12" font-family="Arial" font-size="11" fill="currentColor">S</text>
+    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+  </svg>
+`;
+</script>
+
+<template>
+    <div class="alert alert-primary" role="alert">
+        <strong>{{ props.firstplayer }}</strong> use <span v-html="svgW"></span> and <span v-html="svgS"></span> to move the <strong>left paddle</strong><br/>
+        <strong>{{ props.secondplayer }}</strong> use <i class="bi bi-caret-up-square"></i> and <i class="bi bi-caret-down-square"></i> to move the <strong>right paddle</strong>
+    </div>
+</template>
+
+<style>
+</style>

@@ -5,15 +5,18 @@ from django.http import JsonResponse, HttpResponse
 from .decorators import *
 from .models import Game, Tournament, User
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from .helpers_games import update_game
+from .helpers_games import update_game, update_tournament_status
+#import logging
+#logging.basicConfig(level=logging.INFO)
+#logger = logging.getLogger(__name__)
 
 # Endpoint: /games
 @method_decorator(check_structure("/games"), name='dispatch')
 class GameView(View):
 	@method_decorator(staff_required, name='dispatch')
-	def get(self, request):
-		games = Game.objects.all()
-		return JsonResponse([g.serialize() for g in games], safe=False)
+	#def get(self, request):
+	#	games = Game.objects.all()
+	#	return JsonResponse([g.serialize() for g in games], safe=False)
 
 	def post(self, request):
 		try:
@@ -55,12 +58,6 @@ class TournamentGameCollection(View):
 		games = Game.objects.filter(tournament=tournament)
 		return JsonResponse([g.serialize() for g in games], safe=False)
 
-	# @method_decorator(staff_required, name='dispatch')
-	# def post(self, request, tournament_id):
-	# 	tournament = Tournament.objects.get(id=tournament_id)
-	# 	create_games(tournament)
-	# 	return JsonResponse({"message": "Games created"}, status=201)
-
 # Endpoint: /tournaments/TOURNAMENT_ID/games/GAME_ID
 @method_decorator(check_structure("/tournaments/TOURNAMENT_ID/games/GAME_ID"), name='dispatch')
 @method_decorator(check_object_exists(Tournament, 'tournament_id', TOURNAMENT_404), name='dispatch')
@@ -76,14 +73,16 @@ class TournamentGameSingle(View):
 		# verify the user is one of the players - skipped for now
 		#if game.player1_id != request.user.id and game.player2_id != request.user.id:
 		#	return JsonResponse({ERROR_FIELD: "You are not a player in this game"}, status=400)
-		if game.status == Game.MatchStatus.CREATED:
-			player1_score = request.json.get('player1_score', 0)
-			player2_score = request.json.get('player2_score', 0)
-			if (player1_score >= 0 and player2_score >= 0 and player1_score <= 11 and player2_score <= 11) and (player1_score == 11 or player2_score == 11) and (player1_score + player1_score < 22):
+		if game.status == Game.MatchStatus.CREATED and game.tournament.status == Tournament.TournamentStatus.ONGOING:
+			player1_score = int(request.json.get('player1_score', 0))
+			player2_score = int(request.json.get('player2_score', 0))
+			if (player1_score == 11 or player2_score == 11) and (player1_score + player1_score < 22):
 				game.player1_score = player1_score
 				game.player2_score = player2_score
 				game.status = Game.MatchStatus.DONE
 				game.save()
+				#if all tournament games are done and/or cancelled then update the tournament.status to DONE
+				update_tournament_status(game.tournament)
 				return JsonResponse(game.serialize())
 			else:
 				return JsonResponse({ERROR_FIELD: "Invalid player(s) score"}, status=400)

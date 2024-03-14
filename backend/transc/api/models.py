@@ -35,7 +35,7 @@ class User(AbstractUser):
 	blocked = models.ManyToManyField("self", blank=True, symmetrical=False)
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = []
+	REQUIRED_FIELDS = ['nickname']
 
 	def __str__(self):
 		return self.username
@@ -133,14 +133,14 @@ class Game(models.Model):
 	player1_score = models.IntegerField(
 		default=0,
 		validators=[
-        MaxValueValidator(3),
+        MaxValueValidator(11),
         MinValueValidator(0)
       ]
 	)
 	player2_score = models.IntegerField(
 		default=0,
 		validators=[
-        MaxValueValidator(3),
+        MaxValueValidator(11),
         MinValueValidator(0)
       ]
 	)
@@ -153,7 +153,7 @@ class Game(models.Model):
 	def serialize(self):
 		return {
 			'id': self.id,
-			'tournament_id':  self.tournament.id if self.tournament else None,
+			'tournament':  self.tournament.serialize() if self.tournament else None,
 			'player1': self.player1.serialize(),
 			'player2': self.player2.serialize(),
 			'status': self.status,

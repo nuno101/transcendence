@@ -1,34 +1,51 @@
-import Backend from './Backend';
-
+import { ref } from 'vue';
+import Notifications from './Notifications';
 class Friends {
-    static acceptRequest = async (friends, friendRequests, request) => {
-        try {
-            const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${request.id}`, {});
-            friends.push(acceptedRequest);
-            const indexToDelete = friendRequests.findIndex(friendreq => friendreq.id === request.id);
-            if(indexToDelete !== -1)
-              friendRequests.splice(indexToDelete, 1);
-          } catch (err) {
-              console.error(err.message);
-              alert(err.message);
-          }
-    };
+    static friends = ref([]);
+    static friendRequests = ref([]);
+    static pendingRequests = ref([]);
 
-    static declineCancelDeleteRequest = async(flag, requestArr, request) => {
-        try {
-            if(flag === 'DELETEFRIEND')
-                await Backend.delete(`/api/users/me/friends/${request.id}`, {});
-            else if (flag === 'DECLINEFRIENDREQ' || flag === 'CANCELPENDREQ')
-                await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
-            const indexToDelete = requestArr.value.findIndex(friendreq => friendreq.id === request.id);
-            if(indexToDelete !== -1) {
-                requestArr.value.splice(indexToDelete, 1);
-            }
-        } catch (err) {
-            console.error(err.message);
-            alert(err.message);
+    static async declineFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends"))
+            Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friendreq => friendreq.id !== data.payload.id);
+    }
+
+    static async cancelFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends"))
+            Friends.friendRequests.value = Friends.friendRequests.value.filter(friendreq => friendreq.id !== data.payload.id);
+    }
+
+    static async removeFriend(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends"))
+            Friends.friends.value = Friends.friends.value.filter(friend => friend.id !== data.payload.id);
+    }
+
+    static async createFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            Friends.friendRequests.value.push(data.payload);
+        } else {
+            await Notifications.post(data);
         }
-    };
+    }
+
+    static async acceptFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            Friends.friends.value.push(Friends.pendingRequests.value.find(friend => friend.id === data.payload.id)?.to_user);
+            Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friend => friend.id !== data.payload.id);
+        } else {
+            await Notifications.post(data);
+        }
+    }    
 }
 
 export default Friends

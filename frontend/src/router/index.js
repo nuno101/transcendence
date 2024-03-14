@@ -26,6 +26,11 @@ const router = createRouter({
       component: () => import('../views/SettingsView.vue')
     },
     {
+      path: '/users',
+      name: 'users',
+      component: () => import('../views/UsersView.vue')
+    },
+    {
       path: '/friends',
       name: 'friends',
       component: () => import('../views/FriendsView.vue')
@@ -59,9 +64,10 @@ const router = createRouter({
       component: () => import('../views/OnsiteGameView.vue')
     },   
     {
-      path: '/ponggame',
+      path: '/ponggame/:id',
       name: 'ponggame',
-      component: () => import('../views/PongGameView.vue')
+      component: () => import('../views/PongGameView.vue'),
+      props: true
     },
     // Chat
     {
