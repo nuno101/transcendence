@@ -13,7 +13,7 @@ build:
 up:
 	docker compose up -d
 
-init: migrate superuser
+init: migrate superuser ssl_create
 
 migrate:
 	docker exec -it backend python3 manage.py makemigrations
@@ -22,6 +22,10 @@ migrate:
 
 superuser:
 	docker exec -it backend python3 manage.py createsuperuser
+
+ssl_create:
+	mkdir -p .ssl
+	(cd .ssl && sh ../tools/ssl_generate.sh ../conf/ssl_information.txt)
 
 down:
 	docker compose down
