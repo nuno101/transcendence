@@ -14,9 +14,9 @@ from .helpers_games import update_game, update_tournament_status
 @method_decorator(check_structure("/games"), name='dispatch')
 class GameView(View):
 	@method_decorator(staff_required, name='dispatch')
-	def get(self, request):
-		games = Game.objects.all()
-		return JsonResponse([g.serialize() for g in games], safe=False)
+	#def get(self, request):
+	#	games = Game.objects.all()
+	#	return JsonResponse([g.serialize() for g in games], safe=False)
 
 	def post(self, request):
 		try:

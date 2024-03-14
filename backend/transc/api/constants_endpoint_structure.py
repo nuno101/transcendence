@@ -313,7 +313,7 @@ ENDPOINTS = {
 		}
 	}, "/games": {
 		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
+			#"GET": NO_PARAM_METHOD_TEMPLATE,
 			"POST": {
 				"content_type": "application/json",
 				"query_params": {},
