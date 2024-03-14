@@ -6,6 +6,7 @@ import Loading from '../components/common/Loading.vue';
 import { useRoute } from 'vue-router';
 import GetAvatar from '../components/common/GetAvatar.vue';
 import StatsTable from '../components/dashboard/StatsTable.vue';
+import router from '../router'
 
 //  GENERAL
 const total = ref(null);
@@ -16,7 +17,7 @@ const winsRatio = ref(null);
 const userId = ref('');
 const user = ref({});
 const route = useRoute();
-const games = ref({});
+const games = ref([]);
 
 const isLoaded = ref(false);
 // defineModel --> wait until all avatars are rendered?
@@ -46,14 +47,14 @@ const fetchData = async() => {
   try {
       user.value = await Backend.get(`/api/users/${userId.value}`);
       games.value = await Backend.get(`/api/users/${userId.value}/games`);
-
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
   } catch (err) {
+    router.push({ name: 'pathnotfound' });
     console.error(err.message);
   } finally {
-    isLoaded.value = true; //data available
+      isLoaded.value = true;
   }
 };
 
@@ -78,8 +79,8 @@ const DefeatGames = computed(() => {
 
 <template>
     <div class="cont">
-      <Loading v-if="!isLoaded"/>
-      <div v-if="isLoaded" class="box">
+      <Loading v-if="!isLoaded.value"/>
+      <div v-if="isLoaded && user.value" class="box">
         <div class="con mt-5">
             <div class="row">
               <div class="col-6">
