@@ -6,11 +6,13 @@ import Backend from '../../js/Backend';
 import PlayerGameAuth from '../auth/PlayerGameAuth.vue';
 
 const currentUser = ref(false);
-const isClicked = ref(false);
+const isClicked = ref(0);
 const games = ref(null);
-const gamesInfo = ref(null);
+const gamesInfo = ref([]);
 const completedGames = ref(false);
 const auth = ref(null);
+const indexes = ref(0);
+const showPlayerGameAuth = ref(false);
 
 const props = defineProps({
   title: {
@@ -27,18 +29,18 @@ const props = defineProps({
 const fetchData = async () => {
 	currentUser.value = await Backend.get('/api/users/me');
 	games.value = await Backend.get(`/api/tournaments/${props.tournament_Id}/games`);
-	console.log("games.value : ", games.value );	
+	console.log("props.title : ", props.title );	
 	if (props.title == "Select a game") { // use an integer 
 		gamesInfo.value = games.value.filter(game => game.status !== 'done' && game.status !== 'cancel');
 	}
 	else if (props.title == "Finished games") {
 		gamesInfo.value = games.value.filter(game => game.status === 'done' || game.status === 'cancel');
 	}
-
 };
 
 const handleGameClick = (index) => {
-    isClicked.value = index;
+    isClicked.value = index + 1;
+	indexes.value = index;
 };
 
 document.body.addEventListener('click', (event) => {
@@ -47,12 +49,17 @@ document.body.addEventListener('click', (event) => {
     }
 });
 
-const cancelGame = async () => {
+const cancelGame = async (game_id) => {
   try {
-    // Cancel a game
+    await Backend.get(`/api/tournaments/${props.tournament_Id}/games/game_id`);
   } catch (err) {
     console.error(err.message);
   }
+};
+
+const handleStartGameClick = () => {
+	auth.openModal();
+    showPlayerGameAuth.value = true;
 };
 
 onMounted(() => {
@@ -65,7 +72,7 @@ onMounted(() => {
 	<h3 class="tournament-bracket__round-title">{{ title }}</h3> <!-- NOT IF ALL GAMES ARE DONE -->
 	<ul v-if="gamesInfo" class="tournament-bracket__list">
 		<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
-			<div class="tournament-bracket__match" :class="{ 'user-not-player': (currentUser.nickname !== game.player1.nickname && currentUser.nickname !== game.player2.nickname) || (title === 'Finished games' ) }" tabindex="0" @click="handleGameClick(index + 1)">						
+			<div class="tournament-bracket__match" :class="{ 'user-not-player': (currentUser.nickname !== game.player1.nickname && currentUser.nickname !== game.player2.nickname) || (title === 'Finished games' ) }" tabindex="0" @click="handleGameClick(index)">						
 				<table class="tournament-bracket__table">
 					<tbody class="tournament-bracket__content">
 						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player1_score > game.player2_score }">
@@ -89,18 +96,20 @@ onMounted(() => {
 					<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
 				</table>
 			</div>
-												
-			<div v-if="isClicked === (index + 1)">
-				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(isClicked)">Cancel Game</button>
-				<button class="btn btn-success" @click="auth.openModal()">Start Game</button>
-				<SecondPlayerAuth
-					ref="auth"
-					:game_id="<insert gameid>"
-					/>
+
+			<div v-if="isClicked === (index + 1)"> <!-- Test equal to zero or null or NULL -->
+				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">Cancel Game</button>
+				<button class="btn btn-success" @click="handleStartGameClick()">Start Game</button>
 			</div>
-		</li>	
+		</li>
 	</ul>
-	<p v-else>No games information available.</p>
+	<PlayerGameAuth
+	  v-if="showPlayerGameAuth && gamesInfo.length > 0"
+	  ref="auth"
+	  :game_id="gamesInfo[indexes].id"
+	  :player1="gamesInfo[indexes].player1.username"
+	  :player2="gamesInfo[indexes].player2.username"
+	/>
 </template>
 
 <style>
@@ -109,12 +118,6 @@ onMounted(() => {
  * Copyright 2016 Jakub Hájek
  * Licensed under MIT (https://opensource.org/licenses/MIT)
  */
-
-.tournament-bracket__round {
-  display: block;
-  margin-left: -3px;
-  flex: 1;
-}
 
 .sr-only {
   position: absolute;
@@ -269,7 +272,6 @@ onMounted(() => {
   }
 }
 
-
 .tournament-bracket__match {
   display: flex;
   width: 200%;
@@ -284,8 +286,8 @@ onMounted(() => {
   transition: padding 0.2s ease-in-out, border 0.2s linear, background-color 0.2s ease-in-out;
 
   &:focus {
-	background-color: #2196F3;
-    border-color: #2196F3;
+	background-color: #b8c4cf;
+    border-color: #b8c4cf;
   }
   
   &::before,
@@ -353,12 +355,6 @@ onMounted(() => {
   pointer-events: none;
 }
 
-
-.done {
-  background-color: #00000009;;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 
 .tournament-bracket__round:last-child .tournament-bracket__match {
   &::before,

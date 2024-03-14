@@ -16,6 +16,7 @@
                      <input v-if="player.isGiven" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="player.username" disabled required>
                      <input v-else v-model="player.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="Enter Username" required>
                       <label :for="'AuthUsername' + index">{{player.isGiven ? player.username : "Enter username"}}</label>
+					  <p>PLAYER USERNAME: {{ player.username }}</p>
                   </div>
                   <div class="form-floating mb-3">
                       <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + index" placeholder="Password" required>
@@ -62,15 +63,20 @@ const authPlayers = ref([]);
 const loading = ref(false)
 
 onMounted(() => {
-  console.log(props);
+  console.log("yo:", props);
+  console.log("props player1 : ", props.player1);
+  console.log("props player2 : ", props.player2);
   authPlayers.value.push({ username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
   authPlayers.value.push({ username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
+  console.log("authPlayers : ", authPlayers.value);
 })
 
 const openModal = () => {
   if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
     new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
 	bootstrap.Modal.getInstance("#playerAuthToggle").show();
+	console.log("open modal props player1 : ", props.player1);
+    console.log("open modal props player2 : ", props.player2);
 };
 
 const closeModal = () => {

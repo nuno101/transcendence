@@ -2,9 +2,10 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted, defineProps, watch } from 'vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import SingleTournamentsView from './SingleTournamentsView.vue';
+import { useRoute } from 'vue-router'
 
 const tournaments = ref([])
 const userTournaments = ref([])
@@ -13,6 +14,12 @@ const input = ref({ title: '', description: '' })
 const showAlert = ref(false);
 const personalTournaments = ref([]);
 const currentUser = ref(false);
+
+const route = useRoute();
+
+watch(route, (newRoute) => {
+  bootstrap.Modal.getInstance("#CreateTournamentModal")?.hide()
+})
 
 const fetchData = async () => {
   try {
