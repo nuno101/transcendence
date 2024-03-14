@@ -64,7 +64,6 @@ const loading = ref(false)
 onMounted(() => {
   authPlayers.value.push({ username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
   authPlayers.value.push({ username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
-  console.log("authPlayers : ", authPlayers.value);
 })
 
 const openModal = () => {
