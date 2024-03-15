@@ -3,9 +3,11 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Backend from '../js/Backend';
 import Chat from '../js/Chat';
+import { globalUser } from '../main';
 import Channel from '../components/chat/Channel.vue';
 import Message from '../components/chat/Message.vue';
-
+import UserRow from '../components/common/UserRow.vue'
+import GetAvatar from '../components/common/GetAvatar.vue'
 const route = useRoute();
 
 const channels = ref([])
@@ -32,7 +34,7 @@ onMounted(() => {
 async function loadChannels() {
     try {
         let data = await Backend.get('/api/users/me/channels')
-        Chat.channels.value = value
+        Chat.channels.value = data
     } catch (err) {
         console.log(err)
         Chat.channels.value = []
@@ -43,7 +45,7 @@ async function loadChannels() {
 async function loadMessages(channel) {
     try {
         let data = await Backend.get(`/api/channels/${channel.id}/messages`)
-        Chat.messages.value = value
+        Chat.messages.value = data
         Chat.selected_channel.value = channel
     } catch (err) {
         console.log(err)
@@ -85,44 +87,55 @@ async function deleteMessage(message) {
     }
 }
 
+function getChannelMember() {
+    if (Chat.selected_channel.value.members[0].id == globalUser.value.id) {
+        return Chat.selected_channel.value.members[1]
+    }
+    return Chat.selected_channel.value.members[0]
+}
+
 </script>
 
 <template>
     <div class="row mb-3">
-        <div>
-            <div class="input-group create-input-group">
-                <input type="text" placeholder="Username of the user you want to DM" class="form-control"
-                    v-model="targetNickname" @keyup.enter="createChannel" />
-                <button class="btn btn-primary" @click="createChannel">Create</button>
-            </div>
-            <div v-if="createChannelError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
-                {{ createChannelError }}
-            </div>
-        </div>
 
         <!-- Sidebar with channels -->
-        <ul class="col-md-3 channel-container list-group">
-            <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
-                @selected="loadMessages(channel)" />
-        </ul>
+        <div class="col-md-3">
+            <div class="mb-2">
+                <div class="input-group">
+                    <input type="text" placeholder="DM user nickname" class="form-control" v-model="targetNickname"
+                        @keyup.enter="createChannel" />
+                    <button class="btn btn-primary" @click="createChannel">Create</button>
+                </div>
+                <div v-if="createChannelError !== ''" class="alert alert-danger d-flex align-items-center p-1"
+                    role="alert">
+                    {{ createChannelError }}
+                </div>
+            </div>
+            <ul class="channel-container list-group">
+                <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
+                    :selected="channel === Chat.selected_channel.value" @selected="loadMessages(channel)" />
+            </ul>
+        </div>
 
         <!-- Container for selected channels -->
-        <div v-if="Chat.selected_channel.value" class="col-md-8">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="message-container">
-                        <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
-                            @deleted="deleteMessage(message)" />
-                    </div>
-                    <div>
-                        <div class="input-group send-input-group">
-                            <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
-                        </div>
-                        <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
-                            role="alert">
-                            {{ messageError }}
-                        </div>
-                    </div>
+        <div v-if="Chat.selected_channel.value" class="col-md-9">
+            <div>
+                <GetAvatar :id="getChannelMember().id" :size=45 class="avatar" />
+                <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
+                        getChannelMember().username
+                    }}</router-link>
+            </div>
+            <div class="message-container">
+                <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
+                    @deleted="deleteMessage(message)" />
+            </div>
+            <div class="mt-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
+                </div>
+                <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
+                    {{ messageError }}
                 </div>
             </div>
         </div>
@@ -130,6 +143,10 @@ async function deleteMessage(message) {
 </template>
 
 <style>
+.avatar {
+    margin-right: 10px;
+}
+
 .channel-container {
     height: 70vh;
     overflow: auto;
@@ -143,9 +160,5 @@ async function deleteMessage(message) {
     display: flex;
     flex: 0 0 auto;
     flex-direction: column-reverse;
-}
-
-.send-input-group {
-    margin-top: 6px;
 }
 </style>

@@ -25,12 +25,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <td class="d-lg-none" :class="bgColor"></td>
-    <td :class="[avatarStyle, bgColor]">
-        <GetAvatar :id="props.user.id" :size="props.size" />
-    </td>
-    <td class="text-start align-middle" :class="bgColor">
-        <OnlineStatus :status="props.user.status" :id="props.user.id" class="me-2"/>
-        <router-link :class="linkColor" :to="`/users/${props.user.id}`">{{props.user.nickname}}</router-link>
-    </td>
+  <td class="d-lg-none" :class="bgColor"></td>
+  <td :class="[avatarStyle, bgColor]">
+    <GetAvatar :id="props.user.id" :size="props.size" />
+  </td>
+  <td class="text-start align-middle" :class="bgColor">
+    <OnlineStatus :status="props.user.status" :id="props.user.id" class="me-2" />
+    <router-link :class="linkColor" :to="`/users/${props.user.id}`">{{ props.user.nickname }}</router-link>
+  </td>
 </template>
