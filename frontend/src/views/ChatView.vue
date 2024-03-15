@@ -10,6 +10,9 @@ const route = useRoute();
 
 const channels = ref([])
 const messageInput = ref('')
+const targetNickname = ref('')
+const createChannelError = ref('')
+const sendMessageError = ref('')
 
 onMounted(() => {
     loadChannels();
@@ -27,7 +30,6 @@ onMounted(() => {
 })
 
 function loadChannels() {
-    // TODO: Error checking
     let data = Backend.get('/api/users/me/channels')
     data.then(value => {
         Chat.channels.value = value
@@ -57,24 +59,26 @@ function loadMessages(channel) {
 
 function createChannel() {
     let data = Backend.post(`/api/channels`, {
-        name: "New channel"
+        nickname: targetNickname.value
     })
     data.then(value => {
+        Chat.channels.value.unshift(value)
+        createChannelError.value = ''
     }).catch(err => {
-        console.log(err)
+        createChannelError.value = err
     })
 }
 
 function sendMessage() {
     let channel_id = Chat.selected_channel.value.id
-    // TODO: error handling
     let data = Backend.post(`/api/channels/${channel_id}/messages`, {
         content: messageInput.value
     })
     data.then(value => {
         messageInput.value = '';
+        sendMessageError.value = ''
     }).catch(err => {
-        console.log(err)
+        sendMessageError.value = err
     })
 }
 
@@ -90,8 +94,15 @@ function deleteMessage(message) {
 
 <template>
     <div class="row mb-3">
-        <div class="input-group send-input-group">
-            <button class="btn btn-primary" @click="createChannel">Create</button>
+        <div>
+            <div class="input-group create-input-group">
+                <input type="text" placeholder="Username of the user you want to DM" class="form-control"
+                    v-model="targetNickname" @keyup.enter="createChannel" />
+                <button class="btn btn-primary" @click="createChannel">Create</button>
+            </div>
+            <div v-if="createChannelError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
+                {{ createChannelError }}
+            </div>
         </div>
 
         <!-- Sidebar with channels -->
@@ -108,9 +119,14 @@ function deleteMessage(message) {
                         <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
                             @deleted="deleteMessage(message)" />
                     </div>
-                    <div class="input-group send-input-group">
-                        <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
-                        <button class="btn btn-primary" @click="sendMessage">Send</button>
+                    <div>
+                        <div class="input-group send-input-group">
+                            <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
+                        </div>
+                        <div v-if="sendMessageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
+                            role="alert">
+                            {{ sendMessageError }}
+                        </div>
                     </div>
                 </div>
             </div>
