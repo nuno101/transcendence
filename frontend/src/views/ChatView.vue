@@ -12,7 +12,7 @@ const channels = ref([])
 const messageInput = ref('')
 const targetNickname = ref('')
 const createChannelError = ref('')
-const sendMessageError = ref('')
+const messageError = ref('')
 
 onMounted(() => {
     loadChannels();
@@ -29,27 +29,22 @@ onMounted(() => {
     }
 })
 
-function loadChannels() {
-    let data = Backend.get('/api/users/me/channels')
-    data.then(value => {
+async function loadChannels() {
+    try {
+        let data = await Backend.get('/api/users/me/channels')
         Chat.channels.value = value
-    }).catch(err => {
+    } catch (err) {
         console.log(err)
         Chat.channels.value = []
         // TODO: Display error message
-    })
+    }
 }
 
-function loadMessages(channel) {
+async function loadMessages(channel) {
     try {
-        let data = Backend.get(`/api/channels/${channel.id}/messages`)
-        data.then(value => {
-            Chat.messages.value = value
-            Chat.selected_channel.value = channel
-        }).catch(err => {
-            console.log(err)
-            Chat.messages.value = []
-        })
+        let data = await Backend.get(`/api/channels/${channel.id}/messages`)
+        Chat.messages.value = value
+        Chat.selected_channel.value = channel
     } catch (err) {
         console.log(err)
         Chat.messages.value = []
@@ -57,37 +52,37 @@ function loadMessages(channel) {
     }
 }
 
-function createChannel() {
-    let data = Backend.post(`/api/channels`, {
-        nickname: targetNickname.value
-    })
-    data.then(value => {
-        Chat.channels.value.unshift(value)
+async function createChannel() {
+    try {
+        let data = await Backend.post(`/api/channels`, {
+            nickname: targetNickname.value
+        })
+        Chat.channels.value.unshift(data)
         createChannelError.value = ''
-    }).catch(err => {
+    } catch (err) {
         createChannelError.value = err
-    })
+    }
 }
 
-function sendMessage() {
+async function sendMessage() {
     let channel_id = Chat.selected_channel.value.id
-    let data = Backend.post(`/api/channels/${channel_id}/messages`, {
-        content: messageInput.value
-    })
-    data.then(value => {
+    try {
+        let data = await Backend.post(`/api/channels/${channel_id}/messages`, {
+            content: messageInput.value
+        })
         messageInput.value = '';
-        sendMessageError.value = ''
-    }).catch(err => {
-        sendMessageError.value = err
-    })
+        messageError.value = ''
+    } catch (err) {
+        messageError.value = err
+    }
 }
 
-function deleteMessage(message) {
-    let data = Backend.delete(`/api/messages/${message.id}`)
-    data.then(value => {
-    }).catch(err => {
-        console.log(err)
-    })
+async function deleteMessage(message) {
+    try {
+        let data = await Backend.delete(`/api/messages/${message.id}`)
+    } catch (err) {
+        messageError.value = err
+    }
 }
 
 </script>
@@ -123,9 +118,9 @@ function deleteMessage(message) {
                         <div class="input-group send-input-group">
                             <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
                         </div>
-                        <div v-if="sendMessageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
+                        <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
                             role="alert">
-                            {{ sendMessageError }}
+                            {{ messageError }}
                         </div>
                     </div>
                 </div>
