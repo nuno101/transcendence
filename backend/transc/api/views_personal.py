@@ -25,10 +25,6 @@ class UserPersonal(View):
 # cCONF: Allowed avatar file extensions
 ALLOWED_AVATAR_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp']
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 # Endpoint: /users/me/avatar
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
@@ -43,18 +39,11 @@ class AvatarPersonal(View):
 
         try:
             oldavatar = request.user.avatar
-            logger.debug(f"Avatar old {oldavatar}")
             request.user.avatar = avatar
-            logger.debug(f"Avatar old after change to new {oldavatar}")
-            logger.debug(f"default  {DEFAULT_AVATAR_NAME}")
             request.user.save()
-            logger.debug(f"Avatar old after new saved {oldavatar}")
-            logger.debug(f"new avatar  {request.user.avatar}")
 
             if oldavatar:
               oldavatar.delete(save=False)
-            logger.debug(f"new avatar  {request.user.avatar}")
-            logger.debug(f"Avatar updated for user {request.user.username}")
         except ValidationError as e:
             logger.error(f"Validation error while saving avatar for user {request.user.username}: {e.message_dict}")
             return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
