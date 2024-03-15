@@ -22,24 +22,12 @@ const games = ref({});
 const isLoaded = ref(false);
 // defineModel --> wait until all avatars are rendered?
 
-const resetState = () => {
-  total.value = null;
-  defeatsRatio.value = null;
-  winsRatio.value = null;
-  userId.value = '';
-  user.value = {};
-  games.value = {};
-  isLoaded.value = false;
-};
-
 onMounted(() => {
-  resetState();
   userId.value = route.params.id;
   fetchData();
 });
 
 watch(() => route.params.id, () => {
-  resetState();
   userId.value = route.params.id;
   fetchData();
 });
