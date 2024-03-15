@@ -10,6 +10,9 @@ const route = useRoute();
 
 const channels = ref([])
 const messageInput = ref('')
+const targetNickname = ref('')
+const createChannelError = ref('')
+const sendMessageError = ref('')
 
 onMounted(() => {
     loadChannels();
@@ -27,7 +30,6 @@ onMounted(() => {
 })
 
 function loadChannels() {
-    // TODO: Error checking
     let data = Backend.get('/api/users/me/channels')
     data.then(value => {
         Chat.channels.value = value
@@ -55,16 +57,28 @@ function loadMessages(channel) {
     }
 }
 
+function createChannel() {
+    let data = Backend.post(`/api/channels`, {
+        nickname: targetNickname.value
+    })
+    data.then(value => {
+        Chat.channels.value.unshift(value)
+        createChannelError.value = ''
+    }).catch(err => {
+        createChannelError.value = err
+    })
+}
+
 function sendMessage() {
     let channel_id = Chat.selected_channel.value.id
-    // TODO: error handling
     let data = Backend.post(`/api/channels/${channel_id}/messages`, {
         content: messageInput.value
     })
     data.then(value => {
         messageInput.value = '';
+        sendMessageError.value = ''
     }).catch(err => {
-        console.log(err)
+        sendMessageError.value = err
     })
 }
 
@@ -80,25 +94,39 @@ function deleteMessage(message) {
 
 <template>
     <div class="row mb-3">
-        <!-- Sidebar with channels -->
-        <div class="col-md-2">
-            <div class="">
-                <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
-                    @selected="loadMessages(channel)" />
+        <div>
+            <div class="input-group create-input-group">
+                <input type="text" placeholder="Username of the user you want to DM" class="form-control"
+                    v-model="targetNickname" @keyup.enter="createChannel" />
+                <button class="btn btn-primary" @click="createChannel">Create</button>
+            </div>
+            <div v-if="createChannelError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
+                {{ createChannelError }}
             </div>
         </div>
 
+        <!-- Sidebar with channels -->
+        <ul class="col-md-3 channel-container list-group">
+            <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
+                @selected="loadMessages(channel)" />
+        </ul>
+
         <!-- Container for selected channels -->
-        <div v-if="Chat.selected_channel" class="col-md-8">
+        <div v-if="Chat.selected_channel.value" class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
                     <div class="message-container">
                         <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
                             @deleted="deleteMessage(message)" />
                     </div>
-                    <div class="input-group send-input-group">
-                        <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
-                        <button class="btn btn-primary" @click="sendMessage">Send</button>
+                    <div>
+                        <div class="input-group send-input-group">
+                            <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
+                        </div>
+                        <div v-if="sendMessageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
+                            role="alert">
+                            {{ sendMessageError }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,6 +135,13 @@ function deleteMessage(message) {
 </template>
 
 <style>
+.channel-container {
+    height: 70vh;
+    overflow: auto;
+    display: flex;
+    flex: 0 0 auto;
+}
+
 .message-container {
     height: 70vh;
     overflow: auto;
@@ -114,6 +149,7 @@ function deleteMessage(message) {
     flex: 0 0 auto;
     flex-direction: column-reverse;
 }
+
 .send-input-group {
     margin-top: 6px;
 }
