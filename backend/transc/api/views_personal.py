@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
 from .decorators import *
-from .models import User, FriendRequest, Channel, DEFAULT_AVATAR_NAME
+from .models import User, FriendRequest, Channel
 from .helpers_users import *
 from .constants_websocket_events import *
 from .constants_http_response import *
