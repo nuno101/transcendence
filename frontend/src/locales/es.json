@@ -5,6 +5,9 @@
     "username": "Nombre de usuario",
     "nickname": "Apodo",
     "password": "Contraseña",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "loading": "Cargando",
     "gobacktodashboard": "Tablero",
     "homeview": {
     },
@@ -13,7 +16,8 @@
         "new?": "¿Nuevo?",
         "rememberMe": "Recordarme",
         "signUp": "Registrarse",
-        "alreadyHaveAnAccount": "¿Ya tienes una cuenta?"
+        "alreadyHaveAnAccount": "¿Ya tienes una cuenta?",
+        "logout": "Cerrar sesión"
     },
     "registrationview": {
   
@@ -24,14 +28,16 @@
         "uploadavatar": "Subir Avatar",
         "createaccount": "Crear Cuenta"
     },
-    "dashboardview": {
-        "dashboard": "Tablero",
+    "header": {
+        "home": "Inicio",
         "friends": "Amigos",
-        "playponggame": "Jugar Juego de Pong",
+        "users": "Usuarios",
+        "chat": "Chat",
+        "settings": "Ajustes",
         "tournaments": "Torneos",
-        "profile": "Perfil",
-        "settings": "Configuración",
-        "logout": "Cerrar sesión"
+        "game": "Juego",
+        "online": "En línea",
+        "onsite": "Presencial"
     },
     "profileview": {
         "myprofile": "Mi Perfil",

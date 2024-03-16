@@ -5,6 +5,9 @@
   "username": "username",
   "nickname": "nickname",
   "password": "password",
+  "online": "online",
+  "offline": "offline",
+  "loading": "loading",
   "gobacktodashboard": "Dashboard",
   "homeview": {
   },
@@ -13,7 +16,8 @@
     "new?": "new?",
     "rememberMe": "remember me",
     "signUp": "sign up",
-    "alreadyHaveAnAccount": "Already have an account?"
+    "alreadyHaveAnAccount": "Already have an account?",
+    "logout": "Logout"
   },
   "registrationview": {
 
@@ -24,14 +28,16 @@
     "uploadavatar": "Upload Avatar",
     "createaccount": "Create Account"
   },
-  "dashboardview": {
-    "dashboard": "Dashboard",
-    "friends": "Friends",
-    "playponggame": "Play Pong Game",
-    "tournaments": "Tournaments",
-    "profile": "Profile",
-    "settings": "Settings",
-    "logout": "Logout"
+  "header": {
+    "home": "home",
+    "friends": "friends",
+    "users": "users",
+    "chat": "chat",
+    "settings": "settings",
+    "tournaments": "tournaments",
+    "game": "game",
+    "online": "online",
+    "onsite": "onsite"
   },
   "profileview": {
     "myprofile": "My Profile",

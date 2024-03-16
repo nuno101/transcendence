@@ -5,6 +5,9 @@
     "username": "Nom d'utilisateur",
     "nickname": "Pseudo",
     "password": "Mot de passe",
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "loading": "Chargement",
     "gobacktodashboard": "Tableau de bord",
     "homeview": {
     },
@@ -13,7 +16,8 @@
         "new?": "Nouveau?",
         "rememberMe": "Se souvenir de moi",
         "signUp": "S'inscrire",
-        "alreadyHaveAnAccount": "Vous avez déjà un compte ?"
+        "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
+        "logout": "Se déconnecter"
     },
     "registrationview": {
   
@@ -24,14 +28,16 @@
         "uploadavatar": "Télécharger un Avatar",
         "createaccount": "Créer un Compte"
     },
-    "dashboardview": {
-        "dashboard": "Tableau de bord",
+    "header": {
+        "home": "Accueil",
         "friends": "Amis",
-        "playponggame": "Jouer au Jeu de Pong",
-        "tournaments": "Tournois",
-        "profile": "Profil",
+        "users": "Utilisateurs",
+        "chat": "Discussion",
         "settings": "Paramètres",
-        "logout": "Se déconnecter"
+        "tournaments": "Tournois",
+        "game": "Jeu",
+        "online": "En ligne",
+        "onsite": "Sur place"
     },
     "profileview": {
         "myprofile": "Mon Profil",
