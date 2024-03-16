@@ -2,16 +2,18 @@
     "language": "Español",
     "confirm": "confirmar",
     "cancel": "cancelar",
+    "username": "Nombre de usuario",
+    "nickname": "Apodo",
+    "password": "Contraseña",
     "gobacktodashboard": "Tablero",
     "homeview": {
-      "register": "Registrarse",
-      "alreadyhaveanaccount": "¿Ya tienes una cuenta?"
     },
-    "loginview": {
+    "login": {
         "login": "Iniciar sesión",
-        "nickname": "Apodo",
-        "email": "Correo electrónico",
-        "password": "Contraseña"
+        "new?": "¿Nuevo?",
+        "rememberMe": "Recordarme",
+        "signUp": "Registrarse",
+        "alreadyHaveAnAccount": "¿Ya tienes una cuenta?"
     },
     "registrationview": {
   

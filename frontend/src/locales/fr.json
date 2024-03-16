@@ -2,16 +2,18 @@
     "language": "Français",
     "confirm": "confirmer",
     "cancel": "annuler",
+    "username": "Nom d'utilisateur",
+    "nickname": "Pseudo",
+    "password": "Mot de passe",
     "gobacktodashboard": "Tableau de bord",
     "homeview": {
-      "register": "S'inscrire",
-      "alreadyhaveanaccount": "Vous avez déjà un compte ?"
     },
-    "loginview": {
-      "login": "Se connecter",
-      "nickname": "Pseudo",
-      "email": "E-mail",
-      "password": "Mot de passe"
+    "login": {
+        "login": "Se connecter",
+        "new?": "Nouveau?",
+        "rememberMe": "Se souvenir de moi",
+        "signUp": "S'inscrire",
+        "alreadyHaveAnAccount": "Vous avez déjà un compte ?"
     },
     "registrationview": {
   

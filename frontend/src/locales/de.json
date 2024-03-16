@@ -2,16 +2,18 @@
     "language": "Deutsch",
     "confirm": "bestätigen",
     "cancel": "abbrechen",
+    "username": "Benutzername",
+    "nickname": "Nickname",
+    "password": "Passwort",
     "gobacktodashboard": "Dashboard",
     "homeview": {
-      "register": "Registrieren",
-      "alreadyhaveanaccount": "Du bist bereits registriert?"
     },
-    "loginview": {
-      "login": "Login",
-      "nickname": "Nickname",
-      "email": "E-Mail",
-      "password": "Passwort"
+    "login": {
+      "login": "Anmelden",
+      "new?": "Neu?",
+      "rememberMe": "Erinnere dich an mich",
+      "signUp": "Registrieren",
+      "alreadyHaveAnAccount": "Du bist bereits registriert?"
     },
     "registrationview": {
   
