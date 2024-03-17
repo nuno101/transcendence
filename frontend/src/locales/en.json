@@ -8,8 +8,10 @@
   "online": "online",
   "offline": "offline",
   "loading": "loading",
-  "gobacktodashboard": "Dashboard",
-  "homeview": {
+  "home": {
+    "ourTranscendenceProject": "Our Transcendence Project",
+    "transcendenceDescription": "Transcendence is the last project of the Core Curriculum at 42. The goal of this project is to develop a web application that allows users to engage in a basic Pong Game while also providing a platform for social interaction with other users. It involves implementing various modules, making choices about technologies and libraries, and ensuring that all decisions align with the project's requirements and limitations.",
+    "connectOnGithub": "Connect with us on Github"
   },
   "login": {
     "login": "Login",
