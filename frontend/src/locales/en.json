@@ -117,5 +117,9 @@
     "newMessage": "Go to chat to see new messages",
     "newFriendRequest": "Go to friends to see new friend request",
     "newFriends": "Go to friends to see new friend"
+  },
+  "notfound": {
+    "pageNotFound": "page not found",
+    "thisPageIsntAvailable": "this page isn't available"
   }
 }

@@ -109,5 +109,9 @@
       "newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",
       "newFriendRequest": "Gehe zu Freunden, um neue Freundesanfragen zu sehen",
       "newFriends": "Gehe zu Freunden, um neue Freunde zu sehen"
+    },
+    "notfound": {
+      "pageNotFound": "Seite nicht gefunden",
+      "thisPageIsntAvailable": "Diese Seite ist nicht verfügbar"
     }
   }
