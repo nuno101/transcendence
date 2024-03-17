@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import Loading from '../components/common/Loading.vue';
 import { globalUser } from '../main';
 
@@ -38,7 +38,12 @@ const submitChanges = async() => {
 
     if(requestBody !== {})
       await Backend.patch(`/api/users/me`, requestBody);
-    if(input.value.nickname !== '') globalUser.value.nickname = input.value.nickname; input.value.nickname = '';
+    if(input.value.nickname !== ''){
+      const tmpUser = JSON.parse(localStorage.getItem('globalUser'));
+      tmpUser.nickname = globalUser.value.nickname = input.value.nickname;
+      localStorage.setItem('globalUser', JSON.stringify(tmpUser));
+      input.value.nickname = '';
+    }
     if(input.value.password !== '') password2.value = input.value.password = '';
 
     if(inputavatar.value !== ''){
