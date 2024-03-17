@@ -2,7 +2,7 @@
 <div v-if="globalUser" class="table-wrapper text-center">
   <Loading v-if="!isLoaded" />
   <h6>Upcoming Games</h6>
-  <div class="gamestable tablesize rounded img-thumbnail d-flex justify-content-center">
+  <div class="gamestable rounded img-thumbnail d-flex justify-content-center">
   <table class="table m-0">
     <thead class="table-dark">
       <tr>
@@ -20,7 +20,7 @@
         </td>
       </tr>
     </tbody>
-    <tbody v-else class="text-center">no upcoming games</tbody>
+    <tbody v-else><tr><td class="text-center" colspan="3">no upcoming games</td></tr></tbody>
   </table>
   </div>
 </div>
@@ -67,14 +67,12 @@ th {
   z-index: 1;
 }
 
-.tablesize {
-  height: 171px;
+.gamestable {
+  max-height: 171px;
   max-width: 400px;
   margin: auto;
-}
-
- .gamestable {
   overflow-y: scroll;
   padding: 0;
 }
+
 </style>
