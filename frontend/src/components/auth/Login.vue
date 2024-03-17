@@ -40,7 +40,7 @@ import { onMounted, ref, watch } from 'vue'
 import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
-import { globalUser} from '../../main.js'
+import { globalUser, globalWS } from '../../main.js';
 
 const signedup = defineModel('signedup')
 const input = ref({ username: '', password: '' })
@@ -72,6 +72,7 @@ const LogIn = async () => {
 		globalUser.value = await Backend.post('/api/login?remember=' + remember.value, input.value)
 		loading.value = false
 		bootstrap.Modal.getInstance(loginModal.value).hide()
+		globalWS.reload()
 	} catch (err) {
 		globalUser.value = null;
 		loading.value = false

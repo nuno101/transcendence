@@ -17,3 +17,6 @@ docker.mk
 
 # Python virtual environment
 .venv
+
+# SSL certificate folder
+.ssl/

@@ -13,6 +13,8 @@ export const globalUser = ref(undefined)
 
 // cCONF: Structure where all event handlers are defined for the global event websocket
 const handlersEvent = {
+    "create_channel": Chat.createChannel,
+    "delete_channel": Chat.deleteChannel,
     "create_message": Chat.createMessage,
     "delete_message": Chat.deleteMessage,
     "create_friend_request" : Friends.createFriendRequest,

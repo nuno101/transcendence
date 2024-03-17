@@ -52,6 +52,14 @@ const router = createRouter({
 			}
 		},
 		{
+			path: '/users',
+			name: 'users',
+			components: {
+				default: () => import('../views/UsersView.vue'),
+				Header,
+			}
+		},
+		{
 			path: '/friends',
 			name: 'friends',
 			components: {
@@ -132,7 +140,7 @@ const router = createRouter({
 	]
 })
 
-const restrictedRoutes = ['friends', 'settings', 'chat', 'tournaments', 'user stats', 'game/onsite' , 'game/online', 'ponggame']
+const restrictedRoutes = ['users', 'friends', 'settings', 'chat', 'tournaments', 'user stats', 'game/onsite' , 'game/online', 'ponggame']
 
 router.beforeEach((to) => {
 	bootstrap.Modal.getInstance('#loginModalToggle')?.hide()

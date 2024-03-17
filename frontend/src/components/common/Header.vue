@@ -68,6 +68,7 @@ const router = useRouter()
 const navRoutes = [
 	{ name: 'home', button: 'Home' },
 	{ name: 'friends', button: 'Friends' },
+	{ name: 'users', button: 'Users' },
 	{ name: 'chat', button: 'Chat' },
 	{ name: 'settings', button: 'Settings' },
 	{ name: 'tournaments', button: 'Tournaments' },

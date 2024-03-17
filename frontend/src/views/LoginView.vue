@@ -40,7 +40,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Backend from '../js/Backend'
 import SubmitButton from '../components/common/SubmitButton.vue'
-import { globalUser } from '../main'
+import { globalUser, globalWS } from '../main'
 
 const route = useRoute()
 const router = useRouter()
@@ -69,6 +69,7 @@ const LogIn = async () => {
 		} else if (route.name === 'logout') {
 			router.replace({ name: 'home'})
 		}
+		globalWS.reload()
 	} catch (err) {
 		globalUser.value = null;
 		loading.value = false

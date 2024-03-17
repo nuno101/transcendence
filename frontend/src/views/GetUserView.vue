@@ -16,7 +16,6 @@ const route = useRoute()
 const router = useRouter()
 
 onMounted(async () => {
-	await new Promise(r => setTimeout(r, 1000)) // to simulate high latency
 	try {
 		globalUser.value = await Backend.get('/api/users/me')
 	} catch (err) {

@@ -25,10 +25,6 @@ class UserPersonal(View):
 # cCONF: Allowed avatar file extensions
 ALLOWED_AVATAR_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp']
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 # Endpoint: /users/me/avatar
 @method_decorator(check_structure("/users/me/avatar"), name='dispatch')
 class AvatarPersonal(View):
@@ -42,9 +38,12 @@ class AvatarPersonal(View):
             return JsonResponse({ERROR_FIELD: f"Invalid file extension '{extension}'"}, status=400)
 
         try:
+            oldavatar = request.user.avatar
             request.user.avatar = avatar
             request.user.save()
-            logger.debug(f"Avatar updated for user {request.user.username}")
+
+            if oldavatar:
+              oldavatar.delete(save=False)
         except ValidationError as e:
             logger.error(f"Validation error while saving avatar for user {request.user.username}: {e.message_dict}")
             return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)

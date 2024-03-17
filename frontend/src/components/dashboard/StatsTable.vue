@@ -1,7 +1,9 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { defineProps, computed } from 'vue';
-import GetAvatar from '../common/GetAvatar.vue';
+import { defineProps, computed, onMounted, watch } from 'vue';
+import UserRow from '../common/UserRow.vue';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
+
 
 const props = defineProps(['games', 'id', 'flag']);
 
@@ -40,6 +42,23 @@ const avatarBootstrap = computed(() => {
     return `d-none d-lg-table-cell ${bgColor.value(game)}`;
   };
 });
+
+
+const initializeTooltips = () => {
+  for (const game of filteredGames.value) {
+    if (game.tournament !== null) {
+      new bootstrap.Tooltip(`#${props.flag + game.id}`);
+    }
+  }
+};
+
+onMounted(() => {
+  initializeTooltips();
+});
+
+watch(filteredGames, () => {
+  initializeTooltips();
+});
 </script>
 
 <template>
@@ -48,11 +67,20 @@ const avatarBootstrap = computed(() => {
         <tbody v-if="filteredGames.length > 0">
         <tr  v-for="game in filteredGames" :key="game">
             <td class="align-middle text-start" :class="bgColor(game)" >{{ game.updated_at.slice(0, 10)}}</td>
-            <td :class="avatarBootstrap(game)">
-              <GetAvatar class="float-end" :id="game.player1.id !== props.id ? game.player1.id : game.player2.id" />
-            </td>
-            <td class="align-middle text-start" :class="bgColor(game)">
-              {{ game.player1.id !== props.id ? game.player1.nickname : game.player2.nickname }}
+            <UserRow
+              :user="game.player1.id !== props.id ? game.player1 : game.player2"
+              :bgColor="bgColor(game)"
+              :avatarStyle="avatarBootstrap(game)"
+              linkColor="link-dark link-opacity-50-hover link-underline-opacity-50-hover"/>
+            <td class="align-middle" :class="bgColor(game)">
+              <i v-if="game.tournament != null" 
+                class="bi bi-trophy"
+                :title="game.tournament.title"
+                :id="props.flag + game.id"
+                data-bs-placement="top"
+                data-toggle="tooltip"
+                style="z-index: 2;"
+              ></i>
             </td>
             <td class="align-middle text-end" :class="bgColor(game)">
                 {{ game.player1.id !== props.id
