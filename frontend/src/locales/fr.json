@@ -87,6 +87,13 @@
     "ponggameview": {
   
     },
+    "auth": {
+        "authentication": "Authentification",
+        "authenticate": "authentifier",
+        "withNickname": "avec pseudo",
+        "successfullyAuth": "authentification réussie",
+        "startGame": "démarrer le jeu"
+    },
     "notif": {
         "noNotifications": "Pas de notifications",
         "newMessage": "Allez dans le chat pour voir les nouveaux messages",

@@ -77,7 +77,7 @@
 	  "creatortournamentnickname": "Your tournament nickname (creator)",
     "cancel" : "Cancel",
     "createatournament" : "Create a tournament",
-	"addtournament" : "Add a tournament",
+	  "addtournament" : "Add a tournament",
     "description" : "description",
     "register" : "register",
     "registrationclosed" : "Registration closed",
@@ -94,6 +94,13 @@
   },
   "ponggameview": {
 
+  },
+  "auth": {
+    "authentication": "authentication",
+    "authenticate": "authenticate",
+    "withNickname": "with nickname",
+    "successfullyAuth": "successfully authenticated",
+    "startGame": "start game"
   },
   "notif": {
     "noNotifications": "No notifications",

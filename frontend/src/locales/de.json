@@ -68,7 +68,7 @@
       "tournaments": "Turniere",
       "titleoftournament": "Titel des Turniers",
       "descriptionoftournament": "Beschreibung des Turniers",
-	  "creatortournamentnickname": "Ihr Turnier-Spitzname (Ersteller)",
+	    "creatortournamentnickname": "Ihr Turnier-Spitzname (Ersteller)",
       "cancel" : "abbrechen",
       "addtournament" : "Turnier hinzufügen",
       "addnewtournament" : "neues Turnier erstellen",
@@ -86,6 +86,13 @@
     },
     "ponggameview": {
   
+    },
+    "auth": {
+      "authentication": "Authentifizierung",
+      "authenticate": "authentifizieren",
+      "withNickname": "mit Nickname",
+      "successfullyAuth": "erfolgreich authentifiziert",
+      "startGame": "Spiel starten"
     },
     "notif": {
       "noNotifications": "Keine Benachrichtigungen",
