@@ -1,13 +1,13 @@
 <template>
 <div v-if="globalUser" class="table-wrapper text-center">
   <Loading v-if="!isLoaded" />
-  <h6>Upcoming Games</h6>
+  <h6>{{useI18n().t('upcomingGames.upcomingGames')}}</h6>
   <div class="gamestable tablesize rounded img-thumbnail d-flex justify-content-center">
   <table class="table m-0">
     <thead class="table-dark">
       <tr>
-        <th colspan="2" class="px-3">Opponent</th>
-        <th class="px-3">Tournament</th>
+        <th colspan="2" class="px-3">{{useI18n().t('upcomingGames.opponent')}}</th>
+        <th class="px-3">{{useI18n().t('upcomingGames.tournament')}}</th>
       </tr>
     </thead>
     <tbody v-if="upcomingGames.length > 0">
@@ -20,13 +20,14 @@
         </td>
       </tr>
     </tbody>
-    <tbody v-else class="text-center">no upcoming games</tbody>
+    <tbody v-else class="text-center">{{useI18n().t('upcomingGames.noUpcomingGames')}}</tbody>
   </table>
   </div>
 </div>
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import Backend from "../../js/Backend"
 import { ref } from 'vue'
 import { watch, onMounted } from "vue"

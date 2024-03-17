@@ -13,6 +13,12 @@
         "transcendenceDescription": "Transcendence es el último proyecto del Plan de Estudios Central en 42. El objetivo de este proyecto es desarrollar una aplicación web que permita a los usuarios participar en un juego básico de Pong mientras proporciona una plataforma para la interacción social con otros usuarios. Implica la implementación de varios módulos, la toma de decisiones sobre tecnologías y bibliotecas, y asegurarse de que todas las decisiones se alineen con los requisitos y limitaciones del proyecto.",
         "connectOnGithub": "Conéctate con nosotros en Github"
     },
+    "upcomingGames": {
+        "upcomingGames": "Próximos juegos",
+        "opponent": "Contrincante",
+        "tournament": "Torneo",
+        "noUpcomingGames": "No hay próximos juegos"
+    },
     "login": {
         "login": "Iniciar sesión",
         "new?": "¿Nuevo?",
@@ -20,15 +26,6 @@
         "signUp": "Registrarse",
         "alreadyHaveAnAccount": "¿Ya tienes una cuenta?",
         "logout": "Cerrar sesión"
-    },
-    "registrationview": {
-  
-    },
-    "createprofileview": {
-        "createprofile": "Crear Perfil",
-        "nickname": "Apodo",
-        "uploadavatar": "Subir Avatar",
-        "createaccount": "Crear Cuenta"
     },
     "header": {
         "home": "Inicio",
@@ -41,21 +38,9 @@
         "online": "En línea",
         "onsite": "Presencial"
     },
-    "profileview": {
-        "myprofile": "Mi Perfil",
-        "nickname": "Apodo",
-        "avatar": "Avatar",
-        "statistics": "Estadísticas",
-        "matchhistory": "Historial de Partidas",
-        "winsandlosses": "Victorias / Derrotas",
-        "numberofgames": "Número de Partidas"
-    },
     "settings": {
         "saveChanges": "Guardar cambios",
-        "nickname": "Apodo",
-        "username": "Nombre de usuario",
         "changeAvatar": "Cambiar avatar",
-        "password": "Contraseña",
         "newPassword": "Nueva contraseña",
         "confirmNewPassword": "Confirmar nueva contraseña",
         "passwordsDoNotMatch": "las contraseñas no coinciden"
@@ -91,10 +76,6 @@
         "status" : "estado",
         "register" : "regístrese en",
         "registrationclosed" : "inscripción cerrada"
-    },
-    "gamemodesview": {
-        "online": "En línea",
-        "onsite": "En el lugar"
     },
     "onlinegameview": {
         "inviteuser": "Invitar Usuario",

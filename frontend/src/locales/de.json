@@ -13,6 +13,12 @@
       "transcendenceDescription": "Transcendence ist das letzte Projekt des Grundstudiums an der 42. Das Ziel dieses Projekts ist die Entwicklung einer Webanwendung, die es Benutzern ermöglicht, ein einfaches Pong-Spiel zu spielen und gleichzeitig eine Plattform für soziale Interaktion mit anderen Benutzern bereitzustellen. Es umfasst die Implementierung verschiedener Module, die Auswahl von Technologien und Bibliotheken sowie die Gewährleistung, dass alle Entscheidungen den Anforderungen und Einschränkungen des Projekts entsprechen.",
       "connectOnGithub": "Verbinde dich mit uns auf Github"
     },
+    "upcomingGames": {
+      "upcomingGames": "Bevorstehende Spiele",
+      "opponent": "Gegner",
+      "tournament": "Turnier",
+      "noUpcomingGames": "Keine bevorstehenden Spiele"
+    },
     "login": {
       "login": "Anmelden",
       "new?": "Neu?",
@@ -20,15 +26,6 @@
       "signUp": "Registrieren",
       "alreadyHaveAnAccount": "Du bist bereits registriert?",
       "logout": "Abmelden"
-    },
-    "registrationview": {
-  
-    },
-    "createprofileview": {
-      "createprofile": "Profil erstellen",
-      "nickname": "Nickname",
-      "uploadavatar": "Avatar hochladen",
-      "createaccount": "Account erstellen"
     },
     "header": {
       "home": "Startseite",
@@ -41,21 +38,9 @@
       "online": "Online",
       "onsite": "Vor Ort"
     },
-    "profileview": {
-      "myprofile": "Mein profil",
-      "nickname": "Nickname",
-      "avatar": "Avatar",
-      "statistics": "Statistiken",
-      "matchhistory": "Spieleprotokoll",
-      "winsandlosses": "Gewinne / Verluste",
-      "numberofgames": "Anzahl der Spiele"
-    },
     "settings": {
       "saveChanges": "Änderungen speichern",
-      "nickname": "Nickname",
-      "username": "Benutzername",
       "changeAvatar": "Avatar ändern",
-      "password": "Passwort",
       "newPassword": "neues Passwort",
       "confirmNewPassword": "neues Passwort bestätigen",
       "passwordsDoNotMatch": "Passwörter stimmen nicht überein"
@@ -91,10 +76,6 @@
       "status" : "Status",
       "register" : "registrieren",
       "registrationclosed" : "Registrierung geschlossen"
-     },
-    "gamemodesview": {
-      "online": "Online",
-      "onsite": "Onsite"
     },
     "onlinegameview": {
       "inviteuser": "Nutzer einladen",

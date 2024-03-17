@@ -91,19 +91,19 @@ const changeAvatar = async(event) => {
             </div>
             <div class="col-sm-8 mt-sm-none mt-3">
               <div class="form-group row mt-3 align-items-center">
-                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('settings.username')}}</label>
+                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('username')}}</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="text" class="form-control" :placeholder="globalUser.username" disabled>
                   </div>
               </div>
               <div class="form-group row mt-3 align-items-center">
-                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('settings.nickname')}}</label>
+                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('nickname')}}</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="text" class="form-control" :placeholder="globalUser.nickname" v-model="input.nickname">
                   </div>
               </div>
               <div class="form-group row mt-3 align-items-center">
-                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('settings.password')}}</label>
+                  <label class="col-md-3 col-sm-4 col-xs-12 control-label">{{useI18n().t('password')}}</label>
                   <div class="col-md-9 col-sm-8 col-xs-12">
                       <input type="password" class="mt-1 form-control" :placeholder="useI18n().t('settings.newPassword')" v-model="input.password">
                       <input type="password" class="mt-1 form-control" :placeholder="useI18n().t('settings.confirmNewPassword')" v-model="password2">

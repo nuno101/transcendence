@@ -13,6 +13,12 @@
     "transcendenceDescription": "Transcendence is the last project of the Core Curriculum at 42. The goal of this project is to develop a web application that allows users to engage in a basic Pong Game while also providing a platform for social interaction with other users. It involves implementing various modules, making choices about technologies and libraries, and ensuring that all decisions align with the project's requirements and limitations.",
     "connectOnGithub": "Connect with us on Github"
   },
+  "upcomingGames": {
+    "upcomingGames": "upcoming games",
+    "opponent": "opponent",
+    "tournament": "tournament",
+    "noUpcomingGames": "no upcoming games"
+  },
   "login": {
     "login": "Login",
     "new?": "new?",
@@ -20,15 +26,6 @@
     "signUp": "sign up",
     "alreadyHaveAnAccount": "Already have an account?",
     "logout": "Logout"
-  },
-  "registrationview": {
-
-  },
-  "createprofileview": {
-    "createprofile": "Create Profile",
-    "nickname": "Nickname",
-    "uploadavatar": "Upload Avatar",
-    "createaccount": "Create Account"
   },
   "header": {
     "home": "home",
@@ -41,21 +38,9 @@
     "online": "online",
     "onsite": "onsite"
   },
-  "profileview": {
-    "myprofile": "My Profile",
-    "nickname": "Nickname",
-    "avatar": "Avatar",
-    "statistics": "Statistics",
-    "matchhistory": "Match History",
-    "winsandlosses": "Wins / Losses",
-    "numberofgames": "Number of Games"
-  },
   "settings": {
     "saveChanges": "Save Changes",
-    "nickname": "Nickname",
-    "username": "Username",
     "changeAvatar": "Change Avatar",
-    "password": "Password",
     "newPassword": "New Password",
     "confirmNewPassword": "Confirm New Password",
     "passwordsDoNotMatch": "passwords do not match"
@@ -99,10 +84,6 @@
     "created_at": "Created at",
     "updated_at": "Updated at",
     "delete": "Delete"
-  },
-  "gamemodesview": {
-    "online": "online",
-    "onsite": "onsite"
   },
   "onlinegameview": {
     "inviteuser": "Invite User",

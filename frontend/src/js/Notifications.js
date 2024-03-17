@@ -11,8 +11,6 @@ const parser = {
 // cCONF: Parser function to generate custom dynamic notification for 
 //        different websocket events
 // ----------------------------------------------------------------------------
-
-// useI18n().t('settings.nickname')
 async function newMessage(data) {
     return {
         type: data.event,
