@@ -94,6 +94,13 @@
       "successfullyAuth": "erfolgreich authentifiziert",
       "startGame": "Spiel starten"
     },
+    "instruction": {
+      "uses": "verwendet",
+      "and": "und",
+      "toMoveThe": "zur Bewegung des",
+      "leftPaddle": "linken Schläger",
+      "rightPaddle": "rechten Schläger"
+    },
     "notif": {
       "noNotifications": "Keine Benachrichtigungen",
       "newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",

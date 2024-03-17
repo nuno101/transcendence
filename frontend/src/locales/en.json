@@ -95,6 +95,13 @@
   "ponggameview": {
 
   },
+  "instruction": {
+    "uses": "uses",
+    "and": "and",
+    "toMoveThe": "to move the",
+    "leftPaddle": "left paddle",
+    "rightPaddle": "right paddle"
+  },
   "auth": {
     "authentication": "authentication",
     "authenticate": "authenticate",
