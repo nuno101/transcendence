@@ -8,6 +8,12 @@
     "online": "Online",
     "offline": "Offline",
     "loading": "Laden",
+    "lang": {
+      "english": "Englisch",
+      "german": "Deutsch",
+      "spanish": "Spanisch",
+      "french": "Französisch"
+    },
     "home": {
       "ourTranscendenceProject": "Unser Transcendence Projekt",
       "transcendenceDescription": "Transcendence ist das letzte Projekt des Grundstudiums an der 42. Das Ziel dieses Projekts ist die Entwicklung einer Webanwendung, die es Benutzern ermöglicht, ein einfaches Pong-Spiel zu spielen und gleichzeitig eine Plattform für soziale Interaktion mit anderen Benutzern bereitzustellen. Es umfasst die Implementierung verschiedener Module, die Auswahl von Technologien und Bibliotheken sowie die Gewährleistung, dass alle Entscheidungen den Anforderungen und Einschränkungen des Projekts entsprechen.",
