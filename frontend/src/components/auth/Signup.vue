@@ -22,7 +22,7 @@
 						</div>
 						<SubmitButton :loading="loading">{{useI18n().t('login.signUp')}}</SubmitButton>
 						<small class="text-body-secondary">
-							{{useI18n().t('login.alreadyHaveAnAccount')}} <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Log In</a>
+							{{useI18n().t('login.alreadyHaveAnAccount')}} <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">{{useI18n().t('login.login')}}</a>
 						</small>
 					</form>
 				</div>
