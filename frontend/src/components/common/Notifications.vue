@@ -9,21 +9,21 @@
         <i class="bi bi-bell-fill"></i>
         <span v-if="Notifications.messages.value.length > 0 && dropdownShown > 0"
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">
-            {{dropdownShown}}<span class="visually-hidden">unread messages</span>
+            {{dropdownShown}}
         </span>
     </button>
     <ul class="p-0 dropdown-menu" @click="toggleDropdown">
-        <li v-if="storedNotifications.length <= 0 && Notifications.messages.value.length <= 0">No notifications</li>
+        <li v-if="storedNotifications.length <= 0 && Notifications.messages.value.length <= 0">{{ useI18n().t(`notif.noNotifications`) }}</li>
         <li v-for="(item, index) in Notifications.messages.value.slice().reverse()" :key="index">
           <div class="dropdown-item d-flex align-items-center me-2">
-            {{ item.content }}
+            {{ useI18n().t(`notif.${item.content}`) }}
             <button type="button" class="btn btn-sm btn-outline-dark ms-auto" aria-label="Close" @click.stop="dismissNotification(item, 'NEW')">X</button>
           </div>
           <hr v-if="storedNotifications.length > 0" class="dropdown-divider m-0">
         </li>
         <li v-for="(item, index) in storedNotifications.slice().reverse()" :key="index">
             <div class="dropdown-item d-flex align-items-center me-2">
-              {{ item.content }}
+              {{ useI18n().t(`notif.${item.content}`) }}
               <button type="button" class="btn btn-sm btn-outline-dark ms-auto" aria-label="Close" @click.stop="dismissNotification(item, 'STORED')">X</button>
             </div>
           <hr v-if="index !== storedNotifications.length - 1" class="dropdown-divider m-0">
@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import Backend from "../../js/Backend"
 import Notifications from "../../js/Notifications"
 import notificationSound from '../../assets/audio/notification.mp3'

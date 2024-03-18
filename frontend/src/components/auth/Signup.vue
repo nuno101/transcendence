@@ -3,7 +3,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content rounded-4 shadow">
 				<div class="modal-header p-5 pb-4 border-bottom-0">
-					<h1 class="fw-bold mb-0 fs-2"  id="signupModalToggleLabel">Sign Up</h1>
+					<h1 class="fw-bold mb-0 fs-2"  id="signupModalToggleLabel">{{useI18n().t('login.signUp')}}</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body p-5 pt-0">
@@ -13,16 +13,16 @@
 					</div>
 					<form @submit.prevent="SignUp" class="">
 						<div class="form-floating mb-3">
-							<input v-model="input.username" type="text" class="form-control rounded-3" id="floatingSignupUsername" placeholder="username">
-							<label for="floatingSignupUsername">Username</label>
+							<input v-model="input.username" type="text" class="form-control rounded-3" id="floatingSignupUsername" :placeholder="useI18n().t('username')">
+							<label for="floatingSignupUsername">{{useI18n().t('username')}}</label>
 						</div>
 						<div class="form-floating mb-3">
-							<input v-model="input.password" type="password" class="form-control rounded-3" id="floatingSignupPassword" placeholder="Password">
-							<label for="floatingSignupPassword">Password</label>
+							<input v-model="input.password" type="password" class="form-control rounded-3" id="floatingSignupPassword" :placeholder="useI18n().t('password')">
+							<label for="floatingSignupPassword">{{useI18n().t('password')}}</label>
 						</div>
-						<SubmitButton :loading="loading">Sign Up</SubmitButton>
+						<SubmitButton :loading="loading">{{useI18n().t('login.signUp')}}</SubmitButton>
 						<small class="text-body-secondary">
-							Already an account? <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Log In</a>
+							{{useI18n().t('login.alreadyHaveAnAccount')}} <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Log In</a>
 						</small>
 					</form>
 				</div>
@@ -32,6 +32,7 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { onMounted, ref } from 'vue'
 import Backend from '../../js/Backend'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'

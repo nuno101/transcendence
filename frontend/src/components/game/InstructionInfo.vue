@@ -21,8 +21,8 @@ const svgS = `
 
 <template>
     <div class="alert alert-primary" role="alert">
-        <strong>{{ props.firstplayer }}</strong> use <span v-html="svgW"></span> and <span v-html="svgS"></span> to move the <strong>left paddle</strong><br/>
-        <strong>{{ props.secondplayer }}</strong> use <i class="bi bi-caret-up-square"></i> and <i class="bi bi-caret-down-square"></i> to move the <strong>right paddle</strong>
+        <strong>{{ props.firstplayer }}</strong> {{useI18n().t('instruction.uses')}} <span v-html="svgW"></span> {{useI18n().t('instruction.and')}} <span v-html="svgS"></span> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.leftPaddle')}}</strong><br/>
+        <strong>{{ props.secondplayer }}</strong> {{useI18n().t('instruction.uses')}} <i class="bi bi-caret-up-square"></i> {{useI18n().t('instruction.and')}} <i class="bi bi-caret-down-square"></i> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.rightPaddle')}}</strong>
     </div>
 </template>
 
