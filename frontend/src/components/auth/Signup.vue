@@ -22,7 +22,7 @@
 						</div>
 						<SubmitButton :loading="loading">{{useI18n().t('login.signUp')}}</SubmitButton>
 						<small class="text-body-secondary">
-							{{useI18n().t('login.alreadyHaveAnAccount')}} <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">Log In</a>
+							{{useI18n().t('login.alreadyHaveAnAccount')}} <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">{{useI18n().t('login.login')}}</a>
 						</small>
 					</form>
 				</div>
@@ -60,6 +60,7 @@ const SignUp = async () => {
 		loading.value = false
 		signedup.value = true
 		bootstrap.Modal.getInstance(signupModal.value).hide()
+		new bootstrap.Modal(document.getElementById('loginModalToggle')).show()
 	} catch (err) {
 		loading.value = false
 		alerts.value.push({
