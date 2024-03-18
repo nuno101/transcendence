@@ -89,7 +89,11 @@ watch(filteredGames, () => {
             </td>
         </tr>
         </tbody>
-        <tbody v-else class="text-center">NO {{props.flag}}</tbody>
+        <tbody v-else class="text-center">
+          {{ props.flag === "WINS" ? useI18n().t('userstats.noWins')
+            : props.flag === "DEFEATS" ? useI18n().t('userstats.noDefeats')
+            : useI18n().t('userstats.noGames')}}
+        </tbody>
     </table>
     </div>   
 </template>
