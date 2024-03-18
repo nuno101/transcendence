@@ -54,7 +54,6 @@ class User(AbstractUser):
 			'nickname': self.nickname,
 			'created_at': str(self.created_at),
 			'updated_at': str(self.updated_at),
-			'avatar': self.get_avatar_url(),
 			'status': self.status if private else None,
 			'tournaments': tournaments_data
 		}
