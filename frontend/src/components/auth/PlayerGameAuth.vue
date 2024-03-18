@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">Authentication</h1>
+                <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">{{useI18n().t('auth.authentication')}}</h1>
                 <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div v-for="(player, index) in authPlayers" :key="index" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
@@ -14,23 +14,23 @@
                 <form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
                   <div class="form-floating mb-3">
                      <input v-if="player.isGiven" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="player.username" disabled required>
-                     <input v-else v-model="player.user.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="Enter Username" required>
-                      <label :for="'AuthUsername' + index">{{player.isGiven ? player.user.username : "Enter username"}}</label>
+                     <input v-else v-model="player.user.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" :placeholder="useI18n().t('username')" required>
+                      <label :for="'AuthUsername' + index">{{player.isGiven ? player.user.username : useI18n().t('username')}}</label>
                   </div>
                   <div class="form-floating mb-3">
-                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + index" placeholder="Password" required>
-                      <label :for="'AuthPassword' + index">Password</label>
+                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + index" :placeholder="useI18n().t('password')" required>
+                      <label :for="'AuthPassword' + index">{{useI18n().t('password')}}</label>
                   </div>
-                  <SubmitButton :loading="loading">Authenticate</SubmitButton>
+                  <SubmitButton :loading="loading">{{useI18n().t('auth.authenticate')}}</SubmitButton>
                 </form>
                 <div v-if="player.isAuthenticated" class="alert alert-success py-1" role="alert">
                   <i class="bi bi-person-fill-check"></i>
-                  {{player.user.username}} with nickname <strong>{{player.user.nickname}}</strong> successfully authenticated
+                  {{player.user.username}} {{useI18n().t('auth.withNickname')}} <strong>{{player.user.nickname}}</strong> {{useI18n().t('auth.successfullyAuth')}}
                 </div>
               </div>
               <div class="mx-auto mb-2 text-center pb-5" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
                 <InstructionInfo :firstplayer="authPlayers[0].user.nickname" :secondplayer="authPlayers[1].user.nickname"/>
-                <button type="button" class="btn btn-success" @click="startGame">Start Game</button>
+                <button type="button" class="btn btn-success" @click="startGame">{{useI18n().t('auth.startGame')}}</button>
               </div>
             </div>
         </div>
@@ -38,7 +38,8 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { onMounted, ref, computed, defineProps } from 'vue';
 import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
 import InstructionInfo from '../game/InstructionInfo.vue';
@@ -68,7 +69,8 @@ const openModal = () => {
   authPlayers.value.push({ 
   user: props.player1 ? props.player1 : { username: '' }, 
   isGiven: props.player1 !== null, 
-  isAuthenticated: props.player1 === globalUser.value.username, 
+  isAuthenticated: props.player1 === globalUser.value
+  name, 
   alerts: [] 
 });
 authPlayers.value.push({ 

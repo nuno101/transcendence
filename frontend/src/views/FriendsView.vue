@@ -72,12 +72,6 @@ const declineCancelDeleteRequest = async() => {
 	}
 };
 
-const modalTitles = {
-  deleteFriend: 'Are you sure you want to delete this friend?',
-  declineFriendRequest: 'Are you sure you want to decline this friend request?',
-  cancelFriendRequest: 'Are you sure you want to withdraw this friend request?',
-};
-
 onMounted(() => {
   fetchData();
 	new bootstrap.Modal('#friendsModalToggle', { keyboard: true })
@@ -95,7 +89,7 @@ onMounted(() => {
 							<div class="bigtable gamestable rounded img-thumbnail d-md-block">
 							<table class="table m-0">
 								<thead class="table-dark">
-									<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.listoffriends')}}</th></tr>
+									<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friends')}}</th></tr>
 								</thead>
 								<tbody v-if="Friends.friends.value && Friends.friends.value.length > 0">
 									<tr v-for="(friend, index) in Friends.friends.value" :key="friend">
@@ -106,7 +100,7 @@ onMounted(() => {
 										</td>
 									</tr>
 								</tbody>
-								<tbody v-else class="text-center">NO FRIENDS</tbody>
+								<tbody v-else class="text-center">{{useI18n().t('friendsview.noFriends')}}</tbody>
 							</table>
 						</div>
 						</div>
@@ -127,7 +121,7 @@ onMounted(() => {
 												</td>
 											</tr>
 										</tbody>
-										<tbody v-else class="text-center">No {{useI18n().t('friendsview.friendrequests')}}</tbody>
+										<tbody v-else class="text-center">{{useI18n().t('friendsview.noFriendRequests')}}</tbody>
 									</table>
 								</div>
 								<div class="mt-2 mt-lg-4 smalltable gamestable rounded img-thumbnail d-md-block">
@@ -144,7 +138,7 @@ onMounted(() => {
 												</td>
 											</tr>
 										</tbody>
-										<tbody v-else class="text-center">No {{useI18n().t('friendsview.pendingrequests')}}</tbody>
+										<tbody v-else class="text-center">{{useI18n().t('friendsview.noPendingRequests')}}</tbody>
 									</table>
 								</div>
 						</div>
@@ -155,9 +149,9 @@ onMounted(() => {
 				<div class="modal-dialog" role="document">
 					<div class="modal-content rounded-4 shadow">
 						<div class="modal-body p-3 text-center">
-							<h6>{{ modalTitles[modalFunction.name] || '' }}</h6>
-							<button class="btn btn-danger mt-2 me-2" @click="declineCancelDeleteRequest();">Confirm</button>
-							<button class="btn btn-secondary mt-2 ms-2" @click="closeModal">Cancel</button>
+							<h6 v-if="modalFunction.name">{{ useI18n().t(`friendsview.${modalFunction.name}`) || ''}}</h6>
+							<button class="btn btn-danger mt-2 me-2" @click="declineCancelDeleteRequest();">{{useI18n().t('confirm')}}</button>
+							<button class="btn btn-secondary mt-2 ms-2" @click="closeModal">{{useI18n().t('cancel')}}</button>
 						</div>
 					</div>
 				</div>
