@@ -57,14 +57,9 @@ urlpatterns = [
 
 	# Chat paths
 	path('channels', views_chat.ChannelCollection.as_view()),
-	path('channels/<int:channel_id>', views_chat.ChannelSingle.as_view()),
-  
-	path('channels/<int:channel_id>/members', views_chat.ChannelMemberCollection.as_view()),
-	path('channels/<int:channel_id>/members/<int:user_id>', views_chat.ChannelMemberSingle.as_view()),
 
 	path('channels/<int:channel_id>/messages', views_chat.ChannelMessageCollection.as_view()),
 
-	path('messages', views_chat.MessageCollection.as_view()),
 	path('messages/<int:message_id>', views_chat.MessageSingle.as_view()),
 ]
 

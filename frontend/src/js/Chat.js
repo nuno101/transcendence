@@ -10,40 +10,54 @@ class Chat {
     // cCONF: ChatView websocket event handler functions
     // ----------------------------------------------------------------------------
 
-    static async createMessage(data) {
+    static createChannel = async (data) => {
+        let channel = data.payload
+
+        this.channels.value.unshift(channel)
+    }
+
+    static deleteChannel = async (data) => {
+        let channel_id = data.payload.id
+
+        this.channels.value = this.channels.value.filter(c => c.id !== channel_id)
+    }
+
+    static createMessage = async (data) => {
         let url = window.location.pathname
 
         if (url.startsWith("/chat")) {
             let message = data.payload
             let channel_id = message.channel_id
 
-            let selected_channel = Chat.selected_channel.value
+            let selected_channel = this.selected_channel.value
             if (selected_channel && selected_channel.id == channel_id) {
-                Chat.messages.value.unshift(data.payload)
+                this.messages.value.unshift(data.payload)
             }
 
             // Update the channel's updated_at field
-            let channel = Chat.channels.value.find(c => c.id === channel_id)
+            let channel = this.channels.value.find(c => c.id === channel_id)
             channel.updated_at = data.payload.created_at
 
             // Move the channel to the top of the list
-            Chat.channels.value = Chat.channels.value.filter(c => c.id !== channel_id)
-            Chat.channels.value.unshift(channel)
+            this.channels.value = this.channels.value.filter(c => c.id !== channel_id)
+            this.channels.value.unshift(channel)
         } else {
             await Notifications.post(data);
         }
     }
 
-    static async deleteMessage(event) {
+    static deleteMessage = async (data) => {
         let url = window.location.pathname
 
         if (url.startsWith("/chat")) {
-            let message_id = event.payload.id
-            Chat.messages.value = Chat.messages.value.filter(m => m.id !== message_id)
+            let message_id = data.payload.id
+            this.messages.value = this.messages.value.filter(m => m.id !== message_id)
         }
     }
 
     // ----------------------------------------------------------------------------
+
+    
 }
 
 export default Chat
