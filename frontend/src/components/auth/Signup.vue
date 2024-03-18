@@ -60,6 +60,7 @@ const SignUp = async () => {
 		loading.value = false
 		signedup.value = true
 		bootstrap.Modal.getInstance(signupModal.value).hide()
+		new bootstrap.Modal(document.getElementById('loginModalToggle')).show()
 	} catch (err) {
 		loading.value = false
 		alerts.value.push({
