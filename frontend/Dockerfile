@@ -3,6 +3,7 @@ RUN apk add --upgrade apk-tools && apk upgrade --available
 RUN apk add nodejs npm
 WORKDIR /app
 COPY package.json ./
+COPY package-lock.json ./
 COPY vite.config.js ./
 COPY .eslintrc.cjs ./
 COPY .prettierrc.json ./
