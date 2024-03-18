@@ -1,10 +1,11 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
 </script>
 
 <template>
-    <h1>Page Not Found</h1>
+    <h1>{{ useI18n().t('notfound.pageNotFound') }}</h1>
     <p>
-        this page isn't available. <router-link to="/">home</router-link>
+        {{ useI18n().t('notfound.thisPageIsntAvailable') }} <router-link to="/">home</router-link>
     </p>
 </template>
 

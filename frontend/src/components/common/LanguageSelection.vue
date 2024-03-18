@@ -5,13 +5,14 @@
     </button>
     <ul class="dropdown-menu">
       <div v-for="lang in languages" :key="lang.title">
-        <li @click="changeLocale(lang.language)" class="dropdown-item">{{ lang.title }}</li>
+        <li @click="changeLocale(lang.language)" class="dropdown-item">{{ useI18n().t(`lang.${lang.title}`) }}</li>
       </div>
     </ul>
   </div>
 </template>
 
 <script setup>
+    import { useI18n } from 'vue-i18n';
     import {ref, onMounted} from 'vue';
     import i18n from "../../plugins/i18n";
     import "../../colors.css";
@@ -19,10 +20,10 @@
   const selected = ref('');
 
   const languages = ref([
-    { language: 'en', title: 'English' },
-    { language: 'es', title: 'Español' },
-    { language: 'fr', title: 'French' },
-    { language: 'de', title: 'German' }
+    { language: 'en', title: 'english' },
+    { language: 'es', title: 'spanish' },
+    { language: 'fr', title: 'french' },
+    { language: 'de', title: 'german' }
   ]);
 
   const changeLocale = (value) => {

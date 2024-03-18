@@ -1,3 +1,4 @@
+import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 import Backend from './Backend';
 
@@ -10,25 +11,24 @@ const parser = {
 // cCONF: Parser function to generate custom dynamic notification for 
 //        different websocket events
 // ----------------------------------------------------------------------------
-
 async function newMessage(data) {
     return {
         type: data.event,
-        content: "Go to chat to see new messages"
+        content: "newMessage"
     }
 }
 
 async function newFriendRequest(data) {
     return {
         type: data.event,
-        content: "Go to friends to see new friend request"
+        content: "newFriendRequest"
     }
 }
 
 async function newFriend(data) {
     return {
         type: data.event,
-        content: "Go to friends to see new friend"
+        content: "newFriends"
     }
 }
 // ----------------------------------------------------------------------------
