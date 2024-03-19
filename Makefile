@@ -2,7 +2,7 @@
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
-all: build pre_start_init up migrate
+all: build ssl_create up migrate
 
 build:
 	mkdir -p  $(HOME)/data/transcendence/volumes/E
@@ -12,8 +12,6 @@ build:
 
 up:
 	docker compose up -d
-
-pre_start_init: ssl_create
 
 init: migrate superuser
 
