@@ -6,6 +6,11 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
+if find ../ -type d -name ".ssl" -print -quit | grep -q .; then
+    echo "ssl_generate.sh: SSL directories already exist."
+    exit 0
+fi
+
 SUBJECT_FILE=$1
 
 if [[ ! -r "$SUBJECT_FILE" ]]; then
