@@ -183,15 +183,9 @@ onMounted(() => {
 				</div>
 
 				<div v-if="status === 'ongoing'">
-					<div class="overlay">
-						<div class="message-box">
-							<p>Tournament Progress:</p>
-							<div class="tcontainer">
-								<div class="tournament-bracket__round">
-									<GameSelection title="Select a game" :is_Creator="isCreator" :tournament_Id="tournamentId"/>										
-									<GameSelection title="Finished games" :is_Creator="isCreator" :tournament_Id="tournamentId"/>	
-								</div>
-							</div>
+					<div class="tcontainer">
+						<div class="tournament-bracket__round">
+							<GameSelection title="Select a game" :is_Creator="isCreator" :tournament_Id="tournamentId"/>											
 						</div>
 					</div>
 				</div>
@@ -215,6 +209,7 @@ onMounted(() => {
                         </tr>
                     </tbody>
                 </table>
+				<GameSelection title="Finished games" :is_Creator="isCreator" :tournament_Id="tournamentId"/>
             </div>
         </div>
     </div>
@@ -222,42 +217,6 @@ onMounted(() => {
 
 
 <style>
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.message-box {
-	height: 85%;
-    width: 60%; /* Set width to 80% of the screen */
-    max-width: 2000px; /* Set a maximum width to ensure it doesn't exceed a certain size */
-    margin: 0 auto; /* Center the message box horizontally */
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-	overflow: auto;
-	padding-top: 30px;
-}
-
-@media (max-width: 768px) {
-    .message-box {
-        max-width: 100%; /* Allow the message box to occupy the full width of the screen */
-        padding: 10px; /* Reduce padding on smaller screens */
-		width: 90%;
-		overflow: auto;
-		padding-top: 30px;
-    }
-}
 
 /*!
  * Responsive Tournament Bracket
@@ -268,7 +227,8 @@ onMounted(() => {
 .tcontainer {
   width: 90%;
   min-width: 18em;
-  margin: 20px auto;
+  padding-top:2em;
+  margin: 4px;
 }
 
 .tournament-bracket__round {

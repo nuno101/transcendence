@@ -30,9 +30,13 @@ const fetchData = async () => {
 	currentUser.value = await Backend.get('/api/users/me');
 	games.value = await Backend.get(`/api/tournaments/${props.tournament_Id}/games`);
 	console.log("props.title : ", props.title );	
-	if (props.title == "Select a game") { // use an integer 
-		gamesInfo.value = games.value.filter(game => game.status !== 'done' && game.status !== 'cancel');
-	}
+	if (props.title === "Select a game") {
+        gamesInfo.value = games.value.filter(game =>
+            game.status !== 'done' && game.status !== 'cancel' &&
+            (game.player1.username === currentUser.value.username || 
+             game.player2.username === currentUser.value.username)
+        );
+    }
 	else if (props.title == "Finished games") {
 		gamesInfo.value = games.value.filter(game => game.status === 'done' || game.status === 'cancel');
 	}
@@ -72,7 +76,7 @@ onMounted(() => {
 	<h3 class="tournament-bracket__round-title">{{ title }}</h3> <!-- NOT IF ALL GAMES ARE DONE -->
 	<ul v-if="gamesInfo" class="tournament-bracket__list">
 		<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
-			<div class="tournament-bracket__match" :class="{ 'user-not-player': (currentUser.nickname !== game.player1.nickname && currentUser.nickname !== game.player2.nickname) || (title === 'Finished games' ) }" tabindex="0" @click="handleGameClick(index)">						
+			<div class="tournament-bracket__match" :style="{ width: title === 'Finished games' ? '200%' : '100%' }" :class="{ 'user-not-player': title === 'Finished games' }" tabindex="0" @click="handleGameClick(index)">						
 				<table class="tournament-bracket__table">
 					<tbody class="tournament-bracket__content">
 						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player1_score > game.player2_score }">
@@ -93,26 +97,29 @@ onMounted(() => {
 						</tr>
 					</tbody>
 					<div style="margin-top: 10px;"></div>
-					<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
+					<h3 class="tournament-bracket__round-status">{{ game.status }}</h3>
 				</table>
 			</div>
 
 			<div v-if="isClicked === (index + 1)"> <!-- Test equal to zero or null or NULL -->
 				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">Cancel Game</button>
-				<button class="btn btn-success" @click="handleStartGameClick()">Start Game</button>
+				<button class="btn btn-success" @click="auth.openModal();">Start Game</button>
 			</div>
 		</li>
 	</ul>
-	<PlayerGameAuth
-	  v-if="showPlayerGameAuth && gamesInfo.length > 0"
+	<p v-else>No games available</p>
+	<PlayerGameAuth 
+	  class="PlayerGameAuth"
+	  v-if="gamesInfo.length > 0"
 	  ref="auth"
 	  :game_id="gamesInfo[indexes].id"
-	  :player1="gamesInfo[indexes].player1.username"
-	  :player2="gamesInfo[indexes].player2.username"
+	  :player1="gamesInfo[indexes].player1"
+	  :player2="gamesInfo[indexes].player2"
 	/>
 </template>
 
 <style>
+
 /*!
  * Responsive Tournament Bracket
  * Copyright 2016 Jakub Hájek
@@ -143,6 +150,13 @@ onMounted(() => {
   color: #9e9e9e;
   font-size: 0.95rem;
   font-weight: 400;
+  font-style: italic;
+}
+
+.tournament-bracket__round-status {
+  color: #9e9e9e;
+  font-size: 0.95rem;
+  font-weight: 400;
   text-align: center;
   font-style: italic;
 }
@@ -155,6 +169,7 @@ onMounted(() => {
   min-height: 60%;
   border-bottom: 1px dashed #e5e5e5;
   transition: padding 0.2s ease-in-out, margin 0.2s ease-in-out;
+  padding-left: 0;
   
   @media (max-width: @breakpoint-xs) {
     padding-bottom: 1em;
@@ -181,16 +196,8 @@ onMounted(() => {
   align-items: flex-start;
   position: relative;
   padding: 2% 0;
-  width: 48%;
   transition: padding 0.2s linear;
-  
-  &:nth-child(odd) {
-    margin-right: 2%;
-  }
-  
-  &:nth-child(even) {
-    margin-left: 2%;
-  }
+  width: 50%;
   
   &::after {
     transition: width 0.2s linear;
@@ -272,9 +279,12 @@ onMounted(() => {
   }
 }
 
+.custom-width-class {
+	width : 2000%
+}
+
 .tournament-bracket__match {
   display: flex;
-  width: 200%;
   background-color: #ffffff;
   padding: 1.5em;
   padding-bottom: 0.5em;
@@ -519,11 +529,11 @@ onMounted(() => {
   
   .tournament-bracket__team:first-child & {
     flex-direction: row-reverse;
-    padding-left: 0.75em;
+    padding-left: 1em;
   }
   
   .tournament-bracket__team:last-child & {
-    padding-right: 0.75em;
+    padding-right: 1em;
   }
 }
 
@@ -540,5 +550,4 @@ onMounted(() => {
     border-color: spin(shade(#ffee58, 2%), -10);
   }
 }
-
 </style>

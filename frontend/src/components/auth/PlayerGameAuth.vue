@@ -61,15 +61,12 @@ const props = defineProps({
 const authPlayers = ref([]);
 const loading = ref(false)
 
-onMounted(() => {
-  authPlayers.value.push({ username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
-  authPlayers.value.push({ username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
-})
-
 const openModal = () => {
-  if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
-    new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
+	if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
+    	new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
 	bootstrap.Modal.getInstance("#playerAuthToggle").show();
+	authPlayers.value.push({ username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
+	authPlayers.value.push({ username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
 };
 
 const closeModal = () => {
@@ -135,3 +132,8 @@ defineExpose({
   openModal,
 });
 </script>
+
+<style>
+
+
+</style>
