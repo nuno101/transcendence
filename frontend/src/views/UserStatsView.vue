@@ -6,6 +6,7 @@ import Loading from '../components/common/Loading.vue';
 import { useRoute } from 'vue-router';
 import GetAvatar from '../components/common/GetAvatar.vue';
 import StatsTable from '../components/dashboard/StatsTable.vue';
+import router from '../router'
 
 //  GENERAL
 const total = ref(null);
@@ -16,7 +17,7 @@ const winsRatio = ref(null);
 const userId = ref('');
 const user = ref({});
 const route = useRoute();
-const games = ref({});
+const games = ref([]);
 
 const isLoaded = ref(false);
 // defineModel --> wait until all avatars are rendered?
@@ -46,14 +47,14 @@ const fetchData = async() => {
   try {
       user.value = await Backend.get(`/api/users/${userId.value}`);
       games.value = await Backend.get(`/api/users/${userId.value}/games`);
-
       total.value = DefeatGames.value.length + WinGames.value.length;
       defeatsRatio.value = (DefeatGames.value.length / total.value) * 100;
       winsRatio.value = (WinGames.value.length / total.value) * 100;
   } catch (err) {
+    router.push({ name: 'pathnotfound' });
     console.error(err.message);
   } finally {
-    isLoaded.value = true; //data available
+      isLoaded.value = true;
   }
 };
 
@@ -79,13 +80,13 @@ const DefeatGames = computed(() => {
 <template>
     <div class="cont">
       <Loading v-if="!isLoaded"/>
-      <div v-if="isLoaded" class="box">
+      <div v-if="isLoaded && user.id" class="box">
         <div class="con mt-5">
             <div class="row">
               <div class="col-6">
                 <div class="bg-danger rounded-pill">
                   <div class="ms-4 p-2 ps-0 text-white d-flex justify-content-between">
-                    <div class="p-0">Defeats</div>
+                    <div class="p-0">{{useI18n().t('userstats.defeats')}}</div>
                     <div class="text-end pe-5">{{ DefeatGames.length }}</div>
                   </div>
                 </div>
@@ -94,7 +95,7 @@ const DefeatGames = computed(() => {
                 <div class="bg-success rounded-pill">
                 <div class="me-4 p-2 pe-0 text-white d-flex justify-content-between">
                   <div class="ps-5">{{ WinGames.length }}</div>
-                  <div class="text-end">Wins</div>
+                  <div class="text-end">{{useI18n().t('userstats.wins')}}</div>
                 </div>
               </div>
             </div>

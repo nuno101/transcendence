@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">Authentication</h1>
+                <h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">{{useI18n().t('auth.authentication')}}</h1>
                 <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div v-for="(player, index) in authPlayers" :key="index" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
@@ -14,23 +14,23 @@
                 <form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
                   <div class="form-floating mb-3">
                      <input v-if="player.isGiven" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="player.username" disabled required>
-                     <input v-else v-model="player.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" placeholder="Enter Username" required>
-                      <label :for="'AuthUsername' + index">{{player.isGiven ? player.username : "Enter username"}}</label>
+                     <input v-else v-model="player.user.username" type="text" class="form-control rounded-3" :id="'AuthUsername' + index" :placeholder="useI18n().t('username')" required>
+                      <label :for="'AuthUsername' + index">{{player.isGiven ? player.user.username : useI18n().t('username')}}</label>
                   </div>
                   <div class="form-floating mb-3">
-                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + index" placeholder="Password" required>
-                      <label :for="'AuthPassword' + index">Password</label>
+                      <input v-model="player.password" type="password" class="form-control rounded-3" :id="'AuthPassword' + index" :placeholder="useI18n().t('password')" required>
+                      <label :for="'AuthPassword' + index">{{useI18n().t('password')}}</label>
                   </div>
-                  <SubmitButton :loading="loading">Authenticate</SubmitButton>
+                  <SubmitButton :loading="loading">{{useI18n().t('auth.authenticate')}}</SubmitButton>
                 </form>
                 <div v-if="player.isAuthenticated" class="alert alert-success py-1" role="alert">
                   <i class="bi bi-person-fill-check"></i>
-                  {{player.username}} with nickname <strong>{{player.nickname}}</strong> successfully authenticated
+                  {{player.user.username}} {{useI18n().t('auth.withNickname')}} <strong>{{player.user.nickname}}</strong> {{useI18n().t('auth.successfullyAuth')}}
                 </div>
               </div>
               <div class="mx-auto mb-2 text-center pb-5" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
-                <InstructionInfo :firstplayer="authPlayers[0].nickname" :secondplayer="authPlayers[1].nickname"/>
-                <button type="button" class="btn btn-success" @click="startGame">Start Game</button>
+                <InstructionInfo :firstplayer="authPlayers[0].user.nickname" :secondplayer="authPlayers[1].user.nickname"/>
+                <button type="button" class="btn btn-success" @click="startGame">{{useI18n().t('auth.startGame')}}</button>
               </div>
             </div>
         </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { onMounted, ref, computed, defineProps } from 'vue';
 import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
@@ -62,11 +63,22 @@ const authPlayers = ref([]);
 const loading = ref(false)
 
 const openModal = () => {
-	if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
-    	new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
+  if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
+    new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
 	bootstrap.Modal.getInstance("#playerAuthToggle").show();
-	authPlayers.value.push({ username: props.player1,  isGiven: props.player1 !== null, isAuthenticated: props.player1 === globalUser.value.username, alerts: [] });
-	authPlayers.value.push({ username: props.player2, isGiven: props.player2 !== null, isAuthenticated: props.player2 === globalUser.value.username, alerts: [] });
+  authPlayers.value.push({ 
+  user: props.player1 ? props.player1 : { username: '' }, 
+  isGiven: props.player1 !== null, 
+  isAuthenticated: props.player1 === globalUser.value
+  name, 
+  alerts: [] 
+});
+authPlayers.value.push({ 
+  user: props.player2 ? props.player2 : { username: '' }, 
+  isGiven: props.player2 !== null, 
+  isAuthenticated: props.player2 === globalUser.value.username, 
+  alerts: [] 
+});
 };
 
 const closeModal = () => {
@@ -77,7 +89,7 @@ const closeModal = () => {
 const startGame = async() => {
   let gameId;
   if(!props.game_id)
-    gameId = await createSingleGame(authPlayers.value[0].userId, authPlayers.value[1].userId);
+    gameId = await createSingleGame(authPlayers.value[0].user.id, authPlayers.value[1].user.id);
   else
     gameId = props.game_id;
   closeModal();
@@ -100,16 +112,16 @@ const authenticate = async (player) => {
     player.alerts = []
 
     // CHECK DUPLICATED PLAYERS FOR SINGLE GAMES
-    const duplicatePlayer = authPlayers.value.find(p => p !== player && p.username === player.username);
+    const duplicatePlayer = authPlayers.value.find(p => p !== player && p.user.username === player.user.username);
     if(duplicatePlayer) {
       player.alerts.push({
-        message: "Username " + `${player.username} already taken`,
+        message: "Username " + `${player.user.username} already taken`,
         type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
       });
     } else {
-      const response = await Backend.post('/api/authenticate', { username: `${player.username}`, password: `${player.password}`});
-      player.userId = response.id;
-      player.nickname = response.nickname;
+      const response = await Backend.post('/api/authenticate', { username: `${player.user.username}`, password: `${player.password}`});
+      player.user.id = response.id;
+      player.user.nickname = response.nickname;
       player.isAuthenticated = true;
     } 
   } catch (err) {
@@ -120,7 +132,7 @@ const authenticate = async (player) => {
     })
     player.password = '';
     if(!player.isGiven)
-      player.username = '';
+      player.user.username = '';
   }
 }
 
@@ -132,8 +144,3 @@ defineExpose({
   openModal,
 });
 </script>
-
-<style>
-
-
-</style>
