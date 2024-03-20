@@ -48,15 +48,15 @@ import router from '../../router';
 import { globalUser } from '../../main';
 
 const props = defineProps({
-  game_id: {
-	default: null
-  },
-  player1: {
-	default: null
-  },
-  player2: {
-	default: null
-  }
+	game_id: {
+		default: null
+	},
+	player1: {
+		default: null
+	},
+	player2: {
+		default: null
+	}
 });
 
 const authPlayers = ref([]);
