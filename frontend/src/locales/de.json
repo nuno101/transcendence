@@ -70,6 +70,13 @@
       "noDefeats": "keine Niederlagen",
       "noGames": "keine Spiele"
     },
+    "usersview": {
+      "listofusers": "Benutzerliste",
+      "username": "Benutzername",
+      "nickname": "Spitzname",
+      "created_at": "Erstellt am",
+      "updated_at": "Aktualiziert am"
+    },
     "tournamentsview": {
       "tournaments": "Turniere",
       "titleoftournament": "Titel des Turniers",

@@ -11,7 +11,6 @@ from .helpers_games import get_user_games_done
 # Endpoint: /users
 @method_decorator(check_structure("/users"), name='dispatch')
 class UserCollection(View):
-	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		users = User.objects.order_by("username")
 		return JsonResponse([u.serialize() for u in users], safe=False)
