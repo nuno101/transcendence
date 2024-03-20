@@ -1,64 +1,74 @@
 {
     "language": "Français",
-    "gobacktodashboard": "Tableau de bord",
-    "homeview": {
-      "register": "S'inscrire",
-      "alreadyhaveanaccount": "Vous avez déjà un compte ?"
+    "confirm": "confirmer",
+    "cancel": "annuler",
+    "username": "Nom d'utilisateur",
+    "nickname": "Pseudo",
+    "password": "Mot de passe",
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "loading": "Chargement",
+    "lang": {
+        "english": "anglais",
+        "german": "allemand",
+        "spanish": "espagnol",
+        "french": "français"
     },
-    "loginview": {
-      "login": "Se connecter",
-      "nickname": "Pseudo",
-      "email": "E-mail",
-      "password": "Mot de passe"
+    "home": {
+        "ourTranscendenceProject": "Notre Projet Transcendence",
+        "transcendenceDescription": "Transcendence est le dernier projet du cursus principal à 42. Le but de ce projet est de développer une application web qui permet aux utilisateurs de jouer à un jeu de Pong de base tout en offrant une plateforme d'interaction sociale avec d'autres utilisateurs. Cela implique la mise en œuvre de différents modules, la prise de décisions concernant les technologies et les bibliothèques, et la garantie que toutes les décisions sont conformes aux exigences et aux limitations du projet.",
+        "connectOnGithub": "Connectez-vous avec nous sur Github"
     },
-    "registrationview": {
-  
+    "upcomingGames": {
+        "upcomingGames": "Prochains jeux",
+        "opponent": "Adversaire",
+        "tournament": "Tournoi",
+        "noUpcomingGames": "Aucun jeu à venir"
     },
-    "createprofileview": {
-        "createprofile": "Créer un Profil",
-        "nickname": "Pseudo",
-        "uploadavatar": "Télécharger un Avatar",
-        "createaccount": "Créer un Compte"
-    },
-    "dashboardview": {
-        "dashboard": "Tableau de bord",
-        "friends": "Amis",
-        "playponggame": "Jouer au Jeu de Pong",
-        "tournaments": "Tournois",
-        "profile": "Profil",
-        "settings": "Paramètres",
+    "login": {
+        "login": "Se connecter",
+        "new?": "Nouveau?",
+        "rememberMe": "Se souvenir de moi",
+        "signUp": "S'inscrire",
+        "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
         "logout": "Se déconnecter"
     },
-    "profileview": {
-        "myprofile": "Mon Profil",
-        "nickname": "Pseudo",
-        "avatar": "Avatar",
-        "statistics": "Statistiques",
-        "matchhistory": "Historique des Parties",
-        "winsandlosses": "Victoires / Défaites",
-        "numberofgames": "Nombre de Parties"
+    "header": {
+        "home": "Accueil",
+        "friends": "Amis",
+        "users": "Utilisateurs",
+        "chat": "Discussion",
+        "settings": "Paramètres",
+        "tournaments": "Tournois",
+        "game": "Jeu",
+        "online": "En ligne",
+        "onsite": "Sur place"
     },
-    "settingsview": {
-        "editprofile": "Éditer le Profil",
-        "nickname": "Pseudo",
-        "avatar": "Avatar",
-        "upload": "Télécharger",
-        "deletecurrent": "Supprimer l'actuel",
-        "savechanges": "Enregistrer les Changements"
+    "settings": {
+        "saveChanges": "Enregistrer les modifications",
+        "changeAvatar": "Changer l'avatar",
+        "newPassword": "Nouveau mot de passe",
+        "confirmNewPassword": "Confirmer le nouveau mot de passe",
+        "passwordsDoNotMatch": "les mots de passe ne correspondent pas"
     },
     "friendsview": {
-        "listoffriends": "Liste d'Amis",
+        "friends": "Amis",
         "friendrequests": "Demandes d'Amis",
-        "pendingrequests": "Demandes en Attente"
+        "pendingrequests": "Demandes en Attente",
+        "deleteFriend": "Voulez-vous supprimer cet ami ?",
+        "declineFriendRequest": "Voulez-vous refuser cette demande d'ami ?",
+        "cancelFriendRequest": "Voulez-vous retirer cette demande d'ami ?",
+        "noFriends": "aucun ami",
+        "noFriendRequests": "aucune demande d'ami",
+        "noPendingRequests": "aucune demande en attente",
+        "searchNickname": "Rechercher un pseudonyme"
     },
-    "friendstatsview": {
-        "profile": "Profil",
-        "nickname": "Pseudo",
-        "avatar": "Avatar",
-        "statistics": "Statistiques",
-        "matchhistory": "Historique des Parties",
-        "winsandlosses": "Victoires / Défaites",
-        "numberofgames": "Nombre de Parties"
+    "userstats": {
+        "wins" : "Victoires",
+        "defeats": "Défaites",
+        "noWins": "aucune victoire",
+        "noDefeats": "aucune défaite",
+        "noGames": "aucun match"
     },
     "usersview": {
         "listofusers" : "Liste des utilisateurs",
@@ -80,10 +90,6 @@
         "register" : "registre",
         "registrationclosed" : "Inscription clôturée"
     },
-    "gamemodesview": {
-        "online": "En ligne",
-        "onsite": "Sur place"
-    },
     "onlinegameview": {
         "inviteuser": "Inviter un Utilisateur",
         "findopponent": "Trouver un Adversaire"
@@ -93,5 +99,29 @@
     },
     "ponggameview": {
   
+    },
+    "auth": {
+        "authentication": "Authentification",
+        "authenticate": "authentifier",
+        "withNickname": "avec pseudo",
+        "successfullyAuth": "authentification réussie",
+        "startGame": "démarrer le jeu"
+    },
+    "instruction": {
+        "uses": "utilise",
+        "and": "et",
+        "toMoveThe": "pour déplacer la",
+        "leftPaddle": "raquette gauche",
+        "rightPaddle": "raquette droite"
+    },
+    "notif": {
+        "noNotifications": "Pas de notifications",
+        "newMessage": "Allez dans le chat pour voir les nouveaux messages",
+        "newFriendRequest": "Allez dans les amis pour voir les nouvelles demandes d'amitié",
+        "newFriends": "Allez dans les amis pour voir les nouveaux amis"
+    },
+    "notfound": {
+        "pageNotFound": "Page non trouvée",
+        "thisPageIsntAvailable": "Cette page n'est pas disponible"
     }
 }
