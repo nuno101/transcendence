@@ -13,22 +13,17 @@ const route = useRoute();
 const channels = ref([])
 const messageInput = ref('')
 const targetNickname = ref('')
+
+const blockedUsers = ref(null)
+
 const createChannelError = ref('')
 const messageError = ref('')
+const blockError = ref('')
 
 onMounted(() => {
     loadChannels();
-
-    // If the route has a channel_id parameter, load the messages for that channel
-    // TODO rburgsta: Make work
-    if (route.params.id) {
-        console.log(route.params.id)
-        let channel = Chat.channels.value.find(channel => channel.id === route.params.id)
-        if (channel) {
-            console.log(channel)
-            loadMessages(channel)
-        }
-    }
+    Chat.messages.value = []
+    Chat.selected_channel.value = null
 })
 
 async function loadChannels() {
@@ -87,6 +82,41 @@ async function deleteMessage(message) {
     }
 }
 
+async function blockUser() {
+    let dm_user = getChannelMember()
+    let blocked_users = null
+
+    try {
+        blocked_users = await Backend.get(`/api/users/me/blocked`)
+    } catch (err) {
+        // TODO: Error handling
+        console.log("Failed to get blocked users")
+        return
+    }
+
+    if (!blocked_users.some(e => e.id === dm_user.id)) {
+        try {
+            await Backend.post(`/api/users/me/blocked`, {
+                user_id: dm_user.id
+            })
+            console.log("Blocked user")
+        } catch (err) {
+            // TODO: Error handling
+            console.log(`Failed to block: ${err}`)
+        }
+    } else {
+        try {
+            let data = await Backend.delete(`/api/users/me/blocked/${dm_user.id}`, {
+                user_id: dm_user.id
+            })
+            console.log("Unblocked user")
+        } catch (err) {
+            // TODO: Error handling
+            console.log("Failed to unblock")
+        }
+    }
+}
+
 function getChannelMember() {
     if (Chat.selected_channel.value.members[0].id == globalUser.value.id) {
         return Chat.selected_channel.value.members[1]
@@ -120,11 +150,12 @@ function getChannelMember() {
 
         <!-- Container for selected channels -->
         <div v-if="Chat.selected_channel.value" class="col-md-9">
-            <div>
+            <div class="border rounded d-flex align-items-center justify-content-between">
                 <GetAvatar :id="getChannelMember().id" :size=45 class="avatar" />
-                <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
+                <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
                         getChannelMember().username
                     }}</router-link>
+                <button class="btn btn-danger" @click="blockUser">Block user</button>
             </div>
             <div class="message-container">
                 <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"

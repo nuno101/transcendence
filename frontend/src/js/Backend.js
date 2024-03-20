@@ -40,7 +40,11 @@ class Backend {
             await processError(respone)
         }
 
-        return await respone.json()
+        try {
+            return await respone.json()
+        } catch {
+            return null
+        }
     }
 
     static async get(path) {
@@ -55,7 +59,11 @@ class Backend {
             await processError(respone)
         }
 
-        return await respone.json()
+        try {
+            return await respone.json()
+        } catch {
+            return null
+        }
     }
 
     static async patch(path, patchData) {
@@ -74,7 +82,11 @@ class Backend {
             await processError(respone)
         }
 
-        return await respone.json();
+        try {
+            return await respone.json()
+        } catch {
+            return null
+        }
     }
 
     static async delete(path) {
