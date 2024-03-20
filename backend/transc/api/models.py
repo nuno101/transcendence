@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 import os
 
 # cCONF: Avatar file path config
@@ -8,7 +9,7 @@ AVATAR_PATH = 'avatars/'
 DEFAULT_AVATAR_NAME = os.getenv('DEFAULT_AVATAR_NAME', 'default.png')
 
 class User(AbstractUser):
-	def avatar_path(instance, filename):
+	def get_avatar_path(instance, filename):
 		# Get file extension
 		ext = filename.split('.')[-1]
 		return f'{AVATAR_PATH}{instance.id}.{ext}'
@@ -17,7 +18,7 @@ class User(AbstractUser):
 	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	avatar = models.ImageField(upload_to=avatar_path, null=True, blank=True)
+	avatar = models.ImageField(upload_to=get_avatar_path, null=True, blank=True)
 	tournaments = models.ManyToManyField('Tournament', related_name='participants', blank=True)
 
 	class States(models.TextChoices):
@@ -34,7 +35,7 @@ class User(AbstractUser):
 	blocked = models.ManyToManyField("self", blank=True, symmetrical=False)
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = []
+	REQUIRED_FIELDS = ['nickname']
 
 	def __str__(self):
 		return self.username
@@ -51,8 +52,8 @@ class User(AbstractUser):
 			'id': self.id,
 			'username': self.username,
 			'nickname': self.nickname,
-			'created_at': str(self.created_at),
-			'updated_at': str(self.updated_at),
+			'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
+			'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
 			'avatar': self.get_avatar_url(),
 			'status': self.status if private else None,
 			'tournaments': tournaments_data
@@ -120,8 +121,7 @@ class Game(models.Model):
 			ONGOING = "ongoing"
 			DONE = "done"
 			CANCELLED = "cancelled"
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE,
-																 blank=True, null=True, related_name="matches")
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, blank=True, null=True, related_name="matches")
 	player1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player1")
 	player2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player2")
 	status = models.CharField(
@@ -129,8 +129,20 @@ class Game(models.Model):
 		choices=MatchStatus.choices,
 		default=MatchStatus.CREATED,
 	)
-	player1_score = models.IntegerField(default=0)
-	player2_score = models.IntegerField(default=0)
+	player1_score = models.IntegerField(
+		default=0,
+		validators=[
+        MaxValueValidator(11),
+        MinValueValidator(0)
+      ]
+	)
+	player2_score = models.IntegerField(
+		default=0,
+		validators=[
+        MaxValueValidator(11),
+        MinValueValidator(0)
+      ]
+	)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
@@ -140,7 +152,7 @@ class Game(models.Model):
 	def serialize(self):
 		return {
 			'id': self.id,
-			'tournament_id':  self.tournament.id if self.tournament else None,
+			'tournament':  self.tournament.serialize() if self.tournament else None,
 			'player1': self.player1.serialize(),
 			'player2': self.player2.serialize(),
 			'status': self.status,
@@ -200,7 +212,7 @@ class Message(models.Model):
       return {
           'id': self.id,
           'content': self.content,
-          'author_id': self.author.id,
+          'author': self.author.serialize(),
           'channel_id': self.channel.id,
           'created_at': str(self.created_at),
           'updated_at': str(self.updated_at)

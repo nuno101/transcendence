@@ -1,3 +1,29 @@
+async function getResponseError(response) {
+    let error;
+    try {
+        error = (await response.json()).error
+    } catch {
+        error = response.status + " " +  response.statusText
+    }
+    return error
+}
+
+async function processError(response) {
+    let error = await getResponseError(response)
+
+    if(typeof error === 'string')
+        throw new Error(error);
+
+    const propertyNames = Object.keys(error);
+    let messages = '';
+    
+    for(let i = 0; i < propertyNames.length; i++)
+        messages += ('\n' + error[propertyNames[i]][0]);
+
+    throw new Error(messages);
+
+}
+
 class Backend {
     static async post(path, postdata) {
         const arg = {
@@ -10,8 +36,8 @@ class Backend {
         }
         const respone = await fetch(path, arg)
 
-        if (!respone.ok){
-            throw new Error((await respone.json()).error)
+        if(!respone.ok){
+            await processError(respone)
         }
 
         return await respone.json()
@@ -26,7 +52,7 @@ class Backend {
         const respone = await fetch(path, arg)
 
         if (!respone.ok) {
-            throw new Error((await respone.json()).error) 
+            await processError(respone)
         }
 
         return await respone.json()
@@ -35,16 +61,17 @@ class Backend {
     static async patch(path, patchData) {
         const arg = {
             method: 'PATCH',
+            credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
-			  },
-            credentials: 'include',
+			},
             body: JSON.stringify(patchData),
         };
+
         const respone = await fetch(path, arg);
 
         if (!respone.ok) {
-            throw new Error((await respone.json()).error);
+            await processError(respone)
         }
 
         return await respone.json();
@@ -58,7 +85,7 @@ class Backend {
         const respone = await fetch(path, arg)
         
         if (!respone.ok) {
-            throw new Error((await respone.json()).error) 
+            await processError(respone)
         }
     }
 
@@ -77,7 +104,7 @@ class Backend {
         }
 
         if (!respone.ok) {
-            throw new Error((await respone.json()).error) 
+            await processError(respone)
         }
 
         return await respone.json()
@@ -91,8 +118,8 @@ class Backend {
         }
         const respone = await fetch(path, arg)
 
-        if (!respone.ok){
-            throw new Error((await respone.json()).error)
+        if (!respone.ok) {
+            await processError(respone)
         }
 
         return await respone.json()

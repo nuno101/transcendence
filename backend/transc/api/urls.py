@@ -11,6 +11,7 @@ urlpatterns = [
 
 	path("login", views.Login.as_view()),
 	path("logout", views.Logout.as_view()),
+	path("authenticate", views.Authenticate.as_view()),
 
 	# Personal paths
 	path("users/me", views_personal.UserPersonal.as_view()),
@@ -40,10 +41,15 @@ urlpatterns = [
 	path("users/<int:user_id>/avatar", views_users.AvatarUser.as_view()),
 
 	path("users/<int:user_id>/games", views_users.GameCollectionUser.as_view()),
+	path("users/<int:user_id>/games_upcoming", views_users.GameCollectionUserUpcoming.as_view()),
 
 	# Tournament paths
 	path('tournaments', views_tournaments.TournamentCollection.as_view()),
 	path('tournaments/<int:tournament_id>', views_tournaments.TournamentSingle.as_view()),
+	path('tournaments/<int:tournament_id>/play', views_tournaments.TournamentSinglePlay.as_view()),
+	# Tournament games paths
+	path('tournaments/<int:tournament_id>/games', views_games.TournamentGameCollection.as_view()),
+	path('tournaments/<int:tournament_id>/games/<int:game_id>', views_games.TournamentGameSingle.as_view()),
 
 	# Game paths
 	path('games', views_games.GameView.as_view()),

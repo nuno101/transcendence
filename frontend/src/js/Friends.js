@@ -1,44 +1,51 @@
-import Backend from './Backend';
-
+import { ref } from 'vue';
+import Notifications from './Notifications';
 class Friends {
-    static acceptRequest = async (friends, friendsAvatar, friendRequests, friendRequestsAvatar, request) => {
-        try {
-            const acceptedRequest = await Backend.post(`/api/users/me/friends/requests/${request.id}`, {});
-            friends.push({"id": `${request.from_user.id}`, "nickname": `${request.from_user.nickname}`});
-            friendsAvatar[request.from_user.id] = friendRequestsAvatar[request.from_user.id];
-            const indexToDelete = friendRequests.findIndex(friendreq => friendreq.id === request.id);
-            if(indexToDelete !== -1){
-              friendRequests.splice(indexToDelete, 1);
-              console.log(friendRequestsAvatar);
-              delete friendRequestsAvatar[request.from_user.id];
-              console.log(friendRequestsAvatar);
-            }
-            console.log(acceptedRequest);
-          } catch (err) {
-              console.error(err.message);
-          }
-    };
+    static friends = ref([]);
+    static friendRequests = ref([]);
+    static pendingRequests = ref([]);
 
-    static declineCancelDeleteRequest = async(flag, requestArr, requestAvatar, request) => {
-        try {
-            if(flag === 'DELETEFRIEND')
-                await Backend.delete(`/api/users/me/friends/${request.id}`, {});
-            else if (flag === 'DECLINEFRIENDREQ' || flag === 'CANCELPENDREQ')
-                await Backend.delete(`/api/users/me/friends/requests/${request.id}`, {});
-            const indexToDelete = requestArr.value.findIndex(friendreq => friendreq.id === request.id);
-            if(indexToDelete !== -1) {
-                requestArr.value.splice(indexToDelete, 1);
-                if(flag === 'DELETEFRIEND')
-                delete requestAvatar.value[request.id];
-                else if(flag === 'DECLINEFRIENDREQ')
-                delete requestAvatar.value[request.from_user.id];
-                else if(flag === 'CANCELPENDREQ')
-                delete requestAvatar.value[request.to_user.id];
-            }
-        } catch (err) {
-            console.error(err.message);
+    static async declineFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends"))
+            Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friendreq => friendreq.id !== data.payload.id);
+    }
+
+    static async cancelFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends"))
+            Friends.friendRequests.value = Friends.friendRequests.value.filter(friendreq => friendreq.id !== data.payload.id);
+    }
+
+    static async removeFriend(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends"))
+            Friends.friends.value = Friends.friends.value.filter(friend => friend.id !== data.payload.id);
+    }
+
+    static async createFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            Friends.friendRequests.value.push(data.payload);
+        } else {
+            await Notifications.post(data);
         }
-    };
+    }
+
+    static async acceptFriendRequest(data) {
+        let url = window.location.pathname
+
+        if (url.startsWith("/friends")) {
+            Friends.friends.value.push(Friends.pendingRequests.value.find(friend => friend.id === data.payload.id)?.to_user);
+            Friends.pendingRequests.value = Friends.pendingRequests.value.filter(friend => friend.id !== data.payload.id);
+        } else {
+            await Notifications.post(data);
+        }
+    }    
 }
 
 export default Friends

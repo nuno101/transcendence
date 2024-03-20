@@ -1,4 +1,104 @@
+# 2024-03-12 Discord meeting:
+Attended by Jan, Julia, Robert and Nuno.
+
+Jan points to talk about:
+* blackhole: 68 days left for Nuno. (19th of May 2024)
+* next milestones - complete the 5 modules.
+  * created list of all issues in Github
+  * tickets scrubbing - fix all known issues!
+  * code freeze/ pre-release - everyone tests again and tries to find issues.
+  * all chosen modules should be working correctly.
+  * keep a list of enhancements if desired
+* some discussion about the single game workflow - Jan/ Julia to agree on this.
+* redirection on a game when part of the tournament
+
+Current Modules status:
+ * Major - use framework as backend - complete 
+ * Minor - use frontend framework - complete
+ * Minor - use DB for the backend - complete
+ * Major - user management - 
+	* known issue: avatar update
+ 	* known issue: add name of tournament
+	* user stats: show users list to allow visibility of statistics: Nuno TODO
+ * Major - Live Chat - development ongoing 
+	* Tournament start - status change to ongoing should trigger notifications/chat message to users - part of Live Chat module. Nuno to work with Robert to implement this.
+	* block user logic to be reviewed - involves at least Friends requests and Chat.
+	* button for user invite another user for a game to trigger a live-chat message
+ * Minor - expand browser compatibility - using Chrome and Firefox
+ * Minor - multiple language support
+	* user lacking language property
+	* 2 known issues open
+
+* TODO tasks
+ * add proxy for https support
+ * deploy at school and see whether everything works as expected
+
+
+# 2024-03-06 Discord meeting:
+Attended by all.
+
+Robert:
+* [ ] Fix avatars not updating
+* [ ] Implement chat
+  * [ ] Implement feature to see which channel is selected
+  * [ ] Implement feature to be able to invite others to play a game via chat message
+  * [ ] Implement feature to notify users when a game starts?
+  * [ ] Implement feature to create new channel
+  * [ ] Implement feature to delete (or leave?) channels
+  * [ ] Implement feature to add users to channels
+  * [ ] Implement feature to remove users from channels
+  * [ ] Implement feature to block/unblock user
+  * [x] Implement feature to be able to access user profile via chat interface
+
+# 2024-02-28 Discord meeting:
+Attended by all.
+
+Jan:
+- wants to improve the game physics
+- another week and it should be done
+
+Julia:
+- welcome page footer added
+- dashboard removed
+- websockets based notifications working
+- statistics of users to be updated to remove restrictions (all users can see all statistics)
+- Online Status on FriendsView
+- UserStatsView instead of ProfileView
+- * [ ] create reusable avatar component
+- * [ ] create reusable component for FriendsView tables
+- * [ ] All StatsTables in one component
+* [ ] Implement second player authentication for onsite game
+
+Anouk:
+- tournament logic implementation
+- rendering of tournaments
+
+Nuno:
+- added pull requests review with Robert: everyone fine with it
+- wants to finalise the games logic 
+- suggests freezing each module when good enough and asking someone who was not involved in its development to do some  independent testing/ review
+
+
+Robert:
+- will work in the chat also to learn Vue.js
+* [ ] ~~Implement automatic check for user serialization to decide if private output should be included, e.g. online status in case requesting user is a friend~~
+* [ ] Fix avatars not updating
+* [ ] ~~Fix/Fully implement user online status -> current state enough?~~
+* [ ] Implement chat
+  * [x] Implement listing of channels
+  * [x] Implement feature to select the channel to view the messages of
+  * [x] Implement feature to send messages in a channel
+  * [x] Implement feature to delete messages in a channel
+  * [ ] Implement feature to create new channel
+  * [ ] Implement feature to delete (or leave?) channels
+  * [ ] Implement feature to add users to channels
+  * [ ] Implement feature to remove users from channels
+  * [ ] Implement feature to block/unblock user
+* [ ] ~~Add endpoint/feature to check if user credentials are correct without logging in~~
+
+
 # 2024-02-20 Discord meeting:
+Attended by all.
 
 Jan:
 * bug fixing on header component
@@ -19,7 +119,13 @@ Nuno:
 * asked Robert about how to use Postman with authentication (demo after the meeting)
   
 Robert:
-* TODO
+* [ ] Check and implement where websocket events are still missing
+* [ ] Add avatar functionality in backend
+  * [ ] Implement system so that if user updates the old image deleted so that the user can't create unused avatars on the server file system
+  * [ ] Fix avatars not updating correctly
+* [x] ~~Add parameter type verification/validation in endpoint structure~~ --> Can be implemented via model field limit
+* [x] ~~Add parameter min/max validation in endpoint structure~~ --> Can be implemented via model field limit
+* [x] Implement max/min limits for game score --> Limits set at django model level
 
 
 # 2024-02-13 Discord meeting:

@@ -9,10 +9,10 @@ import SingleTournamentsView from './SingleTournamentsView.vue';
 const tournaments = ref([])
 const userTournaments = ref([])
 const submit = ref(false);
-const input = defineModel();
-input.value = {title: '', description: ''};
+const input = ref({ title: '', description: '' })
 const showAlert = ref(false);
 const personalTournaments = ref([]);
+const currentUser = ref(false);
 
 const fetchData = async () => {
   try {
@@ -22,7 +22,7 @@ const fetchData = async () => {
 	userTournaments.value = await Backend.get(`/api/users/me`);
 	personalTournaments.value = userTournaments.value.tournaments;
 	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
-
+	currentUser.value = userTournaments.value.username;
     return tournaments.value;
   } catch (err) {
     console.error(err.message);
@@ -37,7 +37,6 @@ const addNewTournament = async () => {
 		showAlert.value = true;
 		return;
     }
-
     let data = await Backend.post('/api/tournaments', input.value);
     tournaments.value.push(data);
 	cancelModal();
@@ -45,32 +44,7 @@ const addNewTournament = async () => {
 	userTournaments.value = await Backend.patch(`/api/users/me`, { "tournament_id": `${data.id}` });
 	personalTournaments.value = userTournaments.value.tournaments;
 	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-//FIXME -  the function below is not working atm
-const updatestateTournament = async (t_id, state) => {
-  try {
-    let data = await Backend.put('/api/tournaments/'+ t_id, state);
-    console.log("in POST: " + data);
-    //tournaments.value.push(data);
-
-    resetInputFields();
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-const deleteTournament = async (t_id) => {
-  try {
-    await Backend.delete('/api/tournaments/'+ t_id, input.value);
-    console.log("in POST: " + tournaments.value);
-    // FIXME - the line below is not working atm. should delete the tournament from the list
-    //tournaments.value.delete(t_id)
-
-    resetInputFields();
+	
   } catch (err) {
     console.error(err.message);
   }
@@ -85,6 +59,14 @@ const cancelModal = () => {
 const resetInputFields = () => {
    input.value.title = '';
    input.value.description = '';
+};
+
+const deleteMyTournament = async () => {
+  try {
+    await Backend.delete(`/api/tournaments/${tournamentId.value}`);
+  } catch (err) {
+    console.error(err.message);
+  }
 };
 
 onMounted(() => {
@@ -161,7 +143,7 @@ onMounted(() => {
                         </div>
                         <div class="form-group">
                             <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
-                            <input class="form-control" id="descripti`on" placeholder="Enter description" v-model="input.description" required>
+                            <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
                         </div>
                         <br/>
                         <div>
@@ -189,7 +171,6 @@ onMounted(() => {
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
-                    <th scope="col">{{useI18n().t('tournamentsview.actions')}}</th>
                     </tr>
                 </thead>
 
@@ -200,13 +181,17 @@ onMounted(() => {
                                 {{ tournament.title }}
                             </router-link>
                         </td>
-						<td>{{ tournament.creator.username }}</td>
+						<td>
+							<template v-if="tournament.creator.username === currentUser">
+								<b>{{ tournament.creator.username }} (You)</b>
+							</template>
+							<template v-else>
+								{{ tournament.creator.username }}
+							</template>
+                    	</td>
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
-                        <td style="text-align: center;">
-    						<a href="#" @click="deleteTournament(tournament.id)"><i class="bi bi-trash3-fill"></i></a>
-						</td>
                     </tr>
                 </tbody>
             </table>

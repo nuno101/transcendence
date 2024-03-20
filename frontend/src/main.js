@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, ref } from 'vue';
 import App from './App.vue';
 import router from './router';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -6,8 +6,24 @@ import 'bootstrap/dist/js/bootstrap.bundle' // suffix .min.js is causing bugs fo
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Websocket from './js/Websocket';
 import i18n from './plugins/i18n';
+import Chat from './js/Chat'
+import Friends from './js/Friends'
 
-Websocket.initializeWebSocket();
+export const globalUser = ref(localStorage.getItem('globalUser') ? JSON.parse(localStorage.getItem('globalUser')) : null);
+
+// cCONF: Structure where all event handlers are defined for the global event websocket
+const handlersEvent = {
+    "create_message": Chat.createMessage,
+    "delete_message": Chat.deleteMessage,
+    "create_friend_request" : Friends.createFriendRequest,
+    "accept_friend_request" : Friends.acceptFriendRequest,
+    "cancel_friend_request" : Friends.cancelFriendRequest,
+    "decline_friend_request" : Friends.declineFriendRequest,
+    "remove_friend" : Friends.removeFriend
+}
+
+// The websocket that will handle all global events
+export const globalWS = new Websocket('/api/ws/events', handlersEvent);
 
 const app = createApp(App);
 

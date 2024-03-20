@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <h1 class="fw-bold mb-0 fs-2"  id="loginModalToggleLabel">Log In</h1>
+                <h1 class="fw-bold mb-0 fs-2"  id="loginModalToggleLabel">Login</h1>
                 <button @click="CloseModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -27,7 +27,7 @@
                         Remember me
                     </label>
                 </div>
-                <SubmitButton :loading="loading">Log In</SubmitButton>
+                <SubmitButton :loading="loading">Login</SubmitButton>
                 <small class="text-body-secondary">New? <a href="#signupModalToggle" data-bs-target="#signupModalToggle" data-bs-toggle="modal">Sign up</a></small>
                 <!-- FIXME: <hr class="my-4">
                 <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
@@ -49,10 +49,11 @@ import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import router from '../../router';
+import { globalUser} from '../../main.js';
 
 const props = defineProps({ forcelogin: Boolean })
-const logged = defineModel('logged')
 const signedup = defineModel('signedup')
+const status = defineModel('status')
 const input = { username: '', password: '' }
 const loginModal = ref(null)
 const alerts = ref([])
@@ -86,19 +87,20 @@ const LogIn = async () => {
   try {
     alerts.value = []
     loading.value = true
-    const response = await Backend.post('/api/login?remember=' + remember, input)
+    globalUser.value = await Backend.post('/api/login?remember=' + remember, input)
     loading.value = false
+    status.value = true
+    localStorage.setItem('globalUser', JSON.stringify(globalUser.value));
     let bsLoginModal = bootstrap.Modal.getInstance("#loginModalToggle")
     bsLoginModal.hide()
-    logged.value.status = true
-    logged.value.username = response.username
     if (props.forcelogin) {
       const urlParams = new URLSearchParams(document.location.search)
-      router.replace(urlParams.get('continue'))
+      router.replace(decodeURIComponent(urlParams.get('continue')))
     } else if (route.name === 'logout') {
       router.replace({ name: 'home' })
     }
   } catch (err) {
+    globalUser.value = null;
     loading.value = false
     alerts.value.push({
       message: err.message,
