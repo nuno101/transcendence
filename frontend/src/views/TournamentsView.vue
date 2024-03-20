@@ -2,9 +2,10 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted, defineProps, watch } from 'vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import SingleTournamentsView from './SingleTournamentsView.vue';
+import { useRoute } from 'vue-router'
 
 const tournaments = ref([])
 const userTournaments = ref([])
@@ -13,6 +14,12 @@ const input = ref({ title: '', description: '' })
 const showAlert = ref(false);
 const personalTournaments = ref([]);
 const currentUser = ref(false);
+
+const route = useRoute();
+
+watch(route, (newRoute) => {
+  bootstrap.Modal.getInstance("#CreateTournamentModal")?.hide()
+})
 
 const fetchData = async () => {
   try {
@@ -88,6 +95,7 @@ onMounted(() => {
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
+					<th scope="col">Players</th>
                     </tr>
                 </thead>
 
@@ -102,6 +110,7 @@ onMounted(() => {
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
+						<td>{{ tournament.players.length }}</td>
                         <td>
                             <!-- FIXME - the button s below are not working atm
                             <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
@@ -171,6 +180,7 @@ onMounted(() => {
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
+					<th scope="col">Players</th>
                     </tr>
                 </thead>
 
@@ -192,6 +202,7 @@ onMounted(() => {
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
+						<td>{{ tournament.players.length }}</td>
                     </tr>
                 </tbody>
             </table>
