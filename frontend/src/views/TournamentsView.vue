@@ -95,6 +95,7 @@ onMounted(() => {
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
+					<th scope="col">Players</th>
                     </tr>
                 </thead>
 
@@ -109,6 +110,7 @@ onMounted(() => {
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
+						<td>{{ tournament.players.length }}</td>
                         <td>
                             <!-- FIXME - the button s below are not working atm
                             <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
@@ -178,6 +180,7 @@ onMounted(() => {
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
+					<th scope="col">Players</th>
                     </tr>
                 </thead>
 
@@ -199,6 +202,7 @@ onMounted(() => {
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
                         <td>{{ tournament.status }}</td>
+						<td>{{ tournament.players.length }}</td>
                     </tr>
                 </tbody>
             </table>

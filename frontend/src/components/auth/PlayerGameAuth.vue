@@ -69,7 +69,7 @@ const openModal = () => {
   authPlayers.value.push({ 
   user: props.player1 ? props.player1 : { username: '' }, 
   isGiven: props.player1 !== null, 
-  isAuthenticated: props.player1 === globalUser.value
+  isAuthenticated: props.player1 === globalUser.value,
   name, 
   alerts: [] 
 });

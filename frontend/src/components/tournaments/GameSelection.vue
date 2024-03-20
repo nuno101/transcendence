@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed, defineProps } from 'vue';
+import { onMounted, ref, watch, defineProps, defineEmits } from 'vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import router from '../../router';
 import Backend from '../../js/Backend';
@@ -7,12 +7,9 @@ import PlayerGameAuth from '../auth/PlayerGameAuth.vue';
 
 const currentUser = ref(false);
 const isClicked = ref(0);
-const games = ref(null);
 const gamesInfo = ref([]);
-const completedGames = ref(false);
 const auth = ref(null);
 const indexes = ref(0);
-const showPlayerGameAuth = ref(false);
 
 const props = defineProps({
   title: {
@@ -23,22 +20,25 @@ const props = defineProps({
   },
   tournament_Id: {
     default: null
+  },
+  games:{
+	  default: null
   }
 });
 
+const emits = defineEmits(['update:games']);
+
 const fetchData = async () => {
 	currentUser.value = await Backend.get('/api/users/me');
-	games.value = await Backend.get(`/api/tournaments/${props.tournament_Id}/games`);
-	console.log("props.title : ", props.title );	
 	if (props.title === "Select a game") {
-        gamesInfo.value = games.value.filter(game =>
-            game.status !== 'done' && game.status !== 'cancel' &&
+        gamesInfo.value = props.games.filter(game =>
+            game.status !== 'done' && game.status !== 'cancelled' &&
             (game.player1.username === currentUser.value.username || 
              game.player2.username === currentUser.value.username)
         );
     }
 	else if (props.title == "Finished games") {
-		gamesInfo.value = games.value.filter(game => game.status === 'done' || game.status === 'cancel');
+		gamesInfo.value = props.games.filter(game => game.status === 'done' || game.status === 'cancelled');
 	}
 };
 
@@ -55,31 +55,31 @@ document.body.addEventListener('click', (event) => {
 
 const cancelGame = async (game_id) => {
   try {
-    await Backend.get(`/api/tournaments/${props.tournament_Id}/games/game_id`);
+    await Backend.delete(`/api/tournaments/${props.tournament_Id}/games/${game_id}`);
+	emits('update:games', await Backend.get(`/api/tournaments/${props.tournament_Id}/games`));
   } catch (err) {
     console.error(err.message);
   }
-};
-
-const handleStartGameClick = () => {
-	auth.openModal();
-    showPlayerGameAuth.value = true;
 };
 
 onMounted(() => {
 	fetchData();
 })
 
+watch(() => props.games, () => {
+  fetchData();
+});
+
 </script>
 
 <template>
-	<h3 class="tournament-bracket__round-title">{{ title }}</h3> <!-- NOT IF ALL GAMES ARE DONE -->
-	<ul v-if="gamesInfo" class="tournament-bracket__list">
+	<h3 class="tournament-bracket__round-title">{{ title }} ({{gamesInfo.length}})</h3> <!-- NOT IF ALL GAMES ARE DONE -->
+	<ul v-if="gamesInfo && gamesInfo.length > 0" class="tournament-bracket__list">
 		<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
 			<div class="tournament-bracket__match" :style="{ width: title === 'Finished games' ? '200%' : '100%' }" :class="{ 'user-not-player': title === 'Finished games' }" tabindex="0" @click="handleGameClick(index)">						
 				<table class="tournament-bracket__table">
 					<tbody class="tournament-bracket__content">
-						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player1_score > game.player2_score }">
+						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': (game.player1_score > game.player2_score && game.status === 'done') }">
 							<td class="tournament-bracket__country">
 								<abbr class="tournament-bracket__code">{{ game.player1.nickname }}</abbr>
 							</td>
@@ -87,7 +87,7 @@ onMounted(() => {
 								<span class="tournament-bracket__number">{{ game.status === 'done' ? game.player1_score : '_' }}</span>
 							</td>
 						</tr>
-						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player2_score > game.player1_score }">
+						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': (game.player2_score > game.player1_score && game.status === 'done') }">
 							<td class="tournament-bracket__country">
 								<abbr class="tournament-bracket__code">{{ game.player2.nickname }}</abbr>
 							</td>
@@ -100,7 +100,6 @@ onMounted(() => {
 					<h3 class="tournament-bracket__round-status">{{ game.status }}</h3>
 				</table>
 			</div>
-
 			<div v-if="isClicked === (index + 1)"> <!-- Test equal to zero or null or NULL -->
 				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">Cancel Game</button>
 				<button class="btn btn-success" @click="auth.openModal();">Start Game</button>
@@ -167,7 +166,6 @@ onMounted(() => {
   justify-content: center;
   height: 60%;
   min-height: 60%;
-  border-bottom: 1px dashed #e5e5e5;
   transition: padding 0.2s ease-in-out, margin 0.2s ease-in-out;
   padding-left: 0;
   
