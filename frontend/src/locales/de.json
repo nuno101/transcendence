@@ -1,64 +1,74 @@
 {
     "language": "Deutsch",
-    "gobacktodashboard": "Dashboard",
-    "homeview": {
-      "register": "Registrieren",
-      "alreadyhaveanaccount": "Du bist bereits registriert?"
+    "confirm": "bestätigen",
+    "cancel": "abbrechen",
+    "username": "Benutzername",
+    "nickname": "Nickname",
+    "password": "Passwort",
+    "online": "Online",
+    "offline": "Offline",
+    "loading": "Laden",
+    "lang": {
+      "english": "Englisch",
+      "german": "Deutsch",
+      "spanish": "Spanisch",
+      "french": "Französisch"
     },
-    "loginview": {
-      "login": "Login",
-      "nickname": "Nickname",
-      "email": "E-Mail",
-      "password": "Passwort"
+    "home": {
+      "ourTranscendenceProject": "Unser Transcendence Projekt",
+      "transcendenceDescription": "Transcendence ist das letzte Projekt des Grundstudiums an der 42. Das Ziel dieses Projekts ist die Entwicklung einer Webanwendung, die es Benutzern ermöglicht, ein einfaches Pong-Spiel zu spielen und gleichzeitig eine Plattform für soziale Interaktion mit anderen Benutzern bereitzustellen. Es umfasst die Implementierung verschiedener Module, die Auswahl von Technologien und Bibliotheken sowie die Gewährleistung, dass alle Entscheidungen den Anforderungen und Einschränkungen des Projekts entsprechen.",
+      "connectOnGithub": "Verbinde dich mit uns auf Github"
     },
-    "registrationview": {
-  
+    "upcomingGames": {
+      "upcomingGames": "Bevorstehende Spiele",
+      "opponent": "Gegner",
+      "tournament": "Turnier",
+      "noUpcomingGames": "Keine bevorstehenden Spiele"
     },
-    "createprofileview": {
-      "createprofile": "Profil erstellen",
-      "nickname": "Nickname",
-      "uploadavatar": "Avatar hochladen",
-      "createaccount": "Account erstellen"
-    },
-    "dashboardview": {
-      "dashboard": "Dashboard",
-      "friends": "Freunde",
-      "playponggame": "Pong Game spielen",
-      "tournaments": "Turniere",
-      "profile": "Profil",
-      "settings": "Einstellungen",
+    "login": {
+      "login": "Anmelden",
+      "new?": "Neu?",
+      "rememberMe": "Erinnere dich an mich",
+      "signUp": "Registrieren",
+      "alreadyHaveAnAccount": "Du bist bereits registriert?",
       "logout": "Abmelden"
     },
-    "profileview": {
-      "myprofile": "Mein profil",
-      "nickname": "Nickname",
-      "avatar": "Avatar",
-      "statistics": "Statistiken",
-      "matchhistory": "Spieleprotokoll",
-      "winsandlosses": "Gewinne / Verluste",
-      "numberofgames": "Anzahl der Spiele"
+    "header": {
+      "home": "Startseite",
+      "friends": "Freunde",
+      "users": "Benutzer",
+      "chat": "Chat",
+      "settings": "Einstellungen",
+      "tournaments": "Turniere",
+      "game": "Spiel",
+      "online": "Online",
+      "onsite": "Vor Ort"
     },
-    "settingsview": {
-      "editprofile": "Profil bearbeiten",
-      "nickname": "Nickname",
-      "avatar": "Avatar",
-      "upload": "Hochladen",
-      "deletecurrent": "Aktuellen Avatar löschen",
-      "savechanges": "Änderungen speichern"
+    "settings": {
+      "saveChanges": "Änderungen speichern",
+      "changeAvatar": "Avatar ändern",
+      "newPassword": "neues Passwort",
+      "confirmNewPassword": "neues Passwort bestätigen",
+      "passwordsDoNotMatch": "Passwörter stimmen nicht überein"
     },
     "friendsview": {
-      "listoffriends": "Freundesliste",
+      "friends": "Freunde",
       "friendrequests": "Freundschaftsanfragen",
-      "pendingrequests": "Ausstehende Anfragen"
+      "pendingrequests": "Ausstehende Anfragen",
+      "deleteFriend": "Möchtest du diesen Freund entfernen?",
+      "declineFriendRequest": "Möchtest du diese Freundschaftsanfrage ablehnen?",
+      "cancelFriendRequest": "Möchtest du diese Freundschaftsanfrage zurückziehen?",
+      "noFriends": "keine Freunde",
+      "noFriendRequests": "keine Freundschaftsanfragen",
+      "noPendingRequests": "keine ausstehenden Anfragen",
+      "searchNickname": "Nickname suchen"
     },
-    "friendstatsview": {
-      "profile": "Profil",
-      "nickname": "Nickname",
-      "avatar": "Avatar",
-      "statistics": "Statistiken",
-      "matchhistory": "Spieleprotokoll",
-      "winsandlosses": "Gewinne / Verluste",
-      "numberofgames": "Anzahl der Spiele"
+    "userstats": {
+      "wins" : "Gewinne",
+      "defeats": "Niederlagen",
+      "noWins": "keine Gewinne",
+      "noDefeats": "keine Niederlagen",
+      "noGames": "keine Spiele"
     },
     "usersview": {
       "listofusers": "Benutzerliste",
@@ -71,7 +81,7 @@
       "tournaments": "Turniere",
       "titleoftournament": "Titel des Turniers",
       "descriptionoftournament": "Beschreibung des Turniers",
-	  "creatortournamentnickname": "Ihr Turnier-Spitzname (Ersteller)",
+	    "creatortournamentnickname": "Ihr Turnier-Spitzname (Ersteller)",
       "cancel" : "abbrechen",
       "addtournament" : "Turnier hinzufügen",
       "addnewtournament" : "neues Turnier erstellen",
@@ -79,10 +89,6 @@
       "status" : "Status",
       "register" : "registrieren",
       "registrationclosed" : "Registrierung geschlossen"
-     },
-    "gamemodesview": {
-      "online": "Online",
-      "onsite": "Onsite"
     },
     "onlinegameview": {
       "inviteuser": "Nutzer einladen",
@@ -93,5 +99,29 @@
     },
     "ponggameview": {
   
+    },
+    "auth": {
+      "authentication": "Authentifizierung",
+      "authenticate": "authentifizieren",
+      "withNickname": "mit Nickname",
+      "successfullyAuth": "erfolgreich authentifiziert",
+      "startGame": "Spiel starten"
+    },
+    "instruction": {
+      "uses": "verwendet",
+      "and": "und",
+      "toMoveThe": "zur Bewegung des",
+      "leftPaddle": "linken Schläger",
+      "rightPaddle": "rechten Schläger"
+    },
+    "notif": {
+      "noNotifications": "Keine Benachrichtigungen",
+      "newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",
+      "newFriendRequest": "Gehe zu Freunden, um neue Freundesanfragen zu sehen",
+      "newFriends": "Gehe zu Freunden, um neue Freunde zu sehen"
+    },
+    "notfound": {
+      "pageNotFound": "Seite nicht gefunden",
+      "thisPageIsntAvailable": "Diese Seite ist nicht verfügbar"
     }
   }

@@ -3,14 +3,13 @@ class Scores {
 	static #right
 	static max = 10
 
-    static init() {
-        Scores.#left = localStorage.getItem('leftScore') | 0
-        Scores.#right = localStorage.getItem('rightScore') | 0
+    static init(left = 0, right = 0) {
+        Scores.#left = left
+        Scores.#right = right
     }
 	
 	static leftScored(callback) {
 		Scores.#left++
-		localStorage.setItem('leftScore', Scores.#left.toString())
 		Scores.#scored(callback)
 	}
 
@@ -20,7 +19,6 @@ class Scores {
 	
 	static rightScored(callback) {
 		Scores.#right++
-		localStorage.setItem('rightScore', Scores.#right.toString())
 		Scores.#scored(callback)
 	}
 
@@ -36,13 +34,7 @@ class Scores {
 	static reset() {
 		Scores.#left = 0
 		Scores.#right = 0
-        Scores.resetLocalStorage()
 	}
-    
-    static resetLocalStorage() {
-        localStorage.setItem('leftScore', '0')
-        localStorage.setItem('rightScore', '0')
-    }
 	
 	static #scored(callback) {
         callback()

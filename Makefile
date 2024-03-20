@@ -2,7 +2,7 @@
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
-all: build up migrate
+all: build ssl_create up migrate
 
 build:
 	mkdir -p  $(HOME)/data/transcendence/volumes/E
@@ -22,6 +22,10 @@ migrate:
 
 superuser:
 	docker exec -it backend python3 manage.py createsuperuser
+
+ssl_create:
+	mkdir -p .ssl
+	(cd .ssl && sh ../tools/ssl_generate.sh ../conf/ssl_information.txt)
 
 down:
 	docker compose down
