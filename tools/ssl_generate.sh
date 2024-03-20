@@ -6,6 +6,13 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
+if [ -z "$(ls -A)" ]; then
+    echo "Generating ssl certificate"
+else
+    echo "SSL directory already has files in it -> skipping creation of new ssl certificate"
+    exit 0
+fi
+
 SUBJECT_FILE=$1
 
 if [[ ! -r "$SUBJECT_FILE" ]]; then
