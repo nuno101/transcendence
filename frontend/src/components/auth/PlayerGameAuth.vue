@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="playerAuthToggle" aria-hidden="true" aria-labelledby="playerAuthToggleLabel" tabindex="-1">
+    <div ref="authModal" class="modal fade" id="playerAuthToggle" aria-hidden="true" aria-labelledby="playerAuthToggleLabel" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
@@ -61,6 +61,13 @@ const props = defineProps({
 
 const authPlayers = ref([]);
 const loading = ref(false)
+const authModal = ref(null);
+
+onMounted(() => {
+	authModal.value.addEventListener('hidden.bs.modal', () => {
+		authPlayers.value = [];
+	})
+})
 
 const openModal = () => {
   if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
