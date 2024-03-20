@@ -52,8 +52,8 @@ class User(AbstractUser):
 			'id': self.id,
 			'username': self.username,
 			'nickname': self.nickname,
-			'created_at': str(self.created_at),
-			'updated_at': str(self.updated_at),
+			'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
+			'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
 			'status': self.status if private else None,
 			'tournaments': tournaments_data
 		}
@@ -120,8 +120,7 @@ class Game(models.Model):
 			ONGOING = "ongoing"
 			DONE = "done"
 			CANCELLED = "cancelled"
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE,
-																 blank=True, null=True, related_name="matches")
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, blank=True, null=True, related_name="matches")
 	player1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player1")
 	player2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player2")
 	status = models.CharField(
