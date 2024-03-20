@@ -63,19 +63,19 @@
         "noPendingRequests": "sin solicitudes pendientes",
         "searchNickname": "Buscar apodo"
     },
-    "userstats": {
-        "wins" : "Victorias",
-        "defeats": "Derrotas",
-        "noWins": "sin victorias",
-        "noDefeats": "sin derrotas",
-        "noGames": "sin juegos"
-    },
     "usersview": {
         "listofusers": "Lista de utilizadores",
         "username": "Nombre de usuario",
         "nickname": "Apodo",
         "created_at": "Creado en",
         "updated_at": "Actualizado en"
+    },
+    "userstats": {
+        "wins" : "Victorias",
+        "defeats": "Derrotas",
+        "noWins": "sin victorias",
+        "noDefeats": "sin derrotas",
+        "noGames": "sin juegos"
     },
     "tournamentsview": {
         "tournaments": "Torneos",

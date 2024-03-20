@@ -63,19 +63,19 @@
       "noPendingRequests": "keine ausstehenden Anfragen",
       "searchNickname": "Nickname suchen"
     },
-    "userstats": {
-      "wins" : "Gewinne",
-      "defeats": "Niederlagen",
-      "noWins": "keine Gewinne",
-      "noDefeats": "keine Niederlagen",
-      "noGames": "keine Spiele"
-    },
     "usersview": {
       "listofusers": "Benutzerliste",
       "username": "Benutzername",
       "nickname": "Spitzname",
       "created_at": "Erstellt am",
       "updated_at": "Aktualiziert am"
+    },
+    "userstats": {
+      "wins" : "Gewinne",
+      "defeats": "Niederlagen",
+      "noWins": "keine Gewinne",
+      "noDefeats": "keine Niederlagen",
+      "noGames": "keine Spiele"
     },
     "tournamentsview": {
       "tournaments": "Turniere",

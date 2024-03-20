@@ -63,19 +63,19 @@
     "noPendingRequests": "no pending requests",
     "searchNickname": "search nickname"
   },
-  "userstats": {
-    "wins" : "Wins",
-    "defeats": "Defeats",
-    "noWins": "no wins",
-    "noDefeats": "no defeats",
-    "noGames": "no games"
-  },
   "usersview": {
     "listofusers": "Users List",
     "username": "Username",
     "nickname": "Nickname",
     "created_at": "Created at",
     "updated_at": "Updated at"
+  },
+  "userstats": {
+    "wins" : "Wins",
+    "defeats": "Defeats",
+    "noWins": "no wins",
+    "noDefeats": "no defeats",
+    "noGames": "no games"
   },
   "tournamentsview": {
     "listoftournaments": "List of Tournaments",
