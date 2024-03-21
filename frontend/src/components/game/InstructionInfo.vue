@@ -24,13 +24,24 @@ const svgSpace = `
 		<path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
 	</svg>
 `;
+
+const svgH = `[h]`; // TODO
+
+const svgF = '[f]'; // TODO
+
 </script>
 
 <template>
-		<div class="alert alert-primary" role="alert">
-				<strong>{{ props.firstplayer }}</strong> {{useI18n().t('instruction.uses')}} <span v-html="svgW"></span> {{useI18n().t('instruction.and')}} <span v-html="svgS"></span> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.leftPaddle')}}</strong><br/>
-				<strong>{{ props.secondplayer }}</strong> {{useI18n().t('instruction.uses')}} <i class="bi bi-caret-up-square"></i> {{useI18n().t('instruction.and')}} <i class="bi bi-caret-down-square"></i> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.rightPaddle')}}</strong>
-		</div>
+	<div class="alert alert-primary" role="alert">
+		{{useI18n().t('instruction.goal')}}
+		<hr>
+		<strong>{{ props.firstplayer }}</strong> {{useI18n().t('instruction.uses')}} <span v-html="svgW"></span> {{useI18n().t('instruction.and')}} <span v-html="svgS"></span> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.leftPaddle')}}</strong><br/>
+		<strong>{{ props.secondplayer }}</strong> {{useI18n().t('instruction.uses')}} <i class="bi bi-caret-up-square"></i> {{useI18n().t('instruction.and')}} <i class="bi bi-caret-down-square"></i> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.rightPaddle')}}</strong>
+		<hr>
+		<span v-html="svgSpace"></span> {{useI18n().t('instruction.startOrPause')}} {{useI18n().t('instruction.theGame')}}<br>
+		<span v-html="svgH"></span> {{useI18n().t('instruction.showOrHide')}} {{useI18n().t('instruction.theseInstructions')}}<br>
+		<span v-html="svgF"></span> {{useI18n().t('instruction.showOrHide')}} {{useI18n().t('instruction.fpsCounter')}}
+	</div>
 </template>
 
 <style>
