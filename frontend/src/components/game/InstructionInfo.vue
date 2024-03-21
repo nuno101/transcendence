@@ -25,9 +25,19 @@ const svgSpace = `
 	</svg>
 `;
 
-const svgH = `[h]`; // TODO
+const svgH = `
+	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+		<text x="4.1" y="12" font-family="Arial" font-size="11" fill="currentColor">H</text>
+		<path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+	</svg>
+`;
 
-const svgF = '[f]'; // TODO
+const svgF = `
+	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+		<text x="4.5" y="12" font-family="Arial" font-size="11" fill="currentColor">F</text>
+		<path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+	</svg>
+`;
 
 </script>
 
