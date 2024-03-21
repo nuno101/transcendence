@@ -16,3 +16,14 @@ def create_games(tournament):
                 )
                 game.full_clean()
                 game.save()
+
+
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# send message to all registered players
+def notify_players(tournament):
+    for player in tournament.players.all():
+        logger.info(f"TODO: send message to {player.username} about the tournament {tournament.title} starting soon...")
+    
