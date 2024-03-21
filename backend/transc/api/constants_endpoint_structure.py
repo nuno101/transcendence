@@ -318,29 +318,15 @@ ENDPOINTS = {
 				"content_type": "application/json",
 				"query_params": {},
 				"body_params": {
-					"tournament_id": {
-						"type": "id",
-						"required": False,
-						"default": "null",
-						"description": "ID of the tournament"
-					}, "player1_id": {
+					"player1_id": {
 						"type": "id",
 						"required": True,
 						"description": "ID of the first player"
-					}, "player2_id": {
+					},
+                    "player2_id": {
 						"type": "id",
 						"required": True,
 						"description": "ID of the second player"
-					}, "player1_score": {
-						"type": "integer",
-						"required": False,
-						"default": 0,
-						"description": "Score of the first player"
-					}, "player2_score": {
-						"type": "integer",
-						"required": False,
-						"default": 0,
-						"description": "Score of the second player"
 					}
 				},
 			}
@@ -354,16 +340,13 @@ ENDPOINTS = {
 				"body_params": {
 					"player1_score": {
 						"type": "integer",
-						"required": False,
+						"required": True,
 						"description": "Score of the first player"
-					}, "player2_score": {
+					},
+                    "player2_score": {
 						"type": "integer",
-						"required": False,
+						"required": True,
 						"description": "Score of the second player"
-					}, "status": {
-						"type": "string",
-						"required": False,
-						"description": "Status of the game"
 					}
 				},
 			}, "DELETE": NO_PARAM_METHOD_TEMPLATE,
