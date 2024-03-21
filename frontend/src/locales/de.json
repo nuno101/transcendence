@@ -70,6 +70,13 @@
       "noDefeats": "keine Niederlagen",
       "noGames": "keine Spiele"
     },
+    "usersview": {
+      "listofusers": "Benutzerliste",
+      "username": "Benutzername",
+      "nickname": "Spitzname",
+      "created_at": "Erstellt am",
+      "updated_at": "Aktualiziert am"
+    },
     "tournamentsview": {
       "tournaments": "Turniere",
       "titleoftournament": "Titel des Turniers",
@@ -105,7 +112,13 @@
       "and": "und",
       "toMoveThe": "zur Bewegung des",
       "leftPaddle": "linken Schläger",
-      "rightPaddle": "rechten Schläger"
+      "rightPaddle": "rechten Schläger",
+      "goal": "Das Ziel für beide Spieler ist es elf Punkte vor dem Gegner zu erreichen",
+      "startOrPause": "starte/pausiere",
+      "showOrHide": "zeige/verberge",
+      "theGame": "das Spiel",
+      "theseInstructions": "diese Anleitung",
+      "fpsCounter": "fps Anzeige"
     },
     "notif": {
       "noNotifications": "Keine Benachrichtigungen",

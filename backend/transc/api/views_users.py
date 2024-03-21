@@ -11,15 +11,13 @@ from .helpers_games import get_user_games_done
 # Endpoint: /users
 @method_decorator(check_structure("/users"), name='dispatch')
 class UserCollection(View):
-	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		users = User.objects.order_by("username")
 		return JsonResponse([u.serialize() for u in users], safe=False)
 
 	def post(self, request):
 		try:
-			user = User(username=request.json.get('username'),
-									nickname=request.json.get('username'))
+			user = User(username=request.json.get('username'), nickname=request.json.get('username'))
 			user.set_password(request.json.get('password'))	
 			user.full_clean()
 			user.save()

@@ -1,11 +1,18 @@
 <template>
-	<div class="container d-flex justify-content-center align-items-center">
-		<canvas class="game-canvas" ref="canvas"></canvas>
+	<div>
+		<div class="d-flex justify-content-center">
+			<div class="w-100 game-canvas ratio ratio-4x3">
+				<canvas ref="canvas"></canvas>
+			</div>
+		</div>
+		<div v-if="showHelp" class="position-absolute top-50 start-50 translate-middle">
+			<InstructionInfo :firstplayer="'TODO'" :secondplayer="'TODO'" />
+		</div>
 	</div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue'
 import Vector from '../js/game/Vector'
 import Polygon from '../js/game/Polygon'
 import Circle from '../js/game/Circle'
@@ -13,8 +20,10 @@ import Scene from '../js/game/Scene'
 import Style from '../js/game/Style'
 import Scores from '../js/game/Scores'
 import fps from '../js/game/fps'
+import InstructionInfo from '../components/game/InstructionInfo.vue'
 
 const canvas = ref(null)
+const showHelp = ref(true)
 const startTimerInitialValue = 1000
 let startTimer = startTimerInitialValue
 let gameStarted = false
@@ -102,16 +111,13 @@ const paddleCollision = (objects) => {
 }
 
 const onscored = () => {
-	objects[1].position = Vector.mul(objects[1].position, new Vector(1, 0))
-	objects[2].position = Vector.mul(objects[2].position, new Vector(1, 0))
-	
 	player.position = new Vector(0, 10)
 	player.direction = new Vector(0, 0)
 }
 
 const loophook = () => {
 	Scene.clear()
-	Scene.drawLine(new Vector(0, -1), new Vector(0, 1), 'darkblue', 5, [10, 20], 5)
+	Scene.drawLine(new Vector(0, -1), new Vector(0, 1), 'darkblue', 0.015, [0.025, 0.05], -0.0125)
 
 	if (player.direction.length === 0) {
 		startTimer -= Scene.deltaTime
@@ -129,8 +135,8 @@ const loophook = () => {
 		endOfGame()
 	}
 
-	Scene.drawText(Scores.leftScore(), new Vector(-0.5, -0.5), '64px Monospace', new Style('darkblue'))
-	Scene.drawText(Scores.rightScore(), new Vector(0.5, -0.5), '64px Monospace', new Style('darkblue'))
+	Scene.drawText(Scores.leftScore(), new Vector(-0.5, -0.5), 0.2, 'Monospace', new Style('darkblue'))
+	Scene.drawText(Scores.rightScore(), new Vector(0.5, -0.5), 0.2, 'Monospace', new Style('darkblue'))
 
 	fps.update()
 	fps.draw()
@@ -147,7 +153,7 @@ const loophook = () => {
 }
 
 const pausehook = () => {
-	Scene.drawText('Paused', new Vector(0, 0.6), '64px Monospace')
+	Scene.drawText('Paused', new Vector(0, 0), 0.2, 'Monospace')
 }
 
 const keyhook = (key) => {
@@ -164,10 +170,19 @@ const keyhook = (key) => {
 		} else {
 			Scene.stop = !Scene.stop
 		}
+		if (!Scene.stop) showHelp.value = false
 	}
 
 	if (key === 'f') {
 		fps.show = !fps.show
+	}
+
+	if (key === 'h') {
+		showHelp.value = !showHelp.value
+		if (showHelp.value) {
+			onscored()
+			Scene.stop = true
+		}
 	}
 }
 
@@ -200,7 +215,7 @@ const initGame = () => {
 
 const endOfGame = () => {
 	console.log('post scores to backend: [', Scores.leftScore(), ':', Scores.rightScore(), ']') // TODO
-	Scores.resetLocalStorage()
+
 	objects[1] = border.copy()
 	objects[2] = border.copy()
 	objects[1].position = new Vector(-10 / 3, 0)
@@ -209,7 +224,7 @@ const endOfGame = () => {
 
 onMounted(() => {
 	initGame()
-	Scene.init(canvas.value, 800, 600)
+	Scene.init(canvas.value)
 	Scene.onupdate = loophook
 	Scene.onkeyup = keyhook
 	Scene.onstop = pausehook
@@ -223,11 +238,6 @@ onUnmounted(() => {
 
 <style scoped>
 .game-canvas {
-		border: 1px solid black;
-		position: absolute;
-		top: 20%;
-		background: #111111;
-		width: 800px;
-		height: 600px;
+	max-width: 100vh;
 }
 </style>

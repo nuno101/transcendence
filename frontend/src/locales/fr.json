@@ -70,6 +70,13 @@
         "noDefeats": "aucune défaite",
         "noGames": "aucun match"
     },
+    "usersview": {
+        "listofusers" : "Liste des utilisateurs",
+        "username" : "Nom d'utilisateur",
+        "nickname" : "pseudo",
+        "created_at" : "Créé le",
+        "updated_at" : "Mis à jour le"
+    },
     "tournamentsview": {
         "tournaments": "Tournois",
         "titleoftournament": "Titre du tournoi",
@@ -105,7 +112,13 @@
         "and": "et",
         "toMoveThe": "pour déplacer la",
         "leftPaddle": "raquette gauche",
-        "rightPaddle": "raquette droite"
+        "rightPaddle": "raquette droite",
+        "goal": "TODO",
+        "startOrPause": "TODO",
+        "showOrHide": "TODO",
+        "theGame": "TODO",
+        "theseInstructions": "TODO",
+        "fpsCounter": "TODO"
     },
     "notif": {
         "noNotifications": "Pas de notifications",

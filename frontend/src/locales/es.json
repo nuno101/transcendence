@@ -70,11 +70,18 @@
         "noDefeats": "sin derrotas",
         "noGames": "sin juegos"
     },
+    "usersview": {
+        "listofusers": "Lista de utilizadores",
+        "username": "Nombre de usuario",
+        "nickname": "Apodo",
+        "created_at": "Creado en",
+        "updated_at": "Actualizado en"
+    },
     "tournamentsview": {
         "tournaments": "Torneos",
         "titleoftournament": "Título del torneo",
         "descriptionoftournament": "Descripción del torneo",
-		"creatortournamentnickname": "Su apodo del torneo (creador)",
+        "creatortournamentnickname": "Su apodo del torneo (creador)",
         "cancel" : "cancelar",
         "addtournament" : "add tournament",
         "addnewtournament" : "añadir torneo",
@@ -105,7 +112,13 @@
         "and": "y",
         "toMoveThe": "para mover el",
         "leftPaddle": "pala izquierda",
-        "rightPaddle": "pala derecha"
+        "rightPaddle": "pala derecha",
+        "goal": "TODO",
+        "startOrPause": "TODO",
+        "showOrHide": "TODO",
+        "theGame": "TODO",
+        "theseInstructions": "TODO",
+        "fpsCounter": "TODO"
     },
     "notif": {
         "noNotifications": "Sin notificaciones",

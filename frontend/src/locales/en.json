@@ -34,15 +34,15 @@
     "logout": "Logout"
   },
   "header": {
-    "home": "home",
-    "friends": "friends",
-    "users": "users",
-    "chat": "chat",
-    "settings": "settings",
-    "tournaments": "tournaments",
-    "game": "game",
-    "online": "online",
-    "onsite": "onsite"
+    "home": "Home",
+    "friends": "Friends",
+    "users": "Users",
+    "chat": "Chat",
+    "settings": "Settings",
+    "tournaments": "Tournaments",
+    "game": "Game",
+    "online": "Online",
+    "onsite": "Onsite"
   },
   "settings": {
     "saveChanges": "Save Changes",
@@ -69,6 +69,13 @@
     "noWins": "no wins",
     "noDefeats": "no defeats",
     "noGames": "no games"
+  },
+  "usersview": {
+    "listofusers": "Users List",
+    "username": "Username",
+    "nickname": "Nickname",
+    "created_at": "Created at",
+    "updated_at": "Updated at"
   },
   "tournamentsview": {
     "listoftournaments": "List of Tournaments",
@@ -106,7 +113,13 @@
     "and": "and",
     "toMoveThe": "to move the",
     "leftPaddle": "left paddle",
-    "rightPaddle": "right paddle"
+    "rightPaddle": "right paddle",
+    "goal": "The goal is for each player to reach eleven points before the opponent",
+    "startOrPause": "start/pause",
+    "showOrHide": "show/hide",
+    "theGame": "the game",
+    "theseInstructions": "these instructions",
+    "fpsCounter": "fps counter"
   },
   "auth": {
     "authentication": "authentication",
