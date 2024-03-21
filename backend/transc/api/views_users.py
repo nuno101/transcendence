@@ -17,8 +17,7 @@ class UserCollection(View):
 
 	def post(self, request):
 		try:
-			user = User(username=request.json.get('username'),
-									nickname=request.json.get('username'))
+			user = User(username=request.json.get('username'), nickname=request.json.get('username'))
 			user.set_password(request.json.get('password'))	
 			user.full_clean()
 			user.save()
