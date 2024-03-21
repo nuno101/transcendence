@@ -143,8 +143,7 @@ const router = createRouter({
 const restrictedRoutes = ['users', 'friends', 'settings', 'chat', 'tournaments', 'user stats', 'game/onsite' , 'game/online', 'ponggame']
 
 router.beforeEach((to) => {
-	bootstrap.Modal.getInstance('#loginModalToggle')?.hide()
-	bootstrap.Modal.getInstance('#signupModalToggle')?.hide()
+	document.querySelectorAll('.modal.fade').forEach(modal => bootstrap.Modal.getInstance(modal)?.hide())
 	
 	if (globalUser.value === undefined && to.name !== 'getuser') {
 		router.replace({ name: 'getuser', query: { continue: encodeURIComponent(to.fullPath) } })
