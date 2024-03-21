@@ -150,7 +150,7 @@ function getChannelMember() {
 
         <!-- Container for selected channels -->
         <div v-if="Chat.selected_channel.value" class="col-md-9">
-            <div class="border rounded d-flex align-items-center justify-content-between">
+            <div class="border rounded d-flex align-items-center justify-content-between mb-1">
                 <GetAvatar :id="getChannelMember().id" :size=45 class="avatar" />
                 <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
                         getChannelMember().username
@@ -161,7 +161,7 @@ function getChannelMember() {
                 <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
                     @deleted="deleteMessage(message)" />
             </div>
-            <div class="mt-2">
+            <div class="mt-1">
                 <div class="input-group">
                     <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
                 </div>
