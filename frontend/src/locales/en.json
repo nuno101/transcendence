@@ -34,15 +34,15 @@
     "logout": "Logout"
   },
   "header": {
-    "home": "home",
-    "friends": "friends",
-    "users": "users",
-    "chat": "chat",
-    "settings": "settings",
-    "tournaments": "tournaments",
-    "game": "game",
-    "online": "online",
-    "onsite": "onsite"
+    "home": "Home",
+    "friends": "Friends",
+    "users": "Users",
+    "chat": "Chat",
+    "settings": "Settings",
+    "tournaments": "Tournaments",
+    "game": "Game",
+    "online": "Online",
+    "onsite": "Onsite"
   },
   "settings": {
     "saveChanges": "Save Changes",
