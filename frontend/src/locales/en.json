@@ -20,16 +20,16 @@
     "connectOnGithub": "Connect with us on Github"
   },
   "upcomingGames": {
-    "upcomingGames": "upcoming games",
-    "opponent": "opponent",
-    "tournament": "tournament",
-    "noUpcomingGames": "no upcoming games"
+    "upcomingGames": "Upcoming games",
+    "opponent": "Opponent",
+    "tournament": "Tournament",
+    "noUpcomingGames": "No upcoming games"
   },
   "login": {
     "login": "Login",
     "new?": "new?",
-    "rememberMe": "remember me",
-    "signUp": "sign up",
+    "rememberMe": "Remember me",
+    "signUp": "Sign up",
     "alreadyHaveAnAccount": "Already have an account?",
     "logout": "Logout"
   },
