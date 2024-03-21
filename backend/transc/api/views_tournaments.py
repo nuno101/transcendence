@@ -5,7 +5,7 @@ from django.views import View
 from .decorators import *
 from .models import Tournament, Game
 from .models import User
-from .helpers_tournaments import create_games
+from .helpers_tournaments import create_games, notify_players
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import datetime
 
@@ -69,6 +69,7 @@ class TournamentSingle(View):
 				tournament.status != TournamentStatus.CREATED or \
 				tournament.status != TournamentStatus.CANCELLED):
 				tournament.status = TournamentStatus.CANCELLED
+				#do nothing if the tournament is already cancelled, done or in created status
 			# status done can not be triggered manually.
 			# completion of all games will change tournament.status to done.
 			elif request.json.get('status') == "next" and (tournament.status != TournamentStatus.CANCELLED and tournament.status != TournamentStatus.DONE):
@@ -78,6 +79,9 @@ class TournamentSingle(View):
 						return JsonResponse({ERROR_FIELD: "Not enough players"}, status=400)
 					else: # Schedule games to be played. Scores are set to 0 by default
 						create_games(tournament)
+				if next_status == "ongoing":
+					#send message to all tournament players
+					notify_players(tournament)
 				tournament.status = next_status
 			else:
 				return JsonResponse({ERROR_FIELD: "Invalid status"}, status=400)
