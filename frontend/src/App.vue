@@ -1,25 +1,6 @@
 <script setup>
 import LanguageSelection from './components/common/LanguageSelection.vue'
 import Notifications from '../src/js/Notifications'
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
-
-//import './colors.css' - TODO: remove file?
-
-// const bg = ref(null);
-const router = useRouter();
-
-// Navigation guard to handle background image change based on route
-router.beforeEach((to, from, next) => {
-  if (to.path === '/') {
-    // Change the background image for the root route
-    bg.value = './assets/background_root.png';
-  } else {
-    // Use the default background image for other routes
-    bg.value = './assets/background.png';
-  }
-  next();
-});
 
 </script>
 
@@ -41,7 +22,7 @@ router.beforeEach((to, from, next) => {
 <style scoped>
 .background-image {
   /* Adjust the URL to the path of your background image */
-  background-image: url('./assets/background.png');
+  background-image: url('./assets/backgroundWithoutFont.png');
   /* Set background size and other properties as needed */
   background-size: cover;
   background-position: center;
@@ -49,5 +30,6 @@ router.beforeEach((to, from, next) => {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  font-family: 'Courier New', monospace;
 }
 </style>
