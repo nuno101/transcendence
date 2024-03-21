@@ -2,6 +2,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.password_validation import validate_password
 from django.db.models import Q
 from .decorators import *
 from .models import User, Game
@@ -18,7 +19,12 @@ class UserCollection(View):
 	def post(self, request):
 		try:
 			user = User(username=request.json.get('username'), nickname=request.json.get('username'))
-			user.set_password(request.json.get('password'))	
+			password = request.json.get('password')
+			try:
+					validate_password(password, user)
+			except Exception as e:
+					return JsonResponse({ERROR_FIELD: "Invalid password (choose a better one)"}, status=400)
+			user.set_password(password)	
 			user.full_clean()
 			user.save()
 		except ValidationError as e:
