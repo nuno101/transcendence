@@ -1,6 +1,7 @@
 <script setup>
 import LanguageSelection from './components/common/LanguageSelection.vue'
 import Notifications from '../src/js/Notifications'
+import "../src/assets/colors.css";
 
 </script>
 

@@ -1,0 +1,28 @@
+:root {
+    --COLOR1: #070320ff;
+    --COLOR2: #071de4ff;
+    --COLOR3: #26ffe6ff;
+    --COLOR4: #caa7f5ff;
+}
+
+/* html, #app {
+    background-color: #ffffff;
+} */
+
+.boxstyling {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 50px;
+    height: 100vh;
+    width: 100%;
+}
+
+.box {
+    box-sizing: border-box;
+    margin: 0;
+    width: 80%;
+    padding: 10px 20px;
+    padding-bottom: 20px;
+    background-color: white;
+}

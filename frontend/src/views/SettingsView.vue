@@ -66,9 +66,9 @@ const changeAvatar = async(event) => {
 </script>
 
 <template>
-    <div class="cont">
+    <div class="boxstyling">
       <Loading v-if="!isLoaded"/>
-      <div v-if="isLoaded && globalUser !== null" class="box">
+      <div v-if="isLoaded && globalUser !== null" class="box rounded">
         <div class="row">
             <div class="col-sm-4 mt-4">
                 <div class="vstack gap-1">

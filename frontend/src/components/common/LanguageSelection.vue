@@ -15,7 +15,6 @@
     import { useI18n } from 'vue-i18n';
     import {ref, onMounted} from 'vue';
     import i18n from "../../plugins/i18n";
-    import "../../colors.css";
 
   const selected = ref('');
 

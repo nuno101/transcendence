@@ -1,5 +1,7 @@
 <template>
-<div v-if="globalUser" class="table-wrapper text-center">
+<div v-if="globalUser" class="boxstyling">
+<div class="box rounded">
+<div class="table-wrapper text-center">
   <Loading v-if="!isLoaded" />
   <h6>{{useI18n().t('upcomingGames.upcomingGames')}}</h6>
   <div class="gamestable rounded img-thumbnail d-flex justify-content-center">
@@ -24,6 +26,8 @@
   </table>
   </div>
 </div>
+</div>
+</div>
 </template>
 
 <script setup>
@@ -46,7 +50,6 @@ const fetchData = async () => {
   try {
     if(globalUser.value)
       upcomingGames.value = await Backend.get(`/api/users/${globalUser.value.id}/games_upcoming`);
-    console.log(upcomingGames.value);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -69,7 +72,7 @@ th {
 }
 
 .gamestable {
-  max-height: 171px;
+  max-height: 240px;
   max-width: 400px;
   margin: auto;
   overflow-y: scroll;

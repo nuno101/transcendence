@@ -79,8 +79,8 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="cont">
-		<div class="box">
+	<div class="boxstyling">
+		<div class="box rounded">
 			<UserSearch :pendingRequests="Friends.pendingRequests.value"/>
 			<Loading v-if="!isLoaded"/>
 			<div v-if="isLoaded" class="con mt-5">
@@ -161,24 +161,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
-.cont {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 50px;
-  height: 100vh;
-  width: 100%;
-}
-
-.box {
-  box-sizing: border-box;
-  margin: 0;
-  width: 80%;
-  padding: 10px 20px;
-  padding-bottom: 20px;
-  background-color: white;
-}
 
 th {
   position: sticky;
