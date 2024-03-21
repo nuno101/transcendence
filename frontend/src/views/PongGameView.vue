@@ -179,7 +179,10 @@ const keyhook = (key) => {
 
 	if (key === 'h') {
 		showHelp.value = !showHelp.value
-		if (showHelp.value) Scene.stop = true
+		if (showHelp.value) {
+			onscored()
+			Scene.stop = true
+		}
 	}
 }
 
