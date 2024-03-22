@@ -140,21 +140,15 @@
   },
   "err": {
     "Staff user required": "Staff user required",
-    "Superuser user required": "Superuser user required",
-    "Endpoint documentation missing": "Endpoint documentation missing",
-    XXXX"Endpoint method {request.method}" + " documentation missing"},
-    XXXX"Invalid request mime type: {request.content_type}" + " -> application/json required",
-    XXXX HELPERS_DECORATEORS.PY
     "Internal server error": "Internal server error",
     "Invalid password (choose a better one)": "Invalid password (choose a better one)",
     "Not logged in": "Not logged in",
     "Invalid JSON body syntax": "Invalid JSON body syntax",
-    "Can't add yourself": "Can't add yourself",
+    "Cannot add yourself": "Cannot add yourself",
     "You are blocked by this user": "You are blocked by this user",
     "You are blocked by users in the channel": "You are blocked by users in the channel",
     "User is not a friend": "User is not a friend",
     "Missing query parameter 'type'": "Missing query parameter 'type'",
-    "Cannot add yourself": "Cannot add yourself",
     "User is blocked": "User is blocked",
     "User is already a friend": "User is already a friend",
     "User blocked you": "User blocked you",
@@ -167,8 +161,7 @@
     "You are not the creator of this tournament": "You are not the creator of this tournament",
     "You can't delete a game that is done": "You can't delete a game that is done",
     "No avatar provided (needs to be a multipart/form-data field with key 'avatar')": "No avatar provided (needs to be a multipart/form-data field with key 'avatar')",
-    XXXX"Invalid file extension '{extension}'": "Invalid file extension '{extension}'",
-    XXXX views_personal line 48
+    "Invalid file extension": "Invalid file extension",
     "Cannot block yourself": "Cannot block yourself",
     "User is already blocked": "User is already blocked",
     "User is a friend": "User is a friend",
@@ -178,7 +171,6 @@
     "Invalid status": "Invalid status",
     "Invalid login credentials": "Invalid login credentials",
     "Not authenticated": "Not authenticated",
-    // CONSTANTS:
     "User not found": "User not found",
     "Friend request not found": "Friend request not found",
     "No permission to access friend request": "No permission to access friend request",
@@ -191,6 +183,11 @@
     "Channel not found": "Channel not found",
     "No permission to access channel": "No permission to access channel",
     "Message not found": "Message not found",
-    "No permission to access message": "No permission to access message"
+    "No permission to access message": "No permission to access message",
+    "Error: 413 Request Entity Too Large": "Error: 413 Request Entity Too Large"
+  },
+  "succ": {
+    "Hello, world. You're at the transcendence index.": "Hello, world. You're at the transcendence index.",
+    "Successfully logged out": "Successfully logged out"
   }
 }

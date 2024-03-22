@@ -21,7 +21,7 @@ class ChannelCollection(View):
         return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
       if request.user.id == target.id:
-        return JsonResponse({ERROR_FIELD: "Can't add yourself"}, status=400)
+        return JsonResponse({ERROR_FIELD: "Cannot add yourself"}, status=400)
 
       if request.user in target.blocked.all():
         return JsonResponse({ERROR_FIELD: "You are blocked by this user"}, status=400)
