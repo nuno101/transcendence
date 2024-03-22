@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps } from 'vue';
 import formatTimestamp from '../../js/TimeFormat';
 
 const props = defineProps({
