@@ -176,7 +176,8 @@
         "No permission to access channel": "No tienes permiso para acceder al canal",
         "Message not found": "Mensaje no encontrado",
         "No permission to access message": "No tienes permiso para acceder al mensaje",
-        "Error: 413 Request Entity Too Large": "Error: 413 Solicitud de entidad demasiado grande"
+        "413 Request Entity Too Large": "413 Solicitud de entidad demasiado grande",
+        "User with this Nickname already exists.": "Usuario con este apodo ya existe."
     },
     "succ": {
         "Hello, world. You're at the transcendence index.": "Hola mundo. Estás en el índice de trascendencia.",

@@ -65,7 +65,7 @@ function createChannel() {
         Chat.channels.value.unshift(value)
         createChannelError.value = ''
     }).catch(err => {
-        createChannelError.value = err
+        createChannelError.value = err.message
     })
 }
 
@@ -78,7 +78,7 @@ function sendMessage() {
         messageInput.value = '';
         sendMessageError.value = ''
     }).catch(err => {
-        sendMessageError.value = err
+        sendMessageError.value = err.message
     })
 }
 
@@ -101,7 +101,7 @@ function deleteMessage(message) {
                 <button class="btn btn-primary" @click="createChannel">Create</button>
             </div>
             <div v-if="createChannelError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
-                {{ createChannelError }}
+                {{ useI18n().t(`err.${createChannelError}`) }}
             </div>
         </div>
 
@@ -125,7 +125,7 @@ function deleteMessage(message) {
                         </div>
                         <div v-if="sendMessageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
                             role="alert">
-                            {{ sendMessageError }}
+                            {{ useI18n().t(`err.${sendMessageError}`) }}
                         </div>
                     </div>
                 </div>

@@ -52,7 +52,8 @@ const submitChanges = async() => {
     updateErrorMessage.value = '';
 
   } catch (err) {
-    updateErrorMessage.value = err;
+    console.log(err.message);
+    updateErrorMessage.value = err.message;
   }    
 };
 
@@ -115,7 +116,7 @@ const changeAvatar = async(event) => {
               <div class="mt-5 text-center text-sm-start">
               <button type="button" class="btn btn-outline-primary" @click="submitChanges" :disabled="input.password !== password2">{{useI18n().t('settings.saveChanges')}}</button>
               <div v-if="updateErrorMessage !== ''" class="p-2 mt-1 alert alert-danger" role="alert">
-                 {{ updateErrorMessage }}
+                 {{ useI18n().t(`err.${updateErrorMessage}`) }}
               </div>
               <!-- ADD SUCCESS MESSAGE? -->
               </div>

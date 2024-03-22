@@ -176,7 +176,8 @@
         "No permission to access channel": "Pas de permission pour accéder à la chaîne",
         "Message not found": "Message non trouvé",
         "No permission to access message": "Pas de permission pour accéder au message",
-        "Error: 413 Request Entity Too Large": "Erreur : 413 Demande d'entité trop volumineuse"
+        "413 Request Entity Too Large": "413 Demande d'entité trop volumineuse",
+        "User with this Nickname already exists.": "L'utilisateur avec ce pseudonyme existe déjà."
     },
     "succ": {
         "Hello, world. You're at the transcendence index.": "Bonjour, monde. Vous êtes à l'index de la transcendance.",

@@ -184,7 +184,8 @@
     "No permission to access channel": "No permission to access channel",
     "Message not found": "Message not found",
     "No permission to access message": "No permission to access message",
-    "Error: 413 Request Entity Too Large": "Error: 413 Request Entity Too Large"
+    "413 Request Entity Too Large": "413 Request Entity Too Large",
+    "User with this Nickname already exists.": "User with this Nickname already exists."
   },
   "succ": {
     "Hello, world. You're at the transcendence index.": "Hello, world. You're at the transcendence index.",
