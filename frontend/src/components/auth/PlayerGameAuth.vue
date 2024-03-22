@@ -8,7 +8,7 @@
 				</div>
 				<div v-for="(player, index) in authPlayers" :key="index" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
 					<div v-for="alert in player.alerts" :class="alert.type">
-						<div>{{ alert.message }}</div>
+						<div>{{ useI18n().t(`err.${alert.message}`)}}</div>
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 					<form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
