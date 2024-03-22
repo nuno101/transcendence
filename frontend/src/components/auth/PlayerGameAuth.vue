@@ -73,12 +73,16 @@ const openModal = () => {
 	if(!bootstrap.Modal.getInstance("#playerAuthToggle"))
 		new bootstrap.Modal('#playerAuthToggle', { keyboard: true })
 	bootstrap.Modal.getInstance("#playerAuthToggle").show();
-	authPlayers.value.push({ 
-		user: props.player1 ? props.player1 : { username: '' }, 
-		isGiven: props.player1 !== null, 
-		isAuthenticated: props.player1 !== null ? props.player1.username === globalUser.value.username : false, 
-		alerts: [] 
-	});
+	if(!props.player1 && !props.player2)
+		authPlayers.value.push({ user: globalUser.value, isGiven: true, isAuthenticated: true, alerts: [] });
+	else {
+		authPlayers.value.push({ 
+			user: props.player1 ? props.player1 : { username: '' }, 
+			isGiven: props.player1 !== null, 
+			isAuthenticated: props.player1 ? props.player1.username === globalUser.value.username : false, 
+			alerts: [] 
+		});
+	}
 	authPlayers.value.push({ 
 		user: props.player2 ? props.player2 : { username: '' }, 
 		isGiven: props.player2 !== null, 
