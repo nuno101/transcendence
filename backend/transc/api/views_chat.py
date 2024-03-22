@@ -23,6 +23,11 @@ class ChannelCollection(View):
       if request.user.id == target.id:
         return JsonResponse({ERROR_FIELD: "Can't add yourself"}, status=400)
 
+      channels = Channel.objects.filter(members__in=[request.user])
+      for channel in channels.all():
+        if target in channel.members.all():
+          return JsonResponse({ERROR_FIELD: "Channel with this user already exists"}, status=400)
+
       if request.user in target.blocked.all():
         return JsonResponse({ERROR_FIELD: "You are blocked by this user"}, status=400)
 
