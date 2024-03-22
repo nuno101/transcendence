@@ -3,10 +3,10 @@
 <div class="box rounded">
 <div class="table-wrapper text-center">
   <Loading v-if="!isLoaded" />
-  <h6>{{useI18n().t('upcomingGames.upcomingGames')}}</h6>
+  <h6 class="fw-bold text-uppercase">{{useI18n().t('upcomingGames.upcomingGames')}}</h6>
   <div class="gamestable rounded img-thumbnail d-flex justify-content-center">
-  <table class="table m-0">
-    <thead class="table-dark">
+  <table class="table m-0 table-hover">
+    <thead>
       <tr>
         <th colspan="2" class="px-3">{{useI18n().t('upcomingGames.opponent')}}</th>
         <th class="px-3">{{useI18n().t('upcomingGames.tournament')}}</th>
@@ -60,15 +60,15 @@ const fetchData = async () => {
 watch(() => globalUser.value, () => {
   fetchData();
 });
-
 </script>
 
 <style scoped>
-
+@import url('@/assets/colors.css');
 th {
   position: sticky;
   top: 0;
   z-index: 1;
+
 }
 
 .gamestable {
@@ -79,4 +79,13 @@ th {
   padding: 0;
 }
 
+thead {
+  --bs-table-bg: var(--COLOR1);
+  --bs-table-color: white;
+}
+
+tbody {
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+
+}
 </style>
