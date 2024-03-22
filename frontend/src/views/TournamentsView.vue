@@ -68,14 +68,6 @@ const resetInputFields = () => {
    input.value.description = '';
 };
 
-const deleteMyTournament = async () => {
-  try {
-    await Backend.delete(`/api/tournaments/${tournamentId.value}`);
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
 onMounted(() => {
   fetchData();
 })
@@ -90,12 +82,12 @@ onMounted(() => {
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                    <th scope="col">{{useI18n().t('tournamentsview.name')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.title')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.creator')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
-                    <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.last_update')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
-					<th scope="col">Players</th>
+					<th scope="col">{{useI18n().t('tournamentsview.players')}}</th>
                     </tr>
                 </thead>
 
@@ -108,18 +100,9 @@ onMounted(() => {
                         </td>
                         <td>{{ tournament.creator.username }}</td>
                         <td>{{ tournament.created_at }}</td>
-                        <td>{{ tournament.updated_at }}</td>
+                        <td>{{ tournament.last_update }}</td>
                         <td>{{ tournament.status }}</td>
 						<td>{{ tournament.players.length }}</td>
-                        <td>
-                            <!-- FIXME - the button s below are not working atm
-                            <button type="button" class="btn btn-primary">{{useI18n().t('tournamentsview.open_register')}}</button>
-							<button type="button" class="btn btn-primary" @click="updatestateTournament(tournament.id, 'cancelled')">{{useI18n().t('tournamentsview.cancel')}}</button>
-                            TODO - disable unless status is created
-                            <button type="button" class="btn btn-primary" @click="deleteTournament(tournament.id)">{{useI18n().t('tournamentsview.delete')}}</button>
-                            TODO - use icon below instead of button above for deletion
-                            &nbsp;<a href="" @click="deleteTournament"><i class="bi bi-trash3-fill"></i></a> -->
-                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -138,16 +121,15 @@ onMounted(() => {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="CreateTournamentModalLabel">TO ADD</h1>
+                <h1 class="modal-title fs-5" id="CreateTournamentModalLabel">{{ useI18n().t('tournamentsview.createatournament') }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 				<div v-if="showAlert" class="alert alert-danger" role="alert">
-       				 The title is already taken. Please choose a different title.
+					{{ useI18n().t('tournamentsview.titlealreadytaken') }}
     			</div>
-                <form @submit.prevent="submitForm">
                         <div class="form-group">
-                            <label for="title">{{ useI18n().t('tournamentsview.titleoftournament') }}</label>
+                            <label for="title">{{ useI18n().t('tournamentsview.title') }}</label>
                             <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
                         </div>
                         <div class="form-group">
@@ -159,8 +141,6 @@ onMounted(() => {
                             <button type="button" class="btn btn-danger" @click="cancelModal">{{ useI18n().t('tournamentsview.cancel') }}</button>
                             <button type="submit" class="btn btn-success" @click="addNewTournament">{{ useI18n().t('tournamentsview.addtournament') }}</button>
                         </div>   
-                        <PostRequest v-if="submit" :apiPath="'/api/tournaments'" :data='formData'></PostRequest>
-                </form >
             </div>
         </div>
     </div>
@@ -170,17 +150,17 @@ onMounted(() => {
 
 <!-- Second table for user's tournaments -->
 <div>
-        <h1>My Tournaments</h1>
+        <h1>{{useI18n().t('tournamentsview.mytournaments')}}</h1>
         <div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                    <th scope="col">{{useI18n().t('tournamentsview.name')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.title')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.creator')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.created_at')}}</th>
-                    <th scope="col">{{useI18n().t('tournamentsview.updated_at')}}</th>
+                    <th scope="col">{{useI18n().t('tournamentsview.last_update')}}</th>
                     <th scope="col">{{useI18n().t('tournamentsview.status')}}</th>
-					<th scope="col">Players</th>
+					<th scope="col">{{useI18n().t('tournamentsview.players')}}</th>
                     </tr>
                 </thead>
 
@@ -193,7 +173,7 @@ onMounted(() => {
                         </td>
 						<td>
 							<template v-if="tournament.creator.username === currentUser">
-								<b>{{ tournament.creator.username }} (You)</b>
+								<b>{{ tournament.creator.username }} {{useI18n().t('tournamentsview.(you)')}}</b>
 							</template>
 							<template v-else>
 								{{ tournament.creator.username }}

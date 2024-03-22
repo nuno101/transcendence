@@ -32,10 +32,6 @@ watch(route, (newRoute) => {
   bootstrap.Modal.getInstance("#successModal")?.hide()
 })
 
-watch(games, (newGames, oldGames) => {
-  updatedGames.value = newGames;
-});
-
 const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
@@ -51,10 +47,6 @@ const fetchData = async () => {
   }
 };
 
-const handleUpdateTesT = (newValue) => {
-    games.value = newValue;
-}
-
 const initValues = (data) => {
 	title.value = data.title
 	description.value = data.description
@@ -67,6 +59,14 @@ const initValues = (data) => {
     	isCreator.value = true;
 	}
 };
+
+watch(games, (newGames, oldGames) => {
+  updatedGames.value = newGames;
+});
+
+const handleUpdateTesT = (newValue) => {
+    games.value = newValue;
+}
 
 const joinTournament = async (msg) => {
     const join = await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "join" });
@@ -113,9 +113,18 @@ const cancelTournament = async (msg) => {
 
 const deleteTournament = async (msg) => {
   try {
-    const response = await Backend.delete(`/api/tournaments/${tournamentId.value}`);
+    await Backend.delete(`/api/tournaments/${tournamentId.value}`);
 	message.value = msg;
 	router.go(-1);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const startTournament = async (msg) => {
+  try {
+    games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
+	changeState(msg);
   } catch (err) {
     console.error(err.message);
   }
@@ -134,6 +143,21 @@ const updateDescription = async () => {
     }
 };
 
+const { t } = useI18n();
+
+const translatedStrings = computed(() => ({
+    registrationIsNowOpen: t('singletournamentsview.registrationisnowopen'),
+	registrationIsNowOpen: t('singletournamentsview.tournamentisnowdeleted'),
+	registrationIsNowOpen: t('singletournamentsview.registrationisnowclosed'),
+	registrationIsNowOpen: t('singletournamentsview.thetournamenthasbeencancelled'),
+	registrationIsNowOpen: t('singletournamentsview.successfullunjointournament'),
+	registrationIsNowOpen: t('singletournamentsview.successfulljointournament'),
+	registrationIsNowOpen: t('singletournamentsview.unjointhetournament'),
+	registrationIsNowOpen: t('singletournamentsview.jointhetournament'),
+	registrationIsNowOpen: t('singletournamentsview.tournamentwillstartgetready')
+    
+}));
+
 onMounted(() => {
 	const route = useRoute();
   	tournamentId.value = route.params.id;
@@ -147,9 +171,9 @@ onMounted(() => {
         <h1 class="display-4 mb-4">{{ title }}</h1>
         <div class="row">
             <div class="col-lg-8">
-                <p class="lead mb-4">Status: <span class="text-muted">{{ status }}</span></p>
+                <p class="lead mb-4">{{useI18n().t('tournamentsview.status')}}: <span class="text-muted">{{ status }}</span></p>
 				<div class="mb-3">
-					<label for="description" class="form-label">Description:</label>
+					<label for="description" class="form-label">{{useI18n().t('tournamentsview.description')}}:</label>
 					<div class="description-container">
 						<span v-if="!editingDescription && isCreator && (status === 'created' || status === 'registration_open')" @click="startEditing">{{ description }}</span>
 						<textarea class="form-control" id="description" v-model="description" v-if="editingDescription && isCreator && (status === 'created' || status === 'registration_open')" rows="5"></textarea>
@@ -160,33 +184,33 @@ onMounted(() => {
 
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        <p class="text-muted">Created at: {{ created_at ? created_at.slice(0, 10) : 'N/A' }}</p>
+                        <p class="text-muted">{{useI18n().t('tournamentsview.created_at')}}: {{ created_at ? created_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                     <div class="col-md-6">
-						<p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
+						<p class="text-muted">{{useI18n().t('tournamentsview.last_update')}}: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                 </div>
 
 				<div v-if="status === 'created'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="changeState('Registrations are now open')" >Open registration</button>
+					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="changeState(translatedStrings.registrationIsNowOpen)" >{{ t('singletournamentsview.openregistration') }}</button>
 					<span v-if="isCreator">&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="deleteTournament('The tournament has been deleted')">Delete tournament</button> <!-- is the modal opening? -->
+					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="deleteTournament(useI18n().t('singletournamentsview.tournamentisnowdeleted'))">{{useI18n().t('singletournamentsview.deletetournament')}}</button>
 
-					<div class="alert alert-danger" v-else>Registration for this tournament is not yet open (contact <b>{{ creator }}</b> for more info)</div>
+					<div class="alert alert-danger" v-else>{{useI18n().t('singletournamentsview.registrationforthistournamentisnotyetopen')}} <b>{{ creator }}</b> {{useI18n().t('singletournamentsview.formoreinfo')}}</div>
 				</div>
-				
+
 				<div v-if="status === 'registration_open'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="changeState('Registrations are now closed')" >Close registration</button>
+					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="changeState(useI18n().t('singletournamentsview.registrationisnowclosed'))" >{{useI18n().t('singletournamentsview.closeregistration')}}</button>
 					<span v-if="isCreator">&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament('The tournament has been cancelled')">Cancel tournament</button>
-        			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-else @click="isJoined ? unjoinTournament('You\'ve successfully unjoined the tournament!') : joinTournament('You\'ve successfully joined the tournament!')">{{ isJoined ? 'Unjoin' : 'Join' }}</button>			
+					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament(useI18n().t('tournamentsview.thetournamenthasbeencancelled'))">{{useI18n().t('tournamentsview.canceltournament')}}</button>
+        			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-else @click="isJoined ? unjoinTournament(useI18n().t('singletournamentsview.successfullunjointournament')) : joinTournament(useI18n().t('singletournamentsview.successfulljointournament'))">{{ isJoined ? useI18n().t('tournamentsview.unjointhetournament') : useI18n().t('tournamentsview.jointhetournament') }}</button>		
 				</div>
 
 				<div v-if="status === 'registration_closed'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="changeState('Registrations are now closed')">Start tournament</button>
+					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="startTournament(useI18n().t('singletournamentsview.tournamentwillstartgetready'))">{{useI18n().t('singletournamentsview.starttournament')}}</button>
 					<span v-if="isCreator">&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament('The tournament has been cancelled')">Cancel tournament</button>
-					<div class="alert alert-success" v-else>The tournament will start soon</div>
+					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament(useI18n().t('singletournamentsview.thetournamenthasbeencancelled'))">{{useI18n().t('singletournamentsview.canceltournament')}}</button>
+					<div class="alert alert-success" v-else>{{useI18n().t('singletournamentsview.tournamentwillstartsoon')}}</div>
 				</div>
 
 				<div v-if="status === 'ongoing'">
@@ -204,24 +228,24 @@ onMounted(() => {
 			/>	
 
             <div class="col-lg-4">
-                <h3 class="mb-3">Created by</h3>
+                <h3 class="mb-3">{{useI18n().t('tournamentsview.creator')}}</h3>
 				<b><p>{{ creator }} <!-- tournament.creator.nickname -->
-				<span v-if="isCreator">(You)</span></p></b>
-                <h3 class="mb-3 mt-4">Players</h3>
+				<span v-if="isCreator">{{useI18n().t('tournamentsview.(you)')}}</span></p></b>
+                <h3 class="mb-3 mt-4">{{useI18n().t('tournamentsview.players')}}</h3>
                 <table class="table">
                     <thead>
-                        <tr><th>Nickname</th></tr>
+                        <tr><th>{{useI18n().t('singletournamentsview.tournamentnickname')}}</th></tr>
                     </thead>
                     <tbody>
                         <tr v-for="(player, index) in players" :key="index">
 							<td>
-								<b v-if="player.username === username">{{ player.nickname }} (You)</b>
+								<b v-if="player.username === username">{{ player.nickname }} {{useI18n().t('tournamentsview.(you)')}}</b>
         						<template v-else>{{ player.nickname }}</template>
 							</td>
                         </tr>
                     </tbody>
                 </table>
-				<GameSelection v-if="status === 'ongoing'" title="Finished games" :is_Creator="isCreator" :tournament_Id="tournamentId" :games="updatedGames" @update:games="handleUpdateTesT"/>
+				<GameSelection v-if="status === 'ongoing'" title="Finished games" :is_Creator="isCreator" :tournament_Id="tournamentId" :games="games" @update:games="handleUpdateTesT"/>
             </div>
         </div>
     </div>

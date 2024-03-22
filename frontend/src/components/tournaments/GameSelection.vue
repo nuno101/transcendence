@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref, watch, defineProps, defineEmits } from 'vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-import router from '../../router';
 import Backend from '../../js/Backend';
 import PlayerGameAuth from '../auth/PlayerGameAuth.vue';
 
@@ -10,6 +9,7 @@ const isClicked = ref(0);
 const gamesInfo = ref([]);
 const auth = ref(null);
 const indexes = ref(0);
+const newGames = ref([]);
 
 const props = defineProps({
   title: {
@@ -55,20 +55,20 @@ document.body.addEventListener('click', (event) => {
 
 const cancelGame = async (game_id) => {
   try {
-    await Backend.delete(`/api/tournaments/${props.tournament_Id}/games/${game_id}`);
+    await Backend.delete(`/api/tournaments/${props.tournament_Id}/games/${game_id}`); // can I access tournament ID through game?
 	emits('update:games', await Backend.get(`/api/tournaments/${props.tournament_Id}/games`));
   } catch (err) {
     console.error(err.message);
   }
 };
 
-onMounted(() => {
-	fetchData();
-})
-
 watch(() => props.games, () => {
   fetchData();
 });
+
+onMounted(() => {
+	fetchData();
+})
 
 </script>
 

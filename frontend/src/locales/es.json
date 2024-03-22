@@ -71,17 +71,56 @@
         "noGames": "sin juegos"
     },
     "tournamentsview": {
-        "tournaments": "Torneos",
-        "titleoftournament": "Título del torneo",
-        "descriptionoftournament": "Descripción del torneo",
-		"creatortournamentnickname": "Su apodo del torneo (creador)",
-        "cancel" : "cancelar",
-        "addtournament" : "add tournament",
-        "addnewtournament" : "añadir torneo",
-        "description" : "descripción",
-        "status" : "estado",
-        "register" : "regístrese en",
-        "registrationclosed" : "inscripción cerrada"
+        "cancel" : "Cancelar",
+        "addtournament" : "Añadir torneo",
+        "descriptionoftournament" : "Descripción del torneo",
+		"description" : "Descripción",
+        "status" : "Estado",
+        "register" : "Regístrese en",		
+		"listoftournaments": "Lista de torneos",
+		"title": "Título",
+		"creator": "Creado por",
+		"createatournament" : "Crear un torneo",
+		"created_at": "Creado en",
+		"last_update": "Última actualización",
+		"players" : "Jugadores",
+		"titlealreadytaken" : "El título ya está ocupado. Por favor, elige otro título.",
+		"mytournaments" : "Mis torneos",
+		"(you)" : "(Usted)",
+		"entertitle" : "Introducir título",
+		"enterdescription" : "Introducir descripción"
+		
+    },
+	"singletournamentsview": {
+		"descriptionoftournament": "Descripción del torneo",
+        "openregistration" : "Autorizar inscripciones",
+		"registrationisnowopen" : "Inscripciones abiertas",
+		"deletetournament" : "Borrar torneo",
+		"tournamentisnowdeleted" : "El torneo ha sido eliminado",
+		"registrationforthistournamentisnotyetopen" : "La inscripción para este torneo aún no está abierta (contacte con",
+		"formoreinfo" : "para más información)",
+		"closeregistration" : "Cerrar inscripción",
+		"registrationisnowclosed" : "Inscripciones cerradas",
+		"canceltournament" : "Cancelar torneo",
+		"thetournamenthasbeencancelled" : "El torneo ha sido cancelado",
+		"successfullunjointournament" : "Te has dado de baja del torneo",
+		"successfulljointournament" : "¡Se ha inscrito correctamente en el torneo!",
+		"unjointhetournament" : "Abandonar el torneo",
+		"jointhetournament" : "Unirse al torneo",
+		"starttournament" : "Iniciar torneo",
+		"tournamentwillstartgetready" : "¡El torneo va a comenzar, prepárate para jugar!",
+		"tournamentwillstartsoon" : "El torneo empezará pronto",
+		"success" : "Éxito",
+		"tournamentnickname" : "Apodo"
+
+    },
+	"gameselection": {
+        "selectagame" : "Seleccione un juego",
+		"completedgames" : "Partidas finalizadas",
+		"cancelgame" : "Cancelar partida",
+		"startgame" : "Empezar partida",
+		"nogames" : "No hay partidas disponibles"
+
     },
     "onlinegameview": {
         "inviteuser": "Invitar Usuario",

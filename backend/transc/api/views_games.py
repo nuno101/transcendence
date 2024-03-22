@@ -101,7 +101,6 @@ class TournamentGameSingle(View):
 		game.save()
 		return JsonResponse(game.serialize())
 
-
 # Endpoint: /games/GAME_ID
 @method_decorator(check_structure("/games/GAME_ID"), name='dispatch')
 @method_decorator(check_object_exists(Game, 'game_id', GAME_404), name='dispatch')

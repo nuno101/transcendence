@@ -72,29 +72,58 @@
   },
   "tournamentsview": {
     "listoftournaments": "List of Tournaments",
-    "name": "Name",
+    "title": "Title",
     "creator": "Created by",
     "status": "Status",
     "actions": "Actions",
-    "open_register": "Open for registration",
-    "created": "Created",
-    "titleoftournament": "Title of tournament",
     "descriptionoftournament": "Description of tournament",
-	  "creatortournamentnickname": "Your tournament nickname (creator)",
     "cancel" : "Cancel",
     "createatournament" : "Create a tournament",
-	  "addtournament" : "Add a tournament",
-    "description" : "description",
-    "register" : "register",
-    "registrationclosed" : "Registration closed",
+	"addtournament" : "Add a tournament",
+    "description" : "Description",
     "created_at": "Created at",
-    "updated_at": "Updated at",
-    "delete": "Delete"
+    "last_update": "Last update",
+	"players" : "Players",
+	"titlealreadytaken" : "The title is already taken. Please choose a different title.",
+	"mytournaments" : "My Tournaments",
+	"(you)" : "(You)",
+	"entertitle" : "Enter title",
+	"enterdescription" : "Enter description"
+
   },
-  "onlinegameview": {
-    "inviteuser": "Invite User",
-    "findopponent": "Find Opponent"
-  },
+	"singletournamentsview": {
+		"openregistration" : "Open registration",
+		"registrationisnowopen" : "Registration is now open",
+		"deletetournament" : "Delete tournament",
+		"tournamentisnowdeleted" : "The tournament has been deleted",
+		"registrationforthistournamentisnotyetopen" : "Registration for this tournament is not yet open (contact",
+		"formoreinfo" : "for more info)",
+		"closeregistration" : "Close registration",
+		"registrationisnowclosed" : "Registration is now closed",
+		"canceltournament" : "Cancel tournament",
+		"thetournamenthasbeencancelled" : "The tournament has been cancelled",
+		"successfullunjointournament" : "You've successfully unjoined the tournament!",
+		"successfulljointournament" : "You've successfully joined the tournament!",
+		"unjointhetournament" : "Unjoin the tournament",
+		"jointhetournament" : "Join the tournament",
+		"starttournament" : "Start tournament",
+		"tournamentwillstartgetready" : "The tournament will start, get ready to play!",
+		"tournamentwillstartsoon" : "The tournament will start soon",
+		"success" : "Success",
+		"tournamentnickname" : "Nickname"
+		
+	},
+	"gameselection": {
+		"selectagame" : "Select a game",
+		"completedgames" : "Completed games",
+		"cancelgame" : "Cancel game",
+		"startgame" : "Start game",
+		"nogames" : "No game available"
+	},
+	"onlinegameview": {
+    	"inviteuser": "Invite User",
+    	"findopponent": "Find Opponent"
+  	},
   "onsitegameview": {
 
   },
