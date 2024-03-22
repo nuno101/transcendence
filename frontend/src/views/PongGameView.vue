@@ -1,7 +1,12 @@
 <template>
-	<div class="d-flex justify-content-center">
-		<div class="w-100 game-canvas ratio ratio-4x3">
-			<canvas ref="canvas"></canvas>
+	<div>
+		<div class="d-flex justify-content-center">
+			<div class="w-100 game-canvas ratio ratio-4x3">
+				<canvas ref="canvas"></canvas>
+			</div>
+		</div>
+		<div v-if="showHelp" class="position-absolute top-50 start-50 translate-middle">
+			<InstructionInfo :firstplayer="'TODO'" :secondplayer="'TODO'" />
 		</div>
 	</div>
 </template>
@@ -15,8 +20,10 @@ import Scene from '../js/game/Scene'
 import Style from '../js/game/Style'
 import Scores from '../js/game/Scores'
 import fps from '../js/game/fps'
+import InstructionInfo from '../components/game/InstructionInfo.vue'
 
 const canvas = ref(null)
+const showHelp = ref(true)
 const startTimerInitialValue = 1000
 let startTimer = startTimerInitialValue
 let gameStarted = false
@@ -163,10 +170,19 @@ const keyhook = (key) => {
 		} else {
 			Scene.stop = !Scene.stop
 		}
+		if (!Scene.stop) showHelp.value = false
 	}
 
 	if (key === 'f') {
 		fps.show = !fps.show
+	}
+
+	if (key === 'h') {
+		showHelp.value = !showHelp.value
+		if (showHelp.value) {
+			onscored()
+			Scene.stop = true
+		}
 	}
 }
 
