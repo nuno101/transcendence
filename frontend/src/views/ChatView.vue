@@ -1,38 +1,45 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import Backend from '../js/Backend';
-import Chat from '../js/Chat';
-import { globalUser } from '../main';
-import Channel from '../components/chat/Channel.vue';
-import Message from '../components/chat/Message.vue';
-import UserRow from '../components/common/UserRow.vue'
+import { ref, onMounted } from 'vue'
+import Backend from '../js/Backend'
+import Chat from '../js/Chat'
+import { globalUser } from '../main'
+import Channel from '../components/chat/Channel.vue'
+import Message from '../components/chat/Message.vue'
 import GetAvatar from '../components/common/GetAvatar.vue'
-const route = useRoute();
 
-const channels = ref([])
 const messageInput = ref('')
 const targetNickname = ref('')
 
-const blockedUsers = ref(null)
+const blockedUsers = ref([])
+const dmUserBlocked = ref(false)
 
-const createChannelError = ref('')
+const channelError = ref('')
 const messageError = ref('')
-const blockError = ref('')
 
 onMounted(() => {
     loadChannels();
+    loadBlockedUsers();
     Chat.messages.value = []
     Chat.selected_channel.value = null
 })
 
 async function loadChannels() {
     try {
+        Chat.channels.value = []
         let data = await Backend.get('/api/users/me/channels')
         Chat.channels.value = data
     } catch (err) {
+        channelError.value = err
+    }
+}
+
+async function loadBlockedUsers() {
+    try {
+        blockedUsers.value = []
+        blockedUsers.value = await Backend.get(`/api/users/me/blocked`)
+        console.log("Loaded blocked users")
+    } catch (err) {
         console.log(err)
-        Chat.channels.value = []
         // TODO: Display error message
     }
 }
@@ -49,15 +56,20 @@ async function loadMessages(channel) {
     }
 }
 
+async function selectChannel(channel) {
+    await loadMessages(channel)
+    dmUserBlocked.value = isDmUserBlocked()
+}
+
 async function createChannel() {
     try {
         let data = await Backend.post(`/api/channels`, {
             nickname: targetNickname.value
         })
         Chat.channels.value.unshift(data)
-        createChannelError.value = ''
+        channelError.value = ''
     } catch (err) {
-        createChannelError.value = err
+        channelError.value = err
     }
 }
 
@@ -84,86 +96,89 @@ async function deleteMessage(message) {
 
 async function blockUser() {
     let dm_user = getChannelMember()
-    let blocked_users = null
 
     try {
-        blocked_users = await Backend.get(`/api/users/me/blocked`)
+        await Backend.post(`/api/users/me/blocked`, {
+            user_id: dm_user.id
+        })
+        blockedUsers.value.unshift(dm_user)
+        dmUserBlocked.value = true
+        console.log("Blocked user")
     } catch (err) {
         // TODO: Error handling
-        console.log("Failed to get blocked users")
-        return
+        console.log(`Failed to block: ${err}`)
     }
 
-    if (!blocked_users.some(e => e.id === dm_user.id)) {
-        try {
-            await Backend.post(`/api/users/me/blocked`, {
-                user_id: dm_user.id
-            })
-            console.log("Blocked user")
-        } catch (err) {
-            // TODO: Error handling
-            console.log(`Failed to block: ${err}`)
-        }
-    } else {
-        try {
-            let data = await Backend.delete(`/api/users/me/blocked/${dm_user.id}`, {
-                user_id: dm_user.id
-            })
-            console.log("Unblocked user")
-        } catch (err) {
-            // TODO: Error handling
-            console.log("Failed to unblock")
-        }
+}
+
+async function unblockUser() {
+    let dm_user = getChannelMember()
+
+    try {
+        await Backend.delete(`/api/users/me/blocked/${dm_user.id}`, {
+            user_id: dm_user.id
+        })
+        blockedUsers.value = blockedUsers.value.filter(u => u.id !== dm_user.id)
+        dmUserBlocked.value = false
+        console.log("Unblocked user")
+    } catch (err) {
+        // TODO: Error handling
+        console.log("Failed to unblock")
     }
 }
 
+async function isDmUserBlocked() {
+    let dm_user = getChannelMember()
+
+    return blockedUsers.value.some(e => e.id == dm_user.id)
+}
+
 function getChannelMember() {
-    if (Chat.selected_channel.value.members[0].id == globalUser.value.id) {
+    if (Chat.selected_channel.value.members[0].id === globalUser.value.id) {
         return Chat.selected_channel.value.members[1]
     }
     return Chat.selected_channel.value.members[0]
 }
-
 </script>
 
 <template>
     <div class="row mb-3">
-
         <!-- Sidebar with channels -->
         <div class="col-md-3">
             <div class="mb-2">
                 <div class="input-group">
-                    <input type="text" placeholder="DM user nickname" class="form-control" v-model="targetNickname"
+                    <input type="text" placeholder="Nickname" class="form-control mb-1" v-model="targetNickname"
                         @keyup.enter="createChannel" />
-                    <button class="btn btn-primary" @click="createChannel">Create</button>
+                    <button class="btn btn-primary mb-1" @click="createChannel">Create</button>
                 </div>
-                <div v-if="createChannelError !== ''" class="alert alert-danger d-flex align-items-center p-1"
+                <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1"
                     role="alert">
-                    {{ createChannelError }}
+                    {{ channelError }}
                 </div>
             </div>
             <ul class="channel-container list-group">
                 <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
-                    :selected="channel === Chat.selected_channel.value" @selected="loadMessages(channel)" />
+                    :selected="channel === Chat.selected_channel.value" @selected="selectChannel(channel)" />
             </ul>
         </div>
 
         <!-- Container for selected channels -->
         <div v-if="Chat.selected_channel.value" class="col-md-9">
             <div class="border rounded d-flex align-items-center justify-content-between mb-1">
-                <GetAvatar :id="getChannelMember().id" :size=45 class="avatar" />
+                <GetAvatar :id="getChannelMember().id" :size=40 class="avatar m-1" />
                 <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
                         getChannelMember().username
                     }}</router-link>
-                <button class="btn btn-danger" @click="blockUser">Block user</button>
+                <button v-if="dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">Block user</button>
+                <button v-else class="btn btn-danger" @click="unblockUser">Unblock user</button>
             </div>
             <div class="message-container">
                 <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
                     @deleted="deleteMessage(message)" />
             </div>
             <div class="mt-1">
-                <div class="input-group">
-                    <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" />
+                <div class="input-group mb-1">
+                    <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" placeholder="Send a message"/>
                 </div>
                 <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
                     {{ messageError }}
