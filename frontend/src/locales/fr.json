@@ -23,7 +23,8 @@
         "upcomingGames": "Prochains jeux",
         "opponent": "Adversaire",
         "tournament": "Tournoi",
-        "noUpcomingGames": "Aucun jeu à venir"
+        "noUpcomingGames": "Aucun jeu à venir",
+        "play": "TODO"
     },
     "login": {
         "login": "Se connecter",
@@ -42,7 +43,8 @@
         "tournaments": "Tournois",
         "game": "Jeu",
         "online": "En ligne",
-        "onsite": "Sur place"
+        "onsite": "Sur place",
+        "demo": "TODO"
     },
     "settings": {
         "saveChanges": "Enregistrer les modifications",
@@ -98,7 +100,14 @@
   
     },
     "ponggameview": {
-  
+        "loadingfetch": "TODO",
+        "loadingsend": "TODO",
+        "unexpectederror": "TODO",
+        "accuredduring": "TODO",
+        "paused": "TODO",
+        "wonthegame": "TODO",
+        "press": "TODO",
+        "tocontinue": "TODO"
     },
     "auth": {
         "authentication": "Authentification",
@@ -112,7 +121,15 @@
         "and": "et",
         "toMoveThe": "pour déplacer la",
         "leftPaddle": "raquette gauche",
-        "rightPaddle": "raquette droite"
+        "rightPaddle": "raquette droite",
+        "leftplayer": "TODO",
+        "rightplayer": "TODO",
+        "goal": "TODO",
+        "startOrPause": "TODO",
+        "showOrHide": "TODO",
+        "theGame": "TODO",
+        "theseInstructions": "TODO",
+        "fpsCounter": "TODO"
     },
     "notif": {
         "noNotifications": "Pas de notifications",
