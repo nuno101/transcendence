@@ -112,7 +112,13 @@
       "and": "und",
       "toMoveThe": "zur Bewegung des",
       "leftPaddle": "linken Schläger",
-      "rightPaddle": "rechten Schläger"
+      "rightPaddle": "rechten Schläger",
+      "goal": "Das Ziel für beide Spieler ist es elf Punkte vor dem Gegner zu erreichen",
+      "startOrPause": "starte/pausiere",
+      "showOrHide": "zeige/verberge",
+      "theGame": "das Spiel",
+      "theseInstructions": "diese Anleitung",
+      "fpsCounter": "fps Anzeige"
     },
     "notif": {
       "noNotifications": "Keine Benachrichtigungen",

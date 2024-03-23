@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 import datetime
 from .models import User
 from . import bridge_websocket as websocket
@@ -13,7 +14,12 @@ def update_user(user: User, parameters: dict):
     if parameters.get('nickname') is not None:
       user.nickname = parameters.get('nickname')
     if parameters.get('password') is not None:
-      user.set_password(parameters.get('password'))
+      password = parameters.get('password')
+      try:
+          validate_password(password, user)
+      except Exception as e:
+          return JsonResponse({ERROR_FIELD: "Invalid password (choose a better one)"}, status=400)
+      user.set_password(password)
     tournament_id = parameters.get('tournament_id')
     if tournament_id is not None:
       tournament = Tournament.objects.get(id=tournament_id)
