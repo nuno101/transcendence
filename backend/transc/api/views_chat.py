@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from .decorators import *
 from .models import Channel, Message, User
-from .helpers_channels import *
 from .helpers_messages import *
 from . import bridge_websocket as websocket
 
