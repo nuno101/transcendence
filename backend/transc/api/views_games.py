@@ -57,7 +57,7 @@ class TournamentGameSingle(View):
 		if game.status == Game.MatchStatus.CREATED and game.tournament.status == Tournament.TournamentStatus.ONGOING:
 			player1_score = int(request.json.get('player1_score', 0))
 			player2_score = int(request.json.get('player2_score', 0))
-			if (player1_score == 11 or player2_score == 11) and (player1_score + player1_score < 22):
+			if (player1_score == 11 or player2_score == 11) and (player1_score + player2_score < 22):
 				game.player1_score = player1_score
 				game.player2_score = player2_score
 				game.status = Game.MatchStatus.DONE
