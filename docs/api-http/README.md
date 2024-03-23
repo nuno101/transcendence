@@ -1,8 +1,8 @@
 # Statistics
 
-Total number of urls: 33
+Total number of urls: 29
 
-Total number of methods: 56
+Total number of methods: 46
 # Table of Contents
 
 - [/login](#login)
@@ -32,11 +32,7 @@ Total number of methods: 56
 - [/games](#games)
 - [/games/GAME_ID](#games-GAME_ID)
 - [/channels](#channels)
-- [/channels/CHANNEL_ID](#channels-CHANNEL_ID)
-- [/channels/CHANNEL_ID/members](#channels-CHANNEL_ID-members)
-- [/channels/CHANNEL_ID/members/USER_ID](#channels-CHANNEL_ID-members-USER_ID)
 - [/channels/CHANNEL_ID/messages](#channels-CHANNEL_ID-messages)
-- [/messages](#messages)
 - [/messages/MESSAGE_ID](#messages-MESSAGE_ID)
 
 # Endpoint description
@@ -580,28 +576,11 @@ Total number of methods: 56
 
 ## games
 
-### GET
-
 ### POST
 
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
-
-<tr><td>tournament_id</td><td>
-<table>
-
-<tr><td>type</td><td>id</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>default</td><td>null</td></tr>
-
-<tr><td>description</td><td>ID of the tournament</td></tr>
-
-</table>
-
-</td></tr>
 
 <tr><td>player1_id</td><td>
 <table>
@@ -629,36 +608,6 @@ Total number of methods: 56
 
 </td></tr>
 
-<tr><td>player1_score</td><td>
-<table>
-
-<tr><td>type</td><td>integer</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>default</td><td>0</td></tr>
-
-<tr><td>description</td><td>Score of the first player</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>player2_score</td><td>
-<table>
-
-<tr><td>type</td><td>integer</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>default</td><td>0</td></tr>
-
-<tr><td>description</td><td>Score of the second player</td></tr>
-
-</table>
-
-</td></tr>
-
 </table>
 
 ## games-GAME_ID
@@ -676,7 +625,7 @@ Total number of methods: 56
 
 <tr><td>type</td><td>integer</td></tr>
 
-<tr><td>required</td><td>False</td></tr>
+<tr><td>required</td><td>True</td></tr>
 
 <tr><td>description</td><td>Score of the first player</td></tr>
 
@@ -689,22 +638,9 @@ Total number of methods: 56
 
 <tr><td>type</td><td>integer</td></tr>
 
-<tr><td>required</td><td>False</td></tr>
+<tr><td>required</td><td>True</td></tr>
 
 <tr><td>description</td><td>Score of the second player</td></tr>
-
-</table>
-
-</td></tr>
-
-<tr><td>status</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>description</td><td>Status of the game</td></tr>
 
 </table>
 
@@ -716,84 +652,26 @@ Total number of methods: 56
 
 ## channels
 
-### GET
-
 ### POST
 
 <table>
 
 <tr><th>Body Parameters</th><th></th></tr>
 
-<tr><td>name</td><td>
+<tr><td>nickname</td><td>
 <table>
 
 <tr><td>type</td><td>string</td></tr>
 
 <tr><td>required</td><td>True</td></tr>
 
-<tr><td>description</td><td>Name of the channel</td></tr>
+<tr><td>description</td><td>The username of the user to add to the DM</td></tr>
 
 </table>
 
 </td></tr>
 
 </table>
-
-## channels-CHANNEL_ID
-
-### GET
-
-### PATCH
-
-<table>
-
-<tr><th>Body Parameters</th><th></th></tr>
-
-<tr><td>name</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>False</td></tr>
-
-<tr><td>description</td><td>Name of the channel</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
-
-### DELETE
-
-## channels-CHANNEL_ID-members
-
-### GET
-
-### POST
-
-<table>
-
-<tr><th>Body Parameters</th><th></th></tr>
-
-<tr><td>user_id</td><td>
-<table>
-
-<tr><td>type</td><td>id</td></tr>
-
-<tr><td>required</td><td>True</td></tr>
-
-<tr><td>description</td><td>ID of the user to add to the channel</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
-
-## channels-CHANNEL_ID-members-USER_ID
-
-### DELETE
 
 ## channels-CHANNEL_ID-messages
 
@@ -820,32 +698,7 @@ Total number of methods: 56
 
 </table>
 
-## messages
-
-### GET
-
 ## messages-MESSAGE_ID
-
-### PATCH
-
-<table>
-
-<tr><th>Body Parameters</th><th></th></tr>
-
-<tr><td>content</td><td>
-<table>
-
-<tr><td>type</td><td>string</td></tr>
-
-<tr><td>required</td><td>True</td></tr>
-
-<tr><td>description</td><td>Content of the message</td></tr>
-
-</table>
-
-</td></tr>
-
-</table>
 
 ### DELETE
 
