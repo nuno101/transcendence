@@ -6,10 +6,10 @@
 					<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 						<div v-for="r in navRoutes" >
 							<li v-if="Array.isArray(r.name)" class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" :class="[r.name.some(e => e.name.includes(route.name)) ? activeView : inactiveView]" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{useI18n().t(r.button)}}</a>
-								<ul class="dropdown-menu">
+								<a class="nav-link dropdown-toggle px-2 text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{useI18n().t(r.button)}}</a>
+								<ul class="dropdown-menu dropdown-menu-dark">
 									<li v-for="subr in r.name">
-										<router-link :to="{ name: subr.name }" class="dropdown-item">{{useI18n().t(subr.button)}}</router-link>
+										<router-link :to="{ name: subr.name }" :class="[ subr.name === route.name ? activeView : inactiveView, { 'dropdown-item': true }]">{{useI18n().t(subr.button)}}</router-link>
 									</li>
 								</ul>
 							</li>
@@ -57,12 +57,12 @@ const signedup = ref(false)
 const inactiveView = {
 	'nav-link': true,
 	'px-2': true,
-	'text-white': true
+	'text-white': true,
 }
 const activeView = {
 	'nav-link': true,
 	'px-2': true,
-	'text-secondary': true
+	'text-secondary': true,
 }
 const route = useRoute()
 const router = useRouter()
@@ -75,7 +75,8 @@ const navRoutes = [
 	{ name: 'tournaments', button: 'header.tournaments' },
 	{ name: [
 		{ name: 'game/online', button: 'header.online'},
-		{ name: 'game/onsite', button: 'header.onsite' }
+		{ name: 'game/onsite', button: 'header.onsite' },
+		{ name: 'demo', button: 'header.demo'},
 	], button: 'header.game'}
 ]
 const logoutRoute = { name: 'logout' }
