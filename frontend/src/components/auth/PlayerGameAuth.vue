@@ -51,9 +51,7 @@ const props = defineProps({
 	game_id: {
 		default: null
 	},
-	player1: {
-		default: null
-	},
+	player1: {},
 	player2: {
 		default: null
 	}
@@ -76,7 +74,7 @@ const openModal = () => {
 	authPlayers.value.push({ 
 		user: props.player1 ? props.player1 : { username: '' }, 
 		isGiven: props.player1 !== null, 
-		isAuthenticated: props.player1 !== null ? props.player1.username === globalUser.value.username : false, 
+		isAuthenticated: props.player1 ? props.player1.username === globalUser.value.username : false, 
 		alerts: [] 
 	});
 	authPlayers.value.push({ 

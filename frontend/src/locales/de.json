@@ -23,7 +23,8 @@
       "upcomingGames": "Bevorstehende Spiele",
       "opponent": "Gegner",
       "tournament": "Turnier",
-      "noUpcomingGames": "Keine bevorstehenden Spiele"
+      "noUpcomingGames": "Keine bevorstehenden Spiele",
+      "play": "Spielen"
     },
     "login": {
       "login": "Anmelden",
@@ -42,7 +43,8 @@
       "tournaments": "Turniere",
       "game": "Spiel",
       "online": "Online",
-      "onsite": "Vor Ort"
+      "onsite": "Vor Ort",
+      "demo": "Demo"
     },
     "settings": {
       "saveChanges": "Änderungen speichern",
@@ -75,7 +77,7 @@
       "username": "Benutzername",
       "nickname": "Spitzname",
       "created_at": "Erstellt am",
-      "updated_at": "Aktualiziert am"
+      "updated_at": "Aktualisiert am"
     },
     "tournamentsview": {
       "tournaments": "Turniere",
@@ -98,7 +100,14 @@
   
     },
     "ponggameview": {
-  
+      "loadingfetch": "empfange Daten vom Server",
+      "loadingsend": "sende Daten an Server",
+      "unexpectederror": "unerwarteter Fehler",
+      "accuredduring": "aufgetreten während",
+      "paused": "Pausiert",
+      "wonthegame": "hat das Spiel gewonnen",
+      "press": "drücke",
+      "tocontinue": "um fortzufahren"
     },
     "auth": {
       "authentication": "Authentifizierung",
@@ -111,8 +120,10 @@
       "uses": "verwendet",
       "and": "und",
       "toMoveThe": "zur Bewegung des",
-      "leftPaddle": "linken Schläger",
-      "rightPaddle": "rechten Schläger",
+      "leftPaddle": "linken Schlägers",
+      "rightPaddle": "rechten Schlägers",
+      "leftplayer": "Spieler links",
+      "rightplayer": "Spieler rechts",
       "goal": "Das Ziel für beide Spieler ist es elf Punkte vor dem Gegner zu erreichen",
       "startOrPause": "starte/pausiere",
       "showOrHide": "zeige/verberge",
