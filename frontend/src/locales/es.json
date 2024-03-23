@@ -123,5 +123,8 @@
     "notfound": {
         "pageNotFound": "Página no encontrada",
         "thisPageIsntAvailable": "Esta página no está disponible"
+    },
+    "err": {
+      "Invalid login credentials": "Credenciales invalidas"
     }
   }
