@@ -116,7 +116,6 @@ class TournamentSingle(View):
 @method_decorator(check_object_exists(Tournament, 'tournament_id', TOURNAMENT_404), name='dispatch')
 
 class TournamentSinglePlay(View):
-
 	def post(self, request, tournament_id):
 		tournament = Tournament.objects.get(id=tournament_id)
 		if tournament.status != "registration_open":
