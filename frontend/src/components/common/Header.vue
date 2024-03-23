@@ -6,7 +6,7 @@
 					<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 						<div v-for="r in navRoutes" >
 							<li v-if="Array.isArray(r.name)" class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle nav-link px-2 text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{useI18n().t(r.button)}}</a>
+								<a class="nav-link dropdown-toggle px-2 text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{useI18n().t(r.button)}}</a>
 								<ul class="dropdown-menu dropdown-menu-dark">
 									<li v-for="subr in r.name">
 										<router-link :to="{ name: subr.name }" :class="[ subr.name === route.name ? activeView : inactiveView, { 'dropdown-item': true }]">{{useI18n().t(subr.button)}}</router-link>
