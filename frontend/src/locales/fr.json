@@ -112,7 +112,13 @@
         "and": "et",
         "toMoveThe": "pour déplacer la",
         "leftPaddle": "raquette gauche",
-        "rightPaddle": "raquette droite"
+        "rightPaddle": "raquette droite",
+        "goal": "TODO",
+        "startOrPause": "TODO",
+        "showOrHide": "TODO",
+        "theGame": "TODO",
+        "theseInstructions": "TODO",
+        "fpsCounter": "TODO"
     },
     "notif": {
         "noNotifications": "Pas de notifications",
