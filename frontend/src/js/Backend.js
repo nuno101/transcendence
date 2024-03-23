@@ -30,7 +30,8 @@ class Backend {
             method: 'POST',
             credentials: 'include',
             headers: {
-                'Content-Type': 'application/json' // Specify the content type as JSON
+                'Content-Type': 'application/json', // Specify the content type as JSON
+                'Accept-Language': localStorage.getItem('selected')
             },
             body: JSON.stringify(postdata)
         }
@@ -46,7 +47,10 @@ class Backend {
     static async get(path) {
         const arg = {
             method: 'GET',
-            credentials: 'include'
+            credentials: 'include',
+            headers: {
+                'Accept-Language': localStorage.getItem('selected')
+            }
         }
 
         const respone = await fetch(path, arg)
@@ -64,6 +68,7 @@ class Backend {
             credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
+                'Accept-Language': localStorage.getItem('selected')
 			},
             body: JSON.stringify(patchData),
         };
@@ -80,7 +85,10 @@ class Backend {
     static async delete(path) {
         const arg = {
             method: 'DELETE',
-            credentials: 'include'
+            credentials: 'include',
+            headers: {
+                'Accept-Language': localStorage.getItem('selected')
+            }
         };
         const respone = await fetch(path, arg)
         
@@ -93,7 +101,10 @@ class Backend {
     static async getAvatar(path) {
         const arg = {
             method: 'GET',
-            credentials: 'include'
+            credentials: 'include',
+            headers: {
+                'Accept-Language': localStorage.getItem('selected')
+            }
         }
 
         const respone = await fetch(path, arg)
@@ -114,6 +125,9 @@ class Backend {
         const arg = {
             method: 'POST',
             credentials: 'include',
+            headers: {
+                'Accept-Language': localStorage.getItem('selected')
+            },
             body: postdata
         }
         const respone = await fetch(path, arg)
