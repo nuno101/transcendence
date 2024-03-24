@@ -59,7 +59,7 @@ async function loadMessages(channel) {
 
 async function selectChannel(channel) {
     await loadMessages(channel)
-    dmUserBlocked.value = isDmUserBlocked()
+    dmUserBlocked.value = await isDmUserBlocked()
 }
 
 async function createChannel() {
@@ -104,7 +104,6 @@ async function blockUser() {
         })
         blockedUsers.value.unshift(dm_user)
         dmUserBlocked.value = true
-        console.log("Blocked user")
     } catch (err) {
         // TODO: Error handling
         console.log(`Failed to block: ${err}`)
@@ -121,7 +120,6 @@ async function unblockUser() {
         })
         blockedUsers.value = blockedUsers.value.filter(u => u.id !== dm_user.id)
         dmUserBlocked.value = false
-        console.log("Unblocked user")
     } catch (err) {
         // TODO: Error handling
         console.log("Failed to unblock")
@@ -170,8 +168,8 @@ function getChannelMember() {
                 <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
                         getChannelMember().username
                     }}</router-link>
-                <button v-if="dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
-                <button v-else class="btn btn-danger" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
+                <button v-if="!dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
+                <button v-else class="btn btn-success" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
             </div>
             <div class="message-container">
                 <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
