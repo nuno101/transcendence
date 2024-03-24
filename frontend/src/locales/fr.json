@@ -34,6 +34,9 @@
         "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
         "logout": "Se déconnecter"
     },
+    "logout": {
+        "videonotsupported": "TODO"
+    },
     "header": {
         "home": "Accueil",
         "friends": "Amis",
@@ -129,7 +132,14 @@
         "showOrHide": "TODO",
         "theGame": "TODO",
         "theseInstructions": "TODO",
-        "fpsCounter": "TODO"
+        "fpsCounter": "TODO",
+        "spacebar": "TODO",
+        "wkey": "TODO",
+        "skey": "TODO",
+        "arrowup": "TODO",
+        "arrowdown": "TODO",
+        "hkey": "TODO",
+        "fkey": "TODO"
     },
     "notif": {
         "noNotifications": "Pas de notifications",

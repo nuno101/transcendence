@@ -1,6 +1,6 @@
 <template>
     <div class="alert alert-primary fs-1" role="alert">
-        {{ i18n.t('ponggameview.paused') }}
+        <strong>{{ i18n.t('ponggameview.paused') }}</strong>
     </div>
 </template>
 

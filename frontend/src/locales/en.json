@@ -34,6 +34,9 @@
     "alreadyHaveAnAccount": "Already have an account?",
     "logout": "Logout"
   },
+  "logout": {
+    "videonotsupported": "video not supported"
+  },
   "header": {
     "home": "Home",
     "friends": "Friends",
@@ -130,7 +133,14 @@
     "showOrHide": "show/hide",
     "theGame": "the game",
     "theseInstructions": "these instructions",
-    "fpsCounter": "fps counter"
+    "fpsCounter": "fps counter",
+    "spacebar": "space bar",
+    "wkey": "w key",
+    "skey": "s key",
+    "arrowup": "arrow up",
+    "arrowdown": "arrow down",
+    "hkey": "h key",
+    "fkey": "f key"
   },
   "auth": {
     "authentication": "authentication",
