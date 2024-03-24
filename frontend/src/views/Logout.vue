@@ -1,26 +1,31 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center">
-        <video class="rounded" loop autoplay muted>
+    <div class="d-flex justify-content-center">
+        <video class="rounded w-100 logout-video" loop autoplay muted>
             <source :src="gifUrl" type="video/mp4">
-            not supported
+            {{ i18n.t('logout.videonotsupported') }}
         </video>
     </div>
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
 const gifUrls = [
-    'https://media.tenor.com/_U6dCguctMcAAAPo/naza-bart.mp4',
-    'https://media.tenor.com/HBJsDrF5ABQAAAPo/fml-my.mp4',
-    'https://media.tenor.com/cv7t69yhNYwAAAPo/peace-out-bye.mp4',
-    'https://media.tenor.com/5P7B09VEneEAAAPo/respect-pirate.mp4',
-    'https://media.tenor.com/PG9agp6LazAAAAPo/back-to.mp4',
+    'whyyyy-why.mp4',
+    'hi.mp4',
+    'goodbye-bye-bye.mp4',
+    'naza-bart.mp4',
+    'fml-my.mp4',
+    'peace-out-bye.mp4',
+    'respect-pirate.mp4',
+    'back-to.mp4',
 ]
-const gifUrl = gifUrls[Math.floor(Math.random() * gifUrls.length)]
+const gifUrl = '/src/assets/video/' + gifUrls[Math.floor(Math.random() * gifUrls.length)]
 </script>
 
 <style scoped>
-    video {
-        width: 100%;
+    .logout-video {
         max-width: 25rem;
         min-width: 10rem;
     }
