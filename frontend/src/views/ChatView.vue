@@ -169,7 +169,7 @@ function getChannelMember() {
                         getChannelMember().username
                     }}</router-link>
                 <button v-if="!dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
-                <button v-else class="btn btn-success" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
+                <button v-else class="btn btn-success m-1" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
             </div>
             <div class="message-container">
                 <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
