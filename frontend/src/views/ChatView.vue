@@ -1,4 +1,5 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { ref, onMounted } from 'vue'
 import Backend from '../js/Backend'
 import Chat from '../js/Chat'
@@ -147,9 +148,9 @@ function getChannelMember() {
         <div class="col-md-3 border border-primary">
             <div class="mb-2 mt-2">
                 <div class="input-group">
-                    <input type="text" placeholder="Nickname" class="form-control" v-model="targetNickname"
+                    <input type="text" :placeholder="useI18n().t('chatview.nickname')" class="form-control" v-model="targetNickname"
                         @keyup.enter="createChannel" />
-                    <button class="btn btn-primary" @click="createChannel">Create</button>
+                    <button class="btn btn-primary" @click="createChannel">{{useI18n().t('chatview.create')}}</button>
                 </div>
                 <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1"
                     role="alert">
@@ -169,8 +170,8 @@ function getChannelMember() {
                 <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
                         getChannelMember().username
                     }}</router-link>
-                <button v-if="dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">Block user</button>
-                <button v-else class="btn btn-danger" @click="unblockUser">Unblock user</button>
+                <button v-if="dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
+                <button v-else class="btn btn-danger" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
             </div>
             <div class="message-container">
                 <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
@@ -178,7 +179,7 @@ function getChannelMember() {
             </div>
             <div class="mt-2">
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" placeholder="Send a message"/>
+                    <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" :placeholder="useI18n().t('chatview.sendMessage')" />
                 </div>
                 <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
                     {{ messageError }}

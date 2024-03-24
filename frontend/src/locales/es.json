@@ -140,5 +140,12 @@
     "notfound": {
         "pageNotFound": "Página no encontrada",
         "thisPageIsntAvailable": "Esta página no está disponible"
+    },
+    "chatview": {
+      "sendMessage": "Enviar un mensaje",
+      "blockUser": "Bloquear",
+      "unblockUser": "Desatascar",
+      "create": "Crear",
+      "nickname": "Apodo"
     }
   }
