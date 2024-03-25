@@ -32,7 +32,8 @@
     "rememberMe": "Remember me",
     "signUp": "Sign up",
     "alreadyHaveAnAccount": "Already have an account?",
-    "logout": "Logout"
+    "logout": "Logout",
+    "successfullySignedUp": "Successfully signed up"
   },
   "header": {
     "home": "Home",
@@ -196,7 +197,8 @@
     "Message not found": "Message not found",
     "No permission to access message": "No permission to access message",
     "413 Request Entity Too Large": "413 Request Entity Too Large",
-    "User with this Nickname already exists.": "User with this Nickname already exists."
+    "User with this Nickname already exists.": "User with this Nickname already exists.",
+    "Avatar is too large": "Avatar is too large"
   },
   "succ": {
     "Hello, world. You're at the transcendence index.": "Hello, world. You're at the transcendence index.",

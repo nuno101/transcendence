@@ -60,8 +60,12 @@ const submitChanges = async() => {
 const changeAvatar = async(event) => {
   const file = event.target.files[0];
   if(file){
-    inputavatar.value = file;
-    useravatar.value = URL.createObjectURL(file);
+    if(file.size > 1048576) {
+      updateErrorMessage.value = "Avatar is too large";
+    } else {
+      inputavatar.value = file;
+      useravatar.value = URL.createObjectURL(file);
+    }
   }
 };
 </script>
@@ -116,7 +120,7 @@ const changeAvatar = async(event) => {
               <div class="mt-5 text-center text-sm-start">
               <button type="button" class="btn btn-outline-primary" @click="submitChanges" :disabled="input.password !== password2">{{useI18n().t('settings.saveChanges')}}</button>
               <div v-if="updateErrorMessage !== ''" class="p-2 mt-1 alert alert-danger" role="alert">
-                 {{ useI18n().t(`err.${updateErrorMessage}`) }}
+                 {{ useI18n().te(`err.${updateErrorMessage}`) ? useI18n().t(`err.${updateErrorMessage}`) :  updateErrorMessage}}
               </div>
               <!-- ADD SUCCESS MESSAGE? -->
               </div>

@@ -32,7 +32,8 @@
       "rememberMe": "Erinnere dich an mich",
       "signUp": "Registrieren",
       "alreadyHaveAnAccount": "Du bist bereits registriert?",
-      "logout": "Abmelden"
+      "logout": "Abmelden",
+      "successfullySignedUp": "Erfolgreich registriert"
     },
     "header": {
       "home": "Startseite",
@@ -188,7 +189,8 @@
       "Message not found": "Nachricht nicht gefunden",
       "No permission to access message": "Keine Berechtigung zum Zugriff auf die Nachricht",
       "413 Request Entity Too Large": "413 Anforderung zu groß",
-      "User with this Nickname already exists.": "Benutzer mit diesem Nicknamen existiert bereits."
+      "User with this Nickname already exists.": "Benutzer mit diesem Nicknamen existiert bereits.",
+      "Avatar is too large": "Avatar ist zu groß"
     },
     "succ": {
       "Hello, world. You're at the transcendence index.": "Hallo Welt. Du bist auf dem Transzendenz-Index.",

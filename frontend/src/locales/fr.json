@@ -24,7 +24,7 @@
         "opponent": "Adversaire",
         "tournament": "Tournoi",
         "noUpcomingGames": "Aucun jeu à venir",
-        "play": "TODO"
+        "play": "jouer"
     },
     "login": {
         "login": "Se connecter",
@@ -32,7 +32,8 @@
         "rememberMe": "Se souvenir de moi",
         "signUp": "S'inscrire",
         "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
-        "logout": "Se déconnecter"
+        "logout": "Se déconnecter",
+        "successfullySignedUp": "Inscription réussie"
     },
     "header": {
         "home": "Accueil",
@@ -44,7 +45,7 @@
         "game": "Jeu",
         "online": "En ligne",
         "onsite": "Sur place",
-        "demo": "TODO"
+        "demo": "Démo"
     },
     "settings": {
         "saveChanges": "Enregistrer les modifications",
@@ -100,14 +101,14 @@
   
     },
     "ponggameview": {
-        "loadingfetch": "TODO",
-        "loadingsend": "TODO",
-        "unexpectederror": "TODO",
-        "accuredduring": "TODO",
-        "paused": "TODO",
-        "wonthegame": "TODO",
-        "press": "TODO",
-        "tocontinue": "TODO"
+        "loadingfetch": "chargement des données depuis le serveur",
+        "loadingsend": "envoi des données au serveur",
+        "unexpectederror": "erreur inattendue",
+        "accuredduring": "survenue pendant",
+        "paused": "En pause",
+        "wonthegame": "a remporté la partie",
+        "press": "appuyez sur",
+        "tocontinue": "pour continuer"
     },
     "auth": {
         "authentication": "Authentification",
@@ -122,14 +123,14 @@
         "toMoveThe": "pour déplacer la",
         "leftPaddle": "raquette gauche",
         "rightPaddle": "raquette droite",
-        "leftplayer": "TODO",
-        "rightplayer": "TODO",
-        "goal": "TODO",
-        "startOrPause": "TODO",
-        "showOrHide": "TODO",
-        "theGame": "TODO",
-        "theseInstructions": "TODO",
-        "fpsCounter": "TODO"
+        "leftplayer": "Joueur gauche",
+        "rightplayer": "Joueur droit",
+        "goal": "Objectif",
+        "startOrPause": "Démarrer/Pause",
+        "showOrHide": "Afficher/Masquer",
+        "theGame": "le jeu",
+        "theseInstructions": "Ces instructions",
+        "fpsCounter": "Compteur de FPS"
     },
     "notif": {
         "noNotifications": "Pas de notifications",
@@ -188,7 +189,8 @@
         "Message not found": "Message non trouvé",
         "No permission to access message": "Pas de permission pour accéder au message",
         "413 Request Entity Too Large": "413 Demande d'entité trop volumineuse",
-        "User with this Nickname already exists.": "L'utilisateur avec ce pseudonyme existe déjà."
+        "User with this Nickname already exists.": "L'utilisateur avec ce pseudonyme existe déjà.",
+        "Avatar is too large": "L'avatar est trop grand"
     },
     "succ": {
         "Hello, world. You're at the transcendence index.": "Bonjour, monde. Vous êtes à l'index de la transcendance.",

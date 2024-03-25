@@ -8,7 +8,7 @@
 				</div>
 				<div class="modal-body p-5 pt-0">
 					<div v-for="alert in alerts" :class="alert.type">
-						<div>{{ useI18n().t(`err.${alert.message}`)}}</div>
+						<div>{{ useI18n().te(`err.${alert.message}`) ? useI18n().t(`err.${alert.message}`) :  alert.message}}</div>
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 					<form @submit.prevent="LogIn" class="">
@@ -56,7 +56,7 @@ const loading = ref(false)
 watch(signedup, (newValue) => {
 	if (!newValue) return
 	alerts.value.push({
-		message: 'Successfuly signed up',
+		message: useI18n().t('login.successfullySignedUp'),
 		type: {'alert': true, 'alert-success': true, 'alert-dismissible': true }
 	})
 	signedup.value = false
