@@ -21,7 +21,7 @@ export const playerCollision = (objects, player, depth) => {
 		console.warn('player is stuck')
 		return
 	}
-	
+
 	player.position.add(Vector.scalarMul(player.direction, intersection.factor))
 	if (intersection.factor === 1) return
 	player.direction = Vector.scalarMul(player.direction, 1 - intersection.factor)
