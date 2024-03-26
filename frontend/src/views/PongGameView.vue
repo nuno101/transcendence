@@ -5,8 +5,8 @@
 			<div class="position-absolute d-flex align-items-center justify-content-center">
 				<GameError v-if="showGameError" :message="showGameError" :during="showGameLoading"/>
 				<GameLoading v-else-if="showGameLoading" :message="showGameLoading"/>
-				<GameOver v-else-if="showGameOver" :winner="Scores.winner() === 'left' ? playerName.left : playerName.right" :firstscore="Scores.leftScore()" :secondscore="Scores.rightScore()" />
-				<InstructionInfo v-else-if="showHelp" :firstplayer="playerName.left" :secondplayer="playerName.right" />
+				<GameOver v-else-if="showGameOver" :winner="Scores.winner() === 'left' ? playerName.left : playerName.right" :firstscore="Scores.leftScore()" :secondscore="Scores.rightScore()" :ai="playerName.ai"/>
+				<InstructionInfo v-else-if="showHelp" :firstplayer="playerName.left" :secondplayer="playerName.right" :ai="playerName.ai"/>
 				<GamePaused v-else-if="showGamePaused" />
 			</div>
 		</div>
@@ -29,6 +29,8 @@ import GameOver from '../components/game/GameOver.vue'
 import GamePaused from '../components/game/GamePaused.vue'
 import GameLoading from '../components/game/GameLoading.vue'
 import GameError from '../components/game/GameError.vue'
+import { paddleCollision, playerCollision } from '../js/game/Collision'
+import Ai from '../js/game/Ai'
 
 const canvas = ref(null)
 const route = useRoute()
@@ -61,63 +63,7 @@ let gameStarted = false
 let game
 let tournament
 let endpoint
-
-const playerCollision = (objects, player, depth) => {
-	if (depth === undefined) depth = 0
-
-	let intersection = { factor: 1, dir: [] }
-
-	objects.forEach((object) => {
-		if (object instanceof Circle) return
-		const current = player.intersectionPolygon(object)
-		if (current.factor < intersection.factor) {
-			intersection = current
-		} else if (current.factor === intersection.factor) {
-			intersection.dir.push(...current.dir)
-		}
-	})
-
-	if (depth && intersection.factor === 0) {
-		console.warn('player is stuck')
-		return
-	}
-	
-	player.position.add(Vector.scalarMul(player.direction, intersection.factor))
-	if (intersection.factor === 1) return
-	player.direction = Vector.scalarMul(player.direction, 1 - intersection.factor)
-	const directionLength = player.direction.length
-	const dirDelta = new Vector()
-	intersection.dir.forEach((dir) => {
-		const factors = Vector.factorsToEdge(player.direction, dir, new Vector(), dir.orthogonal(), new Vector())
-		dirDelta.add( Vector.scalarMul(dir, factors[0] * 2) )
-	})
-	player.direction.add(dirDelta)
-	player.direction.length = directionLength
-
-	playerCollision(objects, player, ++depth)
-}
-
-const paddleCollision = (objects) => {
-	for (let i = 1; i < 3; ++i) {
-		let intersection = { factor: 1, dir: [] }
-		objects.forEach((other) => {
-			if (objects[i] === other) return
-			let current
-			if (other instanceof Circle)
-				current = objects[i].intersectionCircle(other)
-			else if (other instanceof Polygon)
-				current = objects[i].intersectionPolygon(other)
-
-			if (current.factor < intersection.factor) {
-				intersection = current
-			} else if (current.factor === intersection.factor) {
-				intersection.dir.push(...current.dir)
-			}
-		})
-
-		objects[i].position = Vector.add(objects[i].position, Vector.scalarMul(objects[i].direction, intersection.factor))
-	}
-}
+const ai = []
 
 const onscored = () => {
 	player.position = new Vector(0, 10)
@@ -143,6 +89,7 @@ const loophook = () => {
 		startTimer -= Scene.deltaTime
 		if (startTimer <= 0) {
 			initPlayer(player)
+			ai.forEach(e => e.reset())
 		}
 	} else {
 		startTimer = startTimerInitialValue
@@ -153,6 +100,10 @@ const loophook = () => {
 	if (gameStarted && Scores.winner()) {
 		gameStarted = false
 		endOfGame()
+	}
+
+	if (gameStarted) {
+		ai.forEach(e => e.update())
 	}
 
 	paddleInput(Scene.keys, Scene.deltaTime)
@@ -234,8 +185,16 @@ const keyhook = (key) => {
 const paddleInput = (keys, deltaTime) => {
 	if (!gameStarted) return
 	const deltaPaddleSpeed = deltaTime * paddleSpeed
-	objects[2].direction.y = deltaPaddleSpeed * keys.has('arrowdown') - deltaPaddleSpeed * keys.has('arrowup')
-	objects[1].direction.y = deltaPaddleSpeed * keys.has('s') - deltaPaddleSpeed * keys.has('w')
+	if (ai[0]) {
+		objects[2].direction.y = deltaPaddleSpeed * ai[0].input()
+	} else {
+		objects[2].direction.y = deltaPaddleSpeed * keys.has('arrowdown') - deltaPaddleSpeed * keys.has('arrowup')
+	}
+	if (ai[1]) {
+		objects[1].direction.y = deltaPaddleSpeed * ai[1].input()
+	} else {
+		objects[1].direction.y = deltaPaddleSpeed * keys.has('s') - deltaPaddleSpeed * keys.has('w')
+	}
 }
 
 const initPlayer = (player) => {
@@ -305,6 +264,7 @@ const initGame = async () => {
 
 const onmounted = async () => {
 	await initGame()
+	Ai.init(ai, objects, route, playerName)
 	Scene.init(canvas.value)
 	Scene.onupdate = loophook
 	Scene.onkeyup = keyhook

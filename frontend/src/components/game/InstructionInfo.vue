@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import { defineProps } from 'vue';
 
-const props = defineProps(['firstplayer', 'secondplayer']);
+const props = defineProps(['firstplayer', 'secondplayer', 'ai']);
 
 const svgW = `
 	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
@@ -44,10 +44,24 @@ const svgF = `
 <template>
 	<div class="alert alert-primary" role="alert">
 		{{useI18n().t('instruction.goal')}}
-		<hr>
-		<strong>{{ props.firstplayer || useI18n().t('instruction.leftplayer')}}</strong> {{useI18n().t('instruction.uses')}} <span v-html="svgW"></span> {{useI18n().t('instruction.and')}} <span v-html="svgS"></span> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.leftPaddle')}}</strong><br/>
-		<strong>{{ props.secondplayer || useI18n().t('instruction.rightplayer')}}</strong> {{useI18n().t('instruction.uses')}} <i class="bi bi-caret-up-square"></i> {{useI18n().t('instruction.and')}} <i class="bi bi-caret-down-square"></i> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.rightPaddle')}}</strong>
-		<hr>
+		<div v-if="props.ai">
+			<hr>
+			<div v-if="props.firstplayer || props.secondplayer">
+				<div v-if="props.firstplayer">
+					<strong>{{useI18n().t('instruction.you')}}  </strong> {{useI18n().t('instruction.use')}} <span v-html="svgW"></span> {{useI18n().t('instruction.and')}} <span v-html="svgS"></span> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.leftPaddle')}}</strong><br/>
+				</div>
+				<div v-if="props.secondplayer">
+					<strong>{{useI18n().t('instruction.you')}}  </strong> {{useI18n().t('instruction.use')}} <i class="bi bi-caret-up-square"></i> {{useI18n().t('instruction.and')}} <i class="bi bi-caret-down-square"></i> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.rightPaddle')}}</strong>
+				</div>
+				<hr>
+			</div>
+		</div>
+		<div v-else>
+			<hr>
+			<strong>{{ props.firstplayer || useI18n().t('instruction.leftplayer')}}</strong> {{useI18n().t('instruction.uses')}} <span v-html="svgW"></span> {{useI18n().t('instruction.and')}} <span v-html="svgS"></span> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.leftPaddle')}}</strong><br/>
+			<strong>{{ props.secondplayer || useI18n().t('instruction.rightplayer')}}</strong> {{useI18n().t('instruction.uses')}} <i class="bi bi-caret-up-square"></i> {{useI18n().t('instruction.and')}} <i class="bi bi-caret-down-square"></i> {{useI18n().t('instruction.toMoveThe')}} <strong>{{useI18n().t('instruction.rightPaddle')}}</strong>
+			<hr>
+		</div>
 		<span v-html="svgSpace"></span> {{useI18n().t('instruction.startOrPause')}} {{useI18n().t('instruction.theGame')}}<br>
 		<span v-html="svgH"></span> {{useI18n().t('instruction.showOrHide')}} {{useI18n().t('instruction.theseInstructions')}}<br>
 		<span v-html="svgF"></span> {{useI18n().t('instruction.showOrHide')}} {{useI18n().t('instruction.fpsCounter')}}

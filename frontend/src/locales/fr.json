@@ -44,7 +44,8 @@
         "game": "Jeu",
         "online": "En ligne",
         "onsite": "Sur place",
-        "demo": "TODO"
+        "demo": "TODO",
+        "ai": "TODO"
     },
     "settings": {
         "saveChanges": "Enregistrer les modifications",
@@ -106,8 +107,24 @@
         "accuredduring": "TODO",
         "paused": "TODO",
         "wonthegame": "TODO",
+        "youwonthegame": "TODO",
         "press": "TODO",
-        "tocontinue": "TODO"
+        "tocontinue": "TODO",
+        "ai": "The AI"
+    },
+    "aisettings": {
+        "ai": "TODO",
+        "human": "TODO",
+        "leftplayer": "TODO",
+        "rightplayer": "TODO",
+        "includeincalculations": "TODO",
+        "border": "TODO",
+        "opponent": "TODO",
+        "center": "TODO",
+        "inaccuracy": "TODO",
+        "explenation": "TODO",
+        "tip": "TODO",
+        "tipvalue": "TODO"
     },
     "auth": {
         "authentication": "Authentification",
@@ -117,6 +134,8 @@
         "startGame": "démarrer le jeu"
     },
     "instruction": {
+        "you": "TODO",
+        "use": "TODO",
         "uses": "utilise",
         "and": "et",
         "toMoveThe": "pour déplacer la",

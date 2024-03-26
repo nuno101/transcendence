@@ -3,7 +3,17 @@
     <div class="alert alert-primary" role="alert">
         <div class="text-center">
             <h1>GAME OVER</h1>
-            {{ winner || i18n.t('instruction.' + (firstscore > secondscore ? 'leftplayer' : 'rightplayer')) }} {{ i18n.t('ponggameview.wonthegame') }}<br>
+            <div v-if="props.ai">
+                <div v-if="props.winner">
+                    {{ i18n.t('ponggameview.youwonthegame') }}<br>
+                </div>
+                <div v-else>
+                    {{ i18n.t('ponggameview.ai') }} {{ i18n.t('ponggameview.wonthegame') }}<br>
+                </div>
+            </div>
+            <div v-else>
+                {{ winner || i18n.t('instruction.' + (firstscore > secondscore ? 'leftplayer' : 'rightplayer')) }} {{ i18n.t('ponggameview.wonthegame') }}<br>
+            </div>
             [ {{ firstscore }} : {{ secondscore }} ]
             <hr>
         </div>
@@ -15,7 +25,7 @@
 import { useI18n } from 'vue-i18n'
 
 const i18n = useI18n()
-const props = defineProps(['winner', 'firstscore', 'secondscore'])
+const props = defineProps(['winner', 'firstscore', 'secondscore', 'ai'])
 
 const svgSpace = `
 	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">

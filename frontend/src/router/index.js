@@ -127,6 +127,22 @@ const router = createRouter({
 				Header,
 			},
 		},
+		{
+			path: '/ai/select',
+			name: 'select ai',
+			components: {
+				default: () => import('../views/SelectAiView.vue'),
+				Header,
+			},
+		},
+		{
+			path: '/ai',
+			name: 'ai',
+			components: {
+				default: () => import('../views/PongGameView.vue'),
+				Header,
+			},
+		},
 		// Chat
 		{
 			path: '/chat/:id?',
