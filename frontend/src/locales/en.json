@@ -122,7 +122,8 @@
     "youwonthegame": "you won the game",
     "press": "press",
     "tocontinue": "to continue",
-    "ai": "The AI"
+    "ai": "The AI",
+    "wronguser": "you are not taking part in this game"
   },
   "aisettings": {
     "ai": "AI",
