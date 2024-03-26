@@ -8,6 +8,7 @@
     "online": "Online",
     "offline": "Offline",
     "loading": "Laden",
+    "avatar": "Avatar",
     "lang": {
       "english": "Englisch",
       "german": "Deutsch",
@@ -33,6 +34,9 @@
       "signUp": "Registrieren",
       "alreadyHaveAnAccount": "Du bist bereits registriert?",
       "logout": "Abmelden"
+    },
+    "logout": {
+      "videonotsupported": "Video wird nicht unterstützt"
     },
     "header": {
       "home": "Startseite",
@@ -148,7 +152,14 @@
       "showOrHide": "zeige/verberge",
       "theGame": "das Spiel",
       "theseInstructions": "diese Anleitung",
-      "fpsCounter": "fps Anzeige"
+      "fpsCounter": "fps Anzeige",
+      "spacebar": "Leertaste",
+      "wkey": "W-Taste",
+      "skey": "S-Taste",
+      "arrowup": "Pfeil nach Oben",
+      "arrowdown": "Pfeil nach Unten",
+      "hkey": "H-Taste",
+      "fkey": "F-Taste"
     },
     "notif": {
       "noNotifications": "Keine Benachrichtigungen",
@@ -159,5 +170,12 @@
     "notfound": {
       "pageNotFound": "Seite nicht gefunden",
       "thisPageIsntAvailable": "Diese Seite ist nicht verfügbar"
+    },
+    "chatview": {
+      "sendMessage": "Sende eine Nachricht",
+      "blockUser": "Blockieren",
+      "unblockUser": "Entblocken",
+      "create": "Erstellen",
+      "nickname": "Spitzname"
     }
   }

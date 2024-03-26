@@ -42,7 +42,10 @@ import Backend from '../../js/Backend'
 import SubmitButton from '../common/SubmitButton.vue'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { globalUser, globalWS } from '../../main.js'
+import { useRoute, useRouter } from 'vue-router'
 
+const route = useRoute()
+const router = useRouter()
 const signedup = defineModel('signedup')
 const input = ref({ username: '', password: '' })
 const remember = ref(true)
@@ -74,6 +77,9 @@ const LogIn = async () => {
 		loading.value = false
 		bootstrap.Modal.getInstance(loginModal.value).hide()
 		globalWS.reload()
+		if (route.name === 'logout') {
+			router.replace({ name: 'home'})
+		}
 	} catch (err) {
 		globalUser.value = null;
 		loading.value = false

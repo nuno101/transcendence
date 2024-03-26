@@ -8,6 +8,7 @@
   "online": "online",
   "offline": "offline",
   "loading": "loading",
+  "avatar": "avatar",
   "lang": {
     "english": "english",
     "german": "german",
@@ -33,6 +34,9 @@
     "signUp": "Sign up",
     "alreadyHaveAnAccount": "Already have an account?",
     "logout": "Logout"
+  },
+  "logout": {
+    "videonotsupported": "video not supported"
   },
   "header": {
     "home": "Home",
@@ -149,7 +153,14 @@
     "showOrHide": "show/hide",
     "theGame": "the game",
     "theseInstructions": "these instructions",
-    "fpsCounter": "fps counter"
+    "fpsCounter": "fps counter",
+    "spacebar": "space bar",
+    "wkey": "w key",
+    "skey": "s key",
+    "arrowup": "arrow up",
+    "arrowdown": "arrow down",
+    "hkey": "h key",
+    "fkey": "f key"
   },
   "auth": {
     "authentication": "authentication",
@@ -167,5 +178,12 @@
   "notfound": {
     "pageNotFound": "page not found",
     "thisPageIsntAvailable": "this page isn't available"
+  },
+  "chatview": {
+    "sendMessage": "Send a message",
+    "blockUser": "Block",
+    "unblockUser": "Unblock",
+    "create": "Create",
+    "nickname": "Nickname"
   }
 }

@@ -1,6 +1,9 @@
 <script setup>
 import { onMounted, defineProps, ref} from 'vue';
+import { useI18n } from 'vue-i18n'
 import Backend from '../../js/Backend';
+
+const i18n = useI18n()
 
 const props = defineProps({
   id: Number,
@@ -40,7 +43,7 @@ onMounted(() => {
 
 <template>
   <img v-if="isLoaded" :src="avatar"
-    alt="..."
+    :alt="i18n.t('avatar')"
     class="img-thumbnail rounded"
     :style="{ width: props.size + 'px', height: props.size + 'px', objectFit: 'cover' }"
   >

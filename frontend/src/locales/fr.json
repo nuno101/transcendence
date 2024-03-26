@@ -8,6 +8,7 @@
     "online": "En ligne",
     "offline": "Hors ligne",
     "loading": "Chargement",
+    "avatar": "TODO",
     "lang": {
         "english": "anglais",
         "german": "allemand",
@@ -33,6 +34,9 @@
         "signUp": "S'inscrire",
         "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
         "logout": "Se déconnecter"
+    },
+    "logout": {
+        "videonotsupported": "TODO"
     },
     "header": {
         "home": "Accueil",
@@ -148,7 +152,14 @@
         "showOrHide": "TODO",
         "theGame": "TODO",
         "theseInstructions": "TODO",
-        "fpsCounter": "TODO"
+        "fpsCounter": "TODO",
+        "spacebar": "TODO",
+        "wkey": "TODO",
+        "skey": "TODO",
+        "arrowup": "TODO",
+        "arrowdown": "TODO",
+        "hkey": "TODO",
+        "fkey": "TODO"
     },
     "notif": {
         "noNotifications": "Pas de notifications",
@@ -159,5 +170,12 @@
     "notfound": {
         "pageNotFound": "Page non trouvée",
         "thisPageIsntAvailable": "Cette page n'est pas disponible"
+    },
+    "chatview": {
+      "sendMessage": "Envoyer un message",
+      "blockUser": "Bloc",
+      "unblockUser": "Débloquer",
+      "create": "Créer",
+      "nickname": "Surnom"
     }
 }
