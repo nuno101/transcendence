@@ -129,9 +129,9 @@ class Ai {
 		playerName.value.right = 'insruction.you'
 		if (route.query.rtype === 'ai') {
 			const settings = {
-				center: Boolean(route.query.rcenter),
-				border: Boolean(route.query.rborder),
-				opponent: Boolean(route.query.ropponent),
+				center: route.query.rcenter === 'true',
+				border: route.query.rborder === 'true',
+				opponent: route.query.ropponent === 'true',
 				inaccuracy: Number(route.query.rinaccuracy) / 500,
 			}
 			array[0] = new Ai(objects, true, settings)
@@ -139,9 +139,9 @@ class Ai {
 		}
 		if (route.query.ltype === 'ai') {
 			const settings = {
-				center: Boolean(route.query.lcenter),
-				border: Boolean(route.query.lborder),
-				opponent: Boolean(route.query.lopponent),
+				center: route.query.lcenter === 'true',
+				border: route.query.lborder === 'true',
+				opponent: route.query.lopponent === 'true',
 				inaccuracy: Number(route.query.linaccuracy) / 500,
 			}
 			array[1] = new Ai(objects, false, settings)
