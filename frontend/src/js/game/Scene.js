@@ -139,7 +139,7 @@ class Scene {
 		Scene.ctx.lineDash = []
 		Scene.ctx.lineDashOffset = 0
 	}
-	static drawDirectionVector(direction, position, color = 'white', lineWidth = 5) {
+	static drawDirectionVector(direction, position, color = 'white', lineWidth = 0.01) {
 		const sum = position.copy()
 		sum.add(direction)
 		Scene.drawLine(position, sum, color, lineWidth)

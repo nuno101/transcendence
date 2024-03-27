@@ -48,7 +48,8 @@
       "game": "Spiel",
       "online": "Online",
       "onsite": "Vor Ort",
-      "demo": "Demo"
+      "demo": "Demo",
+      "ai": "gegen KI"
     },
     "settings": {
       "saveChanges": "Änderungen speichern",
@@ -110,8 +111,24 @@
       "accuredduring": "aufgetreten während",
       "paused": "Pausiert",
       "wonthegame": "hat das Spiel gewonnen",
+      "youwonthegame": "Du hast das Spiel gewonnen",
       "press": "drücke",
-      "tocontinue": "um fortzufahren"
+      "tocontinue": "um fortzufahren",
+      "ai": "die KI"
+    },
+    "aisettings": {
+      "ai": "KI",
+      "human": "Mensch",
+      "leftplayer": "Linker Spieler",
+      "rightplayer": "Rechter Spieler",
+      "includeincalculations": "Nehme Folgendes in Berechnungen auf:",
+      "border": "Untere und obere Wand",
+      "opponent": "Den Gegner",
+      "center": "Kehre zur Mitte zurück während Wartezeiten",
+      "inaccuracy": "Ungenauigkeit",
+      "explenation": "Dieser Wert bestimmt die Ungenauigkeit der Berechnungen. Ein wert von 0 bedeutet, dass es keine Ungenauigkeit gibt.",
+      "tip": "Tipp",
+      "tipvalue": "Eine positive Ungenauigkeit erhöht die Wahrscheinlichkeit, dass der Ball auf eine Ecke des Schlägers von der KI trifft. Das macht das Spiel interessanter."
     },
     "auth": {
       "authentication": "Authentifizierung",
@@ -121,6 +138,8 @@
       "startGame": "Spiel starten"
     },
     "instruction": {
+      "you": "Du",
+      "use": "verwendest",
       "uses": "verwendet",
       "and": "und",
       "toMoveThe": "zur Bewegung des",

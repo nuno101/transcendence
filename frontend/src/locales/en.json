@@ -48,7 +48,8 @@
     "game": "Game",
     "online": "Online",
     "onsite": "Onsite",
-    "demo": "Demo"
+    "demo": "Demo",
+    "ai": "vs. ai"
   },
   "settings": {
     "saveChanges": "Save Changes",
@@ -118,10 +119,28 @@
     "accuredduring": "accured during",
     "paused": "paused",
     "wonthegame": "won the game",
+    "youwonthegame": "you won the game",
     "press": "press",
-    "tocontinue": "to continue"
+    "tocontinue": "to continue",
+    "ai": "The AI"
+  },
+  "aisettings": {
+    "ai": "AI",
+    "human": "Human",
+    "leftplayer": "Left Player",
+    "rightplayer": "Right Player",
+    "includeincalculations": "Include in calculations:",
+    "border": "top and bottom border",
+    "opponent": "Opponent",
+    "center": "return to center while idle",
+    "inaccuracy": "Inaccuracy",
+    "explenation": "This value determines the inaccuracy in the calculation. A value of 0 means there is no inaccuracy.",
+    "tip": "Tip",
+    "tipvalue": "a positive inaccuracy increases the probability that the ball will hit a corner of the paddle from the AI. This makes the game more interesting."
   },
   "instruction": {
+    "you": "you",
+    "use": "use",
     "uses": "uses",
     "and": "and",
     "toMoveThe": "to move the",

@@ -48,7 +48,8 @@
         "game": "Juego",
         "online": "En línea",
         "onsite": "Presencial",
-        "demo": "TODO"
+        "demo": "TODO",
+        "ai": "TODO"
     },
     "settings": {
         "saveChanges": "Guardar cambios",
@@ -110,9 +111,25 @@
         "accuredduring": "TODO",
         "paused": "TODO",
         "wonthegame": "TODO",
+        "youwonthegame": "TODO",
         "press": "TODO",
-        "tocontinue": "TODO"
+        "tocontinue": "TODO",
+        "ai": "TODO"
     },
+    "aisettings": {
+        "ai": "AI",
+        "human": "Human",
+        "leftplayer": "Left Player",
+        "rightplayer": "Right Player",
+        "includeincalculations": "Include in calculations:",
+        "border": "top and bottom border",
+        "opponent": "Opponent",
+        "center": "return to center while idle",
+        "inaccuracy": "Inaccuracy",
+        "explenation": "This value determines the inaccuracy in the calculation. A value of 0 means there is no inaccuracy.",
+        "tip": "Tip",
+        "tipvalue": "a positive inaccuracy increases the probability that the ball will hit a corner of the paddle from the AI. This makes the game more interesting."
+      },
     "auth": {
         "authentication": "Autenticación",
         "authenticate": "autenticar",
@@ -121,6 +138,8 @@
         "startGame": "comenzar juego"
     },
     "instruction": {
+        "you": "TODO",
+        "use": "TODO",
         "uses": "usa",
         "and": "y",
         "toMoveThe": "para mover el",
