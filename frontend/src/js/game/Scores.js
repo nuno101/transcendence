@@ -2,24 +2,25 @@ class Scores {
 	static #left
 	static #right
 	static max = 10
+	static onscored = () => {}
 
     static init(left = 0, right = 0) {
         Scores.#left = left
         Scores.#right = right
     }
 	
-	static leftScored(callback) {
+	static leftScored() {
 		Scores.#left++
-		Scores.#scored(callback)
+		Scores.onscored()
 	}
 
 	static leftScore() {
 		return Scores.#left
 	}
 	
-	static rightScored(callback) {
+	static rightScored() {
 		Scores.#right++
-		Scores.#scored(callback)
+		Scores.onscored()
 	}
 
 	static rightScore() {
@@ -34,10 +35,6 @@ class Scores {
 	static reset() {
 		Scores.#left = 0
 		Scores.#right = 0
-	}
-	
-	static #scored(callback) {
-        callback()
 	}
 }
 

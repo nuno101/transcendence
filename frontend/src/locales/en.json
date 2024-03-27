@@ -8,6 +8,7 @@
   "online": "online",
   "offline": "offline",
   "loading": "loading",
+  "avatar": "avatar",
   "lang": {
     "english": "english",
     "german": "german",
@@ -23,7 +24,8 @@
     "upcomingGames": "Upcoming games",
     "opponent": "Opponent",
     "tournament": "Tournament",
-    "noUpcomingGames": "No upcoming games"
+    "noUpcomingGames": "No upcoming games",
+    "play": "play"
   },
   "login": {
     "login": "Login",
@@ -32,6 +34,9 @@
     "signUp": "Sign up",
     "alreadyHaveAnAccount": "Already have an account?",
     "logout": "Logout"
+  },
+  "logout": {
+    "videonotsupported": "video not supported"
   },
   "header": {
     "home": "Home",
@@ -42,7 +47,9 @@
     "tournaments": "Tournaments",
     "game": "Game",
     "online": "Online",
-    "onsite": "Onsite"
+    "onsite": "Onsite",
+    "demo": "Demo",
+    "ai": "vs. ai"
   },
   "settings": {
     "saveChanges": "Save Changes",
@@ -143,20 +150,55 @@
 
   },
   "ponggameview": {
-
+    "loadingfetch": "fetch data from server",
+    "loadingsend": "send data to server",
+    "unexpectederror": "unexpected error",
+    "accuredduring": "accured during",
+    "paused": "paused",
+    "wonthegame": "won the game",
+    "youwonthegame": "you won the game",
+    "press": "press",
+    "tocontinue": "to continue",
+    "ai": "The AI",
+    "wronguser": "you are not taking part in this game"
+  },
+  "aisettings": {
+    "ai": "AI",
+    "human": "Human",
+    "leftplayer": "Left Player",
+    "rightplayer": "Right Player",
+    "includeincalculations": "Include in calculations:",
+    "border": "top and bottom border",
+    "opponent": "Opponent",
+    "center": "return to center while idle",
+    "inaccuracy": "Inaccuracy",
+    "explenation": "This value determines the inaccuracy in the calculation. A value of 0 means there is no inaccuracy.",
+    "tip": "Tip",
+    "tipvalue": "a positive inaccuracy increases the probability that the ball will hit a corner of the paddle from the AI. This makes the game more interesting."
   },
   "instruction": {
+    "you": "you",
+    "use": "use",
     "uses": "uses",
     "and": "and",
     "toMoveThe": "to move the",
     "leftPaddle": "left paddle",
     "rightPaddle": "right paddle",
+    "leftplayer": "left player",
+    "rightplayer": " right player",
     "goal": "The goal is for each player to reach eleven points before the opponent",
     "startOrPause": "start/pause",
     "showOrHide": "show/hide",
     "theGame": "the game",
     "theseInstructions": "these instructions",
-    "fpsCounter": "fps counter"
+    "fpsCounter": "fps counter",
+    "spacebar": "space bar",
+    "wkey": "w key",
+    "skey": "s key",
+    "arrowup": "arrow up",
+    "arrowdown": "arrow down",
+    "hkey": "h key",
+    "fkey": "f key"
   },
   "auth": {
     "authentication": "authentication",
@@ -174,5 +216,12 @@
   "notfound": {
     "pageNotFound": "page not found",
     "thisPageIsntAvailable": "this page isn't available"
+  },
+  "chatview": {
+    "sendMessage": "Send a message",
+    "blockUser": "Block",
+    "unblockUser": "Unblock",
+    "create": "Create",
+    "nickname": "Nickname"
   }
 }

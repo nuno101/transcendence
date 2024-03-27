@@ -8,6 +8,7 @@
       <tr>
         <th colspan="2" class="px-3">{{useI18n().t('upcomingGames.opponent')}}</th>
         <th class="px-3">{{useI18n().t('upcomingGames.tournament')}}</th>
+        <th></th>
       </tr>
     </thead>
     <tbody v-if="upcomingGames.length > 0">
@@ -17,6 +18,9 @@
             <router-link v-if="game.tournament" :to="`/tournaments/${game.tournament.id}`">
               {{ game.tournament.title }}
             </router-link>
+        </td>
+        <td v-if="!game.tournament || game.tournament.status === 'ongoing'" class="align-middle px-2 text-center">
+          <router-link :to="`/ponggame/${game.id}`">{{useI18n().t('upcomingGames.play')}}</router-link>
         </td>
       </tr>
     </tbody>

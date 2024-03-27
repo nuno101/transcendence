@@ -119,6 +119,30 @@ const router = createRouter({
 			},
 			props: { default: true, Header: false }
 		},
+		{
+			path: '/demo',
+			name: 'demo',
+			components: {
+				default: () => import('../views/PongGameView.vue'),
+				Header,
+			},
+		},
+		{
+			path: '/ai/select',
+			name: 'select ai',
+			components: {
+				default: () => import('../views/SelectAiView.vue'),
+				Header,
+			},
+		},
+		{
+			path: '/ai',
+			name: 'ai',
+			components: {
+				default: () => import('../views/PongGameView.vue'),
+				Header,
+			},
+		},
 		// Chat
 		{
 			path: '/chat/:id?',
@@ -142,10 +166,12 @@ const router = createRouter({
 
 const restrictedRoutes = ['users', 'friends', 'settings', 'chat', 'tournaments', 'user stats', 'game/onsite' , 'game/online', 'ponggame']
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
 	document.querySelectorAll('.modal.fade').forEach(modal => bootstrap.Modal.getInstance(modal)?.hide())
 	
-	if (globalUser.value === undefined && to.name !== 'getuser') {
+	if (to.name === 'getuser' && from.name) {
+		router.replace({ path: '/'})
+	} else if (globalUser.value === undefined && to.name !== 'getuser') {
 		router.replace({ name: 'getuser', query: { continue: encodeURIComponent(to.fullPath) } })
 	} else if (restrictedRoutes.includes(to.name) && globalUser.value === null) {
 		router.push({ name: 'login', query: { continue: encodeURIComponent(to.fullPath) } })

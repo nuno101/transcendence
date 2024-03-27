@@ -8,6 +8,7 @@
     "online": "Online",
     "offline": "Offline",
     "loading": "Laden",
+    "avatar": "Avatar",
     "lang": {
       "english": "Englisch",
       "german": "Deutsch",
@@ -23,7 +24,8 @@
       "upcomingGames": "Bevorstehende Spiele",
       "opponent": "Gegner",
       "tournament": "Turnier",
-      "noUpcomingGames": "Keine bevorstehenden Spiele"
+      "noUpcomingGames": "Keine bevorstehenden Spiele",
+      "play": "Spielen"
     },
     "login": {
       "login": "Anmelden",
@@ -32,6 +34,9 @@
       "signUp": "Registrieren",
       "alreadyHaveAnAccount": "Du bist bereits registriert?",
       "logout": "Abmelden"
+    },
+    "logout": {
+      "videonotsupported": "Video wird nicht unterstützt"
     },
     "header": {
       "home": "Startseite",
@@ -42,7 +47,9 @@
       "tournaments": "Turniere",
       "game": "Spiel",
       "online": "Online",
-      "onsite": "Vor Ort"
+      "onsite": "Vor Ort",
+      "demo": "Demo",
+      "ai": "gegen KI"
     },
     "settings": {
       "saveChanges": "Änderungen speichern",
@@ -75,7 +82,7 @@
       "username": "Benutzername",
       "nickname": "Spitzname",
       "created_at": "Erstellt am",
-      "updated_at": "Aktualiziert am"
+      "updated_at": "Aktualisiert am"
     },
     "tournamentsview": {
 		"descriptionoftournament": "Beschreibung des Turniers",
@@ -142,7 +149,31 @@
   
     },
     "ponggameview": {
-  
+      "loadingfetch": "empfange Daten vom Server",
+      "loadingsend": "sende Daten an Server",
+      "unexpectederror": "unerwarteter Fehler",
+      "accuredduring": "aufgetreten während",
+      "paused": "Pausiert",
+      "wonthegame": "hat das Spiel gewonnen",
+      "youwonthegame": "Du hast das Spiel gewonnen",
+      "press": "drücke",
+      "tocontinue": "um fortzufahren",
+      "ai": "die KI",
+      "wronguser": "Du nimmst nicht an diesem Spiel teil"
+    },
+    "aisettings": {
+      "ai": "KI",
+      "human": "Mensch",
+      "leftplayer": "Linker Spieler",
+      "rightplayer": "Rechter Spieler",
+      "includeincalculations": "Nehme Folgendes in Berechnungen auf:",
+      "border": "Untere und obere Wand",
+      "opponent": "Den Gegner",
+      "center": "Kehre zur Mitte zurück während Wartezeiten",
+      "inaccuracy": "Ungenauigkeit",
+      "explenation": "Dieser Wert bestimmt die Ungenauigkeit der Berechnungen. Ein wert von 0 bedeutet, dass es keine Ungenauigkeit gibt.",
+      "tip": "Tipp",
+      "tipvalue": "Eine positive Ungenauigkeit erhöht die Wahrscheinlichkeit, dass der Ball auf eine Ecke des Schlägers von der KI trifft. Das macht das Spiel interessanter."
     },
     "auth": {
       "authentication": "Authentifizierung",
@@ -152,17 +183,28 @@
       "startGame": "Spiel starten"
     },
     "instruction": {
+      "you": "Du",
+      "use": "verwendest",
       "uses": "verwendet",
       "and": "und",
       "toMoveThe": "zur Bewegung des",
-      "leftPaddle": "linken Schläger",
-      "rightPaddle": "rechten Schläger",
+      "leftPaddle": "linken Schlägers",
+      "rightPaddle": "rechten Schlägers",
+      "leftplayer": "Spieler links",
+      "rightplayer": "Spieler rechts",
       "goal": "Das Ziel für beide Spieler ist es elf Punkte vor dem Gegner zu erreichen",
       "startOrPause": "starte/pausiere",
       "showOrHide": "zeige/verberge",
       "theGame": "das Spiel",
       "theseInstructions": "diese Anleitung",
-      "fpsCounter": "fps Anzeige"
+      "fpsCounter": "fps Anzeige",
+      "spacebar": "Leertaste",
+      "wkey": "W-Taste",
+      "skey": "S-Taste",
+      "arrowup": "Pfeil nach Oben",
+      "arrowdown": "Pfeil nach Unten",
+      "hkey": "H-Taste",
+      "fkey": "F-Taste"
     },
     "notif": {
       "noNotifications": "Keine Benachrichtigungen",
@@ -173,5 +215,12 @@
     "notfound": {
       "pageNotFound": "Seite nicht gefunden",
       "thisPageIsntAvailable": "Diese Seite ist nicht verfügbar"
+    },
+    "chatview": {
+      "sendMessage": "Sende eine Nachricht",
+      "blockUser": "Blockieren",
+      "unblockUser": "Entblocken",
+      "create": "Erstellen",
+      "nickname": "Spitzname"
     }
   }

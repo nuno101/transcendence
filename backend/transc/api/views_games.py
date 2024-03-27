@@ -57,7 +57,7 @@ class TournamentGameSingle(View):
 		if game.status == Game.MatchStatus.CREATED and game.tournament.status == Tournament.TournamentStatus.ONGOING:
 			player1_score = int(request.json.get('player1_score', 0))
 			player2_score = int(request.json.get('player2_score', 0))
-			if (player1_score == 11 or player2_score == 11) and (player1_score + player1_score < 22):
+			if (player1_score == 11 or player2_score == 11) and (player1_score + player2_score < 22):
 				game.player1_score = player1_score
 				game.player2_score = player2_score
 				game.status = Game.MatchStatus.DONE
@@ -94,9 +94,9 @@ class GameDetail(View):
 	def patch(self, request, game_id):
 		try:
 			game = Game.objects.get(id=game_id, tournament_id=None, status=Game.MatchStatus.CREATED)
-			# verify the user is one of the players - skipped for now
-			#if game.player1_id != request.user.id and game.player2_id != request.user.id:
-			#	return JsonResponse({ERROR_FIELD: "You are not a player in this game"}, status=400)
+			# verify the user is one of the players
+			if game.player1_id != request.user.id and game.player2_id != request.user.id:
+				return JsonResponse({ERROR_FIELD: "You are not a player in this game"}, status=400)
 
 			player1_score = int(request.json.get('player1_score', 0))
 			player2_score = int(request.json.get('player2_score', 0))
