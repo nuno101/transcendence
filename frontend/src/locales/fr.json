@@ -47,10 +47,9 @@
         "settings": "Paramètres",
         "tournaments": "Tournois",
         "game": "Jeu",
-        "online": "En ligne",
-        "onsite": "Sur place",
+        "onsite": "Jouer en local",
         "demo": "Démo",
-        "ai": "contre l'IA"
+        "ai": "Contre l'IA"
     },
     "settings": {
         "saveChanges": "Enregistrer les modifications",
@@ -106,12 +105,8 @@
         "updated_at": "Mis à jour le",
         "delete": "Supprimer"
     },
-    "onlinegameview": {
-        "inviteuser": "Inviter un Utilisateur",
-        "findopponent": "Trouver un Adversaire"
-    },
-    "onsitegameview": {
-  
+    "onsite": {
+        "authenticateSecondPlayer": "Authentifier le deuxième joueur"
     },
     "ponggameview": {
         "loadingfetch": "Chargement des données depuis le serveur",

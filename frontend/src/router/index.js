@@ -93,15 +93,7 @@ const router = createRouter({
 				Header,
 			}
 		},
-		// GAME
-		{
-			path: '/game/online',
-			name: 'game/online',
-			components: {
-				default: () => import('../views/OnlineGameView.vue'),
-				Header,
-			}
-		},   
+		// GAME 
 		{
 			path: '/game/onsite',
 			name: 'game/onsite',
@@ -164,7 +156,7 @@ const router = createRouter({
 	]
 })
 
-const restrictedRoutes = ['users', 'friends', 'settings', 'chat', 'tournaments', 'user stats', 'game/onsite' , 'game/online', 'ponggame']
+const restrictedRoutes = ['users', 'friends', 'settings', 'chat', 'tournaments', 'user stats', 'game/onsite', 'ponggame']
 
 router.beforeEach((to, from) => {
 	document.querySelectorAll('.modal.fade').forEach(modal => bootstrap.Modal.getInstance(modal)?.hide())

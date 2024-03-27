@@ -38,7 +38,7 @@ watch(searchInput, () => {
             <button @click="addFriend(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init><i class="bi bi-person-add"></i></button>
         </div>
         <div v-if="updateErrorMessage !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
-            {{ useI18n().t(`err.${updateErrorMessage}`) }}
+            {{ useI18n().te(`err.${updateErrorMessage}`) ? useI18n().t(`err.${updateErrorMessage}`) : updateErrorMessage }}
         </div>
     </div>
 </template>
