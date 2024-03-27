@@ -4,7 +4,7 @@
 			<div class="modal-content rounded-4 shadow">
 				<div class="modal-header p-5 pb-4 border-bottom-0">
 					<h1 class="fw-bold mb-0 fs-2"  id="playerAuthToggleLabel">{{useI18n().t('auth.authentication')}}</h1>
-					<button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div v-for="(player, index) in authPlayers" :key="index" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
 					<div v-for="alert in player.alerts" :class="alert.type">
@@ -51,9 +51,7 @@ const props = defineProps({
 	game_id: {
 		default: null
 	},
-	player1: {
-		default: null
-	},
+	player1: {},
 	player2: {
 		default: null
 	}
@@ -76,7 +74,7 @@ const openModal = () => {
 	authPlayers.value.push({ 
 		user: props.player1 ? props.player1 : { username: '' }, 
 		isGiven: props.player1 !== null, 
-		isAuthenticated: props.player1 !== null ? props.player1.username === globalUser.value.username : false, 
+		isAuthenticated: props.player1 ? props.player1.username === globalUser.value.username : false, 
 		alerts: [] 
 	});
 	authPlayers.value.push({ 

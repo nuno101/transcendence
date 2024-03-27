@@ -10,13 +10,14 @@ class Scene {
 	static onupdate
 	static onkeydown
 	static onkeyup
-	static onstop
+	static onpause
+	static oncontinue
 	static canvas
 	static ctx
 	static translate
 	static keys
-	static #stop
-	static #onstopCalled
+	static #pause
+	static #onpauseCalled
 
 	static init(canvas) {
 		Scene.canvas = canvas
@@ -25,14 +26,15 @@ class Scene {
 
 		Scene.ctx = Scene.canvas.getContext('2d', { alpha: false })
 		Scene.keys = new Set()
-		Scene.#stop = false
-		Scene.#onstopCalled = false
+		Scene.#pause = false
+		Scene.#onpauseCalled = false
 
 		Scene.oncreate = () => {}
 		Scene.onupdate = () => {}
 		Scene.onkeydown = () => {}
 		Scene.onkeyup = () => {}
-		Scene.onstop = () => {}
+		Scene.onpause = () => {}
+		Scene.oncontinue = () => {}
 		document.addEventListener('keydown', Scene.#onkeydown)
 		document.addEventListener('keyup', Scene.#onkeyup)
 	}
@@ -71,7 +73,7 @@ class Scene {
 	}
 
 	static unmount() {
-		Scene.stop = true
+		Scene.pause = true
 		document.removeEventListener('keydown', Scene.#onkeydown)
 		document.removeEventListener('keyup', Scene.#onkeyup)
 	}
@@ -80,14 +82,14 @@ class Scene {
 		requestAnimationFrame(Scene.#create)
 	}
 
-	static get stop() {
-		return Scene.#stop
+	static get pause() {
+		return Scene.#pause
 	}
 
-	static set stop(value) {
-		if (Scene.#stop && value === false) requestAnimationFrame(Scene.#continue)
-		Scene.#stop = value
-		if (value) Scene.#onstopCalled = false
+	static set pause(value) {
+		if (Scene.#pause && value === false) requestAnimationFrame(Scene.#continue) 
+		Scene.#pause = value
+		if (value) Scene.#onpauseCalled = false
 	}
 
 	static #create(timeStamp) {
@@ -101,15 +103,16 @@ class Scene {
 		if (Scene.deltaTime) {
 			Scene.onupdate()
 		}
-		if (Scene.#stop === false) requestAnimationFrame(Scene.#update)
-		else if (Scene.#onstopCalled === false) {
-			Scene.onstop()
-			Scene.#onstopCalled = true
+		if (Scene.#pause === false) requestAnimationFrame(Scene.#update)
+		else if (Scene.#onpauseCalled === false) {
+			Scene.onpause()
+			Scene.#onpauseCalled = true
 		}
 	}
 
 	static #continue(timeStamp) {
 		Scene.#lastTimeStamp = timeStamp
+		Scene.oncontinue()	
 		requestAnimationFrame(Scene.#update)
 	}
 	static clear() {
@@ -136,7 +139,7 @@ class Scene {
 		Scene.ctx.lineDash = []
 		Scene.ctx.lineDashOffset = 0
 	}
-	static drawDirectionVector(direction, position, color = 'white', lineWidth = 5) {
+	static drawDirectionVector(direction, position, color = 'white', lineWidth = 0.01) {
 		const sum = position.copy()
 		sum.add(direction)
 		Scene.drawLine(position, sum, color, lineWidth)

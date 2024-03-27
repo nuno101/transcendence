@@ -5,25 +5,6 @@ from .models import Game, Tournament
 from .constants_http_response import *
 from django.db.models import Q
 
-
-# Game instance management helpers
-def update_game(game: Game, parameters):
-  try:
-    if parameters.get('title') is not None:
-      game.title = parameters.get('title')
-    if parameters.get('description') is not None:
-      game.title = parameters.get('description')
-    game.full_clean()
-    game.save()
-  except ValidationError as e:
-    return JsonResponse({"type": "object", ERROR_FIELD: e.message_dict}, status=400)
-  except Exception as e:
-    return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
-  
-  # TODO: Implement websocket notification?
-
-  return JsonResponse(game.serialize())
-
 # Update tournament status if all games are done and/or cancelled
 def update_tournament_status(tournament):
   games = Game.objects.filter(tournament=tournament)
