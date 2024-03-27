@@ -31,10 +31,13 @@ import GameLoading from '../components/game/GameLoading.vue'
 import GameError from '../components/game/GameError.vue'
 import { paddleCollision, playerCollision } from '../js/game/Collision'
 import Ai from '../js/game/Ai'
+import { globalUser } from '../main'
+import { useI18n } from 'vue-i18n'
 
 const canvas = ref(null)
 const route = useRoute()
 const router = useRouter()
+const i18n = useI18n()
 const playerName = ref({})
 const showGameOver = ref(false)
 const showHelp = ref(true)
@@ -208,6 +211,12 @@ const initPlayer = (player) => {
 	player.direction.rotate(rotationAngle)	
 }
 
+const isGlobalUserPartOfGame = (game) => {
+	if (game.player1.id === globalUser.value.id) return
+	if (game.player2.id === globalUser.value.id) return
+	throw new Error(i18n.t('ponggameview.wronguser'))
+}
+
 const fetchData = async (gameId) => {
 	if (!gameId) {
 		game = undefined
@@ -221,6 +230,7 @@ const fetchData = async (gameId) => {
 		showGameLoading.value = 'ponggameview.loadingfetch'
 		await new Promise(t => setTimeout(t, 1000)) // TODO remove
 		game = await Backend.get('/api/games/' + route.params.id)
+		isGlobalUserPartOfGame(game)
 		endpoint = '/games/' + game.id
 		tournament = game.tournament
 		if (game.tournament) {

@@ -114,7 +114,8 @@
       "youwonthegame": "Du hast das Spiel gewonnen",
       "press": "drücke",
       "tocontinue": "um fortzufahren",
-      "ai": "die KI"
+      "ai": "die KI",
+      "wronguser": "Du nimmst nicht an diesem Spiel teil"
     },
     "aisettings": {
       "ai": "KI",

@@ -114,7 +114,8 @@
         "youwonthegame": "TODO",
         "press": "TODO",
         "tocontinue": "TODO",
-        "ai": "The AI"
+        "ai": "The AI",
+        "wronguser": "TODO"
     },
     "aisettings": {
         "ai": "TODO",
