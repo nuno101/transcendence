@@ -157,6 +157,7 @@
       "blockUser": "Bloc",
       "unblockUser": "Débloquer",
       "create": "Créer",
-      "nickname": "Surnom"
+      "nickname": "Surnom",
+      "invite": "TODO"
     }
 }

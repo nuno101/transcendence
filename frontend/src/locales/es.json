@@ -157,6 +157,7 @@
       "blockUser": "Bloquear",
       "unblockUser": "Desatascar",
       "create": "Crear",
-      "nickname": "Apodo"
+      "nickname": "Apodo",
+      "invite": "TODO"
     }
   }

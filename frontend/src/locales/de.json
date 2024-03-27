@@ -157,6 +157,7 @@
       "blockUser": "Blockieren",
       "unblockUser": "Entblocken",
       "create": "Erstellen",
-      "nickname": "Spitzname"
+      "nickname": "Spitzname",
+      "invite": "Einladung"
     }
   }

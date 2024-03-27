@@ -168,8 +168,11 @@ function getChannelMember() {
                 <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
                         getChannelMember().username
                     }}</router-link>
-                <button v-if="!dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
-                <button v-else class="btn btn-success m-1" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
+                <div class="input-group m-1">
+                    <button v-if="!dmUserBlocked"class="btn btn-primary" @click="">{{useI18n().t('chatview.invite')}}</button>
+                    <button v-if="!dmUserBlocked" class="btn btn-danger" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
+                    <button v-else class="btn btn-success" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
+                </div>
             </div>
             <div class="message-container">
                 <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
