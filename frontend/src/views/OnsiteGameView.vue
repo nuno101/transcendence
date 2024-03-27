@@ -9,9 +9,7 @@ const auth = ref(null);
 </script>
 
 <template>
-  <h1>Onsite game</h1>
-  <h1>Play on the same keyboard</h1>
-    <button type="button" class="btn btn-outline-dark" @click="auth.openModal()">Authenticate second player</button>
+    <button type="button" class="btn btn-outline-dark" @click="auth.openModal()">{{useI18n().t('onsite.authenticateSecondPlayer')}}</button>
     <PlayerGameAuth
       ref="auth"
       :player1="globalUser"

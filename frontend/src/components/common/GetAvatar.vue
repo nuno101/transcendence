@@ -22,6 +22,7 @@ const getAvatarById = async (id) => {
       return avatar;
     } catch (err) {
       console.error(err.message);
+      // ADD ALERT?
       return null;
     }
 };
@@ -30,7 +31,8 @@ const fetchAvatar = async () => {
     try {
         avatar.value = await getAvatarById(props.id);
     } catch (error) {
-      console.error(`Error fetching avatar for player:`, error.message);
+      console.error(error.message);
+      // ADD ALERT?
     } finally {
     isLoaded.value = true;
   }
