@@ -1,152 +1,241 @@
 {
-  "language": "English",
-  "confirm": "confirm",
-  "cancel": "cancel",
-  "username": "username",
-  "nickname": "nickname",
-  "password": "password",
-  "online": "online",
-  "offline": "offline",
-  "loading": "loading",
-  "lang": {
-    "english": "english",
-    "german": "german",
-    "spanish": "spanish",
-    "french": "french"
-  },
-  "home": {
-    "ourTranscendenceProject": "Our Transcendence Project",
-    "transcendenceDescription": "Transcendence is the last project of the Core Curriculum at 42. The goal of this project is to develop a web application that allows users to engage in a basic Pong Game while also providing a platform for social interaction with other users. It involves implementing various modules, making choices about technologies and libraries, and ensuring that all decisions align with the project's requirements and limitations.",
-    "connectOnGithub": "Connect with us on Github"
-  },
-  "upcomingGames": {
-    "upcomingGames": "Upcoming games",
-    "opponent": "Opponent",
-    "tournament": "Tournament",
-    "noUpcomingGames": "No upcoming games",
-    "play": "play"
-  },
-  "login": {
-    "login": "Login",
-    "new?": "new?",
-    "rememberMe": "Remember me",
-    "signUp": "Sign up",
-    "alreadyHaveAnAccount": "Already have an account?",
-    "logout": "Logout"
-  },
-  "header": {
-    "home": "Home",
-    "friends": "Friends",
-    "users": "Users",
-    "chat": "Chat",
-    "settings": "Settings",
-    "tournaments": "Tournaments",
-    "game": "Game",
-    "online": "Online",
-    "onsite": "Onsite",
-    "demo": "Demo"
-  },
-  "settings": {
-    "saveChanges": "Save Changes",
-    "changeAvatar": "Change Avatar",
-    "newPassword": "New Password",
-    "confirmNewPassword": "Confirm New Password",
-    "passwordsDoNotMatch": "passwords do not match"
-  },
-  "friendsview": {
-    "friends": "Friends",
-    "friendrequests": "Friend Requests",
-    "pendingrequests": "Pending Requests",
-    "deleteFriend": "Do you want to delete this friend?",
-    "declineFriendRequest": "Do you want to decline this friend request?",
-    "cancelFriendRequest": "Do you want to withdraw this friend request?",
-    "noFriends": "no friends",
-    "noFriendRequests": "no friend requests",
-    "noPendingRequests": "no pending requests",
-    "searchNickname": "search nickname"
-  },
-  "userstats": {
-    "wins" : "Wins",
-    "defeats": "Defeats",
-    "noWins": "no wins",
-    "noDefeats": "no defeats",
-    "noGames": "no games"
-  },
-  "usersview": {
-    "listofusers": "Users List",
-    "username": "Username",
-    "nickname": "Nickname",
-    "created_at": "Created at",
-    "updated_at": "Updated at"
-  },
-  "tournamentsview": {
-    "listoftournaments": "List of Tournaments",
-    "name": "Name",
-    "creator": "Created by",
-    "status": "Status",
-    "actions": "Actions",
-    "open_register": "Open for registration",
-    "created": "Created",
-    "titleoftournament": "Title of tournament",
-    "descriptionoftournament": "Description of tournament",
-	  "creatortournamentnickname": "Your tournament nickname (creator)",
-    "cancel" : "Cancel",
-    "createatournament" : "Create a tournament",
-	  "addtournament" : "Add a tournament",
-    "description" : "description",
-    "register" : "register",
-    "registrationclosed" : "Registration closed",
-    "created_at": "Created at",
-    "updated_at": "Updated at",
-    "delete": "Delete"
-  },
-  "onlinegameview": {
-    "inviteuser": "Invite User",
-    "findopponent": "Find Opponent"
-  },
-  "onsitegameview": {
-
-  },
-  "ponggameview": {
-    "loadingfetch": "fetch data from server",
-    "loadingsend": "send data to server",
-    "unexpectederror": "unexpected error",
-    "accuredduring": "accured during",
-    "paused": "paused",
-    "wonthegame": "won the game",
-    "press": "press",
-    "tocontinue": "to continue"
-  },
-  "instruction": {
-    "uses": "uses",
-    "and": "and",
-    "toMoveThe": "to move the",
-    "leftPaddle": "left paddle",
-    "rightPaddle": "right paddle",
-    "leftplayer": "left player",
-    "rightplayer": " right player",
-    "goal": "The goal is for each player to reach eleven points before the opponent",
-    "startOrPause": "start/pause",
-    "showOrHide": "show/hide",
-    "theGame": "the game",
-    "theseInstructions": "these instructions",
-    "fpsCounter": "fps counter"
-  },
-  "auth": {
-    "authentication": "authentication",
-    "authenticate": "authenticate",
-    "withNickname": "with nickname",
-    "successfullyAuth": "successfully authenticated",
-    "startGame": "start game"
-  },
-  "notif": {
-    "noNotifications": "No notifications",
-    "newMessage": "Go to chat to see new messages",
-    "newFriendRequest": "Go to friends to see new friend request",
-    "newFriends": "Go to friends to see new friend"
-  },
-  "notfound": {
-    "pageNotFound": "page not found",
-    "thisPageIsntAvailable": "this page isn't available"
-  }
+	"language": "English",
+	"confirm": "confirm",
+	"cancel": "cancel",
+	"username": "username",
+	"nickname": "nickname",
+	"password": "password",
+	"online": "online",
+	"offline": "offline",
+	"loading": "loading",
+	"avatar": "avatar",
+	"lang": {
+		"english": "english",
+		"german": "german",
+		"spanish": "spanish",
+		"french": "french"
+	},
+	"home": {
+		"ourTranscendenceProject": "Our Transcendence Project",
+		"transcendenceDescription": "Transcendence is the last project of the Core Curriculum at 42. The goal of this project is to develop a web application that allows users to engage in a basic Pong Game while also providing a platform for social interaction with other users. It involves implementing various modules, making choices about technologies and libraries, and ensuring that all decisions align with the project's requirements and limitations.",
+		"connectOnGithub": "Connect with us on Github"
+	},
+	"upcomingGames": {
+		"upcomingGames": "Upcoming games",
+		"opponent": "Opponent",
+		"tournament": "Tournament",
+		"noUpcomingGames": "No upcoming games",
+		"play": "play"
+	},
+	"login": {
+		"login": "Login",
+		"new?": "new?",
+		"rememberMe": "Remember me",
+		"signUp": "Sign up",
+		"alreadyHaveAnAccount": "Already have an account?",
+		"logout": "Logout",
+		"successfullySignedUp": "Successfully signed up"
+	},
+	"logout": {
+		"videonotsupported": "video not supported"
+	},
+	"header": {
+		"home": "Home",
+		"friends": "Friends",
+		"users": "Users",
+		"chat": "Chat",
+		"settings": "Settings",
+		"tournaments": "Tournaments",
+		"game": "Game",
+		"onsite": "Play local",
+		"demo": "Demo",
+		"ai": "Vs. ai"
+	},
+	"settings": {
+		"saveChanges": "Save Changes",
+		"changeAvatar": "Change Avatar",
+		"newPassword": "New Password",
+		"confirmNewPassword": "Confirm New Password",
+		"passwordsDoNotMatch": "passwords do not match"
+	},
+	"friendsview": {
+		"friends": "Friends",
+		"friendrequests": "Friend Requests",
+		"pendingrequests": "Pending Requests",
+		"deleteFriend": "Do you want to delete this friend?",
+		"declineFriendRequest": "Do you want to decline this friend request?",
+		"cancelFriendRequest": "Do you want to withdraw this friend request?",
+		"noFriends": "no friends",
+		"noFriendRequests": "no friend requests",
+		"noPendingRequests": "no pending requests",
+		"searchNickname": "search nickname"
+	},
+	"userstats": {
+		"wins" : "Wins",
+		"defeats": "Defeats",
+		"noWins": "no wins",
+		"noDefeats": "no defeats",
+		"noGames": "no games"
+	},
+	"usersview": {
+		"listofusers": "Users List",
+		"username": "Username",
+		"nickname": "Nickname",
+		"created_at": "Created at",
+		"updated_at": "Updated at"
+	},
+	"tournamentsview": {
+		"listoftournaments": "List of Tournaments",
+		"name": "Name",
+		"creator": "Created by",
+		"status": "Status",
+		"actions": "Actions",
+		"open_register": "Open for registration",
+		"created": "Created",
+		"titleoftournament": "Title of tournament",
+		"descriptionoftournament": "Description of tournament",
+		"creatortournamentnickname": "Your tournament nickname (creator)",
+		"cancel" : "Cancel",
+		"createatournament" : "Create a tournament",
+		"addtournament" : "Add a tournament",
+		"description" : "description",
+		"register" : "register",
+		"registrationclosed" : "Registration closed",
+		"created_at": "Created at",
+		"updated_at": "Updated at",
+		"delete": "Delete"
+	},
+	"onsite": {
+		"authenticateSecondPlayer" : "Authenticate second player",
+		"alreadyTaken": "already taken"
+	},
+	"ponggameview": {
+		"loadingfetch": "fetch data from server",
+		"loadingsend": "send data to server",
+		"unexpectederror": "unexpected error",
+		"accuredduring": "accured during",
+		"paused": "paused",
+		"wonthegame": "won the game",
+		"youwonthegame": "you won the game",
+		"press": "press",
+		"tocontinue": "to continue",
+		"ai": "The AI",
+		"wronguser": "you are not taking part in this game"
+	},
+	"aisettings": {
+		"ai": "AI",
+		"human": "Human",
+		"leftplayer": "Left Player",
+		"rightplayer": "Right Player",
+		"includeincalculations": "Include in calculations:",
+		"border": "top and bottom border",
+		"opponent": "Opponent",
+		"center": "return to center while idle",
+		"inaccuracy": "Inaccuracy",
+		"explenation": "This value determines the inaccuracy in the calculation. A value of 0 means there is no inaccuracy.",
+		"tip": "Tip",
+		"tipvalue": "a positive inaccuracy increases the probability that the ball will hit a corner of the paddle from the AI. This makes the game more interesting."
+	},
+	"instruction": {
+		"you": "you",
+		"use": "use",
+		"uses": "uses",
+		"and": "and",
+		"toMoveThe": "to move the",
+		"leftPaddle": "left paddle",
+		"rightPaddle": "right paddle",
+		"leftplayer": "left player",
+		"rightplayer": " right player",
+		"goal": "The goal is for each player to reach eleven points before the opponent",
+		"startOrPause": "start/pause",
+		"showOrHide": "show/hide",
+		"theGame": "the game",
+		"theseInstructions": "these instructions",
+		"fpsCounter": "fps counter",
+		"spacebar": "space bar",
+		"wkey": "w key",
+		"skey": "s key",
+		"arrowup": "arrow up",
+		"arrowdown": "arrow down",
+		"hkey": "h key",
+		"fkey": "f key"
+	},
+	"auth": {
+		"authentication": "authentication",
+		"authenticate": "authenticate",
+		"withNickname": "with nickname",
+		"successfullyAuth": "successfully authenticated",
+		"startGame": "start game"
+	},
+	"notif": {
+		"noNotifications": "No notifications",
+		"newMessage": "Go to chat to see new messages",
+		"newFriendRequest": "Go to friends to see new friend request",
+		"newFriends": "Go to friends to see new friend"
+	},
+	"notfound": {
+		"pageNotFound": "page not found",
+		"thisPageIsntAvailable": "this page isn't available"
+	},
+	"err": {
+		"Staff user required": "Staff user required",
+		"Internal server error": "Internal server error",
+		"Invalid password (choose a better one)": "Invalid password (choose a better one)",
+		"Not logged in": "Not logged in",
+		"Invalid JSON body syntax": "Invalid JSON body syntax",
+		"Cannot add yourself": "Cannot add yourself",
+		"You are blocked by this user": "You are blocked by this user",
+		"You are blocked by users in the channel": "You are blocked by users in the channel",
+		"User is not a friend": "User is not a friend",
+		"Missing query parameter 'type'": "Missing query parameter 'type'",
+		"User is blocked": "User is blocked",
+		"User is already a friend": "User is already a friend",
+		"User blocked you": "User blocked you",
+		"Friend request already sent": "Friend request already sent",
+		"Friend request already received": "Friend request already received",
+		"User is not the recipient of the request": "User is not the recipient of the request",
+		"You can't play against yourself": "You can't play against yourself",
+		"Invalid player(s) score": "Invalid player(s) score",
+		"Change not allowed": "Change not allowed",
+		"You are not the creator of this tournament": "You are not the creator of this tournament",
+		"You can't delete a game that is done": "You can't delete a game that is done",
+		"No avatar provided (needs to be a multipart/form-data field with key 'avatar')": "No avatar provided (needs to be a multipart/form-data field with key 'avatar')",
+		"Invalid file extension": "Invalid file extension",
+		"Cannot block yourself": "Cannot block yourself",
+		"User is already blocked": "User is already blocked",
+		"User is a friend": "User is a friend",
+		"Outgoing friend request exists": "Outgoing friend request exists",
+		"User is not blocked": "User is not blocked",
+		"Not enough players": "Not enough players",
+		"Invalid status": "Invalid status",
+		"Invalid login credentials": "Invalid login credentials",
+		"Not authenticated": "Not authenticated",
+		"User not found": "User not found",
+		"Friend request not found": "Friend request not found",
+		"No permission to access friend request": "No permission to access friend request",
+		"Notification not found": "Notification not found",
+		"No permission to access notification": "No permission to access notification",
+		"Tournament not found": "Tournament not found",
+		"No permission to access tournament": "No permission to access tournament",
+		"Game not found": "Game not found",
+		"No permission to access game": "No permission to access game",
+		"Channel not found": "Channel not found",
+		"No permission to access channel": "No permission to access channel",
+		"Message not found": "Message not found",
+		"No permission to access message": "No permission to access message",
+		"413 Request Entity Too Large": "413 Request Entity Too Large",
+		"User with this Nickname already exists.": "User with this Nickname already exists.",
+		"Avatar is too large": "Avatar is too large"
+	},
+	"succ": {
+		"Hello, world. You're at the transcendence index.": "Hello, world. You're at the transcendence index.",
+		"Successfully logged out": "Successfully logged out"
+	},
+	"chatview": {
+		"sendMessage": "Send a message",
+		"blockUser": "Block",
+		"unblockUser": "Unblock",
+		"create": "Create",
+		"nickname": "Nickname"
+	}
 }

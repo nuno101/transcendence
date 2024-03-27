@@ -1,6 +1,9 @@
 <script setup>
 import { onMounted, defineProps, ref} from 'vue';
+import { useI18n } from 'vue-i18n'
 import Backend from '../../js/Backend';
+
+const i18n = useI18n()
 
 const props = defineProps({
   id: Number,
@@ -19,6 +22,7 @@ const getAvatarById = async (id) => {
       return avatar;
     } catch (err) {
       console.error(err.message);
+      // ADD ALERT?
       return null;
     }
 };
@@ -27,7 +31,8 @@ const fetchAvatar = async () => {
     try {
         avatar.value = await getAvatarById(props.id);
     } catch (error) {
-      console.error(`Error fetching avatar for player:`, error.message);
+      console.error(error.message);
+      // ADD ALERT?
     } finally {
     isLoaded.value = true;
   }
@@ -40,7 +45,7 @@ onMounted(() => {
 
 <template>
   <img v-if="isLoaded" :src="avatar"
-    alt="..."
+    :alt="i18n.t('avatar')"
     class="img-thumbnail rounded"
     :style="{ width: props.size + 'px', height: props.size + 'px', objectFit: 'cover' }"
   >

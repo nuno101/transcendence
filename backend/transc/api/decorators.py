@@ -13,13 +13,6 @@ def staff_required(view_func):
     return view_func(request, *args, **kwargs)
   return wrapped_view
 
-def superuser_required(view_func):
-  def wrapped_view(request, *args, **kwargs):
-    if not request.user.is_staff:
-      return JsonResponse({ERROR_FIELD: "Superuser user required"}, status=403)
-    return view_func(request, *args, **kwargs)
-  return wrapped_view
-
 def check_structure(endpoint_key):
   def decorator(view_func):
     def wrapped_view(request, *args, **kwargs):
