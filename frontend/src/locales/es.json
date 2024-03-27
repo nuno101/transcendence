@@ -8,6 +8,7 @@
     "online": "En línea",
     "offline": "Desconectado",
     "loading": "Cargando",
+    "avatar": "TODO",
     "lang": {
         "english": "inglés",
         "german": "alemán",
@@ -35,6 +36,9 @@
         "logout": "Cerrar sesión",
         "successfullySignedUp": "Registro exitoso"
     },
+    "logout": {
+        "videonotsupported": "TODO"
+    },
     "header": {
         "home": "Inicio",
         "friends": "Amigos",
@@ -45,7 +49,8 @@
         "game": "Juego",
         "online": "En línea",
         "onsite": "Presencial",
-        "demo": "Demostración"
+        "demo": "Demostración",
+        "ai": "TODO"
     },
     "settings": {
         "saveChanges": "Guardar cambios",
@@ -81,17 +86,25 @@
         "updated_at": "Actualizado en"
     },
     "tournamentsview": {
-        "tournaments": "Torneos",
-        "titleoftournament": "Título del torneo",
-        "descriptionoftournament": "Descripción del torneo",
-        "creatortournamentnickname": "Su apodo del torneo (creador)",
-        "cancel" : "cancelar",
-        "addtournament" : "add tournament",
-        "addnewtournament" : "añadir torneo",
-        "description" : "descripción",
-        "status" : "estado",
-        "register" : "regístrese en",
-        "registrationclosed" : "inscripción cerrada"
+        "listoftournaments": "List of Tournaments",
+        "name": "Name",
+        "creator": "Created by",
+        "status": "Status",
+        "actions": "Actions",
+        "open_register": "Open for registration",
+        "created": "Created",
+        "titleoftournament": "Title of tournament",
+        "descriptionoftournament": "Description of tournament",
+          "creatortournamentnickname": "Your tournament nickname (creator)",
+        "cancel" : "Cancel",
+        "createatournament" : "Create a tournament",
+          "addtournament" : "Add a tournament",
+        "description" : "description",
+        "register" : "register",
+        "registrationclosed" : "Registration closed",
+        "created_at": "Created at",
+        "updated_at": "Updated at",
+        "delete": "Delete"
     },
     "onlinegameview": {
         "inviteuser": "Invitar Usuario",
@@ -107,9 +120,26 @@
         "accuredduring": "ocurrido durante",
         "paused": "Pausado",
         "wonthegame": "ganó el juego",
+        "youwonthegame": "TODO",
         "press": "presiona",
-        "tocontinue": "para continuar"
+        "tocontinue": "para continuar",
+        "ai": "TODO",
+        "wronguser": "TODO"
     },
+    "aisettings": {
+        "ai": "AI",
+        "human": "Human",
+        "leftplayer": "Left Player",
+        "rightplayer": "Right Player",
+        "includeincalculations": "Include in calculations:",
+        "border": "top and bottom border",
+        "opponent": "Opponent",
+        "center": "return to center while idle",
+        "inaccuracy": "Inaccuracy",
+        "explenation": "This value determines the inaccuracy in the calculation. A value of 0 means there is no inaccuracy.",
+        "tip": "Tip",
+        "tipvalue": "a positive inaccuracy increases the probability that the ball will hit a corner of the paddle from the AI. This makes the game more interesting."
+      },
     "auth": {
         "authentication": "Autenticación",
         "authenticate": "autenticar",
@@ -118,6 +148,8 @@
         "startGame": "comenzar juego"
     },
     "instruction": {
+        "you": "TODO",
+        "use": "TODO",
         "uses": "usa",
         "and": "y",
         "toMoveThe": "para mover el",
@@ -130,7 +162,14 @@
         "showOrHide": "Mostrar/Ocultar",
         "theGame": "el juego",
         "theseInstructions": "Estas instrucciones",
-        "fpsCounter": "Contador de FPS"
+        "fpsCounter": "Contador de FPS",
+        "spacebar": "TODO",
+        "wkey": "TODO",
+        "skey": "TODO",
+        "arrowup": "TODO",
+        "arrowdown": "TODO",
+        "hkey": "TODO",
+        "fkey": "TODO"
     },
     "notif": {
         "noNotifications": "Sin notificaciones",
@@ -195,5 +234,12 @@
     "succ": {
         "Hello, world. You're at the transcendence index.": "Hola mundo. Estás en el índice de trascendencia.",
         "Successfully logged out": "Cierre de sesión exitoso"
+    },
+    "chatview": {
+        "sendMessage": "Enviar un mensaje",
+        "blockUser": "Bloquear",
+        "unblockUser": "Desatascar",
+        "create": "Crear",
+        "nickname": "Apodo"
     }
-  }
+}

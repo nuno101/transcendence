@@ -8,6 +8,7 @@
     "online": "En ligne",
     "offline": "Hors ligne",
     "loading": "Chargement",
+    "avatar": "TODO",
     "lang": {
         "english": "anglais",
         "german": "allemand",
@@ -35,6 +36,9 @@
         "logout": "Se déconnecter",
         "successfullySignedUp": "Inscription réussie"
     },
+    "logout": {
+        "videonotsupported": "TODO"
+    },
     "header": {
         "home": "Accueil",
         "friends": "Amis",
@@ -45,7 +49,8 @@
         "game": "Jeu",
         "online": "En ligne",
         "onsite": "Sur place",
-        "demo": "Démo"
+        "demo": "Démo",
+        "ai": "TODO"
     },
     "settings": {
         "saveChanges": "Enregistrer les modifications",
@@ -81,17 +86,25 @@
         "updated_at" : "Mis à jour le"
     },
     "tournamentsview": {
-        "tournaments": "Tournois",
-        "titleoftournament": "Titre du tournoi",
-        "descriptionoftournament": "Description du tournoi",
-		"creatortournamentnickname": "Votre pseudo de tournoi (créateur)",
-        "cancel" : "annuler",
-        "addtournament" : "ajouter ce tournoi",
-        "addnewtournament" : "ajouter un nouveau tournoi",
+        "listoftournaments": "List of Tournaments",
+        "name": "Name",
+        "creator": "Created by",
+        "status": "Status",
+        "actions": "Actions",
+        "open_register": "Open for registration",
+        "created": "Created",
+        "titleoftournament": "Title of tournament",
+        "descriptionoftournament": "Description of tournament",
+        "creatortournamentnickname": "Your tournament nickname (creator)",
+        "cancel" : "Cancel",
+        "createatournament" : "Create a tournament",
+        "addtournament" : "Add a tournament",
         "description" : "description",
-        "status" : "statut",
-        "register" : "registre",
-        "registrationclosed" : "Inscription clôturée"
+        "register" : "register",
+        "registrationclosed" : "Registration closed",
+        "created_at": "Created at",
+        "updated_at": "Updated at",
+        "delete": "Delete"
     },
     "onlinegameview": {
         "inviteuser": "Inviter un Utilisateur",
@@ -107,8 +120,25 @@
         "accuredduring": "survenue pendant",
         "paused": "En pause",
         "wonthegame": "a remporté la partie",
+        "youwonthegame": "TODO",
         "press": "appuyez sur",
-        "tocontinue": "pour continuer"
+        "tocontinue": "pour continuer",
+        "ai": "The AI",
+        "wronguser": "TODO"
+    },
+    "aisettings": {
+        "ai": "TODO",
+        "human": "TODO",
+        "leftplayer": "TODO",
+        "rightplayer": "TODO",
+        "includeincalculations": "TODO",
+        "border": "TODO",
+        "opponent": "TODO",
+        "center": "TODO",
+        "inaccuracy": "TODO",
+        "explenation": "TODO",
+        "tip": "TODO",
+        "tipvalue": "TODO"
     },
     "auth": {
         "authentication": "Authentification",
@@ -118,6 +148,8 @@
         "startGame": "démarrer le jeu"
     },
     "instruction": {
+        "you": "TODO",
+        "use": "TODO",
         "uses": "utilise",
         "and": "et",
         "toMoveThe": "pour déplacer la",
@@ -130,7 +162,14 @@
         "showOrHide": "Afficher/Masquer",
         "theGame": "le jeu",
         "theseInstructions": "Ces instructions",
-        "fpsCounter": "Compteur de FPS"
+        "fpsCounter": "Compteur de FPS",
+        "spacebar": "TODO",
+        "wkey": "TODO",
+        "skey": "TODO",
+        "arrowup": "TODO",
+        "arrowdown": "TODO",
+        "hkey": "TODO",
+        "fkey": "TODO"
     },
     "notif": {
         "noNotifications": "Pas de notifications",
@@ -195,5 +234,12 @@
     "succ": {
         "Hello, world. You're at the transcendence index.": "Bonjour, monde. Vous êtes à l'index de la transcendance.",
         "Successfully logged out": "Déconnexion réussie"
+    },
+    "chatview": {
+      "sendMessage": "Envoyer un message",
+      "blockUser": "Bloc",
+      "unblockUser": "Débloquer",
+      "create": "Créer",
+      "nickname": "Surnom"
     }
 }

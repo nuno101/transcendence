@@ -80,7 +80,7 @@ const changeAvatar = async(event) => {
                     <div class="avatar-circle text-center mt-2">
                         <img id="Image"
                             :src="useravatar"
-                            alt="..."
+                            :alt="useI18n().t('avatar')"
                             class="img-thumbnail rounded"
                             style="width: 100px; height: 100px; object-fit: cover;">
                     </div>
