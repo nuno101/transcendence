@@ -106,7 +106,8 @@
         "delete": "Eliminar"
     },
     "onsite": {
-        "authenticateSecondPlayer": "Autenticar segundo jugador"
+        "authenticateSecondPlayer": "Autenticar segundo jugador",
+        "alreadyTaken": "ya está en uso"
     },
     "ponggameview": {
         "loadingfetch": "Cargando datos del servidor",

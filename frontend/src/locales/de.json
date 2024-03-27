@@ -106,7 +106,8 @@
 		"delete": "Löschen"
 	},
 	"onsite": {
-		"authenticateSecondPlayer": "Zweiten Spieler authentifizieren"
+		"authenticateSecondPlayer": "Zweiten Spieler authentifizieren",
+		"alreadyTaken": "bereits vergeben"
 	},
 	"ponggameview": {
 		"loadingfetch": "empfange Daten vom Server",

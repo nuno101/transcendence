@@ -88,7 +88,7 @@ const LogOut = async () => {
 		router.push(logoutRoute)
 	} catch (err) {
 		console.error(err.message)
-		//TRANSLATE
+		// ADD ALERT?
 	}
 }
 </script>

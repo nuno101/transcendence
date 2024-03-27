@@ -106,7 +106,8 @@
 		"delete": "Delete"
 	},
 	"onsite": {
-		"authenticateSecondPlayer" : "Authenticate second player"
+		"authenticateSecondPlayer" : "Authenticate second player",
+		"alreadyTaken": "already taken"
 	},
 	"ponggameview": {
 		"loadingfetch": "fetch data from server",

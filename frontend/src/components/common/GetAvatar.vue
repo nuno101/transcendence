@@ -22,7 +22,7 @@ const getAvatarById = async (id) => {
       return avatar;
     } catch (err) {
       console.error(err.message);
-      // TRANSLATE
+      // ADD ALERT?
       return null;
     }
 };
@@ -32,7 +32,7 @@ const fetchAvatar = async () => {
         avatar.value = await getAvatarById(props.id);
     } catch (error) {
       console.error(error.message);
-      // TRANSLATE
+      // ADD ALERT?
     } finally {
     isLoaded.value = true;
   }

@@ -15,7 +15,7 @@ const fetchData = async () => {
 		return users.value;
 	} catch (err) {
 		console.error(err.message);
-		// TRANSLATE
+		// ADD ALERT?
 	}
 };
 

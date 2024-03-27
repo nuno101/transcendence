@@ -57,6 +57,7 @@ const props = defineProps({
 	}
 });
 
+const i18n = useI18n();
 const authPlayers = ref([]);
 const loading = ref(false)
 const authModal = ref(null);
@@ -119,8 +120,7 @@ const authenticate = async (player) => {
 		const duplicatePlayer = authPlayers.value.find(p => p !== player && p.user.username === player.user.username);
 		if(duplicatePlayer) {
 			player.alerts.push({
-				// TRANSLATE
-				message: "Username " + `${player.user.username} already taken`,
+				message: `${i18n.t('username')} ${player.user.username} ${i18n.t('onsite.alreadyTaken')}`,
 				type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
 			});
 		} else {
