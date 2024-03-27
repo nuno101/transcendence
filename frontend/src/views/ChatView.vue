@@ -40,7 +40,7 @@ async function loadBlockedUsers() {
         blockedUsers.value = await Backend.get(`/api/users/me/blocked`)
         console.log("Loaded blocked users")
     } catch (err) {
-        console.error(err)
+        console.error(err.message)
         // TODO: Display error message
     }
 }
@@ -51,7 +51,7 @@ async function loadMessages(channel) {
         Chat.messages.value = data
         Chat.selected_channel.value = channel
     } catch (err) {
-        console.error(err)
+        console.error(err.message)
         Chat.messages.value = []
         // TODO: Display error message
     }
@@ -106,7 +106,7 @@ async function blockUser() {
         dmUserBlocked.value = true
     } catch (err) {
         // TODO: Error handling
-        console.log(`Failed to block: ${err}`)
+        console.error(`Failed to block: ${err.message}`)
     }
 
 }
