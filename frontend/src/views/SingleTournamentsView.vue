@@ -20,10 +20,10 @@ const players = ref([]);
 const isCreator = ref(false);
 const isJoined = ref(false);
 const currentUser = ref(false);
-const message = ref(null);
 const editingDescription = ref(false);
 const games = ref(null);
 const updatedGames = ref(null);
+const alerts = ref({ title: '', message: '' })
 
 const route = useRoute();
 const router = useRouter();
@@ -36,7 +36,7 @@ const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
 	currentUser.value = await Backend.get('/api/users/me');
-	games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
+	//games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
     username.value = currentUser.value.username;
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = localStorage.getItem(userTournamentKey) === 'true';
@@ -53,9 +53,9 @@ const initValues = (data) => {
 	status.value = data.status
 	created_at.value = data.created_at
 	updated_at.value = data.updated_at
-	creator.value = data.creator.username
+	creator.value = data.creator.nickname
 	players.value = data.players;
-	if (creator.value === username.value) {
+	if (data.creator.username === username.value) {
     	isCreator.value = true;
 	}
 };
@@ -69,52 +69,61 @@ const handleUpdateTesT = (newValue) => {
 }
 
 const joinTournament = async (msg) => {
-    const join = await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "join" });
-	players.value = join.players;
-	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
-	isJoined.value = true;
-	localStorage.setItem(userTournamentKey, JSON.stringify(true));
-	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
-	message.value = msg;
+	try {
+		const join = await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "join" });
+		players.value = join.players;
+		const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
+		isJoined.value = true;
+		localStorage.setItem(userTournamentKey, JSON.stringify(true));
+		await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
+		setModal("Success", msg);
+	} catch (error) {
+		console.error(error.message);
+		setModal("Error", error.message);
+	}
 };
 
 const unjoinTournament = async (msg) => {
-    const unjoin = await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "unjoin" });
-	players.value = unjoin.players;
-	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
-	isJoined.value = false;
-	localStorage.setItem(userTournamentKey, JSON.stringify(false));
-	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
-	message.value = msg;
+	try {
+		const unjoin = await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "unjoin" });
+		players.value = unjoin.players;
+		const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
+		isJoined.value = false;
+		localStorage.setItem(userTournamentKey, JSON.stringify(false));
+		await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
+		setModal("Success", msg);
+	} catch (error) {
+        console.error(error.message);
+		setModal("Error", error.message);
+    }	
 };
 
 const changeState = async (msg) => {
 	try {
 		const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "next"});
 		status.value = response.status;
-		message.value = msg;
+		setModal("Success", msg);
 	} catch (error) {
         console.error(error.message);
-		message.value = error.message; // Should be translatable 
-		const modal = bootstrap.Modal.getInstance("#successModal"); // Should be error modal 
-		modal.show();
-    }	
+		setModal("Error", error.message);
+    }
 };
 
 const cancelTournament = async (msg) => {
   try {
     const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "cancel"});
 	status.value = response.status;
-	message.value = msg;
+	setModal("Success", msg);
   } catch (err) {
     console.error(err.message);
+	setModal("Error", err.message);
   }
 };
 
 const deleteTournament = async (msg) => {
   try {
     await Backend.delete(`/api/tournaments/${tournamentId.value}`);
-	message.value = msg;
+	setModal("Success", msg);
 	router.go(-1);
   } catch (err) {
     console.error(err.message);
@@ -134,29 +143,36 @@ const startEditing = () => {
     editingDescription.value = true;
 };
 
-const updateDescription = async () => {
+/*const updateDescription = async () => {
     try {
         await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "description": description.value });
 		editingDescription.value = false;
     } catch (error) {
         console.error('Error updating description:', error);
     }
-};
+};*/
 
 const { t } = useI18n();
 
 const translatedStrings = computed(() => ({
     registrationIsNowOpen: t('singletournamentsview.registrationisnowopen'),
-	registrationIsNowOpen: t('singletournamentsview.tournamentisnowdeleted'),
-	registrationIsNowOpen: t('singletournamentsview.registrationisnowclosed'),
-	registrationIsNowOpen: t('singletournamentsview.thetournamenthasbeencancelled'),
-	registrationIsNowOpen: t('singletournamentsview.successfullunjointournament'),
-	registrationIsNowOpen: t('singletournamentsview.successfulljointournament'),
-	registrationIsNowOpen: t('singletournamentsview.unjointhetournament'),
-	registrationIsNowOpen: t('singletournamentsview.jointhetournament'),
-	registrationIsNowOpen: t('singletournamentsview.tournamentwillstartgetready')
+	tournamentIsNowDeleted: t('singletournamentsview.tournamentisnowdeleted'),
+	registrationIsNowClosed: t('singletournamentsview.registrationisnowclosed'),
+	theTournamentHasBeenCancelled: t('singletournamentsview.thetournamenthasbeencancelled'),
+	successfullUnjoinTournament: t('singletournamentsview.successfullunjointournament'),
+	successfullJoinTournament: t('singletournamentsview.successfulljointournament'),
+	unjoinTheTournament: t('singletournamentsview.unjointhetournament'),
+	joinTheTournament: t('singletournamentsview.jointhetournament'),
+	tournamentWillStartGetReady: t('singletournamentsview.tournamentwillstartgetready')
     
 }));
+
+const setModal = async (title, msg) => {
+    alerts.value = {
+        title: title,
+        message: msg,
+    };
+};
 
 onMounted(() => {
 	const route = useRoute();
@@ -165,13 +181,12 @@ onMounted(() => {
 })
 </script>
 
-
 <template>
 <div class="container mt-5">
         <h1 class="display-4 mb-4">{{ title }}</h1>
         <div class="row">
             <div class="col-lg-8">
-                <p class="lead mb-4">{{useI18n().t('tournamentsview.status')}}: <span class="text-muted">{{ status }}</span></p>
+                <p class="lead mb-4">{{useI18n().t('tournamentsview.status')}}: <span class="text-muted" v-if="status">{{ useI18n().t(`singletournamentsview.${status}`)}}</span></p>
 				<div class="mb-3">
 					<label for="description" class="form-label">{{useI18n().t('tournamentsview.description')}}:</label>
 					<div class="description-container">
@@ -192,25 +207,25 @@ onMounted(() => {
                 </div>
 
 				<div v-if="status === 'created'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="changeState(translatedStrings.registrationIsNowOpen)" >{{ t('singletournamentsview.openregistration') }}</button>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="changeState(translatedStrings.registrationIsNowOpen)" >{{ t('singletournamentsview.openregistration') }}</button>
 					<span v-if="isCreator">&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="deleteTournament(useI18n().t('singletournamentsview.tournamentisnowdeleted'))">{{useI18n().t('singletournamentsview.deletetournament')}}</button>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="deleteTournament(translatedStrings.tournamentIsNowDeleted)">{{useI18n().t('singletournamentsview.deletetournament')}}</button>
 
 					<div class="alert alert-danger" v-else>{{useI18n().t('singletournamentsview.registrationforthistournamentisnotyetopen')}} <b>{{ creator }}</b> {{useI18n().t('singletournamentsview.formoreinfo')}}</div>
 				</div>
 
 				<div v-if="status === 'registration_open'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="changeState(useI18n().t('singletournamentsview.registrationisnowclosed'))" >{{useI18n().t('singletournamentsview.closeregistration')}}</button>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="changeState(translatedStrings.registrationIsNowClosed)" >{{useI18n().t('singletournamentsview.closeregistration')}}</button>
 					<span v-if="isCreator">&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament(useI18n().t('tournamentsview.thetournamenthasbeencancelled'))">{{useI18n().t('tournamentsview.canceltournament')}}</button>
-        			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-else @click="isJoined ? unjoinTournament(useI18n().t('singletournamentsview.successfullunjointournament')) : joinTournament(useI18n().t('singletournamentsview.successfulljointournament'))">{{ isJoined ? useI18n().t('tournamentsview.unjointhetournament') : useI18n().t('tournamentsview.jointhetournament') }}</button>		
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="cancelTournament(translatedStrings.theTournamentHasBeenCancelled)">{{useI18n().t('singletournamentsview.canceltournament')}}</button>
+        			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-else @click="isJoined ? unjoinTournament(translatedStrings.successfullUnjoinTournament) : joinTournament(translatedStrings.successfullJoinTournament)">{{ isJoined ? useI18n().t('singletournamentsview.unjointhetournament') : useI18n().t('singletournamentsview.jointhetournament') }}</button>		
 				</div>
 
 				<div v-if="status === 'registration_closed'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="startTournament(useI18n().t('singletournamentsview.tournamentwillstartgetready'))">{{useI18n().t('singletournamentsview.starttournament')}}</button>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="startTournament(translatedStrings.tournamentWillStartGetReady)">{{useI18n().t('singletournamentsview.starttournament')}}</button>
 					<span v-if="isCreator">&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament(useI18n().t('singletournamentsview.thetournamenthasbeencancelled'))">{{useI18n().t('singletournamentsview.canceltournament')}}</button>
-					<div class="alert alert-success" v-else>{{useI18n().t('singletournamentsview.tournamentwillstartsoon')}}</div>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="cancelTournament(translatedStrings.theTournamentHasBeenCancelled)">{{useI18n().t('singletournamentsview.canceltournament')}}</button>
+					<div class="alert alert-success" v-else>{{useI18n().t('singletournamentsview.tournamentwillstartgetready')}}</div>
 				</div>
 
 				<div v-if="status === 'ongoing'">
@@ -223,13 +238,13 @@ onMounted(() => {
             </div>
 
 			<ModalSettings
-			  :message_child="message"
-			  type_child="Success"
-			/>	
+			  :title_child="alerts.title"
+			  :message_child="alerts.message"
+			/>
 
             <div class="col-lg-4">
                 <h3 class="mb-3">{{useI18n().t('tournamentsview.creator')}}</h3>
-				<b><p>{{ creator }} <!-- tournament.creator.nickname -->
+				<b><p>{{ creator }}
 				<span v-if="isCreator">{{useI18n().t('tournamentsview.(you)')}}</span></p></b>
                 <h3 class="mb-3 mt-4">{{useI18n().t('tournamentsview.players')}}</h3>
                 <table class="table">
@@ -245,7 +260,7 @@ onMounted(() => {
                         </tr>
                     </tbody>
                 </table>
-				<GameSelection v-if="status === 'ongoing'" title="Finished games" :is_Creator="isCreator" :tournament_Id="tournamentId" :games="games" @update:games="handleUpdateTesT"/>
+				<GameSelection v-if="status === 'ongoing'" title="Completed games" :is_Creator="isCreator" :tournament_Id="tournamentId" :games="games" @update:games="handleUpdateTesT"/>
             </div>
         </div>
     </div>

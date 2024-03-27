@@ -25,7 +25,6 @@ const fetchData = async () => {
   try {
     tournaments.value = await Backend.get('/api/tournaments');
     console.log(tournaments.value);
-
 	userTournaments.value = await Backend.get(`/api/users/me`);
 	personalTournaments.value = userTournaments.value.tournaments;
 	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
@@ -75,7 +74,6 @@ onMounted(() => {
 </script>
 
 <template>
-	<!-- First table for all tournaments -->
     <div>
         <h1>{{useI18n().t('tournamentsview.listoftournaments')}}</h1>
         <div>

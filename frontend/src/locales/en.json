@@ -115,9 +115,14 @@
 		"jointhetournament" : "Join the tournament",
 		"starttournament" : "Start tournament",
 		"tournamentwillstartgetready" : "The tournament will start, get ready to play!",
-		"tournamentwillstartsoon" : "The tournament will start soon",
 		"success" : "Success",
-		"tournamentnickname" : "Nickname"
+		"tournamentnickname" : "Nickname",
+		"created" : "Created",
+		"registration_open" : "Registration open",
+		"registration_closed" : "Registration closed",
+		"ongoing" : "Ongoing",
+		"done" : "Done",
+		"cancelled" : "Cancelled"
 		
 	},
 	"gameselection": {
@@ -125,7 +130,10 @@
 		"completedgames" : "Completed games",
 		"cancelgame" : "Cancel game",
 		"startgame" : "Start game",
-		"nogames" : "No game available"
+		"nogames" : "No game available",
+		"created" : "created",
+		"ongoing" : "ongoing",
+		"cancelled" : "cancelled"
 	},
 	"onlinegameview": {
     	"inviteuser": "Invite User",

@@ -115,16 +115,24 @@
 		"jointhetournament" : "Rejoindre le tournoi",
 		"starttournament" : "Démarrer le tournoi",
 		"tournamentwillstartgetready" : "Le tournoi va commencer, préparez-vous à jouer!",
-		"tournamentwillstartsoon" : "Le tournoi va bientôt commencer",
 		"success" : "Succès",
-		"tournamentnickname" : "Pseudo"
+		"tournamentnickname" : "Pseudo",
+		"created" : "Créé",
+		"registration_open" : "Inscriptions ouvertes",
+		"registration_closed" : "Inscriptions fermées",
+		"ongoing" : "En cours",
+		"done" : "Terminé",
+		"cancelled" : "Annulé"
     },
 	"gameselection": {
 		"selectagame" : "Sélectionner un match",
 		"completedgames" : "Matchs terminés",
 		"cancelgame" : "Annuler le match",
 		"startgame" : "Commencer le match",
-		"nogames" : "Aucun match disponible"
+		"nogames" : "Aucun match disponible",
+		"created" : "créé",
+		"ongoing" : "en cours",
+		"cancelled" : "annulé"
 	},
     "onlinegameview": {
         "inviteuser": "Inviter un Utilisateur",

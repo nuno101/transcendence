@@ -114,9 +114,14 @@
 		"jointhetournament" : "Dem Turnier beitreten",
 		"starttournament" : "Turnier starten",
 		"tournamentwillstartgetready" : "Das Turnier wird beginnen, mach dich bereit zu spielen!",
-		"tournamentwillstartsoon" : "Das Turnier wird bald beginnen",
 		"success" : "Erfolg",
-		"tournamentnickname" : "Nickname"
+		"tournamentnickname" : "Nickname",
+		"created" : "Erstellt",
+		"registration_open" : "Registrierung geöffnet",
+		"registration_closed" : "Registrierung geschlossen",
+		"ongoing" : "Laufend",
+		"done" : "Beendet",
+		"cancelled" : "Abgebrochen"
 
     },
 	"gameselection": {
@@ -124,7 +129,10 @@
 		"completedgames" : "Beendete Spiele",
 		"cancelgame" : "Spiel abbrechen",
 		"startgame" : "Spiel starten",
-		"nogames" : "Keine Spiele verfügbar"
+		"nogames" : "Keine Spiele verfügbar",
+		"created" : "erstellt",
+		"ongoing" : "laufend",
+		"cancelled" : "gelöscht"
 	},
     "onlinegameview": {
       "inviteuser": "Nutzer einladen",

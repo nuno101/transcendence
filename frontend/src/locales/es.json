@@ -116,9 +116,14 @@
 		"jointhetournament" : "Unirse al torneo",
 		"starttournament" : "Iniciar torneo",
 		"tournamentwillstartgetready" : "¡El torneo va a comenzar, prepárate para jugar!",
-		"tournamentwillstartsoon" : "El torneo empezará pronto",
 		"success" : "Éxito",
-		"tournamentnickname" : "Apodo"
+		"tournamentnickname" : "Apodo",
+		"created" : "Creado",
+		"registration_open" : "Inscripción abierta",
+		"registration_closed" : "Inscripción cerrada",
+		"ongoing" : "En curso",
+		"done" : "Finalizado",
+		"cancelled" : "Cancelado"
 
     },
 	"gameselection": {
@@ -126,7 +131,10 @@
 		"completedgames" : "Partidas finalizadas",
 		"cancelgame" : "Cancelar partida",
 		"startgame" : "Empezar partida",
-		"nogames" : "No hay partidas disponibles"
+		"nogames" : "No hay partidas disponibles",
+		"created" : "creado",
+		"ongoing" : "en curso",
+		"cancelled" : "cancelado"
 
     },
     "onlinegameview": {

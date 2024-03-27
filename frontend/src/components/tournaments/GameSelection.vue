@@ -1,15 +1,16 @@
 <script setup>
-import { onMounted, ref, watch, defineProps, defineEmits } from 'vue';
+import { onMounted, ref, watch, defineProps, defineEmits, computed } from 'vue';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import Backend from '../../js/Backend';
 import PlayerGameAuth from '../auth/PlayerGameAuth.vue';
+import { useI18n } from 'vue-i18n';
 
 const currentUser = ref(false);
 const isClicked = ref(0);
 const gamesInfo = ref([]);
 const auth = ref(null);
 const indexes = ref(0);
-const newGames = ref([]);
+const titleModal = ref(null);
 
 const props = defineProps({
   title: {
@@ -36,9 +37,11 @@ const fetchData = async () => {
             (game.player1.username === currentUser.value.username || 
              game.player2.username === currentUser.value.username)
         );
+		titleModal.value = "selectagame";
     }
-	else if (props.title == "Finished games") {
+	else if (props.title == "Completed games") {
 		gamesInfo.value = props.games.filter(game => game.status === 'done' || game.status === 'cancelled');
+		titleModal.value = "completedgames";
 	}
 };
 
@@ -73,10 +76,10 @@ onMounted(() => {
 </script>
 
 <template>
-	<h3 class="tournament-bracket__round-title">{{ title }} ({{gamesInfo.length}})</h3> <!-- NOT IF ALL GAMES ARE DONE -->
+	<h3 class="tournament-bracket__round-title">{{ useI18n().t(`gameselection.${titleModal}`)}} ({{ gamesInfo.length }})</h3>
 	<ul v-if="gamesInfo && gamesInfo.length > 0" class="tournament-bracket__list">
 		<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
-			<div class="tournament-bracket__match" :style="{ width: title === 'Finished games' ? '200%' : '100%' }" :class="{ 'user-not-player': title === 'Finished games' }" tabindex="0" @click="handleGameClick(index)">						
+			<div class="tournament-bracket__match" :class="{ 'user-not-player': title === 'Completed games' }" tabindex="0" @click="handleGameClick(index)">						
 				<table class="tournament-bracket__table">
 					<tbody class="tournament-bracket__content">
 						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': (game.player1_score > game.player2_score && game.status === 'done') }">
@@ -97,16 +100,16 @@ onMounted(() => {
 						</tr>
 					</tbody>
 					<div style="margin-top: 10px;"></div>
-					<h3 class="tournament-bracket__round-status">{{ game.status }}</h3>
+					<h3 class="tournament-bracket__round-status">{{ useI18n().t(`gameselection.${game.status}`)}} </h3>
 				</table>
 			</div>
 			<div v-if="isClicked === (index + 1)"> <!-- Test equal to zero or null or NULL -->
-				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">Cancel Game</button>
-				<button class="btn btn-success" @click="auth.openModal();">Start Game</button>
+				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">{{useI18n().t('gameselection.cancelgame')}}</button>
+				<button class="btn btn-success" @click="auth.openModal();">{{useI18n().t('gameselection.startgame')}}</button>
 			</div>
 		</li>
 	</ul>
-	<p v-else>No games available</p>
+	<p v-else>{{useI18n().t('gameselection.nogames')}}</p>
 	<PlayerGameAuth 
 	  class="PlayerGameAuth"
 	  v-if="gamesInfo.length > 0"
@@ -202,7 +205,7 @@ onMounted(() => {
   }
   
   @media (max-width: @breakpoint-xs) {
-    width: 100%;
+    width: 50%;
     
     &:nth-child(odd),
     &:nth-child(even) {
@@ -292,6 +295,7 @@ onMounted(() => {
   outline: none; 
   cursor: pointer;
   transition: padding 0.2s ease-in-out, border 0.2s linear, background-color 0.2s ease-in-out;
+  width: 200%;
 
   &:focus {
 	background-color: #b8c4cf;
@@ -306,7 +310,7 @@ onMounted(() => {
   @media (max-width: @breakpoint-xs) {
     padding: 0.75em 0.5em;
   }
-  
+
   @media (min-width: @breakpoint-sm) {
     &::before,
     &::after {
