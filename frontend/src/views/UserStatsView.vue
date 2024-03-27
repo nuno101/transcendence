@@ -158,21 +158,21 @@ const DefeatGames = computed(() => {
 }
 
 .bar {
-  width: 50px;
-  border: 1px solid #fff;
+	width: 50px;
+	border: 1px solid #fff;
 }
 .defeat-bar {
-  background-color: red;
+	background-color: red;
 }
 
 .wins-bar {
-  background-color: green;
+	background-color: green;
 }
 
 .gamestable {
-  max-height: 270px;
-  overflow-y: scroll;
-  padding: 0;
+	max-height: 270px;
+	overflow-y: scroll;
+	padding: 0;
 }
 
 .avatar-circle {
