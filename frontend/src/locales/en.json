@@ -139,7 +139,7 @@
 		"startgame" : "Start game",
 		"nogames" : "No game available",
 		"created" : "created",
-		"ongoing" : "ongoing",
+		"done" : "done",
 		"cancelled" : "cancelled"
 	},
 	"onlinegameview": {

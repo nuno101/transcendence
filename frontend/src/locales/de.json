@@ -138,7 +138,7 @@
 		"startgame" : "Spiel starten",
 		"nogames" : "Keine Spiele verfügbar",
 		"created" : "erstellt",
-		"ongoing" : "laufend",
+		"done" : "beendet",
 		"cancelled" : "gelöscht"
 	},
     "onlinegameview": {

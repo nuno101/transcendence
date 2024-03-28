@@ -6,6 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import ModalSettings from '../components/tournaments/ModalSettings.vue';
 import GameSelection from '../components/tournaments/GameSelection.vue';
+import WinnerRanking from '../components/tournaments/WinnerRanking.vue';
 
 const tournament = ref(null);
 const tournamentId = ref(null);
@@ -36,7 +37,7 @@ const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
 	currentUser.value = await Backend.get('/api/users/me');
-	//games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
+	games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
     username.value = currentUser.value.username;
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = localStorage.getItem(userTournamentKey) === 'true';
@@ -134,6 +135,7 @@ const startTournament = async (msg) => {
   try {
     games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
 	changeState(msg);
+	console.log("games.value: ", games.value);
   } catch (err) {
     console.error(err.message);
   }
@@ -233,6 +235,14 @@ onMounted(() => {
 						<div class="tournament-bracket__round">
 							<GameSelection title="Select a game" :is_Creator="isCreator" :tournament_Id="tournamentId" :games.sync="games" @update:games="handleUpdateTesT"></GameSelection>								
 						</div>
+					</div>
+				</div>
+            </div>
+
+			<div v-if="status === 'done'">
+				<div class="tcontainer">
+					<div class="tournament-bracket__round">
+						<WinnerRanking :games="games"></WinnerRanking>
 					</div>
 				</div>
             </div>

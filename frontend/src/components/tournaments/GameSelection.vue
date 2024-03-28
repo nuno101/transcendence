@@ -109,7 +109,8 @@ onMounted(() => {
 			</div>
 		</li>
 	</ul>
-	<p v-else>{{useI18n().t('gameselection.nogames')}}</p>
+	<p v-else-if="title === 'Completed games' ">{{useI18n().t('gameselection.nogames')}}</p>
+	<p v-else>You played all your games but the tournament is still in progress.</p>
 	<PlayerGameAuth 
 	  class="PlayerGameAuth"
 	  v-if="gamesInfo.length > 0"

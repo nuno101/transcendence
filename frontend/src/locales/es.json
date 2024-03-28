@@ -140,7 +140,7 @@
 		"startgame" : "Empezar partida",
 		"nogames" : "No hay partidas disponibles",
 		"created" : "creado",
-		"ongoing" : "en curso",
+		"done" : "finalizado",
 		"cancelled" : "cancelado"
 
     },

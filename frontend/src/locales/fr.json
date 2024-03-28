@@ -138,7 +138,7 @@
 		"startgame" : "Commencer le match",
 		"nogames" : "Aucun match disponible",
 		"created" : "créé",
-		"ongoing" : "en cours",
+		"done" : "terminé",
 		"cancelled" : "annulé"
 	},
     "onlinegameview": {
