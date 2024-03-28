@@ -163,12 +163,12 @@ function getChannelMember() {
 
         <!-- Container for selected channels -->
         <div v-if="Chat.selected_channel.value" class="col-md-9 border border-primary">
-            <div class="border rounded d-flex align-items-center justify-content-between mb-1 mt-2">
+            <div class="border rounded d-flex align-items-center mb-1 mt-2">
                 <GetAvatar :id="getChannelMember().id" :size=40 class="avatar m-1" />
-                <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
-                        getChannelMember().username
-                    }}</router-link>
-                <div class="input-group m-1">
+                <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
+                    getChannelMember().username
+                }}</router-link>
+                <div class="input-group m-1 justify-content-end">
                     <button v-if="!dmUserBlocked"class="btn btn-primary" @click="">{{useI18n().t('chatview.invite')}}</button>
                     <button v-if="!dmUserBlocked" class="btn btn-danger" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
                     <button v-else class="btn btn-success" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
