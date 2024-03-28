@@ -106,8 +106,9 @@ const createSingleGame = async(playerId1, playerId2) => {
 	try{
 		response.value = await Backend.post('/api/games', {  player1_id: `${playerId1}`, player2_id: `${playerId2}` });
 	} catch (err) {
-		console.log(err);
-		alert(err);
+		console.error(err.message);
+		// ADD ALERT?
+		// alert(err.message);
 	}
 	return(response.value.id);
 }
@@ -130,7 +131,7 @@ const authenticate = async (player) => {
 			player.isAuthenticated = true;
 		} 
 	} catch (err) {
-		console.log(err);
+		console.error(err.message);
 		player.alerts.push({
 			message: err.message,
 			type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
