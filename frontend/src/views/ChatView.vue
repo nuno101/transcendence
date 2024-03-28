@@ -30,7 +30,7 @@ async function loadChannels() {
         let data = await Backend.get('/api/users/me/channels')
         Chat.channels.value = data
     } catch (err) {
-        channelError.value = err
+        channelError.value = err.message;
     }
 }
 
@@ -70,7 +70,7 @@ async function createChannel() {
         Chat.channels.value.unshift(data)
         channelError.value = ''
     } catch (err) {
-        channelError.value = err
+        channelError.value = err.message;
     }
 }
 
@@ -83,7 +83,7 @@ async function sendMessage() {
         messageInput.value = '';
         messageError.value = ''
     } catch (err) {
-        messageError.value = err
+        messageError.value = err.message
     }
 }
 
@@ -91,7 +91,7 @@ async function deleteMessage(message) {
     try {
         let data = await Backend.delete(`/api/messages/${message.id}`)
     } catch (err) {
-        messageError.value = err
+        messageError.value = err.message
     }
 }
 
@@ -152,7 +152,7 @@ function getChannelMember() {
                 </div>
                 <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1"
                     role="alert">
-                    {{ channelError }}
+                    {{ useI18n().te(`err.${channelError}`) ? useI18n().t(`err.${channelError}`) : channelError}}
                 </div>
             </div>
             <ul class="channel-container list-group">
@@ -180,7 +180,7 @@ function getChannelMember() {
                     <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" :placeholder="useI18n().t('chatview.sendMessage')" />
                 </div>
                 <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
-                    {{ messageError }}
+                    {{ useI18n().te(`err.${messageError}`) ? useI18n().t(`err.${messageError}`) : messageError}}
                 </div>
             </div>
         </div>

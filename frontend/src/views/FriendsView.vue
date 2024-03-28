@@ -43,7 +43,7 @@ const acceptRequest = async (request) => {
 			Friends.friendRequests.value = Friends.friendRequests.value.filter(friend => friend.id !== request.id);
           } catch (err) {
               console.error(err.message);
-              alert(err.message);
+              alert(useI18n().te(`err.${err.message}`) ?  useI18n().t(`err.${err.message}`) : err.message);
           }
     };
 
@@ -68,7 +68,7 @@ const declineCancelDeleteRequest = async() => {
 		closeModal();
 	} catch (err) {
 		console.error(err.message);
-		alert(err.message);
+		alert(useI18n().te(`err.${err.message}`) ?  useI18n().t(`err.${err.message}`) : err.message);
 	}
 };
 
