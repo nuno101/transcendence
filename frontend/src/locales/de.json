@@ -1,163 +1,242 @@
 {
-    "language": "Deutsch",
-    "confirm": "bestätigen",
-    "cancel": "abbrechen",
-    "username": "Benutzername",
-    "nickname": "Nickname",
-    "password": "Passwort",
-    "online": "Online",
-    "offline": "Offline",
-    "loading": "Laden",
-    "avatar": "Avatar",
-    "lang": {
-      "english": "Englisch",
-      "german": "Deutsch",
-      "spanish": "Spanisch",
-      "french": "Französisch"
-    },
-    "home": {
-      "ourTranscendenceProject": "Unser Transcendence Projekt",
-      "transcendenceDescription": "Transcendence ist das letzte Projekt des Grundstudiums an der 42. Das Ziel dieses Projekts ist die Entwicklung einer Webanwendung, die es Benutzern ermöglicht, ein einfaches Pong-Spiel zu spielen und gleichzeitig eine Plattform für soziale Interaktion mit anderen Benutzern bereitzustellen. Es umfasst die Implementierung verschiedener Module, die Auswahl von Technologien und Bibliotheken sowie die Gewährleistung, dass alle Entscheidungen den Anforderungen und Einschränkungen des Projekts entsprechen.",
-      "connectOnGithub": "Verbinde dich mit uns auf Github"
-    },
-    "upcomingGames": {
-      "upcomingGames": "Bevorstehende Spiele",
-      "opponent": "Gegner",
-      "tournament": "Turnier",
-      "noUpcomingGames": "Keine bevorstehenden Spiele",
-      "play": "Spielen"
-    },
-    "login": {
-      "login": "Anmelden",
-      "new?": "Neu?",
-      "rememberMe": "Erinnere dich an mich",
-      "signUp": "Registrieren",
-      "alreadyHaveAnAccount": "Du bist bereits registriert?",
-      "logout": "Abmelden"
-    },
-    "logout": {
-      "videonotsupported": "Video wird nicht unterstützt"
-    },
-    "header": {
-      "home": "Startseite",
-      "friends": "Freunde",
-      "users": "Benutzer",
-      "chat": "Chat",
-      "settings": "Einstellungen",
-      "tournaments": "Turniere",
-      "game": "Spiel",
-      "online": "Online",
-      "onsite": "Vor Ort",
-      "demo": "Demo"
-    },
-    "settings": {
-      "saveChanges": "Änderungen speichern",
-      "changeAvatar": "Avatar ändern",
-      "newPassword": "neues Passwort",
-      "confirmNewPassword": "neues Passwort bestätigen",
-      "passwordsDoNotMatch": "Passwörter stimmen nicht überein"
-    },
-    "friendsview": {
-      "friends": "Freunde",
-      "friendrequests": "Freundschaftsanfragen",
-      "pendingrequests": "Ausstehende Anfragen",
-      "deleteFriend": "Möchtest du diesen Freund entfernen?",
-      "declineFriendRequest": "Möchtest du diese Freundschaftsanfrage ablehnen?",
-      "cancelFriendRequest": "Möchtest du diese Freundschaftsanfrage zurückziehen?",
-      "noFriends": "keine Freunde",
-      "noFriendRequests": "keine Freundschaftsanfragen",
-      "noPendingRequests": "keine ausstehenden Anfragen",
-      "searchNickname": "Nickname suchen"
-    },
-    "userstats": {
-      "wins" : "Gewinne",
-      "defeats": "Niederlagen",
-      "noWins": "keine Gewinne",
-      "noDefeats": "keine Niederlagen",
-      "noGames": "keine Spiele"
-    },
-    "usersview": {
-      "listofusers": "Benutzerliste",
-      "username": "Benutzername",
-      "nickname": "Spitzname",
-      "created_at": "Erstellt am",
-      "updated_at": "Aktualisiert am"
-    },
-    "tournamentsview": {
-      "tournaments": "Turniere",
-      "titleoftournament": "Titel des Turniers",
-      "descriptionoftournament": "Beschreibung des Turniers",
-	    "creatortournamentnickname": "Ihr Turnier-Spitzname (Ersteller)",
-      "cancel" : "abbrechen",
-      "addtournament" : "Turnier hinzufügen",
-      "addnewtournament" : "neues Turnier erstellen",
-      "description" : "Beschreibung",
-      "status" : "Status",
-      "register" : "registrieren",
-      "registrationclosed" : "Registrierung geschlossen"
-    },
-    "onlinegameview": {
-      "inviteuser": "Nutzer einladen",
-      "findopponent": "Gegner finden"
-    },
-    "onsitegameview": {
-  
-    },
-    "ponggameview": {
-      "loadingfetch": "empfange Daten vom Server",
-      "loadingsend": "sende Daten an Server",
-      "unexpectederror": "unerwarteter Fehler",
-      "accuredduring": "aufgetreten während",
-      "paused": "Pausiert",
-      "wonthegame": "hat das Spiel gewonnen",
-      "press": "drücke",
-      "tocontinue": "um fortzufahren"
-    },
-    "auth": {
-      "authentication": "Authentifizierung",
-      "authenticate": "authentifizieren",
-      "withNickname": "mit Nickname",
-      "successfullyAuth": "erfolgreich authentifiziert",
-      "startGame": "Spiel starten"
-    },
-    "instruction": {
-      "uses": "verwendet",
-      "and": "und",
-      "toMoveThe": "zur Bewegung des",
-      "leftPaddle": "linken Schlägers",
-      "rightPaddle": "rechten Schlägers",
-      "leftplayer": "Spieler links",
-      "rightplayer": "Spieler rechts",
-      "goal": "Das Ziel für beide Spieler ist es elf Punkte vor dem Gegner zu erreichen",
-      "startOrPause": "starte/pausiere",
-      "showOrHide": "zeige/verberge",
-      "theGame": "das Spiel",
-      "theseInstructions": "diese Anleitung",
-      "fpsCounter": "fps Anzeige",
-      "spacebar": "Leertaste",
-      "wkey": "W-Taste",
-      "skey": "S-Taste",
-      "arrowup": "Pfeil nach Oben",
-      "arrowdown": "Pfeil nach Unten",
-      "hkey": "H-Taste",
-      "fkey": "F-Taste"
-    },
-    "notif": {
-      "noNotifications": "Keine Benachrichtigungen",
-      "newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",
-      "newFriendRequest": "Gehe zu Freunden, um neue Freundesanfragen zu sehen",
-      "newFriends": "Gehe zu Freunden, um neue Freunde zu sehen"
-    },
-    "notfound": {
-      "pageNotFound": "Seite nicht gefunden",
-      "thisPageIsntAvailable": "Diese Seite ist nicht verfügbar"
-    },
-    "chatview": {
-      "sendMessage": "Sende eine Nachricht",
-      "blockUser": "Blockieren",
-      "unblockUser": "Entblocken",
-      "create": "Erstellen",
-      "nickname": "Spitzname",
-      "invite": "Einladung"
-    }
-  }
+	"language": "Deutsch",
+	"confirm": "bestätigen",
+	"cancel": "abbrechen",
+	"username": "Benutzername",
+	"nickname": "Nickname",
+	"password": "Passwort",
+	"online": "Online",
+	"offline": "Offline",
+	"loading": "Laden",
+	"avatar": "Avatar",
+	"lang": {
+		"english": "Englisch",
+		"german": "Deutsch",
+		"spanish": "Spanisch",
+		"french": "Französisch"
+	},
+	"home": {
+		"ourTranscendenceProject": "Unser Transcendence Projekt",
+		"transcendenceDescription": "Transcendence ist das letzte Projekt des Grundstudiums an der 42. Das Ziel dieses Projekts ist die Entwicklung einer Webanwendung, die es Benutzern ermöglicht, ein einfaches Pong-Spiel zu spielen und gleichzeitig eine Plattform für soziale Interaktion mit anderen Benutzern bereitzustellen. Es umfasst die Implementierung verschiedener Module, die Auswahl von Technologien und Bibliotheken sowie die Gewährleistung, dass alle Entscheidungen den Anforderungen und Einschränkungen des Projekts entsprechen.",
+		"connectOnGithub": "Verbinde dich mit uns auf Github"
+	},
+	"upcomingGames": {
+		"upcomingGames": "Bevorstehende Spiele",
+		"opponent": "Gegner",
+		"tournament": "Turnier",
+		"noUpcomingGames": "Keine bevorstehenden Spiele",
+		"play": "Spielen"
+	},
+	"login": {
+		"login": "Anmelden",
+		"new?": "Neu?",
+		"rememberMe": "Erinnere dich an mich",
+		"signUp": "Registrieren",
+		"alreadyHaveAnAccount": "Du bist bereits registriert?",
+		"logout": "Abmelden",
+		"successfullySignedUp": "Erfolgreich registriert"
+	},
+	"logout": {
+		"videonotsupported": "Video wird nicht unterstützt"
+	},
+	"header": {
+		"home": "Startseite",
+		"friends": "Freunde",
+		"users": "Benutzer",
+		"chat": "Chat",
+		"settings": "Einstellungen",
+		"tournaments": "Turniere",
+		"game": "Spiel",
+		"onsite": "Lokal spielen",
+		"demo": "Demo",
+		"ai": "Gegen KI"
+	},
+	"settings": {
+		"saveChanges": "Änderungen speichern",
+		"changeAvatar": "Avatar ändern",
+		"newPassword": "neues Passwort",
+		"confirmNewPassword": "neues Passwort bestätigen",
+		"passwordsDoNotMatch": "Passwörter stimmen nicht überein"
+	},
+	"friendsview": {
+		"friends": "Freunde",
+		"friendrequests": "Freundschaftsanfragen",
+		"pendingrequests": "Ausstehende Anfragen",
+		"deleteFriend": "Möchtest du diesen Freund entfernen?",
+		"declineFriendRequest": "Möchtest du diese Freundschaftsanfrage ablehnen?",
+		"cancelFriendRequest": "Möchtest du diese Freundschaftsanfrage zurückziehen?",
+		"noFriends": "keine Freunde",
+		"noFriendRequests": "keine Freundschaftsanfragen",
+		"noPendingRequests": "keine ausstehenden Anfragen",
+		"searchNickname": "Nickname suchen"
+	},
+	"userstats": {
+		"wins" : "Gewinne",
+		"defeats": "Niederlagen",
+		"noWins": "keine Gewinne",
+		"noDefeats": "keine Niederlagen",
+		"noGames": "keine Spiele"
+	},
+	"usersview": {
+		"listofusers": "Benutzerliste",
+		"username": "Benutzername",
+		"nickname": "Spitzname",
+		"created_at": "Erstellt am",
+		"updated_at": "Aktualisiert am"
+	},
+	"tournamentsview": {
+		"listoftournaments": "Turnierliste",
+		"name": "Name",
+		"creator": "Erstellt von",
+		"status": "Status",
+		"actions": "Aktionen",
+		"open_register": "Offen für Registrierung",
+		"created": "Erstellt",
+		"titleoftournament": "Titel des Turniers",
+		"descriptionoftournament": "Beschreibung des Turniers",
+		"creatortournamentnickname": "Dein Nickname für das Turnier (Ersteller)",
+		"cancel": "Abbrechen",
+		"createatournament": "Ein Turnier erstellen",
+		"addtournament": "Ein Turnier hinzufügen",
+		"description": "Beschreibung",
+		"register": "Registrieren",
+		"registrationclosed": "Anmeldung geschlossen",
+		"created_at": "Erstellt am",
+		"updated_at": "Aktualisiert am",
+		"delete": "Löschen"
+	},
+	"onsite": {
+		"authenticateSecondPlayer": "Zweiten Spieler authentifizieren",
+		"alreadyTaken": "bereits vergeben"
+	},
+	"ponggameview": {
+		"loadingfetch": "empfange Daten vom Server",
+		"loadingsend": "sende Daten an Server",
+		"unexpectederror": "unerwarteter Fehler",
+		"accuredduring": "aufgetreten während",
+		"paused": "Pausiert",
+		"wonthegame": "hat das Spiel gewonnen",
+		"youwonthegame": "Du hast das Spiel gewonnen",
+		"press": "drücke",
+		"tocontinue": "um fortzufahren",
+		"ai": "die KI",
+		"wronguser": "Du nimmst nicht an diesem Spiel teil"
+	},
+	"aisettings": {
+		"ai": "KI",
+		"human": "Mensch",
+		"leftplayer": "Linker Spieler",
+		"rightplayer": "Rechter Spieler",
+		"includeincalculations": "Nehme Folgendes in Berechnungen auf:",
+		"border": "Untere und obere Wand",
+		"opponent": "Den Gegner",
+		"center": "Kehre zur Mitte zurück während Wartezeiten",
+		"inaccuracy": "Ungenauigkeit",
+		"explenation": "Dieser Wert bestimmt die Ungenauigkeit der Berechnungen. Ein wert von 0 bedeutet, dass es keine Ungenauigkeit gibt.",
+		"tip": "Tipp",
+		"tipvalue": "Eine positive Ungenauigkeit erhöht die Wahrscheinlichkeit, dass der Ball auf eine Ecke des Schlägers von der KI trifft. Das macht das Spiel interessanter."
+	},
+	"auth": {
+		"authentication": "Authentifizierung",
+		"authenticate": "authentifizieren",
+		"withNickname": "mit Nickname",
+		"successfullyAuth": "erfolgreich authentifiziert",
+		"startGame": "Spiel starten"
+	},
+	"instruction": {
+		"you": "Du",
+		"use": "verwendest",
+		"uses": "verwendet",
+		"and": "und",
+		"toMoveThe": "zur Bewegung des",
+		"leftPaddle": "linken Schlägers",
+		"rightPaddle": "rechten Schlägers",
+		"leftplayer": "Spieler links",
+		"rightplayer": "Spieler rechts",
+		"goal": "Das Ziel für beide Spieler ist es elf Punkte vor dem Gegner zu erreichen",
+		"startOrPause": "starte/pausiere",
+		"showOrHide": "zeige/verberge",
+		"theGame": "das Spiel",
+		"theseInstructions": "diese Anleitung",
+		"fpsCounter": "fps Anzeige",
+		"spacebar": "Leertaste",
+		"wkey": "W-Taste",
+		"skey": "S-Taste",
+		"arrowup": "Pfeil nach Oben",
+		"arrowdown": "Pfeil nach Unten",
+		"hkey": "H-Taste",
+		"fkey": "F-Taste"
+	},
+	"notif": {
+		"noNotifications": "Keine Benachrichtigungen",
+		"newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",
+		"newFriendRequest": "Gehe zu Freunden, um neue Freundesanfragen zu sehen",
+		"newFriends": "Gehe zu Freunden, um neue Freunde zu sehen"
+	},
+	"notfound": {
+		"pageNotFound": "Seite nicht gefunden",
+		"thisPageIsntAvailable": "Diese Seite ist nicht verfügbar"
+	},
+	"err": {
+		"Staff user required": "Mitarbeiterbenutzer erforderlich",
+		"Internal server error": "Interner Serverfehler",
+		"Invalid password (choose a better one)": "Ungültiges Passwort (wählen Sie ein besseres)",
+		"Not logged in": "Nicht eingeloggt",
+		"Invalid JSON body syntax": "Ungültige JSON-Syntax im Body",
+		"Cannot add yourself": "Du kannst dich nicht selbst hinzufügen",
+		"You are blocked by this user": "Du wurdest von diesem Benutzer blockiert",
+		"You are blocked by users in the channel": "Du wurdest von Benutzern im Kanal blockiert",
+		"User is not a friend": "Benutzer ist kein Freund",
+		"Missing query parameter 'type'": "Fehlender Abfrageparameter 'Typ'",
+		"User is blocked": "Benutzer ist blockiert",
+		"User is already a friend": "Benutzer ist bereits ein Freund",
+		"User blocked you": "Benutzer hat dich blockiert",
+		"Friend request already sent": "Freundschaftsanfrage bereits gesendet",
+		"Friend request already received": "Freundschaftsanfrage bereits empfangen",
+		"User is not the recipient of the request": "Benutzer ist nicht der Empfänger der Anfrage",
+		"You can't play against yourself": "Du kannst nicht gegen dich selbst spielen",
+		"Invalid player(s) score": "Ungültige Spielerergebnisse",
+		"Change not allowed": "Änderung nicht erlaubt",
+		"You are not the creator of this tournament": "Du bist nicht der Ersteller dieses Turniers",
+		"You can't delete a game that is done": "Du kannst kein Spiel löschen, das beendet ist",
+		"No avatar provided (needs to be a multipart/form-data field with key 'avatar')": "Kein Avatar angegeben (muss ein multipart/form-data-Feld mit dem Schlüssel 'avatar' sein)",
+		"Invalid file extension": "Ungültige Dateierweiterung",
+		"Cannot block yourself": "Du kannst dich nicht selbst blockieren",
+		"User is already blocked": "Benutzer ist bereits blockiert",
+		"User is a friend": "Benutzer ist ein Freund",
+		"Outgoing friend request exists": "Ausgehende Freundschaftsanfrage existiert bereits",
+		"User is not blocked": "Benutzer ist nicht blockiert",
+		"Not enough players": "Nicht genügend Spieler",
+		"Invalid status": "Ungültiger Status",
+		"Invalid login credentials": "Ungültige Anmeldeinformationen",
+		"Not authenticated": "Nicht authentifiziert",
+		"User not found": "Benutzer nicht gefunden",
+		"Friend request not found": "Freundschaftsanfrage nicht gefunden",
+		"No permission to access friend request": "Keine Berechtigung zum Zugriff auf Freundschaftsanfrage",
+		"Notification not found": "Benachrichtigung nicht gefunden",
+		"No permission to access notification": "Keine Berechtigung zum Zugriff auf Benachrichtigung",
+		"Tournament not found": "Turnier nicht gefunden",
+		"No permission to access tournament": "Keine Berechtigung zum Zugriff auf das Turnier",
+		"Game not found": "Spiel nicht gefunden",
+		"No permission to access game": "Keine Berechtigung zum Zugriff auf das Spiel",
+		"Channel not found": "Channel nicht gefunden",
+		"No permission to access channel": "Keine Berechtigung zum Zugriff auf den Channel",
+		"Message not found": "Nachricht nicht gefunden",
+		"No permission to access message": "Keine Berechtigung zum Zugriff auf die Nachricht",
+		"413 Request Entity Too Large": "413 Anforderung zu groß",
+		"User with this Nickname already exists.": "Benutzer mit diesem Nicknamen existiert bereits.",
+		"Avatar is too large": "Avatar ist zu groß"
+	},
+	"succ": {
+		"Hello, world. You're at the transcendence index.": "Hallo Welt. Du bist auf dem Transzendenz-Index.",
+		"Successfully logged out": "Erfolgreich ausgeloggt"
+	},
+	"chatview": {
+		"sendMessage": "Sende eine Nachricht",
+		"blockUser": "Blockieren",
+		"unblockUser": "Entblocken",
+		"create": "Erstellen",
+		"nickname": "Spitzname",
+    "invite": "Einladung"
+	}
+}

@@ -8,7 +8,7 @@
     "online": "En línea",
     "offline": "Desconectado",
     "loading": "Cargando",
-    "avatar": "TODO",
+    "avatar": "avatar",
     "lang": {
         "english": "inglés",
         "german": "alemán",
@@ -25,7 +25,7 @@
         "opponent": "Contrincante",
         "tournament": "Torneo",
         "noUpcomingGames": "No hay próximos juegos",
-        "play": "TODO"
+        "play": "jugar"
     },
     "login": {
         "login": "Iniciar sesión",
@@ -33,10 +33,11 @@
         "rememberMe": "Recordarme",
         "signUp": "Registrarse",
         "alreadyHaveAnAccount": "¿Ya tienes una cuenta?",
-        "logout": "Cerrar sesión"
+        "logout": "Cerrar sesión",
+        "successfullySignedUp": "Registro exitoso"
     },
     "logout": {
-        "videonotsupported": "TODO"
+        "videonotsupported": "vídeo no compatible"
     },
     "header": {
         "home": "Inicio",
@@ -46,9 +47,9 @@
         "settings": "Ajustes",
         "tournaments": "Torneos",
         "game": "Juego",
-        "online": "En línea",
-        "onsite": "Presencial",
-        "demo": "TODO"
+        "onsite": "Jugar localmente",
+        "demo": "Demostración",
+        "ai": "Contra IA"
     },
     "settings": {
         "saveChanges": "Guardar cambios",
@@ -84,34 +85,56 @@
         "updated_at": "Actualizado en"
     },
     "tournamentsview": {
-        "tournaments": "Torneos",
+        "listoftournaments": "Lista de Torneos",
+        "name": "Nombre",
+        "creator": "Creado por",
+        "status": "Estado",
+        "actions": "Acciones",
+        "open_register": "Abierto para registro",
+        "created": "Creado",
         "titleoftournament": "Título del torneo",
         "descriptionoftournament": "Descripción del torneo",
-        "creatortournamentnickname": "Su apodo del torneo (creador)",
-        "cancel" : "cancelar",
-        "addtournament" : "add tournament",
-        "addnewtournament" : "añadir torneo",
-        "description" : "descripción",
-        "status" : "estado",
-        "register" : "regístrese en",
-        "registrationclosed" : "inscripción cerrada"
+        "creatortournamentnickname": "Tu apodo de torneo (creador)",
+        "cancel": "Cancelar",
+        "createatournament": "Crear un torneo",
+        "addtournament": "Agregar un torneo",
+        "description": "Descripción",
+        "register": "Registrarse",
+        "registrationclosed": "Registro cerrado",
+        "created_at": "Creado el",
+        "updated_at": "Actualizado el",
+        "delete": "Eliminar"
     },
-    "onlinegameview": {
-        "inviteuser": "Invitar Usuario",
-        "findopponent": "Encontrar Oponente"
-    },
-    "onsitegameview": {
-  
+    "onsite": {
+        "authenticateSecondPlayer": "Autenticar segundo jugador",
+        "alreadyTaken": "ya está en uso"
     },
     "ponggameview": {
-        "loadingfetch": "TODO",
-        "loadingsend": "TODO",
-        "unexpectederror": "TODO",
-        "accuredduring": "TODO",
-        "paused": "TODO",
-        "wonthegame": "TODO",
-        "press": "TODO",
-        "tocontinue": "TODO"
+        "loadingfetch": "Cargando datos del servidor",
+        "loadingsend": "Enviando datos al servidor",
+        "unexpectederror": "Error inesperado",
+        "accuredduring": "Ocurrió durante",
+        "paused": "Pausado",
+        "wonthegame": "ganó el juego",
+        "youwonthegame": "ganaste el juego",
+        "press": "presiona",
+        "tocontinue": "para continuar",
+        "ai": "La IA",
+        "wronguser": "no estás participando en este juego"
+    },
+    "aisettings": {
+        "ai": "IA",
+        "human": "Humano",
+        "leftplayer": "Jugador izquierdo",
+        "rightplayer": "Jugador derecho",
+        "includeincalculations": "Incluir en los cálculos:",
+        "border": "borde superior e inferior",
+        "opponent": "Oponente",
+        "center": "volver al centro mientras está inactivo",
+        "inaccuracy": "Inexactitud",
+        "explenation": "Este valor determina la inexactitud en el cálculo. Un valor de 0 significa que no hay inexactitud.",
+        "tip": "Consejo",
+        "tipvalue": "Una inexactitud positiva aumenta la probabilidad de que la pelota golpee una esquina de la paleta de la IA. Esto hace el juego más interesante."
     },
     "auth": {
         "authentication": "Autenticación",
@@ -121,26 +144,28 @@
         "startGame": "comenzar juego"
     },
     "instruction": {
-        "uses": "usa",
+        "you": "tú",
+        "use": "utiliza",
+        "uses": "utiliza",
         "and": "y",
         "toMoveThe": "para mover el",
         "leftPaddle": "pala izquierda",
         "rightPaddle": "pala derecha",
-        "leftplayer": "TODO",
-        "rightplayer": "TODO",
-        "goal": "TODO",
-        "startOrPause": "TODO",
-        "showOrHide": "TODO",
-        "theGame": "TODO",
-        "theseInstructions": "TODO",
-        "fpsCounter": "TODO",
-        "spacebar": "TODO",
-        "wkey": "TODO",
-        "skey": "TODO",
-        "arrowup": "TODO",
-        "arrowdown": "TODO",
-        "hkey": "TODO",
-        "fkey": "TODO"
+        "leftplayer": "jugador izquierdo",
+        "rightplayer": "jugador derecho",
+        "goal": "El objetivo es que cada jugador alcance once puntos antes que el oponente",
+        "startOrPause": "iniciar/pausar",
+        "showOrHide": "mostrar/ocultar",
+        "theGame": "el juego",
+        "theseInstructions": "estas instrucciones",
+        "fpsCounter": "contador de FPS",
+        "spacebar": "barra espaciadora",
+        "wkey": "tecla w",
+        "skey": "tecla s",
+        "arrowup": "flecha arriba",
+        "arrowdown": "flecha abajo",
+        "hkey": "tecla h",
+        "fkey": "tecla f"
     },
     "notif": {
         "noNotifications": "Sin notificaciones",
@@ -152,6 +177,60 @@
         "pageNotFound": "Página no encontrada",
         "thisPageIsntAvailable": "Esta página no está disponible"
     },
+    "err": {
+        "Staff user required": "Se requiere usuario de personal",
+        "Internal server error": "Error interno del servidor",
+        "Invalid password (choose a better one)": "Contraseña no válida (elige una mejor)",
+        "Not logged in": "No has iniciado sesión",
+        "Invalid JSON body syntax": "Sintaxis JSON del cuerpo no válida",
+        "Cannot add yourself": "No puedes agregarte a ti mismo",
+        "You are blocked by this user": "Este usuario te ha bloqueado",
+        "You are blocked by users in the channel": "Estás bloqueado por usuarios en el canal",
+        "User is not a friend": "El usuario no es un amigo",
+        "Missing query parameter 'type'": "Falta el parámetro de consulta 'type'",
+        "User is blocked": "El usuario está bloqueado",
+        "User is already a friend": "El usuario ya es un amigo",
+        "User blocked you": "El usuario te ha bloqueado",
+        "Friend request already sent": "La solicitud de amistad ya ha sido enviada",
+        "Friend request already received": "La solicitud de amistad ya ha sido recibida",
+        "User is not the recipient of the request": "El usuario no es el destinatario de la solicitud",
+        "You can't play against yourself": "No puedes jugar contra ti mismo",
+        "Invalid player(s) score": "Puntuación de jugador(es) no válida",
+        "Change not allowed": "Cambio no permitido",
+        "You are not the creator of this tournament": "No eres el creador de este torneo",
+        "You can't delete a game that is done": "No puedes eliminar un juego que está completado",
+        "No avatar provided (needs to be a multipart/form-data field with key 'avatar')": "No se proporcionó un avatar (debe ser un campo multipart/form-data con clave 'avatar')",
+        "Invalid file extension": "Extensión de archivo no válida",
+        "Cannot block yourself": "No puedes bloquearte a ti mismo",
+        "User is already blocked": "El usuario ya está bloqueado",
+        "User is a friend": "El usuario es un amigo",
+        "Outgoing friend request exists": "Ya existe una solicitud de amistad saliente",
+        "User is not blocked": "El usuario no está bloqueado",
+        "Not enough players": "No hay suficientes jugadores",
+        "Invalid status": "Estado no válido",
+        "Invalid login credentials": "Credenciales de inicio de sesión no válidas",
+        "Not authenticated": "No autenticado",
+        "User not found": "Usuario no encontrado",
+        "Friend request not found": "Solicitud de amistad no encontrada",
+        "No permission to access friend request": "No tienes permiso para acceder a la solicitud de amistad",
+        "Notification not found": "Notificación no encontrada",
+        "No permission to access notification": "No tienes permiso para acceder a la notificación",
+        "Tournament not found": "Torneo no encontrado",
+        "No permission to access tournament": "No tienes permiso para acceder al torneo",
+        "Game not found": "Juego no encontrado",
+        "No permission to access game": "No tienes permiso para acceder al juego",
+        "Channel not found": "Canal no encontrado",
+        "No permission to access channel": "No tienes permiso para acceder al canal",
+        "Message not found": "Mensaje no encontrado",
+        "No permission to access message": "No tienes permiso para acceder al mensaje",
+        "413 Request Entity Too Large": "413 Solicitud de entidad demasiado grande",
+        "User with this Nickname already exists.": "Usuario con este apodo ya existe.",
+        "Avatar is too large": "El avatar es demasiado grande"
+    },
+    "succ": {
+        "Hello, world. You're at the transcendence index.": "Hola mundo. Estás en el índice de trascendencia.",
+        "Successfully logged out": "Cierre de sesión exitoso"
+    },
     "chatview": {
       "sendMessage": "Enviar un mensaje",
       "blockUser": "Bloquear",
@@ -160,4 +239,4 @@
       "nickname": "Apodo",
       "invite": "TODO"
     }
-  }
+}

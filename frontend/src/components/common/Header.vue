@@ -74,7 +74,7 @@ const navRoutes = [
 	{ name: 'settings', button: 'header.settings' },
 	{ name: 'tournaments', button: 'header.tournaments' },
 	{ name: [
-		{ name: 'game/online', button: 'header.online'},
+		{ name: 'select ai', button: 'header.ai'},
 		{ name: 'game/onsite', button: 'header.onsite' },
 		{ name: 'demo', button: 'header.demo'},
 	], button: 'header.game'}
@@ -88,6 +88,7 @@ const LogOut = async () => {
 		router.push(logoutRoute)
 	} catch (err) {
 		console.error(err.message)
+		// ADD ALERT?
 	}
 }
 </script>

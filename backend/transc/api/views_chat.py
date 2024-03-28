@@ -20,7 +20,7 @@ class ChannelCollection(View):
         return JsonResponse({ERROR_FIELD: USER_404}, status=404)
 
       if request.user.id == target.id:
-        return JsonResponse({ERROR_FIELD: "Can't add yourself"}, status=400)
+        return JsonResponse({ERROR_FIELD: "Cannot add yourself"}, status=400)
 
       channels = Channel.objects.filter(members__in=[request.user])
       for channel in channels.all():

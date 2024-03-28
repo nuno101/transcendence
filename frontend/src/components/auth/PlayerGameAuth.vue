@@ -8,7 +8,7 @@
 				</div>
 				<div v-for="(player, index) in authPlayers" :key="index" :class="['modal-body', 'p-5', 'pt-0', { 'py-0': player.isAuthenticated }]">
 					<div v-for="alert in player.alerts" :class="alert.type">
-						<div>{{ alert.message }}</div>
+						<div>{{ useI18n().te(`err.${alert.message}`) ? useI18n().t(`err.${alert.message}`) :  alert.message}}</div>
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 					<form @submit.prevent="authenticate(player)" v-if="!player.isAuthenticated">
@@ -57,6 +57,7 @@ const props = defineProps({
 	}
 });
 
+const i18n = useI18n();
 const authPlayers = ref([]);
 const loading = ref(false)
 const authModal = ref(null);
@@ -105,8 +106,9 @@ const createSingleGame = async(playerId1, playerId2) => {
 	try{
 		response.value = await Backend.post('/api/games', {  player1_id: `${playerId1}`, player2_id: `${playerId2}` });
 	} catch (err) {
-		console.log(err);
-		alert(err);
+		console.error(err.message);
+		// ADD ALERT?
+		// alert(err.message);
 	}
 	return(response.value.id);
 }
@@ -119,7 +121,7 @@ const authenticate = async (player) => {
 		const duplicatePlayer = authPlayers.value.find(p => p !== player && p.user.username === player.user.username);
 		if(duplicatePlayer) {
 			player.alerts.push({
-				message: "Username " + `${player.user.username} already taken`,
+				message: `${i18n.t('username')} ${player.user.username} ${i18n.t('onsite.alreadyTaken')}`,
 				type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
 			});
 		} else {
@@ -129,7 +131,7 @@ const authenticate = async (player) => {
 			player.isAuthenticated = true;
 		} 
 	} catch (err) {
-		console.log(err);
+		console.error(err.message);
 		player.alerts.push({
 			message: err.message,
 			type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
