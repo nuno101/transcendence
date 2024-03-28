@@ -150,7 +150,7 @@ const startEditing = () => {
         await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "description": description.value });
 		editingDescription.value = false;
     } catch (error) {
-        console.error('Error updating description:', error);
+        console.error('Error updating description:', error.message);
     }
 };*/
 
