@@ -53,7 +53,6 @@ const fetchData = async () => {
       upcomingGames.value = await Backend.get(`/api/users/${globalUser.value.id}/games_upcoming`);
   } catch (err) {
     console.error(err.message);
-    // ADD ALERT?
   } finally {
     isLoaded.value = true;
   }

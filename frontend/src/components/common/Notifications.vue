@@ -58,7 +58,6 @@ const fetchData = async () => {
 		console.log(storedNotifications.value);
 	} catch (err) {
 		console.error(err.message);
-		// ADD ALERT?
 	} finally {
 		isLoaded.value = true;
 	}
@@ -88,7 +87,6 @@ const dismissNotification = async(item, flag) => {
 		dropdownShown.value--;
 	} catch (err) {
 		console.error(err.message);
-		// ADD ALERT?
 	}
 }
 
