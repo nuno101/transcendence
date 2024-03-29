@@ -17,6 +17,7 @@
       <tr v-for="(game, index) in upcomingGames.slice().reverse()" :key="index">
           <UserRow :bgColor="''" :user="game.player1.id === globalUser.id ? game.player2 : game.player1"/>
         <td class="align-middle px-2 text-center">
+            <i v-if="game.tournament" class="bi bi-trophy align-middle"></i>&nbsp;
             <router-link v-if="game.tournament" :to="`/tournaments/${game.tournament.id}`">
               {{ game.tournament.title }}
             </router-link>

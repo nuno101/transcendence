@@ -35,7 +35,7 @@ class AvatarPersonal(View):
         
         extension = avatar.name.split('.')[-1]
         if extension not in ALLOWED_AVATAR_EXTENSIONS:
-            return JsonResponse({ERROR_FIELD: f"Invalid file extension '{extension}'"}, status=400)
+            return JsonResponse({ERROR_FIELD: "Invalid file extension"}, status=400)
 
         try:
             oldavatar = request.user.avatar
