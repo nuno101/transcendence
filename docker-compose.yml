@@ -137,3 +137,11 @@ services:
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
     restart: unless-stopped
+
+  elk:
+    container_name: elk
+    build: elk-docker
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
