@@ -16,21 +16,11 @@ const props = defineProps({
 const avatar = ref({});
 const isLoaded = ref(false);
 
-const getAvatarById = async (id) => {
-    try {
-      const avatar = await Backend.getAvatar(`/api/users/${id}/avatar`);
-      return avatar;
-    } catch (err) {
-      console.error(err.message);
-      return null;
-    }
-};
-
 const fetchAvatar = async () => {
     try {
-        avatar.value = await getAvatarById(props.id);
+      avatar.value = await Backend.getAvatar(`/api/users/${props.id}/avatar`);
     } catch (error) {
-      console.error(`Error fetching avatar for player:`, error.message);
+      console.error(error.message);
     } finally {
     isLoaded.value = true;
   }

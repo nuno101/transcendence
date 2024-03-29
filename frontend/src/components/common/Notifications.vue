@@ -78,12 +78,12 @@ const dismissNotification = async(item, flag) => {
 	try {
 		await Backend.delete(`/api/users/me/notifications/${item.id}`);
 		if(flag === 'STORED'){
-		idsToDeleteStored.value.push(item.id);
-		storedNotifications.value = storedNotifications.value.filter(item => !idsToDeleteStored.value.includes(item.id));
-	}else if(flag === 'NEW') {
-		idsToDeleteNew.value.push(item.id);
-		Notifications.messages.value = Notifications.messages.value.filter(item => !idsToDeleteNew.value.includes(item.id));
-	}
+			idsToDeleteStored.value.push(item.id);
+			storedNotifications.value = storedNotifications.value.filter(item => !idsToDeleteStored.value.includes(item.id));
+		}else if(flag === 'NEW') {
+			idsToDeleteNew.value.push(item.id);
+			Notifications.messages.value = Notifications.messages.value.filter(item => !idsToDeleteNew.value.includes(item.id));
+		}
 		dropdownShown.value--;
 	} catch (err) {
 		console.error(err.message);

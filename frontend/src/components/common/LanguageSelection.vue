@@ -27,7 +27,6 @@ const languages = ref([
 const changeLocale = (value) => {
 	const selectedLocale = value
 	selected.value = value
-	console.log('Selected locale:', selectedLocale)
 	// Verify that 'locale' is a valid locale string (e.g., 'en', 'es', etc.)
 	if (languages.value.some(e => e.language === selectedLocale)) {
 		i18n.global.locale.value = selectedLocale
@@ -48,6 +47,5 @@ onMounted(() => {
 		i18n.global.locale.value = defaultLang
 		localStorage.setItem('selected', defaultLang)
 	}
-	console.log('Mounted phase - selectedLang in LanguageSelection:', selected.value)
 })
 </script>
