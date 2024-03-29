@@ -140,7 +140,10 @@ services:
 
   elk:
     container_name: elk
+    image: elk
     build: elk-docker
+    depends_on:
+      - backend
     ports:
       - "5601:5601"
       - "9200:9200"
