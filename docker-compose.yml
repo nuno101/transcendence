@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 
 networks:
   database-network:
@@ -141,7 +141,10 @@ services:
   elk:
     container_name: elk
     image: elk
-    build: elk-docker
+    build:
+      context: ./elk-docker
+      #args:
+      #  ARG ARCH: aarch64
     depends_on:
       - backend
     ports:
@@ -149,4 +152,5 @@ services:
       - "9200:9200"
       - "5044:5044"
     environment:
+      #ARCH: aarch64
       MAX_MAP_COUNT: 262144
