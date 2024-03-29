@@ -1,16 +1,15 @@
 <script setup>
 import LanguageSelection from './components/common/LanguageSelection.vue'
-import Notifications from '../src/js/Notifications'
 </script>
 
 <!-- add things here that should be visible on ALL sites -->
 <template>
 	<div class="background-image">
-	<LanguageSelection />
-	<RouterView name="Header" />
-	<div class="container py-4 px-3 mx-auto">
-		<RouterView />
-	</div>
+    <LanguageSelection />
+    <RouterView name="Header" />
+      <div class="container py-4 px-3 mx-auto">
+        <RouterView />
+      </div>
 	</div>
 </template>
 
