@@ -39,7 +39,8 @@ ARG ELK_VERSION=8.11.1
 ARG ELK_BASE_VERSION=8.11.1
 
 # replace with aarch64 for ARM64 systems
-ARG ARCH=x86_64 
+#ARG ARCH=x86_64
+ARG ARCH=aarch64
 
 
 ### install Elasticsearch
