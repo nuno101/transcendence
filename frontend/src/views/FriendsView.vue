@@ -88,7 +88,7 @@ onMounted(() => {
 						<div class="col-7">
 							<div class="bigtable gamestable rounded img-thumbnail d-md-block">
 							<table class="table m-0">
-								<thead class="table-dark">
+								<thead>
 									<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friends')}}</th></tr>
 								</thead>
 								<tbody v-if="Friends.friends.value && Friends.friends.value.length > 0">
@@ -107,7 +107,7 @@ onMounted(() => {
 						<div class="col-5">
 								<div class="smalltable gamestable rounded img-thumbnail d-md-block">
 										<table class="table table-hover m-0">
-											<thead class="table-dark">
+											<thead>
 												<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
 											</thead>
 										<tbody v-if="Friends.friendRequests.value.length > 0">
@@ -126,7 +126,7 @@ onMounted(() => {
 								</div>
 								<div class="mt-2 mt-lg-4 smalltable gamestable rounded img-thumbnail d-md-block">
 										<table class="table table-hover m-0">
-											<thead class="table-dark">
+											<thead>
 												<tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.pendingrequests')}}</th></tr>
 											</thead>
 										<tbody v-if="Friends.pendingRequests.value.length > 0">

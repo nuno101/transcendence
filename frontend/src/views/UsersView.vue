@@ -31,7 +31,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
+    <div class="boxstyling">
+		<div class="box rounded">
         <h1>{{useI18n().t('usersview.listofusers')}}</h1>
         <div>
             <table class="table table-striped table-hover">
@@ -63,8 +64,9 @@ onMounted(() => {
 
 	<div style="margin-top: 20px;"></div>
     <div style="margin-top: 100px;"></div>
-
+    </div>
 </template>
 
 <style>
+/* MAKE SCROLLABLE */
 </style>
