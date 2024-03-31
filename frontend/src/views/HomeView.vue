@@ -13,10 +13,4 @@ import { globalUser } from '../main'
 </template>
 
 <style>
-
-@media (max-height: 600px) {
-	.footer {
-		display: none;
-	}
-}
 </style>

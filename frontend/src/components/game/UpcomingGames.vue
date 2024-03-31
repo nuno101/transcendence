@@ -1,10 +1,9 @@
 <template>
 <div v-if="globalUser" class="boxstyling">
 <div class="box rounded">
-<div class="table-wrapper text-center">
   <Loading v-if="!isLoaded" />
-  <h6 class="fw-bold text-uppercase">{{useI18n().t('upcomingGames.upcomingGames')}}</h6>
-  <div class="gamestable rounded img-thumbnail d-flex justify-content-center">
+  <h6 class="text-center fw-bold text-uppercase">{{useI18n().t('upcomingGames.upcomingGames')}}</h6>
+  <div class="text-center gamestable rounded img-thumbnail">
   <table class="table m-0 table-hover">
     <thead>
       <tr>
@@ -30,7 +29,6 @@
     <tbody v-else><tr><td class="text-center" colspan="3">{{useI18n().t('upcomingGames.noUpcomingGames')}}</td></tr></tbody>
   </table>
   </div>
-</div>
 </div>
 </div>
 </template>
@@ -68,7 +66,6 @@ watch(() => globalUser.value, () => {
 </script>
 
 <style scoped>
-@import url('@/assets/colors.css');
 th {
   position: sticky;
   top: 0;
@@ -77,8 +74,8 @@ th {
 }
 
 .gamestable {
-  max-height: 240px;
-  max-width: 400px;
+  height: calc(100vh - var(--header-height) - 88px - 210px);
+  max-width: 600px;
   margin: auto;
   overflow-y: scroll;
   padding: 0;
@@ -87,10 +84,5 @@ th {
 thead {
   --bs-table-bg: var(--COLOR1);
   --bs-table-color: white;
-}
-
-tbody {
-  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-
 }
 </style>

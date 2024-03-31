@@ -25,5 +25,6 @@ import LanguageSelection from './components/common/LanguageSelection.vue'
   position: relative;
   overflow: hidden;
   font-family: 'Courier New', monospace;
+  /* color: white; */
 }
 </style>

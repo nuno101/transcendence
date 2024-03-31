@@ -81,9 +81,10 @@ onMounted(() => {
 <template>
 	<div class="boxstyling">
 		<div class="box rounded">
-			<UserSearch :pendingRequests="Friends.pendingRequests.value"/>
+  			<h6 class="text-center fw-bold text-uppercase">{{useI18n().t('friendsview.friends')}}</h6>
+			<UserSearch class="mt-3" :pendingRequests="Friends.pendingRequests.value"/>
 			<Loading v-if="!isLoaded"/>
-			<div v-if="isLoaded" class="con mt-5">
+			<div v-if="isLoaded" class="con mt-4">
 					<div class="row">
 						<div class="col-7">
 							<div class="bigtable gamestable rounded img-thumbnail d-md-block">
@@ -124,7 +125,7 @@ onMounted(() => {
 										<tbody v-else class="text-center">{{useI18n().t('friendsview.noFriendRequests')}}</tbody>
 									</table>
 								</div>
-								<div class="mt-2 mt-lg-4 smalltable gamestable rounded img-thumbnail d-md-block">
+								<div class="mt-2 smalltable gamestable rounded img-thumbnail d-md-block">
 										<table class="table table-hover m-0">
 											<thead>
 												<tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.pendingrequests')}}</th></tr>
@@ -174,26 +175,10 @@ th {
 }
 
 .bigtable {
-  height: 378px;
+	height: calc(100vh - var(--header-height) - 88px - 150px);
 }
 
 .smalltable {
-  height: 177px;
-}
-
-@media (max-width: 991.98px) {
-  .bigtable {
-    height: 258px;
-  }
-  .smalltable {
-    height: 125px;
-  }
-}
-
-/* small --> sm */
-@media (max-width: 768px) {
-  th {
-    font-size: smaller;
-  }
+  height: calc((100vh - var(--header-height) - 88px - 158px) / 2);
 }
 </style>
