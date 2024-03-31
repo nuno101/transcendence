@@ -80,7 +80,7 @@ const DefeatGames = computed(() => {
 <template>
 	<div class="boxstyling">
 		<Loading v-if="!isLoaded"/>
-		<div v-if="isLoaded && user.id" class="box rounded">
+		<div v-if="isLoaded && user.id" class="box rounded" style="overflow:hidden;">
 			<div class="con mt-5">
 				<div class="row">
 					<div class="col-6">
@@ -110,7 +110,7 @@ const DefeatGames = computed(() => {
 				</div>
 				<div class="row mt-4">
 					<StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
-					<div class="col-md-2 d-none d-md-block">
+					<div class="col-lg-2 d-none d-lg-block">
 						<div class="bar-chart rounded text-white">
 							<div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}">
 								<span v-if="defeatsRatio" class="d-flex align-items-center justify-content-center">{{defeatsRatio.toFixed(0)}}%</span>
@@ -157,7 +157,7 @@ const DefeatGames = computed(() => {
 	justify-content: center;
 	align-items: end;
 	background-color: #f0f0f0;
-	height: 270px;
+	height: calc(100vh - var(--header-height) - 88px - 170px);
 }
 
 .bar {
@@ -173,9 +173,9 @@ const DefeatGames = computed(() => {
 }
 
 .gamestable {
-	max-height: 270px;
 	overflow-y: scroll;
 	padding: 0;
+	height: calc(100vh - var(--header-height) - 88px - 170px);
 }
 
 .avatar-circle {
@@ -183,18 +183,12 @@ const DefeatGames = computed(() => {
 }
 
 @media (max-width: 991.98px) {
-  .gamestable, .bar-chart {
-	height: 164px;
-  }
   .avatar-circle {
 	top: 220px;
   }
 }
 
 @media (max-width: 768px) {
-  .gamestable, .bar-chart {
-	height: 280px;
-  }
   .avatar-circle {
 	top: 265px;
   }
