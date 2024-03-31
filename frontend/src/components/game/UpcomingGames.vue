@@ -81,6 +81,6 @@ th {
   padding: 0;
   margin: auto;
   overflow-y: auto;
-  height: calc(100vh - var(--header-height) - 88px - 210px);
+  height: max(calc(100vh - var(--header-height) - 88px - 210px), 110px);
 }
 </style>
