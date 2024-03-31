@@ -15,9 +15,7 @@ import LanguageSelection from './components/common/LanguageSelection.vue'
 
 <style scoped>
 .background-image {
-  /* Adjust the URL to the path of your background image */
-  background-image: url('./assets/backgroundWithoutFont.png');
-  /* Set background size and other properties as needed */
+  background-image: url('./assets/background.png');
   background-size: cover;
   background-position: center;
   width: 100vw;
@@ -25,6 +23,5 @@ import LanguageSelection from './components/common/LanguageSelection.vue'
   position: relative;
   overflow: hidden;
   font-family: 'Courier New', monospace;
-  /* color: white; */
 }
 </style>
