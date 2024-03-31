@@ -175,10 +175,10 @@ th {
 }
 
 .bigtable {
-	height: calc(100vh - var(--header-height) - 88px - 150px);
+	height: max(calc(100vh - var(--header-height) - 88px - 150px), 224px);
 }
 
 .smalltable {
-  height: calc((100vh - var(--header-height) - 88px - 158px) / 2);
+  height: max(calc((100vh - var(--header-height) - 88px - 158px) / 2), 108px);
 }
 </style>
