@@ -78,9 +78,9 @@ const DefeatGames = computed(() => {
 </script>
 
 <template>
-	<div class="cont">
+	<div class="boxstyling">
 		<Loading v-if="!isLoaded"/>
-		<div v-if="isLoaded && user.id" class="box">
+		<div v-if="isLoaded && user.id" class="box rounded">
 			<div class="con mt-5">
 				<div class="row">
 					<div class="col-6">
@@ -94,32 +94,36 @@ const DefeatGames = computed(() => {
 					<div class="col-6"> 
 						<div class="bg-success rounded-pill">
 							<div class="me-4 p-2 pe-0 text-white d-flex justify-content-between">
-				  				<div class="ps-5">{{ WinGames.length }}</div>
-				  				<div class="text-end">{{useI18n().t('userstats.wins')}}</div>
+								<div class="ps-5">{{ WinGames.length }}</div>
+								<div class="text-end">{{useI18n().t('userstats.wins')}}</div>
 							</div>
-			  			</div>
-					</div>
-		  		</div>
-		  		<div class="avatar-circle position-absolute start-50 translate-middle">
-					<GetAvatar class="float-start" :id="user.id" :size="100" />
-		  		</div>
-		  		<div class="text-center">
-					<div class="name bg-dark pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">
-			  			{{ user.nickname }}
-					</div>
-		  		</div>
-				<div class="row mt-4">
-			  		<StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
-			  		<div class="col-md-2 d-none d-md-block">
-						<div class="bar-chart rounded">
-				  			<div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}"></div>
-				  			<div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}"></div>
 						</div>
-			  		</div>
-			  		<StatsTable :id="Number(userId)" :games="games" :flag="'WINS'" />
-			  		<StatsTable :id="Number(userId)" :games="games" :flag="'GAMES'" />
+					</div>
 				</div>
-		  	</div>
+				<div class="avatar-circle position-absolute start-50 translate-middle">
+					<GetAvatar class="float-start" :id="user.id" :size="100" />
+				</div>
+				<div class="text-center">
+					<div class="name bg-dark pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">
+						{{ user.nickname }}
+					</div>
+				</div>
+				<div class="row mt-4">
+					<StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
+					<div class="col-md-2 d-none d-md-block">
+						<div class="bar-chart rounded text-white">
+							<div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}">
+								<span v-if="defeatsRatio" class="d-flex align-items-center justify-content-center">{{defeatsRatio.toFixed(0)}}%</span>
+							</div>
+							<div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}">
+								<span v-if="winsRatio"class="d-flex align-items-center justify-content-center">{{winsRatio.toFixed(0)}}%</span>
+							</div>
+						</div>
+					</div>
+					<StatsTable :id="Number(userId)" :games="games" :flag="'WINS'" />
+					<StatsTable :id="Number(userId)" :games="games" :flag="'GAMES'" />
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -175,7 +179,7 @@ const DefeatGames = computed(() => {
 }
 
 .avatar-circle {
-  top: 210px;
+  top: 180px;
 }
 
 @media (max-width: 991.98px) {
@@ -183,7 +187,7 @@ const DefeatGames = computed(() => {
 	height: 164px;
   }
   .avatar-circle {
-	top: 245px;
+	top: 220px;
   }
 }
 
@@ -192,7 +196,7 @@ const DefeatGames = computed(() => {
 	height: 280px;
   }
   .avatar-circle {
-	top: 255px;
+	top: 265px;
   }
 }
 </style>
