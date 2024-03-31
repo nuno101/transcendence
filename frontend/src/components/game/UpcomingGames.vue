@@ -8,15 +8,19 @@
     <thead>
       <tr>
         <th colspan="2" class="px-3">{{useI18n().t('upcomingGames.opponent')}}</th>
+        <th class="d-none d-lg-table-cell">{{useI18n().t('usersview.created_at')}}</th>
+        <th class="d-none d-lg-table-cell">{{useI18n().t('usersview.updated_at')}}</th>
         <th class="px-3">{{useI18n().t('upcomingGames.tournament')}}</th>
         <th></th>
       </tr>
     </thead>
     <tbody v-if="upcomingGames.length > 0">
-      <tr v-for="(game, index) in upcomingGames.slice().reverse()" :key="index">
-          <UserRow :bgColor="''" :user="game.player1.id === globalUser.id ? game.player2 : game.player1"/>
-        <td class="align-middle px-2 text-center">
-            <i v-if="game.tournament" class="bi bi-trophy align-middle"></i>&nbsp;
+      <tr v-for="(game, index) in upcomingGames.slice().reverse()" :key="index" class="align-middle">
+        <UserRow :bgColor="''" :user="game.player1.id === globalUser.id ? game.player2 : game.player1"/>
+        <td class="d-none d-lg-table-cell">{{ game.created_at }}</td>
+        <td class="d-none d-lg-table-cell">{{ game.updated_at }}</td>
+        <td class="px-2 text-center">
+            <i v-if="game.tournament" class="bi bi-trophy"></i>&nbsp;
             <router-link v-if="game.tournament" :to="`/tournaments/${game.tournament.id}`">
               {{ game.tournament.title }}
             </router-link>
@@ -74,15 +78,9 @@ th {
 }
 
 .gamestable {
-  height: calc(100vh - var(--header-height) - 88px - 210px);
-  max-width: 600px;
-  margin: auto;
-  overflow-y: scroll;
   padding: 0;
-}
-
-thead {
-  --bs-table-bg: var(--COLOR1);
-  --bs-table-color: white;
+  margin: auto;
+  overflow-y: auto;
+  height: calc(100vh - var(--header-height) - 88px - 210px);
 }
 </style>
