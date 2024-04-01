@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref, watch, defineProps, defineEmits, computed } from 'vue';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import Backend from '../../js/Backend';
 import PlayerGameAuth from '../auth/PlayerGameAuth.vue';
 import { useI18n } from 'vue-i18n';
@@ -76,7 +75,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<h3 class="tournament-bracket__round-title">{{ useI18n().t(`gameselection.${titleModal}`)}} ({{ gamesInfo.length }})</h3>
+	<h3 v-if="titleModal" class="tournament-bracket__round-title">{{ useI18n().t(`gameselection.${titleModal}`)}} ({{ gamesInfo.length }})</h3>
 	<ul v-if="gamesInfo && gamesInfo.length > 0" class="tournament-bracket__list">
 		<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
 			<div class="tournament-bracket__match" :class="{ 'user-not-player': title === 'Completed games' }" tabindex="0" @click="handleGameClick(index)">						
@@ -100,17 +99,17 @@ onMounted(() => {
 						</tr>
 					</tbody>
 					<div style="margin-top: 10px;"></div>
-					<h3 class="tournament-bracket__round-status">{{ useI18n().t(`gameselection.${game.status}`)}} </h3>
+					<h3 class="tournament-bracket__round-status">{{ useI18n().t(`gameselection.${game.status}`)}} </h3>	
 				</table>
 			</div>
-			<div v-if="isClicked === (index + 1)"> <!-- Test equal to zero or null or NULL -->
-				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">{{useI18n().t('gameselection.cancelgame')}}</button>
-				<button class="btn btn-success" @click="auth.openModal();">{{useI18n().t('gameselection.startgame')}}</button>
+			<div v-if="isClicked === (index + 1)">
+				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">{{useI18n().t(`gameselection.cancelgame`)}}</button>
+				<button class="btn btn-success" @click="auth.openModal();">{{useI18n().t(`gameselection.startgame`)}}</button>
 			</div>
 		</li>
 	</ul>
-	<p v-else-if="title === 'Completed games' ">{{useI18n().t('gameselection.nogames')}}</p>
-	<p v-else>You played all your games but the tournament is still in progress.</p>
+	<p v-else-if="title === 'Completed games' ">{{useI18n().t(`gameselection.nogames`)}}</p>
+	<p class="alert alert-success" v-else>{{useI18n().t('singletournamentsview.youplayedallyourgames')}}</p>
 	<PlayerGameAuth 
 	  class="PlayerGameAuth"
 	  v-if="gamesInfo.length > 0"

@@ -130,7 +130,9 @@
 				"registration_closed" : "Inscripción cerrada",
 				"ongoing" : "En curso",
 				"done" : "Finalizado",
-				"cancelled" : "Cancelado"
+				"cancelled" : "Cancelado",
+				"youarenotpartofthistournament" : "Este torneo está en curso pero usted no forma parte de él",
+				"youplayedallyourgames" : "Jugaste todos tus partidos"
 		
 			},
 			"gameselection": {
@@ -143,6 +145,12 @@
 				"done" : "finalizado",
 				"cancelled" : "cancelado"
     },
+	"winnerranking": {
+		"rank" : "Rango",
+		"user" : "Apodo",
+		"gameswon" : "Partidos ganados",
+		"totalpoints" : "Puntos totales"
+	},
     "onsite": {
         "authenticateSecondPlayer": "Autenticar segundo jugador",
         "alreadyTaken": "ya está en uso"

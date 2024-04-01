@@ -99,7 +99,7 @@ onMounted(() => {
                         <td>{{ tournament.creator.username }}</td>
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.last_update }}</td>
-                        <td>{{ tournament.status }}</td>
+                        <td>{{ useI18n().t(`singletournamentsview.${tournament.status}`)}}</td>
 						<td>{{ tournament.players.length }}</td>
                     </tr>
                 </tbody>
@@ -179,7 +179,7 @@ onMounted(() => {
                     	</td>
                         <td>{{ tournament.created_at }}</td>
                         <td>{{ tournament.updated_at }}</td>
-                        <td>{{ tournament.status }}</td>
+                        <td>{{ useI18n().t(`singletournamentsview.${tournament.status}`)}}</td>
 						<td>{{ tournament.players.length }}</td>
                     </tr>
                 </tbody>

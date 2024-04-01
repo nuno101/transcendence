@@ -129,7 +129,9 @@
 				"registration_closed" : "Inscriptions fermées",
 				"ongoing" : "En cours",
 				"done" : "Terminé",
-				"cancelled" : "Annulé"
+				"cancelled" : "Annulé",
+				"youarenotpartofthistournament" : "Ce tournoi est en cours mais vous n'en faites pas partie",
+				"youplayedallyourgames" : "Vous avez joué tous vos matchs"
 			},
 			"gameselection": {
 				"selectagame" : "Sélectionner un match",
@@ -141,6 +143,12 @@
 				"done" : "terminé",
 				"cancelled" : "annulé"
 			},
+			"winnerranking": {
+				"rank" : "Rang",
+				"user" : "Pseudo",
+				"gameswon" : "Matchs gagnés",
+				"totalpoints" : "Total des points"
+		},
     "onsite": {
         "authenticateSecondPlayer": "Authentifier le deuxième joueur",
         "alreadyTaken": "déjà pris"

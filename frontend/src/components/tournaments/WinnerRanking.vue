@@ -1,12 +1,13 @@
 <script setup>
-import { onMounted, ref, computed, defineProps } from 'vue';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-import router from '../../router';
+import { onMounted, ref, defineProps } from 'vue';
 import Backend from '../../js/Backend';
+import Podium from './Podium.vue';
+import { useI18n } from 'vue-i18n';
 
-const playerWins = ref({});
+const playerWins = ref([]);
 const tournament = ref(null);
 const playersTournament = ref(null);
+const podium = ref(null);
 
 const props = defineProps({
   games: {
@@ -18,7 +19,13 @@ const fetchData = async () => {
   try {
 	tournament.value = await Backend.get(`/api/tournaments/${props.games[0].tournament.id}`);
 	playersTournament.value = tournament.value.players;
-	console.log("playersTournament_fetchdata: ", playersTournament.value);
+	playersTournament.value.forEach(player => {
+        playerWins.value.push({
+            playerId: player.id,
+            wins: 0,
+            points: 0
+        });
+     });
 	calculateWinner();
   } catch (err) {
     console.error(err.message);
@@ -30,41 +37,34 @@ const calculateWinner = async () => {
 	if (props.games && props.games.length > 0) {
 		props.games.forEach(game => {
 			if (game.status === 'done') {
-				if (!playerWins.value[game.player1.id])
-					playerWins.value[game.player1.id] = { wins: 0, points: 0 };
-                if (!playerWins.value[game.player2.id])
-                    playerWins.value[game.player2.id] = { wins: 0, points: 0 };
+				const player1Index = playerWins.value.findIndex(player => player.playerId === game.player1.id);
+                const player2Index = playerWins.value.findIndex(player => player.playerId === game.player2.id);
 				if (game.player1_score > game.player2_score) {
-					playerWins.value[game.player1.id].wins++;
-					playerWins.value[game.player1.id].points += (game.player1_score - game.player2_score);
-					playerWins.value[game.player2.id].points -= (game.player1_score - game.player2_score);
-				} 
-				else if (game.player2_score > game.player1_score) {
-					playerWins.value[game.player2.id].wins++;
-					playerWins.value[game.player2.id].points += (game.player2_score - game.player1_score);
-					playerWins.value[game.player1.id].points -= (game.player2_score - game.player1_score);
-				}
+                    playerWins.value[player1Index].wins++;
+                    playerWins.value[player1Index].points += (game.player1_score - game.player2_score);
+                    playerWins.value[player2Index].points -= (game.player1_score - game.player2_score);
+                } else if (game.player2_score > game.player1_score) {
+                    playerWins.value[player2Index].wins++;
+                    playerWins.value[player2Index].points += (game.player2_score - game.player1_score);
+                    playerWins.value[player1Index].points -= (game.player2_score - game.player1_score);
+                }
 			}
 		});
 
 		const sortedPlayerWins = Object.values(playerWins.value).sort((a, b) => {
-    		// Sort by wins first
     		if (a.wins !== b.wins) {
-        		return b.wins - a.wins; // Sort by wins descending
+        		return b.wins - a.wins;
     		} else {
-        	// If wins are equal, sort by points
-        		return b.points - a.points; // Sort by points descending
+        		return b.points - a.points;
     		}
 		});
-		// Reassigning sortedPlayerWins to playerWins.value
 		playerWins.value = sortedPlayerWins;
-		console.log("playerWins.value: ", playerWins.value);
+		podium.value = sortedPlayerWins.slice(0, 3).map(player => getPlayer(player.playerId));
 	}
 };
 
 
 const getPlayer = (playerId) => {
-	console.log("playertournaments: ", playersTournament.value);
 	const id = parseInt(playerId);
 	return playersTournament.value.find(player => player.id === id);
 };
@@ -76,26 +76,27 @@ onMounted(() => {
 </script>
 
 <template>
+	<Podium v-if="podium" :podium="podium"></Podium>
 	<div>
-	  <table class="table table-striped table-hover">
+	  <table class="table table-striped table-hover text-center-custom">
 		<thead>
 		  <tr>
-			<th scope="col">Rank</th>
-			<th scope="col">User</th>
-			<th scope="col">Games won</th>
-			<th scope="col">Total points</th>
+			<th scope="col">{{useI18n().t('winnerranking.rank')}}</th>
+			<th scope="col">{{useI18n().t('winnerranking.user')}}</th>
+			<th scope="col">{{useI18n().t('winnerranking.gameswon')}}</th>
+			<th scope="col">{{useI18n().t('winnerranking.totalpoints')}}</th>
 		  </tr>
 		</thead>
 		<tbody>
-			<tr v-for="(playerData, playerId, index) in playerWins" :key="playerId">
-			<td>{{ playerId }}</td>
-			<!--<td>
-			  <router-link :to="'/users/' + getPlayer(playerId).id"> 
-				{{ getPlayer(playerId).nickname }} 
-			</router-link>
-			</td>--> 
+			<tr v-for="(playerData, index) in playerWins" :key="playerData.playerId">
+			<td>{{ index + 1 }}</td>
+			<td>
+        		<router-link :to="'/users/' + playerData.playerId"> 
+            	{{ getPlayer(playerData.playerId).nickname }} 
+       			</router-link>
+    		</td>
 			<td>{{ playerData.wins }}</td>
-			<td>{{ playerData.points }}</td>
+    		<td>{{ playerData.points }}</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -105,5 +106,10 @@ onMounted(() => {
 
 <style>
 
+.text-center-custom {
+  text-align: center;
+}
 
 </style>
+
+

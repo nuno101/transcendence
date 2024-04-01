@@ -128,7 +128,9 @@
 			"registration_closed" : "Registration closed",
 			"ongoing" : "Ongoing",
 			"done" : "Done",
-			"cancelled" : "Cancelled"
+			"cancelled" : "Cancelled",
+			"youarenotpartofthistournament" : "This tournament is ongoing but you are not part of it",
+			"youplayedallyourgames" : "You played all your games"
 			
 		},
 		"gameselection": {
@@ -141,6 +143,12 @@
 			"done" : "done",
 			"cancelled" : "cancelled"
 	},
+	"winnerranking": {
+		"rank" : "Rank",
+		"user" : "User",
+		"gameswon" : "Games won",
+		"totalpoints" : "Total points"
+},
 	"onsite": {
 		"authenticateSecondPlayer" : "Authenticate second player",
 		"alreadyTaken": "already taken"
