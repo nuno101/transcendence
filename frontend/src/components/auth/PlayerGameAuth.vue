@@ -107,8 +107,7 @@ const createSingleGame = async(playerId1, playerId2) => {
 		response.value = await Backend.post('/api/games', {  player1_id: `${playerId1}`, player2_id: `${playerId2}` });
 	} catch (err) {
 		console.error(err.message);
-		// ADD ALERT?
-		// alert(err.message);
+		alert(i18n.te(err.message) ? i18n.t(err.message) : err.message);
 	}
 	return(response.value.id);
 }

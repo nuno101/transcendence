@@ -53,7 +53,6 @@ const fetchData = async() => {
 	} catch (err) {
 		router.push({ name: 'pathnotfound' });
 		console.error(err.message);
-		// ADD ALERT?
 	} finally {
 		isLoaded.value = true;
 	}

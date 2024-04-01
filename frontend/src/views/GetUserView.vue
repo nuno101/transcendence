@@ -21,7 +21,6 @@ onMounted(async () => {
 		globalUser.value = await Backend.get('/api/users/me')
 	} catch (err) {
 		console.error(err.message)
-		// ADD ALERT?
 		globalUser.value = null
 	}
 	router.replace(decodeURIComponent(route.query.continue))

@@ -23,7 +23,6 @@ const fetchData = async () => {
 			useravatar.value = await Backend.getAvatar(`/api/users/${globalUser.value.id}/avatar`);
 	} catch (err) {
 		console.error(err.message);
-		// ADD ALERT?
 	} finally {
 		isLoaded.value = true;
 	}
