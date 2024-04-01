@@ -129,26 +129,6 @@ onMounted(() => {
  * Licensed under MIT (https://opensource.org/licenses/MIT)
  */
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
-}
-
-.tournament-bracket {
-  display: flex;
-  flex-direction: row;
-  
-  @media (min-width: @breakpoint-sm) {
-    flex-direction: row;
-  }
-}
-
 .tournament-bracket__round-title {
   color: #9e9e9e;
   font-size: 0.95rem;

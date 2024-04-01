@@ -237,14 +237,14 @@ onMounted(() => {
 						</div>
 					</div>
 				</div>
-            </div>
 
-			<div v-if="status === 'done'">
-				<div class="tcontainer">
-					<div class="tournament-bracket__round">
-						<WinnerRanking :games="games"></WinnerRanking>
+				<div v-if="status === 'done'">
+					<div class="tcontainer">
+						<div class="tournament-bracket__round">
+							<WinnerRanking :games="games"></WinnerRanking>
+						</div>
 					</div>
-				</div>
+            	</div>
             </div>
 
 			<ModalSettings
@@ -270,7 +270,7 @@ onMounted(() => {
                         </tr>
                     </tbody>
                 </table>
-				<GameSelection v-if="status === 'ongoing'" title="Completed games" :is_Creator="isCreator" :tournament_Id="tournamentId" :games="games" @update:games="handleUpdateTesT"/>
+				<GameSelection v-if="status === 'ongoing' || status === 'done'" title="Completed games" :is_Creator="isCreator" :tournament_Id="tournamentId" :games="games" @update:games="handleUpdateTesT"/>
             </div>
         </div>
     </div>
