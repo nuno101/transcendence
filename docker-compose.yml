@@ -98,7 +98,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:latest
+    image: redis:7.2.4
     container_name: ${REDIS_HOST}
     networks:
       - redis-network
@@ -127,6 +127,7 @@ services:
       context: ./proxy
     depends_on:
       - backend
+      - frontend
     ports:
       - "443:443"
     networks:

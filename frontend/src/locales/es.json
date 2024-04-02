@@ -1,90 +1,288 @@
 {
     "language": "Español",
-    "gobacktodashboard": "Tablero",
-    "homeview": {
-      "register": "Registrarse",
-      "alreadyhaveanaccount": "¿Ya tienes una cuenta?"
+    "confirm": "confirmar",
+    "cancel": "cancelar",
+    "username": "Nombre de usuario",
+    "nickname": "Apodo",
+    "password": "Contraseña",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "loading": "Cargando",
+    "avatar": "avatar",
+    "lang": {
+        "english": "inglés",
+        "german": "alemán",
+        "spanish": "español",
+        "french": "francés"
     },
-    "loginview": {
+    "home": {
+        "ourTranscendenceProject": "Nuestro Proyecto Transcendence",
+        "transcendenceDescription": "Transcendence es el último proyecto del Plan de Estudios Central en 42. El objetivo de este proyecto es desarrollar una aplicación web que permita a los usuarios participar en un juego básico de Pong mientras proporciona una plataforma para la interacción social con otros usuarios. Implica la implementación de varios módulos, la toma de decisiones sobre tecnologías y bibliotecas, y asegurarse de que todas las decisiones se alineen con los requisitos y limitaciones del proyecto.",
+        "connectOnGithub": "Conéctate con nosotros en Github"
+    },
+    "upcomingGames": {
+        "upcomingGames": "Próximos juegos",
+        "opponent": "Contrincante",
+        "tournament": "Torneo",
+        "noUpcomingGames": "No hay próximos juegos",
+        "play": "jugar"
+    },
+    "login": {
         "login": "Iniciar sesión",
-        "nickname": "Apodo",
-        "email": "Correo electrónico",
-        "password": "Contraseña"
+        "new?": "¿Nuevo?",
+        "rememberMe": "Recordarme",
+        "signUp": "Registrarse",
+        "alreadyHaveAnAccount": "¿Ya tienes una cuenta?",
+        "logout": "Cerrar sesión",
+        "successfullySignedUp": "Registro exitoso"
     },
-    "registrationview": {
-  
+    "logout": {
+        "videonotsupported": "vídeo no compatible"
     },
-    "createprofileview": {
-        "createprofile": "Crear Perfil",
-        "nickname": "Apodo",
-        "uploadavatar": "Subir Avatar",
-        "createaccount": "Crear Cuenta"
-    },
-    "dashboardview": {
-        "dashboard": "Tablero",
+    "header": {
+        "home": "Inicio",
         "friends": "Amigos",
-        "playponggame": "Jugar Juego de Pong",
+        "users": "Usuarios",
+        "chat": "Chat",
+        "settings": "Ajustes",
         "tournaments": "Torneos",
-        "profile": "Perfil",
-        "settings": "Configuración",
-        "logout": "Cerrar sesión"
+        "game": "Juego",
+        "onsite": "Jugar localmente",
+        "demo": "Demostración",
+        "ai": "Contra IA"
     },
-    "profileview": {
-        "myprofile": "Mi Perfil",
-        "nickname": "Apodo",
-        "avatar": "Avatar",
-        "statistics": "Estadísticas",
-        "matchhistory": "Historial de Partidas",
-        "winsandlosses": "Victorias / Derrotas",
-        "numberofgames": "Número de Partidas"
-    },
-    "settingsview": {
-        "editprofile": "Editar Perfil",
-        "nickname": "Apodo",
-        "avatar": "Avatar",
-        "upload": "Subir",
-        "deletecurrent": "Eliminar el actual",
-        "savechanges": "Guardar Cambios"
+    "settings": {
+        "saveChanges": "Guardar cambios",
+        "changeAvatar": "Cambiar avatar",
+        "newPassword": "Nueva contraseña",
+        "confirmNewPassword": "Confirmar nueva contraseña",
+        "passwordsDoNotMatch": "las contraseñas no coinciden"
     },
     "friendsview": {
-        "listoffriends": "Lista de Amigos",
+        "friends": "Amigos",
         "friendrequests": "Solicitudes de Amistad",
-        "pendingrequests": "Solicitudes Pendientes"
+        "pendingrequests": "Solicitudes Pendientes",
+        "deleteFriend": "¿Deseas eliminar a este amigo?",
+        "declineFriendRequest": "¿Deseas rechazar esta solicitud de amistad?",
+        "cancelFriendRequest": "¿Deseas cancelar esta solicitud de amistad?",
+        "noFriends": "sin amigos",
+        "noFriendRequests": "sin solicitudes de amistad",
+        "noPendingRequests": "sin solicitudes pendientes",
+        "searchNickname": "Buscar apodo"
     },
-    "friendstatsview": {
-        "profile": "Perfil",
+    "userstats": {
+        "wins" : "Victorias",
+        "defeats": "Derrotas",
+        "noWins": "sin victorias",
+        "noDefeats": "sin derrotas",
+        "noGames": "sin juegos"
+    },
+    "usersview": {
+        "listofusers": "Lista de utilizadores",
+        "username": "Nombre de usuario",
         "nickname": "Apodo",
-        "avatar": "Avatar",
-        "statistics": "Estadísticas",
-        "matchhistory": "Historial de Partidas",
-        "winsandlosses": "Victorias / Derrotas",
-        "numberofgames": "Número de Partidas"
+        "created_at": "Creado en",
+        "updated_at": "Actualizado en"
     },
     "tournamentsview": {
-        "tournaments": "Torneos",
-        "titleoftournament": "Título del torneo",
-        "descriptionoftournament": "Descripción del torneo",
-		"creatortournamentnickname": "Su apodo del torneo (creador)",
-        "cancel" : "cancelar",
-        "addtournament" : "add tournament",
-        "addnewtournament" : "añadir torneo",
-        "description" : "descripción",
-        "status" : "estado",
-        "register" : "regístrese en",
-        "registrationclosed" : "inscripción cerrada"
+				"cancel" : "Cancelar",
+				"addtournament" : "Añadir torneo",
+				"descriptionoftournament" : "Descripción del torneo",
+				"description" : "Descripción",
+				"status" : "Estado",
+				"register" : "Regístrese en",		
+				"listoftournaments": "Lista de torneos",
+				"title": "Título",
+				"creator": "Creado por",
+				"createatournament" : "Crear un torneo",
+				"created_at": "Creado en",
+				"last_update": "Última actualización",
+				"players" : "Jugadores",
+				"titlealreadytaken" : "El título ya está ocupado. Por favor, elige otro título.",
+				"mytournaments" : "Mis torneos",
+				"(you)" : "(Usted)",
+				"entertitle" : "Introducir título",
+				"enterdescription" : "Introducir descripción"
+				
+			},
+			"singletournamentsview": {
+				"descriptionoftournament": "Descripción del torneo",
+				"openregistration" : "Autorizar inscripciones",
+				"registrationisnowopen" : "Inscripciones abiertas",
+				"deletetournament" : "Borrar torneo",
+				"tournamentisnowdeleted" : "El torneo ha sido eliminado",
+				"registrationforthistournamentisnotyetopen" : "La inscripción para este torneo aún no está abierta (contacte con",
+				"formoreinfo" : "para más información)",
+				"closeregistration" : "Cerrar inscripción",
+				"registrationisnowclosed" : "Inscripciones cerradas",
+				"canceltournament" : "Cancelar torneo",
+				"thetournamenthasbeencancelled" : "El torneo ha sido cancelado",
+				"successfullunjointournament" : "Te has dado de baja del torneo",
+				"successfulljointournament" : "¡Se ha inscrito correctamente en el torneo!",
+				"unjointhetournament" : "Abandonar el torneo",
+				"jointhetournament" : "Unirse al torneo",
+				"starttournament" : "Iniciar torneo",
+				"tournamentwillstartgetready" : "¡El torneo va a comenzar, prepárate para jugar!",
+				"success" : "Éxito",
+				"tournamentnickname" : "Apodo",
+				"created" : "Creado",
+				"registration_open" : "Inscripción abierta",
+				"registration_closed" : "Inscripción cerrada",
+				"ongoing" : "En curso",
+				"done" : "Finalizado",
+				"cancelled" : "Cancelado",
+				"youarenotpartofthistournament" : "Este torneo está en curso pero usted no forma parte de él",
+				"youplayedallyourgames" : "Jugaste todos tus partidos"
+		
+			},
+			"gameselection": {
+				"selectagame" : "Seleccione un juego",
+				"completedgames" : "Partidas finalizadas",
+				"cancelgame" : "Cancelar partida",
+				"startgame" : "Empezar partida",
+				"nogames" : "No hay partidas disponibles",
+				"created" : "creado",
+				"done" : "finalizado",
+				"cancelled" : "cancelado"
     },
-    "gamemodesview": {
-        "online": "En línea",
-        "onsite": "En el lugar"
-    },
-    "onlinegameview": {
-        "inviteuser": "Invitar Usuario",
-        "findopponent": "Encontrar Oponente"
-    },
-    "onsitegameview": {
-  
+	"winnerranking": {
+		"rank" : "Rango",
+		"user" : "Apodo",
+		"gameswon" : "Partidos ganados",
+		"totalpoints" : "Puntos totales",
+		"nodata" : "sin datos"
+	},
+    "onsite": {
+        "authenticateSecondPlayer": "Autenticar segundo jugador",
+        "alreadyTaken": "ya está en uso"
     },
     "ponggameview": {
-  
+        "loadingfetch": "Cargando datos del servidor",
+        "loadingsend": "Enviando datos al servidor",
+        "unexpectederror": "Error inesperado",
+        "accuredduring": "Ocurrió durante",
+        "paused": "Pausado",
+        "wonthegame": "ganó el juego",
+        "youwonthegame": "ganaste el juego",
+        "press": "presiona",
+        "tocontinue": "para continuar",
+        "ai": "La IA",
+        "wronguser": "no estás participando en este juego"
+    },
+    "aisettings": {
+        "ai": "IA",
+        "human": "Humano",
+        "leftplayer": "Jugador izquierdo",
+        "rightplayer": "Jugador derecho",
+        "includeincalculations": "Incluir en los cálculos:",
+        "border": "borde superior e inferior",
+        "opponent": "Oponente",
+        "center": "volver al centro mientras está inactivo",
+        "inaccuracy": "Inexactitud",
+        "explenation": "Este valor determina la inexactitud en el cálculo. Un valor de 0 significa que no hay inexactitud.",
+        "tip": "Consejo",
+        "tipvalue": "Una inexactitud positiva aumenta la probabilidad de que la pelota golpee una esquina de la paleta de la IA. Esto hace el juego más interesante."
+    },
+    "auth": {
+        "authentication": "Autenticación",
+        "authenticate": "autenticar",
+        "withNickname": "con apodo",
+        "successfullyAuth": "autenticación exitosa",
+        "startGame": "comenzar juego"
+    },
+    "instruction": {
+        "you": "tú",
+        "use": "utiliza",
+        "uses": "utiliza",
+        "and": "y",
+        "toMoveThe": "para mover el",
+        "leftPaddle": "pala izquierda",
+        "rightPaddle": "pala derecha",
+        "leftplayer": "jugador izquierdo",
+        "rightplayer": "jugador derecho",
+        "goal": "El objetivo es que cada jugador alcance once puntos antes que el oponente",
+        "startOrPause": "iniciar/pausar",
+        "showOrHide": "mostrar/ocultar",
+        "theGame": "el juego",
+        "theseInstructions": "estas instrucciones",
+        "fpsCounter": "contador de FPS",
+        "spacebar": "barra espaciadora",
+        "wkey": "tecla w",
+        "skey": "tecla s",
+        "arrowup": "flecha arriba",
+        "arrowdown": "flecha abajo",
+        "hkey": "tecla h",
+        "fkey": "tecla f"
+    },
+    "notif": {
+        "noNotifications": "Sin notificaciones",
+        "newMessage": "Ve al chat para ver nuevos mensajes",
+        "newFriendRequest": "Ve a amigos para ver nuevas solicitudes de amistad",
+        "newFriends": "Ve a amigos para ver nuevos amigos"
+    },
+    "notfound": {
+        "pageNotFound": "Página no encontrada",
+        "thisPageIsntAvailable": "Esta página no está disponible"
+    },
+    "err": {
+        "Staff user required": "Se requiere usuario de personal",
+        "Internal server error": "Error interno del servidor",
+        "Invalid password (choose a better one)": "Contraseña no válida (elige una mejor)",
+        "Not logged in": "No has iniciado sesión",
+        "Invalid JSON body syntax": "Sintaxis JSON del cuerpo no válida",
+        "Cannot add yourself": "No puedes agregarte a ti mismo",
+        "You are blocked by this user": "Este usuario te ha bloqueado",
+        "You are blocked by users in the channel": "Estás bloqueado por usuarios en el canal",
+        "User is not a friend": "El usuario no es un amigo",
+        "Missing query parameter 'type'": "Falta el parámetro de consulta 'type'",
+        "User is blocked": "El usuario está bloqueado",
+        "User is already a friend": "El usuario ya es un amigo",
+        "User blocked you": "El usuario te ha bloqueado",
+        "Friend request already sent": "La solicitud de amistad ya ha sido enviada",
+        "Friend request already received": "La solicitud de amistad ya ha sido recibida",
+        "User is not the recipient of the request": "El usuario no es el destinatario de la solicitud",
+        "You can't play against yourself": "No puedes jugar contra ti mismo",
+        "Invalid player(s) score": "Puntuación de jugador(es) no válida",
+        "Change not allowed": "Cambio no permitido",
+        "You are not the creator of this tournament": "No eres el creador de este torneo",
+        "You can't delete a game that is done": "No puedes eliminar un juego que está completado",
+        "No avatar provided (needs to be a multipart/form-data field with key 'avatar')": "No se proporcionó un avatar (debe ser un campo multipart/form-data con clave 'avatar')",
+        "Invalid file extension": "Extensión de archivo no válida",
+        "Cannot block yourself": "No puedes bloquearte a ti mismo",
+        "User is already blocked": "El usuario ya está bloqueado",
+        "User is a friend": "El usuario es un amigo",
+        "Outgoing friend request exists": "Ya existe una solicitud de amistad saliente",
+        "User is not blocked": "El usuario no está bloqueado",
+        "Not enough players": "No hay suficientes jugadores",
+        "Invalid status": "Estado no válido",
+        "Invalid login credentials": "Credenciales de inicio de sesión no válidas",
+        "Not authenticated": "No autenticado",
+        "User not found": "Usuario no encontrado",
+        "Friend request not found": "Solicitud de amistad no encontrada",
+        "No permission to access friend request": "No tienes permiso para acceder a la solicitud de amistad",
+        "Notification not found": "Notificación no encontrada",
+        "No permission to access notification": "No tienes permiso para acceder a la notificación",
+        "Tournament not found": "Torneo no encontrado",
+        "No permission to access tournament": "No tienes permiso para acceder al torneo",
+        "Game not found": "Juego no encontrado",
+        "No permission to access game": "No tienes permiso para acceder al juego",
+        "Channel not found": "Canal no encontrado",
+        "No permission to access channel": "No tienes permiso para acceder al canal",
+        "Message not found": "Mensaje no encontrado",
+        "No permission to access message": "No tienes permiso para acceder al mensaje",
+        "413 Request Entity Too Large": "413 Solicitud de entidad demasiado grande",
+        "User with this Nickname already exists.": "Usuario con este apodo ya existe.",
+        "Avatar is too large": "El avatar es demasiado grande"
+    },
+    "succ": {
+        "Hello, world. You're at the transcendence index.": "Hola mundo. Estás en el índice de trascendencia.",
+        "Successfully logged out": "Cierre de sesión exitoso"
+    },
+    "chatview": {
+        "sendMessage": "Enviar un mensaje",
+        "blockUser": "Bloquear",
+        "unblockUser": "Desatascar",
+        "create": "Crear",
+        "nickname": "Apodo"
     }
-  }
+}

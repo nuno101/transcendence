@@ -2,29 +2,26 @@
 import { defineProps } from 'vue';
 import formatTimestamp from '../../js/TimeFormat';
 
-defineProps({
+const props = defineProps({
   channel: Object,
+  selected: Boolean
 });
 </script>
 
 <template>
-  <div class="channel-item list-group-item list-group-item-action py-3 lh-sm" @click="$emit('selected')">
+  <li :class="{ 'active': selected }" class="channel-item list-group-item list-group-item-action py-3 lh-sm"
+    @click="$emit('selected')">
     <div class="d-flex w-100 justify-content-between align-items-center">
-      <h5 class="mb-1">{{ channel.name }}</h5>
+      <h1 class="mb-1 fs-5">{{ channel.name }}</h1>
     </div>
     <div class="d-flex justify-content-between align-items-center">
       <small>{{ formatTimestamp(channel.updated_at) }}</small>
     </div>
-  </div>
+  </li>
 </template>
 
 <style scoped>
 .channel-item {
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.channel-item:hover {
-  background-color: #f8f9fa;
 }
 </style>

@@ -19,7 +19,7 @@ const addFriend = async(nickname) => {
         updateErrorMessage.value = '';
     } catch (err) {
         console.error(err.message);
-        updateErrorMessage.value = err;
+        updateErrorMessage.value = err.message;
     }
 };
 
@@ -34,11 +34,11 @@ watch(searchInput, () => {
 <template>
     <div>
         <div class="input-group">
-            <input v-model="searchInput" type="search" class="form-control rounded-start" placeholder="Search nickname" aria-label="Search" aria-describedby="search-addon" />
+            <input v-model="searchInput" type="search" class="form-control rounded-start" :placeholder="useI18n().t('friendsview.searchNickname')" aria-label="Search" aria-describedby="search-addon" />
             <button @click="addFriend(searchInput)" type="button" class="btn btn-outline-primary" data-mdb-ripple-init><i class="bi bi-person-add"></i></button>
         </div>
         <div v-if="updateErrorMessage !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
-            {{ updateErrorMessage }}
+            {{ useI18n().te(`err.${updateErrorMessage}`) ? useI18n().t(`err.${updateErrorMessage}`) : updateErrorMessage }}
         </div>
     </div>
 </template>

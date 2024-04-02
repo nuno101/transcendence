@@ -318,29 +318,15 @@ ENDPOINTS = {
 				"content_type": "application/json",
 				"query_params": {},
 				"body_params": {
-					"tournament_id": {
-						"type": "id",
-						"required": False,
-						"default": "null",
-						"description": "ID of the tournament"
-					}, "player1_id": {
+					"player1_id": {
 						"type": "id",
 						"required": True,
 						"description": "ID of the first player"
-					}, "player2_id": {
+					},
+                    "player2_id": {
 						"type": "id",
 						"required": True,
 						"description": "ID of the second player"
-					}, "player1_score": {
-						"type": "integer",
-						"required": False,
-						"default": 0,
-						"description": "Score of the first player"
-					}, "player2_score": {
-						"type": "integer",
-						"required": False,
-						"default": 0,
-						"description": "Score of the second player"
 					}
 				},
 			}
@@ -354,68 +340,30 @@ ENDPOINTS = {
 				"body_params": {
 					"player1_score": {
 						"type": "integer",
-						"required": False,
+						"required": True,
 						"description": "Score of the first player"
-					}, "player2_score": {
+					},
+                    "player2_score": {
 						"type": "integer",
-						"required": False,
+						"required": True,
 						"description": "Score of the second player"
-					}, "status": {
-						"type": "string",
-						"required": False,
-						"description": "Status of the game"
 					}
 				},
 			}, "DELETE": NO_PARAM_METHOD_TEMPLATE,
 		}
 	}, "/channels": {
 		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
 			"POST": {
 				"content_type": "application/json",
 				"query_params": {},
 				"body_params": {
-					"name": {
-						"type": "string",
-						"required": True,
-						"description": "Name of the channel"
+					"nickname": {
+					    "type": "string",
+					    "required": True,
+					    "description": "The username of the user to add to the DM"
 					}
 				},
 			}
-		}
-	}, "/channels/CHANNEL_ID": {
-		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
-			"PATCH": {
-				"content_type": "application/json",
-				"query_params": {},
-				"body_params": {
-					"name": {
-						"type": "string",
-						"required": False,
-						"description": "Name of the channel"
-					}
-				},
-			}, "DELETE": NO_PARAM_METHOD_TEMPLATE,
-		}
-	}, "/channels/CHANNEL_ID/members": {
-		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
-			"POST": {
-				"content_type": "application/json",
-				"query_params": {},
-				"body_params": {
-					"user_id": {
-						"type": "id",
-						"required": True,
-						"description": "ID of the user to add to the channel"
-					}
-				},
-			}
-		}
-	}, "/channels/CHANNEL_ID/members/USER_ID": {
-		"methods": {
-			"DELETE": NO_PARAM_METHOD_TEMPLATE,
 		}
 	}, "/channels/CHANNEL_ID/messages": {
 		"methods": {
@@ -432,23 +380,9 @@ ENDPOINTS = {
 				},
 			}
 		}
-	}, "/messages": {
-		"methods": {
-			"GET": NO_PARAM_METHOD_TEMPLATE,
-		}
 	}, "/messages/MESSAGE_ID": {
 		"methods": {
-			"PATCH": {
-				"content_type": "application/json",
-				"query_params": {},
-				"body_params": {
-					"content": {
-						"type": "string",
-						"required": True,
-						"description": "Content of the message"
-					}
-				},
-			}, "DELETE": NO_PARAM_METHOD_TEMPLATE,
+			"DELETE": NO_PARAM_METHOD_TEMPLATE,
 		}
 	} 
 }

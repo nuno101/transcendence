@@ -10,48 +10,70 @@ class Scene {
 	static onupdate
 	static onkeydown
 	static onkeyup
-	static onstop
+	static onpause
+	static oncontinue
 	static canvas
-	static width
-	static height
 	static ctx
 	static translate
 	static keys
-	static #stop
-	static #onstopCalled
-	static init(canvas, width, height) {
+	static #pause
+	static #onpauseCalled
+
+	static init(canvas) {
 		Scene.canvas = canvas
-		Scene.width = width
-		Scene.height = height
-		Scene.canvas.width = width
-		Scene.canvas.height = height
+		Scene.translate = new Vector()
+		new ResizeObserver(Scene.resizeObserver).observe(Scene.canvas)
+
 		Scene.ctx = Scene.canvas.getContext('2d', { alpha: false })
-		Scene.translate = new Vector(Scene.width / 2, Scene.height / 2)
 		Scene.keys = new Set()
-		Scene.#stop = false
-		Scene.#onstopCalled = false
+		Scene.#pause = false
+		Scene.#onpauseCalled = false
 
 		Scene.oncreate = () => {}
 		Scene.onupdate = () => {}
 		Scene.onkeydown = () => {}
 		Scene.onkeyup = () => {}
-		Scene.onstop = () => {}
+		Scene.onpause = () => {}
+		Scene.oncontinue = () => {}
 		document.addEventListener('keydown', Scene.#onkeydown)
 		document.addEventListener('keyup', Scene.#onkeyup)
 	}
 
-	static #onkeydown (evt) {
+	static resizeObserver(entries) {
+		Scene.width = entries[0].contentRect.width
+		Scene.height = entries[0].contentRect.height
+	}
+
+	static get width() {
+		return Scene.canvas.width
+	}
+
+	static get height() {
+		return Scene.canvas.height
+	}
+
+	static set width(value) {
+		Scene.canvas.width = value
+		Scene.translate.x = Scene.canvas.width / 2
+	}
+
+	static set height(value) {
+		Scene.canvas.height = value
+		Scene.translate.y = Scene.canvas.height / 2
+	}
+
+	static #onkeydown(evt) {
 		Scene.keys.add(evt.key.toLowerCase())
 		Scene.onkeydown(evt.key.toLowerCase())
 	}
 
-	static #onkeyup (evt) {
+	static #onkeyup(evt) {
 		Scene.keys.delete(evt.key.toLowerCase())
 		Scene.onkeyup(evt.key.toLowerCase())
 	}
 
 	static unmount() {
-		Scene.stop = true
+		Scene.pause = true
 		document.removeEventListener('keydown', Scene.#onkeydown)
 		document.removeEventListener('keyup', Scene.#onkeyup)
 	}
@@ -60,14 +82,14 @@ class Scene {
 		requestAnimationFrame(Scene.#create)
 	}
 
-	static get stop () {
-		return Scene.#stop
+	static get pause() {
+		return Scene.#pause
 	}
 
-	static set stop (value) {
-		if (Scene.#stop && value === false) requestAnimationFrame(Scene.#continue)
-		Scene.#stop = value
-		if (value) Scene.#onstopCalled = false
+	static set pause(value) {
+		if (Scene.#pause && value === false) requestAnimationFrame(Scene.#continue) 
+		Scene.#pause = value
+		if (value) Scene.#onpauseCalled = false
 	}
 
 	static #create(timeStamp) {
@@ -81,15 +103,16 @@ class Scene {
 		if (Scene.deltaTime) {
 			Scene.onupdate()
 		}
-		if (Scene.#stop === false) requestAnimationFrame(Scene.#update)
-		else if (Scene.#onstopCalled === false) {
-			Scene.onstop()
-			Scene.#onstopCalled = true
+		if (Scene.#pause === false) requestAnimationFrame(Scene.#update)
+		else if (Scene.#onpauseCalled === false) {
+			Scene.onpause()
+			Scene.#onpauseCalled = true
 		}
 	}
 
 	static #continue(timeStamp) {
 		Scene.#lastTimeStamp = timeStamp
+		Scene.oncontinue()	
 		requestAnimationFrame(Scene.#update)
 	}
 	static clear() {
@@ -98,7 +121,7 @@ class Scene {
 	static transform(v) {
 		return new Vector(v.x * Scene.translate.y + Scene.translate.x, v.y * Scene.translate.y + Scene.translate.y)
 	}
-	static drawLine(a, b, color = 'white', lineWidth = 5, lineDash = [], lineDashOffset = 0) {
+	static drawLine(a, b, color = 'white', lineWidth = 0.01, lineDash = [], lineDashOffset = 0) {
 		const a1 = Scene.transform(a)
 		const b1 = Scene.transform(b)
 
@@ -106,14 +129,17 @@ class Scene {
 		Scene.ctx.moveTo(a1.x, a1.y)
 		Scene.ctx.lineTo(b1.x, b1.y)
 		Scene.ctx.strokeStyle = color
-		Scene.ctx.lineWidth = lineWidth
+		Scene.ctx.lineWidth = Scene.translate.y * lineWidth
+		for (let i = 0; i < lineDash.length; ++i) {
+			lineDash[i] *= Scene.translate.y
+		}
 		Scene.ctx.setLineDash(lineDash)
-		Scene.ctx.lineDashOffset = lineDashOffset
+		Scene.ctx.lineDashOffset = Scene.translate.y * lineDashOffset
 		Scene.ctx.stroke()
 		Scene.ctx.lineDash = []
 		Scene.ctx.lineDashOffset = 0
 	}
-	static drawDirectionVector(direction, position, color = 'white', lineWidth = 5) {
+	static drawDirectionVector(direction, position, color = 'white', lineWidth = 0.01) {
 		const sum = position.copy()
 		sum.add(direction)
 		Scene.drawLine(position, sum, color, lineWidth)
@@ -156,11 +182,11 @@ class Scene {
 		v.y /= Scene.translate.y
 	}
 
-	static drawText(text, position, font, style = new Style()) {
+	static drawText(text, position, size, font, style = new Style()) {
 		const positionTranslated = Scene.transform(position)
 
 		Scene.ctx.beginPath()
-		Scene.ctx.font = font
+		Scene.ctx.font = (size * Scene.translate.y).toString() + 'px ' + font
 		Scene.ctx.textAlign = 'center'
 		if (style.fillShape) {
 			Scene.ctx.fillStyle = style.color

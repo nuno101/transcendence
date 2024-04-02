@@ -1,8 +1,8 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps } from 'vue';
 import formatTimestamp from '../../js/TimeFormat';
 import GetAvatar from '../common/GetAvatar.vue';
-import UserRow from '../common/GetAvatar.vue';
+import { globalUser } from '../../main';
 
 defineProps({
   message: Object,
@@ -20,7 +20,7 @@ defineProps({
           <small class="text-muted">{{ formatTimestamp(message.created_at) }}</small>
         </div>
         <!-- TODO: Only display if message belongs to currently logged in user-->
-        <button class="btn btn-sm btn-danger" @click="$emit('deleted')">
+        <button v-if="globalUser.id === message.author.id" class="btn btn-sm btn-danger" @click="$emit('deleted')">
           <i class="bi bi-trash"></i>
         </button>
       </div>

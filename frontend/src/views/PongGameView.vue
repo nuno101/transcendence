@@ -1,11 +1,21 @@
 <template>
-	<div class="container d-flex justify-content-center align-items-center">
-		<canvas class="game-canvas" ref="canvas"></canvas>
+	<div class="d-flex justify-content-center">
+		<div class="position-relative w-100 ratio ratio-4x3 game-canvas">
+			<canvas ref="canvas"></canvas>
+			<div class="position-absolute d-flex align-items-center justify-content-center">
+				<GameError v-if="showGameError" :message="showGameError" :during="showGameLoading"/>
+				<GameLoading v-else-if="showGameLoading" :message="showGameLoading"/>
+				<GameOver v-else-if="showGameOver" :winner="Scores.winner() === 'left' ? playerName.left : playerName.right" :firstscore="Scores.leftScore()" :secondscore="Scores.rightScore()" :ai="playerName.ai"/>
+				<InstructionInfo v-else-if="showHelp" :firstplayer="playerName.left" :secondplayer="playerName.right" :ai="playerName.ai"/>
+				<GamePaused v-else-if="showGamePaused" />
+			</div>
+		</div>
 	</div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import Vector from '../js/game/Vector'
 import Polygon from '../js/game/Polygon'
 import Circle from '../js/game/Circle'
@@ -13,11 +23,27 @@ import Scene from '../js/game/Scene'
 import Style from '../js/game/Style'
 import Scores from '../js/game/Scores'
 import fps from '../js/game/fps'
+import Backend from '../js/Backend'
+import InstructionInfo from '../components/game/InstructionInfo.vue'
+import GameOver from '../components/game/GameOver.vue'
+import GamePaused from '../components/game/GamePaused.vue'
+import GameLoading from '../components/game/GameLoading.vue'
+import GameError from '../components/game/GameError.vue'
+import { paddleCollision, playerCollision } from '../js/game/Collision'
+import Ai from '../js/game/Ai'
+import { globalUser } from '../main'
+import { useI18n } from 'vue-i18n'
 
 const canvas = ref(null)
-const startTimerInitialValue = 1000
-let startTimer = startTimerInitialValue
-let gameStarted = false
+const route = useRoute()
+const router = useRouter()
+const i18n = useI18n()
+const playerName = ref({})
+const showGameOver = ref(false)
+const showHelp = ref(true)
+const showGamePaused = ref(false)
+const showGameLoading = ref('')
+const showGameError = ref('')
 const paddleSpeed = 0.002
 const playerSpeed = 0.002
 const player = new Circle(0.05)
@@ -33,125 +59,79 @@ const border = new Polygon([
 	new Vector(2, 1),
 	new Vector(-2, 1),
 ])
-const objects = [
-	player,
-	border.copy(),
-	border.copy(),
-	border.copy(),
-	border.copy(),
-]
-
-const playerCollision = (objects, player, depth) => {
-	if (depth === undefined) depth = 0
-
-	let intersection = { factor: 1, dir: [] }
-
-	objects.forEach((object) => {
-		if (object instanceof Circle) return
-		const current = player.intersectionPolygon(object)
-		if (current.factor < intersection.factor) {
-			intersection = current
-		} else if (current.factor === intersection.factor) {
-			intersection.dir.push(...current.dir)
-		}
-	})
-
-	if (depth && intersection.factor === 0) {
-		console.warn('player is stuck')
-		return
-	}
-	
-	player.position.add(Vector.scalarMul(player.direction, intersection.factor))
-	if (intersection.factor === 1) return
-	player.direction = Vector.scalarMul(player.direction, 1 - intersection.factor)
-	const directionLength = player.direction.length
-	const dirDelta = new Vector()
-	intersection.dir.forEach((dir) => {
-		const factors = Vector.factorsToEdge(player.direction, dir, new Vector(), dir.orthogonal(), new Vector())
-		dirDelta.add( Vector.scalarMul(dir, factors[0] * 2) )
-	})
-	player.direction.add(dirDelta)
-	player.direction.length = directionLength
-
-	playerCollision(objects, player, ++depth)
-}
-
-const paddleCollision = (objects) => {
-	
-	objects.forEach((object, i) => {
-		if (object instanceof Circle) return
-
-		let intersection = { factor: 1, dir: [] }
-		objects.forEach((other) => {
-			if (object === other) return
-			let current
-			if (other instanceof Circle)
-				current = object.intersectionCircle(other)
-			else if (other instanceof Polygon)
-				current = object.intersectionPolygon(other)
-
-			if (current.factor < intersection.factor) {
-				intersection = current
-			} else if (current.factor === intersection.factor) {
-				intersection.dir.push(...current.dir)
-			}
-		})
-
-		object.position = Vector.add(object.position, Vector.scalarMul(object.direction, intersection.factor))
-	})
-}
+const objects = []
+const startTimerInitialValue = 1000
+let startTimer = startTimerInitialValue
+let gameStarted = false
+let game
+let tournament
+let endpoint
+const ai = []
 
 const onscored = () => {
-	objects[1].position = Vector.mul(objects[1].position, new Vector(1, 0))
-	objects[2].position = Vector.mul(objects[2].position, new Vector(1, 0))
-	
 	player.position = new Vector(0, 10)
 	player.direction = new Vector(0, 0)
 }
 
-const loophook = () => {
+const draw = () => {
 	Scene.clear()
-	Scene.drawLine(new Vector(0, -1), new Vector(0, 1), 'darkblue', 5, [10, 20], 5)
+	Scene.drawLine(new Vector(0, -1), new Vector(0, 1), 'darkblue', 0.015, [0.025, 0.05], -0.0125)
+	Scene.drawText(Scores.leftScore(), new Vector(-0.5, -0.5), 0.2, 'Monospace', new Style('darkblue'))
+	Scene.drawText(Scores.rightScore(), new Vector(0.5, -0.5), 0.2, 'Monospace', new Style('darkblue'))
+	for (let i = 0; i < 3; ++i) {
+		Scene.drawObject(objects[i])
+	}
+	fps.draw()
+}
 
+const loophook = () => {
+	draw()
+	fps.update()
+	
 	if (player.direction.length === 0) {
 		startTimer -= Scene.deltaTime
 		if (startTimer <= 0) {
 			initPlayer(player)
+			ai.forEach(e => e.reset())
 		}
 	} else {
 		startTimer = startTimerInitialValue
 	}
-
-	if (player.position.x < -4 / 3) Scores.rightScored(onscored)
-	if (player.position.x > 4 / 3) Scores.leftScored(onscored)
+	
+	if (player.position.x < -4 / 3) Scores.rightScored()
+	if (player.position.x > 4 / 3) Scores.leftScored()
 	if (gameStarted && Scores.winner()) {
 		gameStarted = false
 		endOfGame()
 	}
 
-	Scene.drawText(Scores.leftScore(), new Vector(-0.5, -0.5), '64px Monospace', new Style('darkblue'))
-	Scene.drawText(Scores.rightScore(), new Vector(0.5, -0.5), '64px Monospace', new Style('darkblue'))
-
-	fps.update()
-	fps.draw()
-
-	if (gameStarted) paddleInput(Scene.keys, Scene.deltaTime)
-
-	for (let i = 0; i < 3; ++i) {
-		Scene.drawObject(objects[i])
+	if (gameStarted) {
+		ai.forEach(e => e.update())
 	}
 
+	paddleInput(Scene.keys, Scene.deltaTime)
+	
 	player.direction.length = Scene.deltaTime * playerSpeed
 	paddleCollision(objects)
 	playerCollision(objects, objects[0])
 }
 
-const pausehook = () => {
-	Scene.drawText('Paused', new Vector(0, 0.6), '64px Monospace')
-}
+const pausehook = () => showGamePaused.value = true
+
+const continuehook = () => showGamePaused.value = false
 
 const keyhook = (key) => {
+	if (showGameLoading.value || showGameError.value) return
 	if (key === ' ') {
+		if (showGameOver.value && game) {
+			if (tournament) {
+				router.push({ path: '/tournaments/' + tournament.id })
+			} else {
+				router.push({ path: '/game/onsite' })
+			}
+		}
+		showGameOver.value = false
+		
 		if (!gameStarted) {
 			gameStarted = true
 			if (Scores.winner()) Scores.reset()
@@ -162,19 +142,62 @@ const keyhook = (key) => {
 			player.direction = new Vector()
 			player.position = new Vector(0, 10)
 		} else {
-			Scene.stop = !Scene.stop
+			Scene.pause = !Scene.pause
 		}
+		if (!Scene.pause) showHelp.value = false
 	}
 
 	if (key === 'f') {
 		fps.show = !fps.show
 	}
+
+	if (key === 'h') {
+		showHelp.value = !showHelp.value
+		if (gameStarted && showHelp.value && !Scene.pause) {
+			onscored()
+			draw()
+			Scene.pause = true
+		}
+	}
+
+	// TODO: remove
+	if (key === 'e') {
+		if (Scores.winner()) return
+		const leftScore = Math.floor(Math.random() * Scores.max)
+		for (let i = 0; i < leftScore; ++i) {
+			Scores.leftScored(onscored)
+		}
+		while (!Scores.winner()) {
+			Scores.rightScored(onscored)
+		}
+	}
+
+	// TODO: remove
+	if (key === 'q') {
+		if (Scores.winner()) return
+		const rightScore = Math.floor(Math.random() * Scores.max)
+		for (let i = 0; i < rightScore; ++i) {
+			Scores.rightScored(onscored)
+		}
+		while (!Scores.winner()) {
+			Scores.leftScored(onscored)
+		}
+	}
 }
 
 const paddleInput = (keys, deltaTime) => {
+	if (!gameStarted) return
 	const deltaPaddleSpeed = deltaTime * paddleSpeed
-	objects[2].direction.y = deltaPaddleSpeed * keys.has('arrowdown') - deltaPaddleSpeed * keys.has('arrowup')
-	objects[1].direction.y = deltaPaddleSpeed * keys.has('s') - deltaPaddleSpeed * keys.has('w')
+	if (ai[0]) {
+		objects[2].direction.y = deltaPaddleSpeed * ai[0].input()
+	} else {
+		objects[2].direction.y = deltaPaddleSpeed * keys.has('arrowdown') - deltaPaddleSpeed * keys.has('arrowup')
+	}
+	if (ai[1]) {
+		objects[1].direction.y = deltaPaddleSpeed * ai[1].input()
+	} else {
+		objects[1].direction.y = deltaPaddleSpeed * keys.has('s') - deltaPaddleSpeed * keys.has('w')
+	}
 }
 
 const initPlayer = (player) => {
@@ -188,46 +211,121 @@ const initPlayer = (player) => {
 	player.direction.rotate(rotationAngle)	
 }
 
-const initGame = () => {
+const isGlobalUserPartOfGame = (game) => {
+	if (game.player1.id === globalUser.value.id) return
+	if (game.player2.id === globalUser.value.id) return
+	throw new Error(i18n.t('ponggameview.wronguser'))
+}
+
+const fetchData = async (gameId) => {
+	if (!gameId) {
+		game = undefined
+		endpoint = undefined
+		playerName.value.left = undefined
+		playerName.value.right = undefined
+		showGameLoading.value = ''
+		return
+	}
+	try {
+		showGameLoading.value = 'ponggameview.loadingfetch'
+		await new Promise(t => setTimeout(t, 1000)) // TODO remove
+		game = await Backend.get('/api/games/' + route.params.id)
+		isGlobalUserPartOfGame(game)
+		endpoint = '/games/' + game.id
+		tournament = game.tournament
+		if (game.tournament) {
+			endpoint = '/tournaments/' + tournament.id + endpoint
+		}
+		endpoint = '/api' + endpoint
+		playerName.value.left = game.player1.nickname
+		playerName.value.right = game.player2.nickname
+		showGameLoading.value = ''
+	} catch (err) {
+		showGameError.value = err.message
+		console.error(err.message)
+	}
+}
+
+const initGame = async () => {
+	await fetchData(route.params.id)
 	initPlayer(player)
-	Scores.init()
+	if (game) {
+		Scores.init(game.player1_score, game.player2_score)
+	} else {
+		Scores.init()
+	}
+	Scores.onscored = onscored
+	showGameOver.value = Scores.winner() !== undefined
+	showHelp.value = true
+	showGamePaused.value = false
+	startTimer = startTimerInitialValue
+	gameStarted = false
 	fps.reset()
+	objects[0] = player
+	objects[1] = border.copy()
+	objects[2] = border.copy()
+	objects[3] = border.copy()
+	objects[4] = border.copy()
 	objects[1].position = new Vector(-10 / 3, 0)
 	objects[2].position = new Vector(10 / 3, 0)
 	objects[3].position = new Vector(0, -2)
 	objects[4].position = new Vector(0, 2)
 }
 
-const endOfGame = () => {
-	console.log('post scores to backend: [', Scores.leftScore(), ':', Scores.rightScore(), ']') // TODO
-	Scores.resetLocalStorage()
+const onmounted = async () => {
+	await initGame()
+	Ai.init(ai, objects, route, playerName)
+	Scene.init(canvas.value)
+	Scene.onupdate = loophook
+	Scene.onkeyup = keyhook
+	Scene.onpause = pausehook
+	Scene.oncontinue = continuehook
+	Scene.loop()
+}
+
+const sendData = async () => {
+	if (!endpoint) {
+		showGameLoading.value = ''
+		return
+	}
+	const scores = {
+		player1_score: Scores.leftScore(),
+		player2_score: Scores.rightScore()
+	}
+	try {
+		await new Promise(t => setTimeout(t, 1000)) // TODO remove
+		game = await Backend.patch(endpoint, scores)
+		showGameLoading.value = ''
+	} catch (err) {
+		showGameError.value = err.message
+		console.error(err.message)
+	}
+}
+
+const endOfGame = () => {	
 	objects[1] = border.copy()
 	objects[2] = border.copy()
 	objects[1].position = new Vector(-10 / 3, 0)
 	objects[2].position = new Vector(10 / 3, 0)
+
+	showGameLoading.value = 'ponggameview.loadingsend'
+	sendData()
+	showGameOver.value = true
 }
 
-onMounted(() => {
-	initGame()
-	Scene.init(canvas.value, 800, 600)
-	Scene.onupdate = loophook
-	Scene.onkeyup = keyhook
-	Scene.onstop = pausehook
-	Scene.loop()
+const onunmounted = Scene.unmount
+
+watch(route, () => {
+	onunmounted()
+	onmounted()
 })
 
-onUnmounted(() => {
-	Scene.unmount()
-})
+onMounted(onmounted)
+onUnmounted(onunmounted)
 </script>
 
 <style scoped>
 .game-canvas {
-		border: 1px solid black;
-		position: absolute;
-		top: 20%;
-		background: #111111;
-		width: 800px;
-		height: 600px;
+	max-width: 100vh;
 }
 </style>

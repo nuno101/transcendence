@@ -1,18 +1,15 @@
 <script setup>
-import { onMounted, ref, computed, defineProps } from 'vue';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-import router from '../../router';
+import { onMounted, ref, watch, defineProps, defineEmits, computed } from 'vue';
 import Backend from '../../js/Backend';
 import PlayerGameAuth from '../auth/PlayerGameAuth.vue';
+import { useI18n } from 'vue-i18n';
 
 const currentUser = ref(false);
 const isClicked = ref(0);
-const games = ref(null);
 const gamesInfo = ref([]);
-const completedGames = ref(false);
 const auth = ref(null);
 const indexes = ref(0);
-const showPlayerGameAuth = ref(false);
+const titleModal = ref(null);
 
 const props = defineProps({
   title: {
@@ -23,18 +20,31 @@ const props = defineProps({
   },
   tournament_Id: {
     default: null
+  },
+  games:{
+	  default: null
   }
 });
 
+const emits = defineEmits(['update:games']);
+
 const fetchData = async () => {
 	currentUser.value = await Backend.get('/api/users/me');
-	games.value = await Backend.get(`/api/tournaments/${props.tournament_Id}/games`);
-	console.log("props.title : ", props.title );	
-	if (props.title == "Select a game") { // use an integer 
-		gamesInfo.value = games.value.filter(game => game.status !== 'done' && game.status !== 'cancel');
-	}
-	else if (props.title == "Finished games") {
-		gamesInfo.value = games.value.filter(game => game.status === 'done' || game.status === 'cancel');
+	if (props.title === "Select a game") {
+        if (props.is_Creator) {
+            gamesInfo.value = props.games.filter(game =>
+                game.status !== 'done' && game.status !== 'cancelled');
+        } else {
+            gamesInfo.value = props.games.filter(game =>
+                game.status !== 'done' && game.status !== 'cancelled' &&
+                (game.player1.username === currentUser.value.username ||
+                game.player2.username === currentUser.value.username));
+        }
+		titleModal.value = "selectagame";
+    }
+	else if (props.title == "Completed games") {
+		gamesInfo.value = props.games.filter(game => game.status === 'done' || game.status === 'cancelled');
+		titleModal.value = "completedgames";
 	}
 };
 
@@ -51,16 +61,16 @@ document.body.addEventListener('click', (event) => {
 
 const cancelGame = async (game_id) => {
   try {
-    await Backend.get(`/api/tournaments/${props.tournament_Id}/games/game_id`);
+    await Backend.delete(`/api/tournaments/${props.tournament_Id}/games/${game_id}`);
+	emits('update:games', await Backend.get(`/api/tournaments/${props.tournament_Id}/games`));
   } catch (err) {
     console.error(err.message);
   }
 };
 
-const handleStartGameClick = () => {
-	auth.openModal();
-    showPlayerGameAuth.value = true;
-};
+watch(() => props.games, () => {
+  fetchData();
+});
 
 onMounted(() => {
 	fetchData();
@@ -69,13 +79,13 @@ onMounted(() => {
 </script>
 
 <template>
-	<h3 class="tournament-bracket__round-title">{{ title }}</h3> <!-- NOT IF ALL GAMES ARE DONE -->
-	<ul v-if="gamesInfo" class="tournament-bracket__list">
+	<h3 v-if="titleModal" class="tournament-bracket__round-title">{{ useI18n().t(`gameselection.${titleModal}`)}} ({{ gamesInfo.length }})</h3>
+	<ul v-if="gamesInfo && gamesInfo.length > 0" class="tournament-bracket__list">
 		<li v-for="(game, index) in gamesInfo" :key="index" class="tournament-bracket__item">
-			<div class="tournament-bracket__match" :class="{ 'user-not-player': (currentUser.nickname !== game.player1.nickname && currentUser.nickname !== game.player2.nickname) || (title === 'Finished games' ) }" tabindex="0" @click="handleGameClick(index)">						
+			<div class="tournament-bracket__match" :class="{ 'user-not-player': title === 'Completed games' }" tabindex="0" @click="handleGameClick(index)">						
 				<table class="tournament-bracket__table">
 					<tbody class="tournament-bracket__content">
-						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player1_score > game.player2_score }">
+						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': (game.player1_score > game.player2_score && game.status === 'done') }">
 							<td class="tournament-bracket__country">
 								<abbr class="tournament-bracket__code">{{ game.player1.nickname }}</abbr>
 							</td>
@@ -83,7 +93,7 @@ onMounted(() => {
 								<span class="tournament-bracket__number">{{ game.status === 'done' ? game.player1_score : '_' }}</span>
 							</td>
 						</tr>
-						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': game.player2_score > game.player1_score }">
+						<tr class="tournament-bracket__team" :class="{ 'tournament-bracket__team--winner': (game.player2_score > game.player1_score && game.status === 'done') }">
 							<td class="tournament-bracket__country">
 								<abbr class="tournament-bracket__code">{{ game.player2.nickname }}</abbr>
 							</td>
@@ -93,53 +103,43 @@ onMounted(() => {
 						</tr>
 					</tbody>
 					<div style="margin-top: 10px;"></div>
-					<h3 class="tournament-bracket__round-title">{{ game.status }}</h3>
+					<h3 class="tournament-bracket__round-status">{{ useI18n().t(`gameselection.${game.status}`)}} </h3>	
 				</table>
 			</div>
-
-			<div v-if="isClicked === (index + 1)"> <!-- Test equal to zero or null or NULL -->
-				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">Cancel Game</button>
-				<button class="btn btn-success" @click="handleStartGameClick()">Start Game</button>
+			<div v-if="isClicked === (index + 1)">
+				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">{{useI18n().t(`gameselection.cancelgame`)}}</button>
+				<button class="btn btn-success" @click="auth.openModal();">{{useI18n().t(`gameselection.startgame`)}}</button>
 			</div>
 		</li>
 	</ul>
-	<PlayerGameAuth
-	  v-if="showPlayerGameAuth && gamesInfo.length > 0"
+	<p v-else-if="title === 'Completed games' ">{{useI18n().t(`gameselection.nogames`)}}</p>
+	<p class="alert alert-success" v-else>{{useI18n().t('singletournamentsview.youplayedallyourgames')}}</p>
+	<PlayerGameAuth 
+	  class="PlayerGameAuth"
+	  v-if="gamesInfo.length > 0"
 	  ref="auth"
 	  :game_id="gamesInfo[indexes].id"
-	  :player1="gamesInfo[indexes].player1.username"
-	  :player2="gamesInfo[indexes].player2.username"
+	  :player1="gamesInfo[indexes].player1"
+	  :player2="gamesInfo[indexes].player2"
 	/>
 </template>
 
 <style>
+
 /*!
  * Responsive Tournament Bracket
  * Copyright 2016 Jakub Hájek
  * Licensed under MIT (https://opensource.org/licenses/MIT)
  */
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
-}
-
-.tournament-bracket {
-  display: flex;
-  flex-direction: row;
-  
-  @media (min-width: @breakpoint-sm) {
-    flex-direction: row;
-  }
-}
-
 .tournament-bracket__round-title {
+  color: #9e9e9e;
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.tournament-bracket__round-status {
   color: #9e9e9e;
   font-size: 0.95rem;
   font-weight: 400;
@@ -153,8 +153,8 @@ onMounted(() => {
   justify-content: center;
   height: 60%;
   min-height: 60%;
-  border-bottom: 1px dashed #e5e5e5;
   transition: padding 0.2s ease-in-out, margin 0.2s ease-in-out;
+  padding-left: 0;
   
   @media (max-width: @breakpoint-xs) {
     padding-bottom: 1em;
@@ -181,23 +181,15 @@ onMounted(() => {
   align-items: flex-start;
   position: relative;
   padding: 2% 0;
-  width: 48%;
   transition: padding 0.2s linear;
-  
-  &:nth-child(odd) {
-    margin-right: 2%;
-  }
-  
-  &:nth-child(even) {
-    margin-left: 2%;
-  }
+  width: 50%;
   
   &::after {
     transition: width 0.2s linear;
   }
   
   @media (max-width: @breakpoint-xs) {
-    width: 100%;
+    width: 50%;
     
     &:nth-child(odd),
     &:nth-child(even) {
@@ -272,9 +264,12 @@ onMounted(() => {
   }
 }
 
+.custom-width-class {
+	width : 2000%
+}
+
 .tournament-bracket__match {
   display: flex;
-  width: 200%;
   background-color: #ffffff;
   padding: 1.5em;
   padding-bottom: 0.5em;
@@ -284,6 +279,7 @@ onMounted(() => {
   outline: none; 
   cursor: pointer;
   transition: padding 0.2s ease-in-out, border 0.2s linear, background-color 0.2s ease-in-out;
+  width: 200%;
 
   &:focus {
 	background-color: #b8c4cf;
@@ -298,7 +294,7 @@ onMounted(() => {
   @media (max-width: @breakpoint-xs) {
     padding: 0.75em 0.5em;
   }
-  
+
   @media (min-width: @breakpoint-sm) {
     &::before,
     &::after {
@@ -519,11 +515,11 @@ onMounted(() => {
   
   .tournament-bracket__team:first-child & {
     flex-direction: row-reverse;
-    padding-left: 0.75em;
+    padding-left: 1em;
   }
   
   .tournament-bracket__team:last-child & {
-    padding-right: 0.75em;
+    padding-right: 1em;
   }
 }
 
@@ -540,5 +536,4 @@ onMounted(() => {
     border-color: spin(shade(#ffee58, 2%), -10);
   }
 }
-
 </style>

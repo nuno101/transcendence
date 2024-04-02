@@ -2,29 +2,24 @@
 import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import { computed, ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import ModalSettings from '../components/tournaments/ModalSettings.vue';
 import GameSelection from '../components/tournaments/GameSelection.vue';
+import WinnerRanking from '../components/tournaments/WinnerRanking.vue';
+import Loading from '../components/common/Loading.vue';
 
 const tournament = ref(null);
 const tournamentId = ref(null);
-const title = ref(null); // try to use tournament.X instead of creating a ref for all
-const description = ref(null);
-const status = ref(null);
-const created_at = ref(null);
-const updated_at = ref(null);
-const nickname = ref(null);
-const creator = ref(null);
-const players = ref([]);
 const isCreator = ref(false);
 const isJoined = ref(false);
 const currentUser = ref(false);
-const message = ref(null);
-const editingDescription = ref(false);
-const newDescription = ref('');
+const games = ref(null);
+const alerts = ref({ title: '', message: '' })
+const dataLoaded = ref(null);
 
 const route = useRoute();
+const router = useRouter();
 
 watch(route, (newRoute) => {
   bootstrap.Modal.getInstance("#successModal")?.hide()
@@ -34,187 +29,219 @@ const fetchData = async () => {
   try {
     tournament.value = await Backend.get(`/api/tournaments/${tournamentId.value}`);
 	currentUser.value = await Backend.get('/api/users/me');
-    nickname.value = currentUser.value.nickname;
+	games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
 	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
 	isJoined.value = localStorage.getItem(userTournamentKey) === 'true';
-	initValues(tournament.value);
-	return tournament.value;
+	if (tournament.value.creator.username === currentUser.value.username)
+		isCreator.value = true;
+	dataLoaded.value = true;
   } catch (err) {
     console.error(err.message);
   }
 };
 
-const initValues = (data) => {
-	title.value = data.title
-	description.value = data.description
-	status.value = data.status
-	created_at.value = data.created_at
-	updated_at.value = data.updated_at
-	creator.value = data.creator.nickname
-	players.value = data.players;
-	if (creator.value === nickname.value) {
-    	isCreator.value = true;
+const handleUpdateTesT = (newValue) => {
+    games.value = newValue;
+}
+
+const joinTournament = async (msg) => {
+	try {
+		const join = await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "join" });
+		tournament.value.players = join.players;
+		const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
+		isJoined.value = true;
+		localStorage.setItem(userTournamentKey, JSON.stringify(true));
+		await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
+		setModal("Success", msg);
+	} catch (error) {
+		console.error(error.message);
+		setModal("Error", error.message);
 	}
 };
 
-const joinTournament = async () => {
-    await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "join" });
-	console.log(players.value);
-	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
-	isJoined.value = true;
-	localStorage.setItem(userTournamentKey, JSON.stringify(true)); // Check this syntax
-	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
-	message.value = "You've successfully joined the tournament!"; // msg from vue-i18n
-};
-
-const unjoinTournament = async () => {
-    await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "unjoin" });
-	console.log(players.value);
-	const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
-	isJoined.value = false;
-	localStorage.setItem(userTournamentKey, JSON.stringify(false)); // Check this syntax
-	await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
-	message.value = "You've successfully unjoined the tournament! "; // msg from vue-i18n
-};
-
-const changeState = async () => {
+const unjoinTournament = async (msg) => {
 	try {
-		const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "next"});
-		console.log('Response : ', response);
-		status.value = response.value.status;
+		const unjoin = await Backend.post(`/api/tournaments/${tournamentId.value}/play`, { "play": "unjoin" });
+		tournament.value.players = unjoin.players;
+		const userTournamentKey = `isJoined_${currentUser.value.id}_${tournamentId.value}`;
+		isJoined.value = false;
+		localStorage.setItem(userTournamentKey, JSON.stringify(false));
+		await Backend.patch(`/api/users/me`, { "tournament_id": `${tournamentId.value}` });
+		setModal("Success", msg);
 	} catch (error) {
-        console.error('Error:', error);
-		message.value = error.message; // Should be translatable 
-		const modal = bootstrap.Modal.getInstance("#successModal");
-		modal.show();
+        console.error(error.message);
+		setModal("Error", error.message);
     }	
 };
 
-const cancelTournament = async () => {
-  try {
-    const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "cancel"});
-	message.value = "Tournament has been cancelled"; // msg from vue-i18n
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-const deleteTournament = async () => {
-  try {
-    await Backend.delete(`/api/tournaments/${tournamentId.value}`);
-	message.value = "Tournament has been deleted"; // msg from vue-i18n
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-const startEditing = () => {
-    editingDescription.value = true;
-};
-
-const updateDescription = async () => {
-    try {
-        await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "description": description.value });
-
-        console.log('Description updated successfully! : ', description.value);
-		editingDescription.value = false;
-    } catch (error) {
-        console.error('Error updating description:', error);
+const changeState = async (msg) => {
+	try {
+		const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "next"});
+		tournament.value.status = response.status;
+		setModal("Success", msg);
+	} catch (error) {
+        console.error(error.message);
+		setModal("Error", error.message);
     }
 };
+
+const cancelTournament = async (msg) => {
+  try {
+    const response = await Backend.patch(`/api/tournaments/${tournamentId.value}`, { "status": "cancel"});
+	tournament.value.status = response.status;
+	setModal("Success", msg);
+  } catch (err) {
+    console.error(err.message);
+	setModal("Error", err.message);
+  }
+};
+
+const deleteTournament = async (msg) => {
+  try {
+    await Backend.delete(`/api/tournaments/${tournamentId.value}`);
+	setModal("Success", msg);
+	router.go(-1);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const startTournament = async (msg) => {
+  try {
+    games.value = await Backend.get(`/api/tournaments/${tournamentId.value}/games`);
+	changeState(msg);
+	console.log("games.value: ", games.value);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const { t } = useI18n();
+
+const translatedStrings = computed(() => ({
+    registrationIsNowOpen: t('singletournamentsview.registrationisnowopen'),
+	tournamentIsNowDeleted: t('singletournamentsview.tournamentisnowdeleted'),
+	registrationIsNowClosed: t('singletournamentsview.registrationisnowclosed'),
+	theTournamentHasBeenCancelled: t('singletournamentsview.thetournamenthasbeencancelled'),
+	successfullUnjoinTournament: t('singletournamentsview.successfullunjointournament'),
+	successfullJoinTournament: t('singletournamentsview.successfulljointournament'),
+	unjoinTheTournament: t('singletournamentsview.unjointhetournament'),
+	joinTheTournament: t('singletournamentsview.jointhetournament'),
+	tournamentWillStartGetReady: t('singletournamentsview.tournamentwillstartgetready')
+    
+}));
+
+const setModal = async (title, msg) => {
+    alerts.value = {
+        title: title,
+        message: msg,
+    };
+};
+
 
 onMounted(() => {
 	const route = useRoute();
   	tournamentId.value = route.params.id;
 	fetchData();
+
 })
 </script>
 
-
 <template>
-<div class="container mt-5">
-        <h1 class="display-4 mb-4">{{ title }}</h1>
+<Loading v-if="!dataLoaded"/>
+<div v-else-if="dataLoaded" class="container mt-5">
+        <h1 class="display-4 mb-4">{{ tournament.title }}</h1>
         <div class="row">
             <div class="col-lg-8">
-                <p class="lead mb-4">Status: <span class="text-muted">{{ status }}</span></p>
+                <p class="lead mb-4">{{useI18n().t('tournamentsview.status')}}: <span class="text-muted" v-if="tournament.status">{{ useI18n().t(`singletournamentsview.${tournament.status}`)}}</span></p>
 				<div class="mb-3">
-					<label for="description" class="form-label">Description:</label>
+					<label for="description" class="form-label">{{useI18n().t('tournamentsview.description')}}:</label>
 					<div class="description-container">
-						<span v-if="!editingDescription && isCreator && (status === 'created' || status === 'registration_open')" @click="startEditing">{{ description }}</span>
-						<textarea class="form-control" id="description" v-model="description" v-if="editingDescription && isCreator && (status === 'created' || status === 'registration_open')" rows="5"></textarea>
-						<button v-if="editingDescription && isCreator && (status === 'created' || status === 'registration_open')" class="btn btn-primary mt-3" @click="updateDescription">Update</button>
-						<span v-if="!isCreator">{{ description }}</span>
+					{{ tournament.description }}
 					</div>
 				</div>
 
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        <p class="text-muted">Created at: {{ created_at ? created_at.slice(0, 10) : 'N/A' }}</p>
+                        <p class="text-muted">{{useI18n().t('tournamentsview.created_at')}}: {{ tournament.created_at ? tournament.created_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                     <div class="col-md-6">
-						<p class="text-muted">Last updated: {{ updated_at ? updated_at.slice(0, 10) : 'N/A' }}</p>
+						<p class="text-muted">{{useI18n().t('tournamentsview.last_update')}}: {{ tournament.updated_at ? tournament.updated_at.slice(0, 10) : 'N/A' }}</p>
                     </div>
                 </div>
 
-				<div v-if="status === 'created'">
-					<button type="button" class="btn btn-primary" @click=changeState() v-if="isCreator">Open registration</button>
-					<span>&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" @click=deleteTournament() v-if="isCreator" data-bs-toggle="modal" data-bs-target="#successModal">Delete tournament</button> <!-- is the modal opening? -->
+				<div v-if="tournament.status === 'created'">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="changeState(translatedStrings.registrationIsNowOpen)" >{{ t('singletournamentsview.openregistration') }}</button>
+					<span v-if="isCreator">&nbsp;&nbsp;</span>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="deleteTournament(translatedStrings.tournamentIsNowDeleted)">{{useI18n().t('singletournamentsview.deletetournament')}}</button>
 
-					<div class="alert alert-danger" v-else>Registration for this tournament is not yet open (contact <b>{{ creator }}</b> for more info)</div>
-				</div>
-				
-				<div v-if="status === 'registration_open'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click=changeState() >Close registration</button>
-					<span>&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click=cancelTournament() data-bs-toggle="modal" data-bs-target="#successModal" >Cancel tournament</button>
-        			<button type="button" class="btn btn-primary" v-else @click="isJoined ? unjoinTournament() : joinTournament()" data-bs-toggle="modal" data-bs-target="#successModal" >{{ isJoined ? 'Unjoin' : 'Join' }}</button>
-					<ModalSettings
-					  :message_child="message"
-					  type_child="Success"
-					/>				
+					<div class="alert alert-danger" v-else>{{useI18n().t('singletournamentsview.registrationforthistournamentisnotyetopen')}} <b>{{ tournament.creator.nickname }}</b> {{useI18n().t('singletournamentsview.formoreinfo')}}</div>
 				</div>
 
-				<div v-if="status === 'registration_closed'">
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click="changeState()">Start tournament</button>
-					<span>&nbsp;&nbsp;</span>
-					<button type="button" class="btn btn-primary" v-if="isCreator" @click="cancelTournament()" data-bs-toggle="modal" data-bs-target="#successModal">Cancel tournament</button>
-					<div class="alert alert-success" v-else>The tournament will start soon</div>
+				<div v-if="tournament.status === 'registration_open'">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="changeState(translatedStrings.registrationIsNowClosed)" >{{useI18n().t('singletournamentsview.closeregistration')}}</button>
+					<span v-if="isCreator">&nbsp;&nbsp;</span>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="cancelTournament(translatedStrings.theTournamentHasBeenCancelled)">{{useI18n().t('singletournamentsview.canceltournament')}}</button>
+        			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-else @click="isJoined ? unjoinTournament(translatedStrings.successfullUnjoinTournament) : joinTournament(translatedStrings.successfullJoinTournament)">{{ isJoined ? useI18n().t('singletournamentsview.unjointhetournament') : useI18n().t('singletournamentsview.jointhetournament') }}</button>		
 				</div>
 
-				<div v-if="status === 'ongoing'">
-					<div class="overlay">
-						<div class="message-box">
-							<p>Tournament Progress:</p>
-							<div class="tcontainer">
-								<div class="tournament-bracket__round">
-									<GameSelection title="Select a game" :is_Creator="isCreator" :tournament_Id="tournamentId"/>										
-									<GameSelection title="Finished games" :is_Creator="isCreator" :tournament_Id="tournamentId"/>	
-								</div>
-							</div>
+				<div v-if="tournament.status === 'registration_closed'">
+					<div v-if="isCreator">
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" @click="startTournament(translatedStrings.tournamentWillStartGetReady)">{{useI18n().t('singletournamentsview.starttournament')}}</button>
+						<span>&nbsp;&nbsp;</span>
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament(translatedStrings.theTournamentHasBeenCancelled)">{{useI18n().t('singletournamentsview.canceltournament')}}</button>
+					</div>
+					<div class="alert alert-success" v-else-if="isJoined">{{useI18n().t('singletournamentsview.tournamentwillstartgetready')}}</div>
+					<div class="alert alert-danger" v-else>{{useI18n().t('singletournamentsview.youarenotpartofthistournament')}}</div>
+				</div>
+
+				<div v-if="tournament.status === 'ongoing'">
+					<div v-if="isCreator || isJoined" class="tcontainer">
+						<div class="tournament-bracket__round">
+							<GameSelection title="Select a game" :is_Creator="isCreator" :tournament_Id="tournamentId" :games.sync="games" @update:games="handleUpdateTesT"></GameSelection>								
 						</div>
 					</div>
+					<div class="alert alert-danger" v-else>{{useI18n().t('singletournamentsview.youarenotpartofthistournament')}}</div>
+				</div>
+
+				<div v-if="tournament.status === 'done'">
+					<div class="tcontainer">
+						<div class="tournament-bracket__round">
+							<WinnerRanking :games="games"></WinnerRanking>
+						</div>
+					</div>
+            	</div>
+
+				<div v-if="tournament.status === 'cancelled'">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" v-if="isCreator" @click="deleteTournament(translatedStrings.tournamentIsNowDeleted)">{{useI18n().t('singletournamentsview.deletetournament')}}</button>
 				</div>
             </div>
 
+
+			<ModalSettings
+			  :title_child="alerts.title"
+			  :message_child="alerts.message"
+			/>
+
             <div class="col-lg-4">
-                <h3 class="mb-3">Created by</h3>
-				<b><p>{{ creator }}
-				<span v-if="isCreator">(You)</span></p></b>
-                <h3 class="mb-3 mt-4">Players</h3>
+                <h3 class="mb-3">{{useI18n().t('tournamentsview.creator')}}</h3>
+				<b><p>{{ tournament.creator.nickname }}
+				<span v-if="isCreator">{{useI18n().t('tournamentsview.(you)')}}</span></p></b>
+                <h3 class="mb-3 mt-4">{{useI18n().t('tournamentsview.players')}}</h3>
                 <table class="table">
                     <thead>
-                        <tr><th>Nickname</th></tr>
+                        <tr><th>{{useI18n().t('singletournamentsview.tournamentnickname')}}</th></tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(player, index) in players" :key="index">
+                        <tr v-for="(player, index) in tournament.players" :key="index">
 							<td>
-								<b v-if="player === nickname">{{ player }} (You)</b>
-        						<template v-else>{{ player }}</template>
+								<b v-if="player.username === currentUser.username">{{ player.nickname }} {{useI18n().t('tournamentsview.(you)')}}</b>
+        						<template v-else>{{ player.nickname }}</template>
 							</td>
                         </tr>
                     </tbody>
                 </table>
+				<GameSelection v-if="tournament.status === 'ongoing' || tournament.status === 'done'" title="Completed games" :is_Creator="isCreator" :tournament_Id="tournamentId" :games="games" @update:games="handleUpdateTesT"/>
             </div>
         </div>
     </div>
@@ -222,42 +249,6 @@ onMounted(() => {
 
 
 <style>
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.message-box {
-	height: 85%;
-    width: 60%; /* Set width to 80% of the screen */
-    max-width: 2000px; /* Set a maximum width to ensure it doesn't exceed a certain size */
-    margin: 0 auto; /* Center the message box horizontally */
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-	overflow: auto;
-	padding-top: 30px;
-}
-
-@media (max-width: 768px) {
-    .message-box {
-        max-width: 100%; /* Allow the message box to occupy the full width of the screen */
-        padding: 10px; /* Reduce padding on smaller screens */
-		width: 90%;
-		overflow: auto;
-		padding-top: 30px;
-    }
-}
 
 /*!
  * Responsive Tournament Bracket
@@ -268,7 +259,8 @@ onMounted(() => {
 .tcontainer {
   width: 90%;
   min-width: 18em;
-  margin: 20px auto;
+  padding-top:1em;
+  margin: 4px;
 }
 
 .tournament-bracket__round {

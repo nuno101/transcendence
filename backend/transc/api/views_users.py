@@ -2,6 +2,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.password_validation import validate_password
 from django.db.models import Q
 from .decorators import *
 from .models import User, Game
@@ -11,16 +12,19 @@ from .helpers_games import get_user_games_done
 # Endpoint: /users
 @method_decorator(check_structure("/users"), name='dispatch')
 class UserCollection(View):
-	@method_decorator(staff_required, name='dispatch')
 	def get(self, request):
 		users = User.objects.order_by("username")
 		return JsonResponse([u.serialize() for u in users], safe=False)
 
 	def post(self, request):
 		try:
-			user = User(username=request.json.get('username'),
-									nickname=request.json.get('username'))
-			user.set_password(request.json.get('password'))	
+			user = User(username=request.json.get('username'), nickname=request.json.get('username'))
+			password = request.json.get('password')
+			try:
+					validate_password(password, user)
+			except Exception as e:
+					return JsonResponse({ERROR_FIELD: "Invalid password (choose a better one)"}, status=400)
+			user.set_password(password)	
 			user.full_clean()
 			user.save()
 		except ValidationError as e:
