@@ -143,8 +143,8 @@ services:
     image: elk
     build:
       context: ./elk-docker
-      #args:
-      #  ARG ARCH: aarch64
+      args:
+        ARCH: ${ARCH}
     depends_on:
       - backend
     ports:
