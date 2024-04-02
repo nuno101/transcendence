@@ -8,6 +8,7 @@ import Websocket from './js/Websocket'
 import i18n from './plugins/i18n'
 import Chat from './js/Chat'
 import Friends from './js/Friends'
+import "../src/assets/main.css";
 
 export const globalUser = ref(undefined)
 

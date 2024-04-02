@@ -36,7 +36,6 @@
 import { useI18n } from 'vue-i18n';
 import Backend from "../../js/Backend"
 import Notifications from "../../js/Notifications"
-import notificationSound from '../../assets/audio/notification.mp3'
 import { ref } from 'vue'
 import { watch, onMounted } from "vue"
 
@@ -58,7 +57,6 @@ const fetchData = async () => {
 		console.log(storedNotifications.value);
 	} catch (err) {
 		console.error(err.message);
-		// ADD ALERT?
 	} finally {
 		isLoaded.value = true;
 	}
@@ -66,9 +64,6 @@ const fetchData = async () => {
 
 watch(() => Notifications.messages.value, () => {
 	dropdownShown.value++;
-	if (dropdownShown.value > 0) {
-	playNotificationSound();
-	}
 });
 
 function toggleDropdown() {
@@ -88,18 +83,8 @@ const dismissNotification = async(item, flag) => {
 		dropdownShown.value--;
 	} catch (err) {
 		console.error(err.message);
-		// ADD ALERT?
 	}
 }
-
-// SOUND ONLY WORKING IN CHROME ATM
-// COULD BE DIFFERENT WHEN CHANGING FROM HTTP TO HTTPS
-// BECAUSE OF "SPEAKER PERMISSIONS" ON USERS DEVICE
-function playNotificationSound() {
-	const audio = new Audio (notificationSound);
-	audio.play();
-}
-
 </script>
 
 <style scoped>
