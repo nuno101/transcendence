@@ -1,12 +1,12 @@
 <template>
 	<section>
-		<header class="p-3 text-bg-dark">
+		<header class="p-3">
 			<div class="container">
 				<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 					<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 						<div v-for="r in navRoutes" >
 							<li v-if="Array.isArray(r.name)" class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle px-2 text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{useI18n().t(r.button)}}</a>
+								<a class="nav-link dropdown-toggle px-2" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{useI18n().t(r.button)}}</a>
 								<ul class="dropdown-menu dropdown-menu-dark">
 									<li v-for="subr in r.name">
 										<router-link :to="{ name: subr.name }" :class="[ subr.name === route.name ? activeView : inactiveView, { 'dropdown-item': true }]">{{useI18n().t(subr.button)}}</router-link>
@@ -23,7 +23,7 @@
 						<button type="button" class="btn btn-secondary btn-empty disabled placeholder" data-bs-target="#signupModalToggle" data-bs-toggle="modal"></button>
 					</div>
 					<div v-else-if="globalUser">
-						<button type="button" class="btn btn-outline-info me-2 btn-empty">
+						<button type="button" class="btn me-2 btn-outline-light">
 							<router-link :to="`/users/${globalUser.id}`" class="nav-link">{{ globalUser.nickname }}</router-link>
 						</button>
 						<button @click="LogOut" type="button" class="btn btn-secondary">{{useI18n().t('login.logout')}}</button>
@@ -57,12 +57,10 @@ const signedup = ref(false)
 const inactiveView = {
 	'nav-link': true,
 	'px-2': true,
-	'text-white': true,
 }
 const activeView = {
 	'nav-link': true,
 	'px-2': true,
-	'text-secondary': true,
 }
 const route = useRoute()
 const router = useRouter()
@@ -95,5 +93,31 @@ const LogOut = async () => {
 <style scoped>
 	header button {
 		min-width: 5rem;
+	}
+
+	header {
+		background-color: var(--COLOR1);
+	}
+
+	button {
+		--bs-btn-hover-color: grey;
+		--bs-btn-hover-border-color: grey;
+	}
+
+	a {
+		color: white;
+	}
+
+	.nav {
+		--bs-nav-link-color: white;
+		--bs-nav-link-hover-color: white;
+	}
+
+	a:hover {
+		color: grey;
+	}
+
+	a.router-link-active, a.router-link-exact-active {
+		color: var(--COLOR3);
 	}
 </style>
