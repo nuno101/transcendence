@@ -156,3 +156,7 @@ services:
     environment:
       #ARCH: aarch64
       MAX_MAP_COUNT: 262144
+    networks:
+      - database-network
+      - redis-network
+      - proxy-network
