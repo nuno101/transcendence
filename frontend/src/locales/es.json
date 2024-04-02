@@ -149,7 +149,8 @@
 		"rank" : "Rango",
 		"user" : "Apodo",
 		"gameswon" : "Partidos ganados",
-		"totalpoints" : "Puntos totales"
+		"totalpoints" : "Puntos totales",
+		"nodata" : "sin datos"
 	},
     "onsite": {
         "authenticateSecondPlayer": "Autenticar segundo jugador",

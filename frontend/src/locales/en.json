@@ -147,7 +147,8 @@
 		"rank" : "Rank",
 		"user" : "User",
 		"gameswon" : "Games won",
-		"totalpoints" : "Total points"
+		"totalpoints" : "Total points",
+		"nodata" : "no data"
 },
 	"onsite": {
 		"authenticateSecondPlayer" : "Authenticate second player",

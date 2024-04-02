@@ -31,11 +31,15 @@ const emits = defineEmits(['update:games']);
 const fetchData = async () => {
 	currentUser.value = await Backend.get('/api/users/me');
 	if (props.title === "Select a game") {
-        gamesInfo.value = props.games.filter(game =>
-            game.status !== 'done' && game.status !== 'cancelled' &&
-            (game.player1.username === currentUser.value.username || 
-             game.player2.username === currentUser.value.username)
-        );
+        if (props.is_Creator) {
+            gamesInfo.value = props.games.filter(game =>
+                game.status !== 'done' && game.status !== 'cancelled');
+        } else {
+            gamesInfo.value = props.games.filter(game =>
+                game.status !== 'done' && game.status !== 'cancelled' &&
+                (game.player1.username === currentUser.value.username ||
+                game.player2.username === currentUser.value.username));
+        }
 		titleModal.value = "selectagame";
     }
 	else if (props.title == "Completed games") {
@@ -57,7 +61,7 @@ document.body.addEventListener('click', (event) => {
 
 const cancelGame = async (game_id) => {
   try {
-    await Backend.delete(`/api/tournaments/${props.tournament_Id}/games/${game_id}`); // can I access tournament ID through game?
+    await Backend.delete(`/api/tournaments/${props.tournament_Id}/games/${game_id}`);
 	emits('update:games', await Backend.get(`/api/tournaments/${props.tournament_Id}/games`));
   } catch (err) {
     console.error(err.message);

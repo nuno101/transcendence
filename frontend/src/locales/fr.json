@@ -147,7 +147,8 @@
 				"rank" : "Rang",
 				"user" : "Pseudo",
 				"gameswon" : "Matchs gagnés",
-				"totalpoints" : "Total des points"
+				"totalpoints" : "Total des points",
+				"nodata" : "aucune donnée"
 		},
     "onsite": {
         "authenticateSecondPlayer": "Authentifier le deuxième joueur",
