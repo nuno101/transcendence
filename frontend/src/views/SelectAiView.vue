@@ -1,14 +1,19 @@
 <template>
-	<div class="row">
-		<div class="col">
-			<AiSettings @change="inputChange(1)" v-model:input="input[0]">{{ i18n.t('aisettings.leftplayer') }}</AiSettings>
+	<div class="boxstyling">
+		<div class="box rounded">
+			<h1 class="fs-6 text-center text-uppercase fw-bold">Ai Settings</h1>
+			<div class="row row-cols-1 row-cols-md-2 gy-4">
+				<div class="col">
+					<AiSettings @change="inputChange(1)" v-model:input="input[0]">{{ i18n.t('aisettings.leftplayer') }}</AiSettings>
+				</div>
+				<div class="col">
+					<AiSettings @change="inputChange(0)" v-model:input="input[1]">{{ i18n.t('aisettings.rightplayer') }}</AiSettings>
+				</div>
+			</div>
+			<div class="text-center mt-4">
+				<button type="button" class="btn btn-outline-dark" @click="redirectToGame">{{ i18n.t('auth.startGame') }}</button>
+			</div>
 		</div>
-		<div class="col">
-			<AiSettings @change="inputChange(0)" v-model:input="input[1]">{{ i18n.t('aisettings.rightplayer') }}</AiSettings>
-		</div>
-	</div>
-	<div class="text-center">
-		<button type="button" class="btn btn-outline-dark" @click="redirectToGame">{{ i18n.t('auth.startGame') }}</button>
 	</div>
 </template>
 
