@@ -166,8 +166,8 @@ function getChannelMember() {
 
                 <!-- Container for selected channels -->
                 <div v-if="Chat.selected_channel.value" class="col-md-9">
-                    <div class="border rounded d-flex align-items-center mb-1 mt-2">
-                        <GetAvatar :id="getChannelMember().id" :size=40 class="avatar m-1" />
+                    <div class="border rounded d-flex align-items-center mb-1">
+                        <GetAvatar :id="getChannelMember().id" :size=40 class="m-1 mr-2" />
                         <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
                                 getChannelMember().username
                             }}</router-link>
@@ -201,10 +201,6 @@ function getChannelMember() {
 </template>
 
 <style>
-.avatar {
-    margin-right: 10px;
-}
-
 .channel-container {
     height: 70vh;
     overflow: auto;
