@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 
 networks:
   database-network:
@@ -137,3 +137,26 @@ services:
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
     restart: unless-stopped
+
+  elk:
+    container_name: elk
+    image: elk
+    build:
+      context: ./elk-docker
+      args:
+        ARCH: ${ARCH}
+    depends_on:
+      - backend
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+      # Elasticsearch's transport interface
+      - "9300:9300"
+    environment:
+      #ARCH: aarch64
+      MAX_MAP_COUNT: 262144
+    networks:
+      - database-network
+      - redis-network
+      - proxy-network
