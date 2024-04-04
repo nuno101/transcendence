@@ -79,16 +79,17 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="cont">
-		<div class="box">
-			<UserSearch :pendingRequests="Friends.pendingRequests.value"/>
+	<div class="boxstyling">
+		<div class="box rounded">
+  			<h6 class="text-center fw-bold text-uppercase">{{useI18n().t('friendsview.friends')}}</h6>
+			<UserSearch class="mt-3" :pendingRequests="Friends.pendingRequests.value"/>
 			<Loading v-if="!isLoaded"/>
-			<div v-if="isLoaded" class="con mt-5">
+			<div v-if="isLoaded" class="con mt-4">
 					<div class="row">
 						<div class="col-7">
 							<div class="bigtable gamestable rounded img-thumbnail d-md-block">
 							<table class="table m-0">
-								<thead class="table-dark">
+								<thead>
 									<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friends')}}</th></tr>
 								</thead>
 								<tbody v-if="Friends.friends.value && Friends.friends.value.length > 0">
@@ -107,7 +108,7 @@ onMounted(() => {
 						<div class="col-5">
 								<div class="smalltable gamestable rounded img-thumbnail d-md-block">
 										<table class="table table-hover m-0">
-											<thead class="table-dark">
+											<thead>
 												<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friendrequests')}}</th></tr>
 											</thead>
 										<tbody v-if="Friends.friendRequests.value.length > 0">
@@ -124,9 +125,9 @@ onMounted(() => {
 										<tbody v-else class="text-center">{{useI18n().t('friendsview.noFriendRequests')}}</tbody>
 									</table>
 								</div>
-								<div class="mt-2 mt-lg-4 smalltable gamestable rounded img-thumbnail d-md-block">
+								<div class="mt-2 smalltable gamestable rounded img-thumbnail d-md-block">
 										<table class="table table-hover m-0">
-											<thead class="table-dark">
+											<thead>
 												<tr><th colspan="3" class="text-center">{{useI18n().t('friendsview.pendingrequests')}}</th></tr>
 											</thead>
 										<tbody v-if="Friends.pendingRequests.value.length > 0">
@@ -162,24 +163,6 @@ onMounted(() => {
 
 <style scoped>
 
-.cont {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 50px;
-  height: 100vh;
-  width: 100%;
-}
-
-.box {
-  box-sizing: border-box;
-  margin: 0;
-  width: 80%;
-  padding: 10px 20px;
-  padding-bottom: 20px;
-  background-color: white;
-}
-
 th {
   position: sticky;
   top: 0;
@@ -192,26 +175,10 @@ th {
 }
 
 .bigtable {
-  height: 378px;
+	height: max(calc(100vh - var(--header-height) - 88px - 150px), 224px);
 }
 
 .smalltable {
-  height: 177px;
-}
-
-@media (max-width: 991.98px) {
-  .bigtable {
-    height: 258px;
-  }
-  .smalltable {
-    height: 125px;
-  }
-}
-
-/* small --> sm */
-@media (max-width: 768px) {
-  th {
-    font-size: smaller;
-  }
+  height: max(calc((100vh - var(--header-height) - 88px - 158px) / 2), 108px);
 }
 </style>
