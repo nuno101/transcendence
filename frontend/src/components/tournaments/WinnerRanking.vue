@@ -75,16 +75,14 @@ const getPlayer = (playerId) => {
 	return playersTournament.value.find(player => player.id === id);
 };
 
-onMounted(() => {
-	fetchData();
-})
+onMounted(fetchData)
 
 </script>
 
 <template>
 	<Podium v-if="podium" :podium="podium"></Podium>
 	<div>
-	  <table class="table table-striped table-hover text-center-custom">
+	  <table class="table table-striped table-hover text-center">
 		<thead>
 		  <tr>
 			<th scope="col">{{useI18n().t('winnerranking.rank')}}</th>
@@ -118,14 +116,6 @@ onMounted(() => {
 	  </table>
 	</div>
   </template>
-  
 
-<style>
-
-.text-center-custom {
-  text-align: center;
-}
-
-</style>
 
 

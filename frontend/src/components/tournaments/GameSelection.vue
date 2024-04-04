@@ -72,9 +72,7 @@ watch(() => props.games, () => {
   fetchData();
 });
 
-onMounted(() => {
-	fetchData();
-})
+onMounted(fetchData)
 
 </script>
 

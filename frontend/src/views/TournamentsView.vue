@@ -66,9 +66,7 @@ const resetInputFields = () => {
    input.value.description = '';
 };
 
-onMounted(() => {
-  fetchData();
-})
+onMounted(fetchData)
 
 </script>
 
