@@ -32,7 +32,7 @@ const bgColor = computed(() => {
 });
 
 const tablePosition = computed(() => {
-  return props.flag === 'GAMES' ? 'd-md-none' : 'd-none d-md-block';
+  return props.flag === 'GAMES' ? 'd-lg-none' : 'd-none d-lg-block';
 });
 
 const avatarBootstrap = computed(() => {
@@ -62,7 +62,7 @@ watch(filteredGames, () => {
 </script>
 
 <template>
-    <div class="gamestable col-md-5 rounded img-thumbnail" :class="tablePosition">
+    <div class="gamestable col-lg-5 rounded img-thumbnail" :class="tablePosition">
     <table class="table">
         <tbody v-if="filteredGames.length > 0">
         <tr  v-for="game in filteredGames" :key="game">
