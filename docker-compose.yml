@@ -109,11 +109,13 @@ services:
     image: frontend
     build:
       context: ./frontend
+      dockerfile: "Dockerfile.${FRONTEND_ENV:-dev}"
     depends_on:
       - backend
     volumes:
       - ./frontend/src/:/app/src/:ro
       - ./frontend/public/:/app/public/:ro
+      - ./frontend/index.html:/app/index.html:ro
     networks:
       - proxy-network
     restart: unless-stopped
@@ -131,7 +133,6 @@ services:
     networks:
       - proxy-network
     volumes:
-      - ./proxy/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
     restart: unless-stopped
