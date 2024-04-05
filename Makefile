@@ -2,6 +2,8 @@
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
+export ARCH	:= $(shell uname -m)
+
 all: build ssl_create up migrate
 
 build:

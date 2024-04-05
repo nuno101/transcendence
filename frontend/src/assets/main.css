@@ -1,35 +1,41 @@
-@import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+:root {
+    --COLOR1: #070320ff;
+    --COLOR2: #071de4ff;
+    --COLOR3: #26ffe6ff;
+    --COLOR4: #caa7f5ff;
+    --header-height: 72px;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
+.boxstyling {
     display: flex;
-    place-items: center;
-  }
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    height: 100%;
+    width: 100%;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.box {
+    width: 100%;
+    padding: 30px;
+    max-height: calc(100vh - var(--header-height) - 88px);
+    background-color: white;
+    overflow: auto;
+}
+
+thead {
+    --bs-table-bg: var(--COLOR1);
+    --bs-table-color: white;
+}
+
+@media (max-width: 991px) {
+    :root {
+        --header-height: 110px;
+    }
+}
+
+@media (max-width: 767px) {
+    :root {
+        --header-height: 158px;
+    }
 }
