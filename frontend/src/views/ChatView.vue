@@ -95,6 +95,17 @@ async function deleteMessage(message) {
     }
 }
 
+async function inviteUser() {
+    let channel_id = Chat.selected_channel.value.id
+    try {
+        let data = await Backend.post(`/api/channels/${channel_id}/messages`, {
+            content: TODO
+        })
+    } catch (err) {
+        messageError.value = err.message
+    }
+}
+
 async function blockUser() {
     let dm_user = getChannelMember()
 
@@ -173,7 +184,7 @@ function getChannelMember() {
                             }}</router-link>
                         <div class="input-group m-1 justify-content-end">
                             <button v-if="!dmUserBlocked" class="btn btn-primary"
-                                @click="">{{ useI18n().t('chatview.invite') }}</button>
+                                @click="inviteUser">{{ useI18n().t('chatview.invite') }}</button>
                             <button v-if="!dmUserBlocked" class="btn btn-danger"
                                 @click="blockUser">{{ useI18n().t('chatview.blockUser') }}</button>
                             <button v-else class="btn btn-success"
