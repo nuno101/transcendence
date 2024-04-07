@@ -3,7 +3,11 @@
 FROM alpine:3.17 as build
 RUN apk add --no-cache nodejs npm
 WORKDIR /app
-COPY app/ ./
+COPY public/ ./public/
+COPY src/ ./src/
+COPY index.html ./
+COPY package*.json ./
+COPY vite.config.js ./
 RUN npm install
 RUN npm run build
 
