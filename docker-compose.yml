@@ -11,6 +11,9 @@ networks:
   proxy-network:
     name: proxy-network
 
+  elk-network:
+    name: elk-network
+
 volumes:
   database_device:
     driver: local
@@ -132,6 +135,7 @@ services:
       - frontend
     ports:
       - "443:443"
+      - "5601:5601"
     networks:
       - proxy-network
     volumes:
@@ -148,16 +152,24 @@ services:
         ARCH: ${ARCH}
     depends_on:
       - backend
-    ports:
-      - "5601:5601"
-      - "9200:9200"
-      - "5044:5044"
-      # Elasticsearch's transport interface
-      - "9300:9300"
     environment:
       #ARCH: aarch64
       MAX_MAP_COUNT: 262144
     networks:
-      - database-network
-      - redis-network
+      - elk-network
       - proxy-network
+
+  filebeat:
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:8.11.1
+    command: filebeat -e -strict.perms=false
+    volumes:
+     - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+     - ./filebeat/logstash-beats.crt:/etc/pki/tls/certs/logstash-beats.crt:ro
+     - "${DOCKER_ROOTDIR}/containers:/var/lib/docker/containers:ro"
+     - "${DOCKER_SOCK}:/var/run/docker.sock:ro"
+    user: root
+    depends_on:
+      - elk
+    networks:
+      - elk-network
