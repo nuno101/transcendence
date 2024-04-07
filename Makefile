@@ -2,7 +2,11 @@
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
-export ARCH	:= $(shell uname -m)
+ifeq ($(shell uname -m),arm64)
+	export ARCH	:= aarch64
+else
+	export ARCH	:= $(shell uname -m)
+endif
 
 all: build ssl_create up migrate
 
