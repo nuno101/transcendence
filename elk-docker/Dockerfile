@@ -38,9 +38,11 @@ ARG ELK_VERSION=8.11.1
 # base version (i.e. remove OSS prefix) for Elasticsearch and Kibana (no OSS version since 7.11.0)
 ARG ELK_BASE_VERSION=8.11.1
 
-# replace with aarch64 for ARM64 systems
+# use with aarch64 for ARM64 systems
+# set in docker-compose.yml
 #ARG ARCH=x86_64
-ARG ARCH=aarch64
+#ARG ARCH=aarch64
+ARG ARCH
 
 
 ### install Elasticsearch
