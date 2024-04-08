@@ -89,7 +89,7 @@ async function sendMessage() {
 
 async function deleteMessage(message) {
     try {
-        let data = await Backend.delete(`/api/messages/${message.id}`)
+        await Backend.delete(`/api/messages/${message.id}`)
     } catch (err) {
         messageError.value = err.message
     }
@@ -98,8 +98,8 @@ async function deleteMessage(message) {
 async function inviteUser() {
     let channel_id = Chat.selected_channel.value.id
     try {
-        let data = await Backend.post(`/api/channels/${channel_id}/messages`, {
-            content: TODO
+        await Backend.post(`/api/channels/${channel_id}/messages`, {
+            content: "TODO: I invite you to play a game with me"
         })
     } catch (err) {
         messageError.value = err.message
@@ -164,7 +164,7 @@ function getChannelMember() {
                             <button class="btn btn-primary"
                                 @click="createChannel">{{ useI18n().t('chatview.create') }}</button>
                         </div>
-                        <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1"
+                        <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1 mt-1"
                             role="alert">
                             {{ useI18n().te(`err.${channelError}`) ? useI18n().t(`err.${channelError}`) : channelError }}
                         </div>

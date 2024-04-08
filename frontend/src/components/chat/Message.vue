@@ -24,8 +24,11 @@ defineProps({
           <i class="bi bi-trash"></i>
         </button>
       </div>
-      <div class="card-body message-body">
+      <div v-if='message.content !== "TODO: I invite you to play a game with me"' class="card-body message-body">
         {{ message.content }}
+      </div>
+      <div v-else class="card-body message-body">
+        <button class="btn btn-primary">Join game invite</button>
       </div>
     </div>
   </div>
