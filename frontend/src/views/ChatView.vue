@@ -99,7 +99,7 @@ async function inviteUser() {
     let channel_id = Chat.selected_channel.value.id
     try {
         await Backend.post(`/api/channels/${channel_id}/messages`, {
-            content: "TODO: I invite you to play a game with me"
+            content: "game-invite"
         })
     } catch (err) {
         messageError.value = err.message
