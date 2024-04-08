@@ -281,6 +281,7 @@
 		"blockUser": "Block",
 		"unblockUser": "Unblock",
 		"create": "Create",
-		"nickname": "Nickname"
+		"nickname": "Nickname",
+    "invite": "Invite"
 	}
 }

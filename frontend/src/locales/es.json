@@ -279,10 +279,11 @@
         "Successfully logged out": "Cierre de sesión exitoso"
     },
     "chatview": {
-        "sendMessage": "Enviar un mensaje",
-        "blockUser": "Bloquear",
-        "unblockUser": "Desatascar",
-        "create": "Crear",
-        "nickname": "Apodo"
+      "sendMessage": "Enviar un mensaje",
+      "blockUser": "Bloquear",
+      "unblockUser": "Desatascar",
+      "create": "Crear",
+      "nickname": "Apodo",
+      "invite": "TODO"
     }
 }
