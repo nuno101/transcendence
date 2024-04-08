@@ -216,7 +216,8 @@
 		"noNotifications": "Keine Benachrichtigungen",
 		"newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",
 		"newFriendRequest": "Gehe zu Freunden, um neue Freundesanfragen zu sehen",
-		"newFriends": "Gehe zu Freunden, um neue Freunde zu sehen"
+		"newFriends": "Gehe zu Freunden, um neue Freunde zu sehen",
+		"tournamentStarting": "Ein Tunier startet. Geh zur Tunierseite"
 	},
 	"notfound": {
 		"pageNotFound": "Seite nicht gefunden",

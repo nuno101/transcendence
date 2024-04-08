@@ -1,4 +1,6 @@
 from .models import Tournament, Game
+from . import bridge_websocket as websocket
+from .constants_websocket_events import *
 
 # create game among each registered players in the tournament
 def create_games(tournament):
@@ -25,5 +27,4 @@ logger = logging.getLogger(__name__)
 # send message to all registered players
 def notify_players(tournament):
     for player in tournament.players.all():
-        logger.info(f"TODO: send message to {player.username} about the tournament {tournament.title} starting soon...")
-    
+        websocket.send_user_event(player.id, TOURNAMENT_STARTING, { "id": tournament.id})
