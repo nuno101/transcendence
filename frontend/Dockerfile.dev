@@ -1,0 +1,7 @@
+FROM alpine:3.17
+RUN apk add nodejs npm --no-cache
+WORKDIR /app
+COPY package*.json ./
+COPY vite.config.js ./
+RUN npm install
+CMD ["npm", "run", "dev"]
