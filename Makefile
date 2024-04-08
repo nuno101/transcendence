@@ -66,8 +66,9 @@ fclean: docker_fclean data_clean
 
 re: clean all
 
-test:
-	@echo "$(HOME)"
+validate:
+	@echo "Searching for files with endings that should not be in the repo"
+	@find . -name "*.key" -print -quit && find . -name "*.crt" -print -quit
 
 help:
 	@echo "all: build up migrate"
