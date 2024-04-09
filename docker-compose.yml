@@ -150,6 +150,10 @@ services:
       context: ./elk-docker
       args:
         ARCH: ${ARCH}
+    deploy:
+      resources:
+        limits:
+          memory: 5g
     depends_on:
       - backend
     environment:
