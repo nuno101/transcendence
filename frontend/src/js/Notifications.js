@@ -6,6 +6,7 @@ const parser = {
     "create_message": newMessage,
     "create_friend_request" : newFriendRequest,
     "accept_friend_request" : newFriend,
+    "tournament_starting" : tournamentStarting,
 }
 
 // cCONF: Parser function to generate custom dynamic notification for 
@@ -29,6 +30,13 @@ async function newFriend(data) {
     return {
         type: data.event,
         content: "newFriends"
+    }
+}
+
+async function tournamentStarting(data) {
+    return {
+        type: data.event,
+        content: "tournamentStarting"
     }
 }
 // ----------------------------------------------------------------------------
