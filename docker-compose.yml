@@ -1,5 +1,8 @@
 version: "3.8"
 
+include:
+  - elastic-stack/docker-compose.yml
+
 networks:
   database-network:
     name: database-network
@@ -10,9 +13,6 @@ networks:
 
   proxy-network:
     name: proxy-network
-
-  elk-network:
-    name: elk-network
 
 volumes:
   database_device:
@@ -127,6 +127,8 @@ services:
 
   proxy:
     container_name: proxy
+    labels:
+      co.elastic.logs/module: nginx
     image: proxy
     build:
       context: ./proxy
@@ -135,45 +137,9 @@ services:
       - frontend
     ports:
       - "443:443"
-      - "5601:5601"
     networks:
       - proxy-network
     volumes:
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
     restart: unless-stopped
-
-  elk:
-    container_name: elk
-    image: elk
-    build:
-      context: ./elk-docker
-      args:
-        ARCH: ${ARCH}
-    deploy:
-      resources:
-        limits:
-          memory: 5g
-    depends_on:
-      - backend
-    environment:
-      #ARCH: aarch64
-      MAX_MAP_COUNT: 262144
-    networks:
-      - elk-network
-      - proxy-network
-
-  filebeat:
-    container_name: filebeat
-    image: docker.elastic.co/beats/filebeat:8.11.1
-    command: filebeat -e -strict.perms=false
-    volumes:
-     - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
-     - ./filebeat/logstash-beats.crt:/etc/pki/tls/certs/logstash-beats.crt:ro
-     - "${DOCKER_ROOTDIR}/containers:/var/lib/docker/containers:ro"
-     - "${DOCKER_SOCK}:/var/run/docker.sock:ro"
-    user: root
-    depends_on:
-      - elk
-    networks:
-      - elk-network
