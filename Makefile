@@ -1,4 +1,4 @@
-.PHONY: all build up init migrate superuser down blog documentation volume_clean docker_clean \
+.PHONY: all build up init migrate superuser ssl_create down blog documentation volume_clean docker_clean \
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
@@ -60,7 +60,7 @@ docker_fclean: docker_clean
 	docker compose -f ./docker-compose.yml down --volumes --rmi all
 
 data_clean: volume_clean
-	rm -rf $(HOME)/data/transcendence/volumes
+	rm -rf $(HOME)/data/transcendence
 	rm -rf  $(HOME)/docker-data/transcendence
 
 clean: docker_clean
@@ -81,6 +81,7 @@ help:
 	@echo "init: migrate superuser"
 	@echo "migrate: run the migrations"
 	@echo "superuser: create a superuser"
+	@echo "ssl_create": create ssl credentials if there are none already"
 	@echo "down: stop the docker containers"
 	@echo ""
 	@echo "blog: follow the backend logs"
