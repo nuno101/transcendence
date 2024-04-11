@@ -81,6 +81,12 @@ th {
   padding: 0;
   margin: auto;
   overflow-y: auto;
-  height: max(calc(100vh - var(--header-height) - 88px - 210px), 110px);
+  height: calc(100vh - (var(--header-height) + var(--footer-height) + 170px));
+}
+
+@media screen and (max-height: 540px) {
+  .gamestable {
+    height: max(calc(100vh - (var(--header-height) + var(--footer-height))), 160px);
+  }
 }
 </style>

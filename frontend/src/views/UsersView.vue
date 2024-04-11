@@ -77,6 +77,6 @@ th {
 	flex: 1;
 	padding: 0;
 	overflow-y: auto;
-	height: calc(100vh - var(--header-height) - 88px - 100px);
+	height: max(calc(100vh - var(--header-height) - 88px - 100px), 170px);
 }
 </style>

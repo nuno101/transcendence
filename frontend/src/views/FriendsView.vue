@@ -88,7 +88,7 @@ onMounted(() => {
 					<div class="row">
 						<div class="col-7">
 							<div class="bigtable gamestable rounded img-thumbnail d-md-block">
-							<table class="table m-0">
+							<table class="table m-0 table-hover">
 								<thead>
 									<tr><th colspan="4" class="text-center">{{useI18n().t('friendsview.friends')}}</th></tr>
 								</thead>
