@@ -49,9 +49,7 @@ documentation:
 	@echo "Working directory changed to $(PWD)"
 
 volume_clean:
-	docker volume rm database_device -f
-	docker volume rm redis_device -f
-	docker volume rm backend_device -f
+	docker compose down -v
 
 docker_clean: down volume_clean
 	docker system prune -f
