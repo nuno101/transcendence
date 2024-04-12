@@ -80,6 +80,8 @@ class TournamentGameSingle(View):
 			return JsonResponse({ERROR_FIELD: "You can't delete a game that is done"}, status=400)
 		game.status = Game.MatchStatus.CANCELLED
 		game.save()
+		#if all tournament games are done and/or cancelled then update the tournament.status to DONE
+		update_tournament_status(game.tournament)
 		return JsonResponse(game.serialize())
 
 # Endpoint: /games/GAME_ID
