@@ -221,7 +221,8 @@
 		"noNotifications": "Keine Benachrichtigungen",
 		"newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",
 		"newFriendRequest": "Gehe zu Freunden, um neue Freundesanfragen zu sehen",
-		"newFriends": "Gehe zu Freunden, um neue Freunde zu sehen"
+		"newFriends": "Gehe zu Freunden, um neue Freunde zu sehen",
+		"tournamentStarting": "Ein Tunier startet. Geh zur Tunierseite"
 	},
 	"notfound": {
 		"pageNotFound": "Seite nicht gefunden",
@@ -235,7 +236,7 @@
 		"Invalid JSON body syntax": "Ungültige JSON-Syntax im Body",
 		"Cannot add yourself": "Du kannst dich nicht selbst hinzufügen",
 		"You are blocked by this user": "Du wurdest von diesem Benutzer blockiert",
-		"You are blocked by users in the channel": "Du wurdest von Benutzern im Kanal blockiert",
+		"You are blocked by users in the channel": "Du wurdest von Benutzern im Channel blockiert",
 		"User is not a friend": "Benutzer ist kein Freund",
 		"Missing query parameter 'type'": "Fehlender Abfrageparameter 'Typ'",
 		"User is blocked": "Benutzer ist blockiert",
@@ -286,6 +287,7 @@
 		"blockUser": "Blockieren",
 		"unblockUser": "Entblocken",
 		"create": "Erstellen",
-		"nickname": "Spitzname"
+		"nickname": "Spitzname",
+    "invite": "Einladen"
 	}
 }

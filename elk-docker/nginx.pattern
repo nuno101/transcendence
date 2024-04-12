@@ -1,0 +1,3 @@
+NGUSERNAME [a-zA-Z\.\@\-\+_%]+
+NGUSER %{NGUSERNAME}
+NGINXACCESS %{IPORHOST:[proxy][clientip]} %{NGUSER:[proxy][ident]} %{NGUSER:[proxy][auth]} \[%{HTTPDATE:[proxy][timestamp]}\] "%{WORD:[proxy][verb]} %{URIPATHPARAM:[proxy][request]} HTTP/%{NUMBER:[proxy][httpversion]}" %{NUMBER:[proxy][response]:int} (?:%{NUMBER:[proxy][bytes]:int}|-) (?:"(?:%{URI:[proxy][referrer]}|-)"|%{QS:[proxy][referrer]}) %{QS:[proxy][agent]}

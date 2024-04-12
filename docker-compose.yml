@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 
 networks:
   database-network:
@@ -10,6 +10,9 @@ networks:
 
   proxy-network:
     name: proxy-network
+
+  elk-network:
+    name: elk-network
 
 volumes:
   database_device:
@@ -54,14 +57,7 @@ services:
       - database_device:/var/lib/postgresql/data
       - ./database/init-scripts/:/docker-entrypoint-initdb.d/
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"
-        ]
-      interval: 10s
-      timeout: 30s
-      retries: 30
+      test: ["CMD-SHELL", "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"]
     restart: always
 
   backend:
@@ -82,7 +78,6 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_URL: ${POSTGRES_URL}
       REDIS_HOST: ${REDIS_HOST}
-
       DEFAULT_AVATAR_NAME: ${DEFAULT_AVATAR_NAME}
 
     volumes:
@@ -111,11 +106,13 @@ services:
     image: frontend
     build:
       context: ./frontend
+      dockerfile: "Dockerfile.${FRONTEND_ENV:-dev}"
     depends_on:
       - backend
     volumes:
       - ./frontend/src/:/app/src/:ro
       - ./frontend/public/:/app/public/:ro
+      - ./frontend/index.html:/app/index.html:ro
     networks:
       - proxy-network
     restart: unless-stopped
@@ -130,10 +127,45 @@ services:
       - frontend
     ports:
       - "443:443"
+      - "5601:5601"
     networks:
       - proxy-network
     volumes:
-      - ./proxy/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
     restart: unless-stopped
+
+  elk:
+    container_name: elk
+    image: elk
+    build:
+      context: ./elk-docker
+      args:
+        ARCH: ${ARCH}
+    deploy:
+      resources:
+        limits:
+          memory: 5g
+    depends_on:
+      - backend
+    environment:
+      #ARCH: aarch64
+      MAX_MAP_COUNT: 262144
+    networks:
+      - elk-network
+      - proxy-network
+
+  filebeat:
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:8.11.1
+    command: filebeat -e -strict.perms=false
+    volumes:
+     - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+     - ./filebeat/logstash-beats.crt:/etc/pki/tls/certs/logstash-beats.crt:ro
+     - "${DOCKER_ROOTDIR}/containers:/var/lib/docker/containers:ro"
+     - "${DOCKER_SOCK}:/var/run/docker.sock:ro"
+    user: root
+    depends_on:
+      - elk
+    networks:
+      - elk-network

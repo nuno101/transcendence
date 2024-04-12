@@ -8,6 +8,7 @@ import Websocket from './js/Websocket'
 import i18n from './plugins/i18n'
 import Chat from './js/Chat'
 import Friends from './js/Friends'
+import Tournament from './js/Tournament'
 import "../src/assets/main.css";
 
 export const globalUser = ref(undefined)
@@ -18,6 +19,7 @@ const handlersEvent = {
     "delete_channel": Chat.deleteChannel,
     "create_message": Chat.createMessage,
     "delete_message": Chat.deleteMessage,
+    "tournament_starting": Tournament.starting,
     "create_friend_request" : Friends.createFriendRequest,
     "accept_friend_request" : Friends.acceptFriendRequest,
     "cancel_friend_request" : Friends.cancelFriendRequest,

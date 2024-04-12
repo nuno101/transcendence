@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-import Backend from './Backend';
 import Notifications from './Notifications';
 
 class Chat {

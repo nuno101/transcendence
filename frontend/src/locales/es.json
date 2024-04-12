@@ -223,7 +223,8 @@
         "noNotifications": "Sin notificaciones",
         "newMessage": "Ve al chat para ver nuevos mensajes",
         "newFriendRequest": "Ve a amigos para ver nuevas solicitudes de amistad",
-        "newFriends": "Ve a amigos para ver nuevos amigos"
+        "newFriends": "Ve a amigos para ver nuevos amigos",
+        "tournamentStarting": "Comienza un torneo. Echa un vistazo a la página del torneo"
     },
     "notfound": {
         "pageNotFound": "Página no encontrada",
@@ -284,10 +285,11 @@
         "Successfully logged out": "Cierre de sesión exitoso"
     },
     "chatview": {
-        "sendMessage": "Enviar un mensaje",
-        "blockUser": "Bloquear",
-        "unblockUser": "Desatascar",
-        "create": "Crear",
-        "nickname": "Apodo"
+      "sendMessage": "Enviar un mensaje",
+      "blockUser": "Bloquear",
+      "unblockUser": "Desatascar",
+      "create": "Crear",
+      "nickname": "Apodo",
+      "invite": "TODO"
     }
 }

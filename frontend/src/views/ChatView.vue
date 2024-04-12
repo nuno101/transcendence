@@ -89,7 +89,18 @@ async function sendMessage() {
 
 async function deleteMessage(message) {
     try {
-        let data = await Backend.delete(`/api/messages/${message.id}`)
+        await Backend.delete(`/api/messages/${message.id}`)
+    } catch (err) {
+        messageError.value = err.message
+    }
+}
+
+async function inviteUser() {
+    let channel_id = Chat.selected_channel.value.id
+    try {
+        await Backend.post(`/api/channels/${channel_id}/messages`, {
+            content: "game-invite"
+        })
     } catch (err) {
         messageError.value = err.message
     }
@@ -141,46 +152,59 @@ function getChannelMember() {
 </script>
 
 <template>
-    <div class="row mb-3">
-        <!-- Sidebar with channels -->
-        <div class="col-md-3 border border-primary">
-            <div class="mb-2 mt-2">
-                <div class="input-group">
-                    <input type="text" :placeholder="useI18n().t('chatview.nickname')" class="form-control" v-model="targetNickname"
-                        @keyup.enter="createChannel" />
-                    <button class="btn btn-primary" @click="createChannel">{{useI18n().t('chatview.create')}}</button>
+    <div class="boxstyling">
+        <div class="box rounded">
+            <div class="row">
+                <!-- Sidebar with channels -->
+                <div class="col">
+                    <div class="mb-2">
+                        <div class="input-group">
+                            <input type="text" :placeholder="useI18n().t('chatview.nickname')" class="form-control"
+                                v-model="targetNickname" @keyup.enter="createChannel" />
+                            <button class="btn btn-primary"
+                                @click="createChannel">{{ useI18n().t('chatview.create') }}</button>
+                        </div>
+                        <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1 mt-1"
+                            role="alert">
+                            {{ useI18n().te(`err.${channelError}`) ? useI18n().t(`err.${channelError}`) : channelError }}
+                        </div>
+                    </div>
+                    <ul class="channel-container list-group">
+                        <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
+                            :selected="channel === Chat.selected_channel.value" @selected="selectChannel(channel)" />
+                    </ul>
                 </div>
-                <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1"
-                    role="alert">
-                    {{ useI18n().te(`err.${channelError}`) ? useI18n().t(`err.${channelError}`) : channelError}}
-                </div>
-            </div>
-            <ul class="channel-container list-group">
-                <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
-                    :selected="channel === Chat.selected_channel.value" @selected="selectChannel(channel)" />
-            </ul>
-        </div>
 
-        <!-- Container for selected channels -->
-        <div v-if="Chat.selected_channel.value" class="col-md-9 border border-primary">
-            <div class="border rounded d-flex align-items-center justify-content-between mb-1 mt-2">
-                <GetAvatar :id="getChannelMember().id" :size=40 class="avatar m-1" />
-                <router-link class="message-author flex-grow-1" :to="'/users/' + getChannelMember().id">{{
-                        getChannelMember().username
-                    }}</router-link>
-                <button v-if="!dmUserBlocked" class="btn btn-danger m-1" @click="blockUser">{{useI18n().t('chatview.blockUser')}}</button>
-                <button v-else class="btn btn-success m-1" @click="unblockUser">{{useI18n().t('chatview.unblockUser')}}</button>
-            </div>
-            <div class="message-container">
-                <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
-                    @deleted="deleteMessage(message)" />
-            </div>
-            <div class="mt-2">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage" :placeholder="useI18n().t('chatview.sendMessage')" />
-                </div>
-                <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1" role="alert">
-                    {{ useI18n().te(`err.${messageError}`) ? useI18n().t(`err.${messageError}`) : messageError}}
+                <!-- Container for selected channels -->
+                <div v-if="Chat.selected_channel.value" class="col-md-9">
+                    <div class="border rounded d-flex align-items-center mb-1">
+                        <GetAvatar :id="getChannelMember().id" :size=40 class="m-1 mr-2" />
+                        <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
+                                getChannelMember().username
+                            }}</router-link>
+                        <div class="input-group m-1 justify-content-end">
+                            <button v-if="!dmUserBlocked" class="btn btn-primary"
+                                @click="inviteUser">{{ useI18n().t('chatview.invite') }}</button>
+                            <button v-if="!dmUserBlocked" class="btn btn-danger"
+                                @click="blockUser">{{ useI18n().t('chatview.blockUser') }}</button>
+                            <button v-else class="btn btn-success"
+                                @click="unblockUser">{{ useI18n().t('chatview.unblockUser') }}</button>
+                        </div>
+                    </div>
+                    <div class="message-container">
+                        <Message v-for="message in Chat.messages.value" :key="message.id" :message="message"
+                            @deleted="deleteMessage(message)" />
+                    </div>
+                    <div class="mt-2">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage"
+                                :placeholder="useI18n().t('chatview.sendMessage')" />
+                        </div>
+                        <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
+                            role="alert">
+                            {{ useI18n().te(`err.${messageError}`) ? useI18n().t(`err.${messageError}`) : messageError}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -188,10 +212,6 @@ function getChannelMember() {
 </template>
 
 <style>
-.avatar {
-    margin-right: 10px;
-}
-
 .channel-container {
     height: 70vh;
     overflow: auto;

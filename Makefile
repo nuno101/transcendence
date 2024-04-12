@@ -1,6 +1,15 @@
-.PHONY: all build up init migrate superuser down blog documentation volume_clean docker_clean \
+.PHONY: all build up init migrate superuser ssl_create down blog documentation volume_clean docker_clean \
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
+
+ifeq ($(shell uname -m),arm64)
+	export ARCH	:= aarch64
+else
+	export ARCH	:= $(shell uname -m)
+endif
+
+export DOCKER_ROOTDIR	:= $(lastword $(shell docker info 2>/dev/null | grep 'Docker Root Dir'))
+export DOCKER_SOCK		:= $(lastword $(subst ///, /,$(DOCKER_HOST)))
 
 all: build ssl_create up migrate
 
@@ -51,17 +60,21 @@ docker_fclean: docker_clean
 	docker compose -f ./docker-compose.yml down --volumes --rmi all
 
 data_clean: volume_clean
-	rm -rf $(HOME)/data/transcendence/volumes
+	rm -rf $(HOME)/data/transcendence
 	rm -rf  $(HOME)/docker-data/transcendence
+
+ssl_clean:
+	rm -rf .ssl
 
 clean: docker_clean
 
-fclean: docker_fclean data_clean
+fclean: docker_fclean data_clean ssl_clean
 
 re: clean all
 
-test:
-	@echo "$(HOME)"
+validate:
+	@echo "Searching for files with endings that should not be in the repo"
+	@find . -name "*.key" -print -quit && find . -name "*.crt" -print -quit
 
 help:
 	@echo "all: build up migrate"
@@ -71,6 +84,7 @@ help:
 	@echo "init: migrate superuser"
 	@echo "migrate: run the migrations"
 	@echo "superuser: create a superuser"
+	@echo "ssl_create: create ssl credentials if they do not exist already"
 	@echo "down: stop the docker containers"
 	@echo ""
 	@echo "blog: follow the backend logs"
@@ -80,6 +94,7 @@ help:
 	@echo "docker_clean: down & volume_clean & delete project docker containers"
 	@echo "docker_fclean: docker_clean & delete project docker images"
 	@echo "data_clean: volume_clean & delete project data folders on host"
+	@echo "ssl_clean: remove existing ssl files"
 	@echo ""
 	@echo "clean: remove all docker compose containers and volumes"	
 	@echo "fclean: remove all docker compose containers, volumes and images"

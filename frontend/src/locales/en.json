@@ -221,7 +221,8 @@
 		"noNotifications": "No notifications",
 		"newMessage": "Go to chat to see new messages",
 		"newFriendRequest": "Go to friends to see new friend request",
-		"newFriends": "Go to friends to see new friend"
+		"newFriends": "Go to friends to see new friend",
+		"tournamentStarting": "A tournament is starting. Go have a look at the tournament page"
 	},
 	"notfound": {
 		"pageNotFound": "page not found",
@@ -286,6 +287,7 @@
 		"blockUser": "Block",
 		"unblockUser": "Unblock",
 		"create": "Create",
-		"nickname": "Nickname"
+		"nickname": "Nickname",
+    "invite": "Invite"
 	}
 }
