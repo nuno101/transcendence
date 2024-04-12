@@ -84,7 +84,7 @@ help:
 	@echo "init: migrate superuser"
 	@echo "migrate: run the migrations"
 	@echo "superuser: create a superuser"
-	@echo "ssl_create": create ssl credentials if they do not exist already"
+	@echo "ssl_create: create ssl credentials if they do not exist already"
 	@echo "down: stop the docker containers"
 	@echo ""
 	@echo "blog: follow the backend logs"
