@@ -188,6 +188,9 @@ services:
      - "./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
      - "$DOCKER_ROOTDIR/containers:/var/lib/docker/containers:ro"
      - "$DOCKER_SOCK:/var/run/docker.sock:ro"
+     - nginx_logs:/mnt/nginx
+     - redis_logs:/mnt/redis
+     - postgres_logs:/mnt/postgres
    environment:
      - ELASTIC_USER=elastic
      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}

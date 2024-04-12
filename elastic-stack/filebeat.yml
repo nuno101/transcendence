@@ -4,10 +4,27 @@ filebeat.inputs:
   paths:
     - ingest_data/*.log
 
-filebeat.autodiscover:
-  providers:
-    - type: docker
-      hints.enabled: true
+filebeat.modules:
+- module: nginx
+  access:
+    enabled: true
+    var.paths: ["/mnt/nginx/access.log"]
+  error:
+    enabled: true
+    var.paths: ["/mnt/nginx/error.log"]
+
+- module: redis
+  log:
+    enabled: true
+    var.paths: ["/mnt/redis/redis.log"]
+  slowlog:
+    enabled: true
+    var.hosts: ["redis:6379"]
+
+- module: postgresql
+  log:
+    enabled: true
+    var.paths: ["/mnt/postgres/*.log"]
 
 processors:
 - add_docker_metadata: ~
