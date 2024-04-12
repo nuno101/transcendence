@@ -42,6 +42,8 @@ volumes:
 services:
   database:
     image: postgres:16.0-alpine3.18
+    labels:
+      co.elastic.logs/module: postgresql
     container_name: transc-db
     hostname: ${POSTGRES_DB}
     networks:
@@ -94,6 +96,8 @@ services:
 
   redis:
     image: redis:7.2.4
+    labels:
+      co.elastic.logs/module: redis
     container_name: ${REDIS_HOST}
     networks:
       - redis-network
