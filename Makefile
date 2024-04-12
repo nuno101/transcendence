@@ -2,15 +2,6 @@
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
-ifeq ($(shell uname -m),arm64)
-	export ARCH	:= aarch64
-else
-	export ARCH	:= $(shell uname -m)
-endif
-
-export DOCKER_ROOTDIR	:= $(lastword $(shell docker info 2>/dev/null | grep 'Docker Root Dir'))
-export DOCKER_SOCK		:= $(lastword $(subst ///, /,$(DOCKER_HOST)))
-
 all: build ssl_create up migrate
 
 build:
@@ -49,9 +40,7 @@ documentation:
 	@echo "Working directory changed to $(PWD)"
 
 volume_clean:
-	docker volume rm database_device -f
-	docker volume rm redis_device -f
-	docker volume rm backend_device -f
+	docker compose down -v
 
 docker_clean: down volume_clean
 	docker system prune -f
