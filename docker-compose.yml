@@ -96,6 +96,8 @@ services:
 
   redis:
     image: redis:7.2.4
+    labels:
+      co.elastic.logs/module: redis
     container_name: ${REDIS_HOST}
     networks:
       - redis-network
