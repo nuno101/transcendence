@@ -162,7 +162,6 @@ services:
      - certs:/usr/share/metricbeat/certs
      - metricbeatdata01:/usr/share/metricbeat/data
      - "./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
-     - "$DOCKER_SOCK:/var/run/docker.sock:ro"
      - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
      - "/proc:/hostfs/proc:ro"
      - "/:/hostfs:ro"
@@ -186,8 +185,6 @@ services:
      - filebeatdata01:/usr/share/filebeat/data
      - "./filebeat_ingest_data/:/usr/share/filebeat/ingest_data/"
      - "./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
-     - "$DOCKER_ROOTDIR/containers:/var/lib/docker/containers:ro"
-     - "$DOCKER_SOCK:/var/run/docker.sock:ro"
      - nginx_logs:/mnt/nginx
      - redis_logs:/mnt/redis
      - postgres_logs:/mnt/postgres
