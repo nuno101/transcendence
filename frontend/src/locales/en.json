@@ -85,7 +85,7 @@
 		"updated_at": "Updated at"
 	},
 	"tournamentsview": {
-		"listoftournaments": "List of Tournaments",
+		"alltournaments": "All Tournaments",
 		"title": "Title",
 		"creator": "Created by",
 		"status": "Status",
@@ -102,7 +102,11 @@
 		"mytournaments" : "My Tournaments",
 		"(you)" : "(You)",
 		"entertitle" : "Enter title",
-		"enterdescription" : "Enter description"	
+		"enterdescription" : "Enter description",
+		"winner" : "Winner",
+		"nodataavailable" : "No data available",
+		"pasttournaments" : "Past tournaments",
+		"ongoingtournaments" : "Ongoing tournaments"
 	  },
 		"singletournamentsview": {
 			"openregistration" : "Open registration",
@@ -122,6 +126,7 @@
 			"starttournament" : "Start tournament",
 			"tournamentwillstartgetready" : "The tournament will start, get ready to play!",
 			"success" : "Success",
+			"errormodal" : "Error",
 			"tournamentnickname" : "Nickname",
 			"created" : "Created",
 			"registration_open" : "Registration open",

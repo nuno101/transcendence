@@ -9,6 +9,7 @@ const tournament = ref(null);
 const playersTournament = ref(null);
 const podium = ref(null);
 const noDataPlayerWins = ref([]);
+const winnerId = ref(null);
 
 const props = defineProps({
   games: {
@@ -35,25 +36,25 @@ const fetchData = async () => {
 
 const calculateWinner = async () => {
 	if (props.games && props.games.length > 0) {
-		props.games.forEach(game => {
-			if (game.status === 'done') {
-				const player1Index = playerWins.value.findIndex(player => player.playerId === game.player1.id);
-                const player2Index = playerWins.value.findIndex(player => player.playerId === game.player2.id);
-				if (game.player1_score > game.player2_score) {
-                    playerWins.value[player1Index].wins++;
-                    playerWins.value[player1Index].points += (game.player1_score - game.player2_score);
-                    playerWins.value[player2Index].points -= (game.player1_score - game.player2_score);
-					if (playerWins.value[player2Index].wins === null)
-						playerWins.value[player2Index].wins = 0;
-                } else if (game.player2_score > game.player1_score) {
-                    playerWins.value[player2Index].wins++;
-                    playerWins.value[player2Index].points += (game.player2_score - game.player1_score);
-                    playerWins.value[player1Index].points -= (game.player2_score - game.player1_score);
-					if (playerWins.value[player1Index].wins === null)
-						playerWins.value[player1Index].wins = 0;
-                }
-			}
-		});
+			props.games.forEach(game => {
+				if (game.status === 'done') {
+					const player1Index = playerWins.value.findIndex(player => player.playerId === game.player1.id);
+					const player2Index = playerWins.value.findIndex(player => player.playerId === game.player2.id);
+					if (game.player1_score > game.player2_score) {
+						playerWins.value[player1Index].wins++;
+						playerWins.value[player1Index].points += (game.player1_score - game.player2_score);
+						playerWins.value[player2Index].points -= (game.player1_score - game.player2_score);
+						if (playerWins.value[player2Index].wins === null)
+							playerWins.value[player2Index].wins = 0;
+					} else if (game.player2_score > game.player1_score) {
+						playerWins.value[player2Index].wins++;
+						playerWins.value[player2Index].points += (game.player2_score - game.player1_score);
+						playerWins.value[player1Index].points -= (game.player2_score - game.player1_score);
+						if (playerWins.value[player1Index].wins === null)
+							playerWins.value[player1Index].wins = 0;
+					}
+				}
+			});
 		noDataPlayerWins.value = playerWins.value.filter(player => player.wins === null && player.points === null);
 		playerWins.value = playerWins.value.filter(player => player.wins !== null && player.points !== null);
 
@@ -66,6 +67,8 @@ const calculateWinner = async () => {
 		});
 		playerWins.value = sortedPlayerWins;
 		podium.value = sortedPlayerWins.slice(0, 3).map(player => getPlayer(player.playerId));
+		winnerId.value = podium.value[0].id;
+		await Backend.patch(`/api/tournaments/${props.games[0].tournament.id}`, { "winner": winnerId.value });
 	}
 };
 

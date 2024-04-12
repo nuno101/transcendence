@@ -91,7 +91,7 @@
 				"description" : "Description",
 				"status" : "Statut",
 				"register" : "S'inscrire",
-				"listoftournaments": "Liste des tournois",
+				"alltournaments": "Tous les tournois",
 				"title": "Titre",
 				"creator": "Créé par",
 				"createatournament" : "Créer un tournoi",
@@ -102,7 +102,11 @@
 				"mytournaments" : "Mes tournois",
 				"(you)" : "(Vous)",
 				"entertitle" : "Saisir le titre",
-				"enterdescription" : "Saisir la description"
+				"enterdescription" : "Saisir la description",
+				"winner" : "Gagnant",
+				"nodataavailable" : "Pas de données disponibles",
+				"pasttournaments" : "Tournois passés",
+				"ongoingtournaments" : "Tournois en cours"
 		
 			},
 			"singletournamentsview": {
@@ -123,6 +127,7 @@
 				"starttournament" : "Démarrer le tournoi",
 				"tournamentwillstartgetready" : "Le tournoi va commencer, préparez-vous à jouer!",
 				"success" : "Succès",
+				"errormodal" : "Erreur",
 				"tournamentnickname" : "Pseudo",
 				"created" : "Créé",
 				"registration_open" : "Inscriptions ouvertes",

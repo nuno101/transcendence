@@ -260,6 +260,10 @@ ENDPOINTS = {
 						"type": "string",
 						"required": False,
 						"description": "Description of the tournament"
+					}, "winner": {
+						"type": "string",
+						"required": False,
+						"description": "Winner of the tournament"
 					}, "status": {
 						"type": "string",
 						"required": False,
