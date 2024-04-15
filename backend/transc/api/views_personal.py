@@ -9,6 +9,9 @@ from .constants_websocket_events import *
 from .constants_http_response import *
 from . import bridge_websocket as websocket
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Endpoint: /users/me
 @method_decorator(check_structure("/users/me"), name='dispatch')
