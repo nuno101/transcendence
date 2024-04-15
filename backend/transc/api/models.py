@@ -180,18 +180,16 @@ class Notification(models.Model):
 		}
 
 class Channel(models.Model):
-    name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     members = models.ManyToManyField(User, related_name="channels")
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
     def serialize(self):
       return {
           'id': self.id,
-          'name': self.name,
           'created_at': str(self.created_at),
           'updated_at': str(self.updated_at),
           'members': [m.serialize() for m in self.members.all()]
