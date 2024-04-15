@@ -72,9 +72,9 @@
 	},
 	"userstats": {
 		"wins" : "Gewinne",
-		"defeats": "Niederlagen",
+		"defeats": "Verluste",
 		"noWins": "keine Gewinne",
-		"noDefeats": "keine Niederlagen",
+		"noDefeats": "keine Verluste",
 		"noGames": "keine Spiele"
 	},
 	"usersview": {

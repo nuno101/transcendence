@@ -38,7 +38,7 @@ const tablePosition = computed(() => {
 const avatarBootstrap = computed(() => {
   return (game) => {
     if (props.flag === 'GAMES')
-      return `${bgColor.value(game)}`;
+      return `d-none d-sm-table-cell ${bgColor.value(game)}`;
     return `d-none d-lg-table-cell ${bgColor.value(game)}`;
   };
 });
@@ -63,7 +63,7 @@ watch(filteredGames, () => {
 
 <template>
     <div class="gamestable col-lg-5 rounded img-thumbnail" :class="tablePosition">
-    <table class="table">
+    <table class="table m-0">
         <tbody v-if="filteredGames.length > 0">
         <tr  v-for="game in filteredGames" :key="game">
             <td class="align-middle text-start" :class="bgColor(game)" >{{ game.updated_at.slice(0, 10)}}</td>
@@ -99,4 +99,8 @@ watch(filteredGames, () => {
 </template>
 
 <style scoped>
+.gamestable {
+	overflow-y: scroll;
+	padding: 0;
+}
 </style>
