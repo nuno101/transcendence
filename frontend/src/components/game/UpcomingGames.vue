@@ -31,7 +31,7 @@
         </td>
       </tr>
     </tbody>
-    <tbody v-else><tr><td class="text-center" colspan="3">{{useI18n().t('upcomingGames.noUpcomingGames')}}</td></tr></tbody>
+    <tbody v-else><tr><td class="text-center" colspan="6">{{useI18n().t('upcomingGames.noUpcomingGames')}}</td></tr></tbody>
   </table>
   </div>
 </div>
