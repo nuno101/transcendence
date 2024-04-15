@@ -5,7 +5,7 @@
 all: build ssl_create up migrate
 
 build:
-	mkdir -p  $(HOME)/data/transcendence/volumes/E
+	mkdir -p  $(HOME)/docker-data/transcendence/database
 	mkdir -p  $(HOME)/docker-data/transcendence/backend
 	mkdir -p  $(HOME)/docker-data/transcendence/redis
 	docker compose build
@@ -49,7 +49,6 @@ docker_fclean: docker_clean
 	docker compose -f ./docker-compose.yml down --volumes --rmi all
 
 data_clean: volume_clean
-	rm -rf $(HOME)/data/transcendence
 	rm -rf  $(HOME)/docker-data/transcendence
 
 ssl_clean:
