@@ -20,3 +20,6 @@ docker.mk
 
 # SSL certificate folder
 .ssl/
+
+# traffic.sh output files
+tools/output
