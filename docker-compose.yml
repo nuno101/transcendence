@@ -17,15 +17,13 @@ networks:
 volumes:
   database_device:
     driver: local
-    name: database_device
     driver_opts:
       type: none
       o: bind
-      device: $HOME/data/transcendence/volumes/E # FIXME: Why mount here?
+      device: $HOME/docker-data/transcendence/database
 
   backend_device:
     driver: local
-    name: backend_device
     driver_opts:
       type: none
       o: bind
@@ -33,7 +31,6 @@ volumes:
 
   redis_device:
     driver: local
-    name: redis_device
     driver_opts:
       type: none
       o: bind
