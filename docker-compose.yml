@@ -1,5 +1,8 @@
 version: "3.8"
 
+include:
+  - elastic-stack/docker-compose.yml
+
 networks:
   database-network:
     name: database-network
@@ -36,9 +39,22 @@ volumes:
       o: bind
       device: $HOME/docker-data/transcendence/redis
 
+  nginx_logs:
+    driver: local
+
+  redis_logs:
+    driver: local
+
+  postgres_logs:
+    driver: local
+
 services:
   database:
-    image: postgres:16.0-alpine3.18
+    image: database
+    build:
+      context: ./database/
+    labels:
+      co.elastic.logs/module: postgresql
     container_name: transc-db
     hostname: ${POSTGRES_DB}
     networks:
@@ -53,15 +69,9 @@ services:
     volumes:
       - database_device:/var/lib/postgresql/data
       - ./database/init-scripts/:/docker-entrypoint-initdb.d/
+      - postgres_logs:/mnt/postgres
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"
-        ]
-      interval: 10s
-      timeout: 30s
-      retries: 30
+      test: ["CMD-SHELL", "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"]
     restart: always
 
   backend:
@@ -82,7 +92,6 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_URL: ${POSTGRES_URL}
       REDIS_HOST: ${REDIS_HOST}
-
       DEFAULT_AVATAR_NAME: ${DEFAULT_AVATAR_NAME}
 
     volumes:
@@ -98,12 +107,17 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:7.2.4
+    image: redis
+    build:
+      context: ./redis/
+    labels:
+      co.elastic.logs/module: redis
     container_name: ${REDIS_HOST}
     networks:
       - redis-network
     volumes:
       - redis_device:/var/lib/redis
+      - redis_logs:/mnt/redis
     restart: unless-stopped
 
   frontend:
@@ -124,6 +138,8 @@ services:
 
   proxy:
     container_name: proxy
+    labels:
+      co.elastic.logs/module: nginx
     image: proxy
     build:
       context: ./proxy
@@ -137,27 +153,5 @@ services:
     volumes:
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
+      - nginx_logs:/mnt/nginx
     restart: unless-stopped
-
-  elk:
-    container_name: elk
-    image: elk
-    build:
-      context: ./elk-docker
-      args:
-        ARCH: ${ARCH}
-    depends_on:
-      - backend
-    ports:
-      - "5601:5601"
-      - "9200:9200"
-      - "5044:5044"
-      # Elasticsearch's transport interface
-      - "9300:9300"
-    environment:
-      #ARCH: aarch64
-      MAX_MAP_COUNT: 262144
-    networks:
-      - database-network
-      - redis-network
-      - proxy-network
