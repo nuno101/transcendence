@@ -53,8 +53,7 @@ const submitChanges = async() => {
 		if(input.value.password !== '') {
 			password2.value = input.value.password = '';
 			globalUser.value = null;
-			var myModal = new bootstrap.Modal(document.getElementById('loginModalToggle'), {});
-    		myModal.show();
+			new bootstrap.Modal(document.getElementById('loginModalToggle'), {}).show();
 		}
 
 		updateErrorMessage.value = '';
