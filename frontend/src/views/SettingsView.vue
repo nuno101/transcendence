@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue';
 import Loading from '../components/common/Loading.vue';
 import GetAvatar from '../components/common/GetAvatar.vue';
 import { globalUser } from '../main';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 
 const input = ref({ nickname: '', password: ''});
 const inputavatar = ref('');
@@ -37,11 +38,6 @@ const submitChanges = async() => {
 			requestBody[key] = value;
 		}
 
-		if(requestBody !== {})
-			await Backend.patch(`/api/users/me`, requestBody);
-		if(input.value.nickname !== '') globalUser.value.nickname = input.value.nickname; input.value.nickname = '';
-		if(input.value.password !== '') password2.value = input.value.password = '';
-
 		if(inputavatar.value !== ''){
 			const formData = new FormData();
 			formData.append('avatar', inputavatar.value);
@@ -50,6 +46,17 @@ const submitChanges = async() => {
 			useravatar.value = await Backend.getAvatar(`/api/users/${globalUser.value.id}/avatar`);
 			inputavatar.value = '';
 		}
+
+		if(requestBody !== {})
+			await Backend.patch(`/api/users/me`, requestBody);
+		if(input.value.nickname !== '') globalUser.value.nickname = input.value.nickname; input.value.nickname = '';
+		if(input.value.password !== '') {
+			password2.value = input.value.password = '';
+			globalUser.value = null;
+			var myModal = new bootstrap.Modal(document.getElementById('loginModalToggle'), {});
+    		myModal.show();
+		}
+
 		updateErrorMessage.value = '';
 	} catch (err) {
 		console.error(err.message);
@@ -79,8 +86,11 @@ const changeAvatar = async(event) => {
 				<div class="col-sm-4 mt-sm-2">
 					<div class="vstack gap-1">
 						<div class="text-center mt-2">
-							<GetAvatar class="d-sm-none" :id="globalUser.id"/>
-							<GetAvatar class="d-none d-sm-inline" :id="globalUser.id" size="100"/>
+							  <img :src="useravatar"
+									:alt="useI18n().t('avatar')"
+									class="img-thumbnail rounded avatar"
+									:style="{ width: 100 + 'px', height: 100 + 'px', objectFit: 'cover' }"
+								>
 						</div>
 						<div class="text-center">
 							<div class="btn-group">
@@ -134,4 +144,16 @@ const changeAvatar = async(event) => {
 </template>
 
 <style>
+.avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+@media (max-width: 575.98px) {
+    .avatar {
+        width: 50px;
+        height: 50px;
+    }
+}
 </style>
