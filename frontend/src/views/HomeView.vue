@@ -9,7 +9,7 @@ import { globalUser } from '../main'
 <template>
 	<h1 v-if="!globalUser" style="margin-top: 24vh; z-index: 0" class="text-white text-center align-middle">FT_TRANSCENDENCE</h1>
 	<UpcomingGames/>
-	<FooterComp  class="footer"/>
+	<FooterComp class="footer"/>
 </template>
 
 <style>
