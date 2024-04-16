@@ -157,7 +157,7 @@ function getChannelMember() {
             <div class="row border rounded p-0">
                 <!-- Sidebar with channels -->
                 <div class="col-md-3 p-0 pe-md-1">
-                    <div class="mb-2">
+                    <div>
                         <div class="input-group">
                             <input type="text" :placeholder="useI18n().t('chatview.nickname')" class="form-control"
                                 v-model="targetNickname" @keyup.enter="createChannel" />
@@ -171,14 +171,14 @@ function getChannelMember() {
                             {{ useI18n().te(`err.${channelError}`) ? useI18n().t(`err.${channelError}`) : channelError }}
                         </div>
                     </div>
-                    <ul class="channel-container list-group">
+                    <ul class="channel-container list-group" :class="{ 'mt-1': Chat.channels.value.length > 0}">
                         <Channel v-for="channel in Chat.channels.value" :key="channel.id" :channel="channel"
                             :selected="channel === Chat.selected_channel.value" @selected="selectChannel(channel)" />
                     </ul>
                 </div>
 
                 <!-- Container for selected channels -->
-                <div v-if="Chat.selected_channel.value" class="col-md-9 border rounded p-0">
+                <div v-if="Chat.selected_channel.value" class="col-md-9 border rounded p-0 mt-1 mt-md-0">
                     <div class="border rounded d-flex align-items-center mb-1">
                         <GetAvatar :id="getChannelMember().id" :size=40 class="m-1 mr-2" />
                         <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
@@ -233,11 +233,10 @@ function getChannelMember() {
 
 @media (max-width: 768px) {
   .channel-container {
-    margin-bottom: 10px;
     max-height: 158px;
   }
   .message-container {
-      height: max(calc(100vh - var(--header-height) - 188px - 292px), 220px);
+      height: max(calc(100vh - var(--header-height) - 188px - 292px), 178px);
   }
 }
 </style>
