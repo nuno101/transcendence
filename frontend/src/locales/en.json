@@ -283,6 +283,10 @@
 		"unblockUser": "Unblock",
 		"create": "Create",
 		"nickname": "Nickname",
-    "invite": "Invite"
+    	"invite": "Invite",
+		"inviteSent": "Invite sent",
+		"invitedYouToPlay": "invited you to play a game (click to accept and go to the other pc)",
+		"youAcceptedTheInvite": "You accepted the invite",
+		"acceptedYourInvite": "accepted your invite"
 	}
 }
