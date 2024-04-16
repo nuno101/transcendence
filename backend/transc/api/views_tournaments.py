@@ -57,7 +57,8 @@ class TournamentSingle(View):
 		tournament = Tournament.objects.get(id=tournament_id)
 		# Only the creator can use this entrypoint
 		if tournament.creator != request.user:
-			return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)		
+			return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)
+		
 		if request.json.get('title') is not None:
 			tournament.title = request.json.get('title')
 		if request.json.get('description') is not None:
