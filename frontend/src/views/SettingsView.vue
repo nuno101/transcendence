@@ -80,7 +80,7 @@ const changeAvatar = async(event) => {
 					<div class="vstack gap-1">
 						<div class="text-center mt-2">
 							<GetAvatar class="d-sm-none" :id="globalUser.id"/>
-							<GetAvatar class="d-none d-sm-inline" :id="globalUser.id" size="100"/>
+							<GetAvatar class="d-none d-sm-inline" :id="globalUser.id" :size="100" />
 						</div>
 						<div class="text-center">
 							<div class="btn-group">

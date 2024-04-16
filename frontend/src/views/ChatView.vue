@@ -154,15 +154,17 @@ function getChannelMember() {
 <template>
     <div class="boxstyling">
         <div class="box rounded">
-            <div class="row">
+            <div class="row border rounded p-0">
                 <!-- Sidebar with channels -->
-                <div class="col">
+                <div class="col-md-3 p-0 pe-md-1">
                     <div class="mb-2">
                         <div class="input-group">
                             <input type="text" :placeholder="useI18n().t('chatview.nickname')" class="form-control"
                                 v-model="targetNickname" @keyup.enter="createChannel" />
                             <button class="btn btn-primary"
-                                @click="createChannel">{{ useI18n().t('chatview.create') }}</button>
+                                @click="createChannel">
+                                <img src="../assets/img/addChat.svg" class="p-0 text-white">
+                            </button>
                         </div>
                         <div v-if="channelError !== ''" class="alert alert-danger d-flex align-items-center p-1 mt-1"
                             role="alert">
@@ -176,7 +178,7 @@ function getChannelMember() {
                 </div>
 
                 <!-- Container for selected channels -->
-                <div v-if="Chat.selected_channel.value" class="col-md-9">
+                <div v-if="Chat.selected_channel.value" class="col-md-9 border rounded p-0">
                     <div class="border rounded d-flex align-items-center mb-1">
                         <GetAvatar :id="getChannelMember().id" :size=40 class="m-1 mr-2" />
                         <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
@@ -196,9 +198,12 @@ function getChannelMember() {
                             @deleted="deleteMessage(message)" />
                     </div>
                     <div class="mt-2">
-                        <div class="input-group mb-2">
+                        <div class="input-group">
                             <input type="text" class="form-control" v-model="messageInput" @keyup.enter="sendMessage"
                                 :placeholder="useI18n().t('chatview.sendMessage')" />
+                            <span class="btn btn-primary input-group-text" @click="sendMessage">
+                                <i class="bi bi-send align-middle"></i>
+                            </span>
                         </div>
                         <div v-if="messageError !== ''" class="alert alert-danger d-flex align-items-center p-1"
                             role="alert">
@@ -213,17 +218,26 @@ function getChannelMember() {
 
 <style>
 .channel-container {
-    height: 70vh;
     overflow: auto;
     display: flex;
     flex: 0 0 auto;
 }
 
 .message-container {
-    height: 70vh;
+    height: max(calc(100vh - var(--header-height) - 254px), 342px);
     overflow: auto;
     display: flex;
     flex: 0 0 auto;
     flex-direction: column-reverse;
+}
+
+@media (max-width: 768px) {
+  .channel-container {
+    margin-bottom: 10px;
+    max-height: 158px;
+  }
+  .message-container {
+      height: max(calc(100vh - var(--header-height) - 188px - 292px), 220px);
+  }
 }
 </style>
