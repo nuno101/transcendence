@@ -85,11 +85,10 @@ const changeAvatar = async(event) => {
 				<div class="col-sm-4 mt-sm-2">
 					<div class="vstack gap-1">
 						<div class="text-center mt-2">
-							  <img :src="useravatar"
-									:alt="useI18n().t('avatar')"
-									class="img-thumbnail rounded avatar"
-									:style="{ width: 100 + 'px', height: 100 + 'px', objectFit: 'cover' }"
-								>
+							<img :src="useravatar"
+								:alt="useI18n().t('avatar')"
+								class="img-thumbnail rounded avatar"
+							>
 						</div>
 						<div class="text-center">
 							<div class="btn-group">
