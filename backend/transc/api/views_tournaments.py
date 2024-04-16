@@ -55,10 +55,9 @@ class TournamentSingle(View):
 			states = [CREATED, REG_OPEN, REG_CLOSED, ONGOING, DONE, CANCELLED]
 
 		tournament = Tournament.objects.get(id=tournament_id)
-		if request.json.get('winner') is not None:
-			winner_id = request.json.get('winner')
-			winner = User.objects.get(id=winner_id)
-			tournament.winner = winner		
+		# Only the creator can use this entrypoint
+		if tournament.creator != request.user:
+			return JsonResponse({ERROR_FIELD: TOURNAMENT_403}, status=403)		
 		if request.json.get('title') is not None:
 			tournament.title = request.json.get('title')
 		if request.json.get('description') is not None:

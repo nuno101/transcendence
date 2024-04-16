@@ -3,6 +3,7 @@ import { onMounted, ref, defineProps } from 'vue';
 import Backend from '../../js/Backend';
 import Podium from './Podium.vue';
 import { useI18n } from 'vue-i18n';
+import { globalUser } from "../../main"
 
 const playerWins = ref([]);
 const tournament = ref(null);
@@ -20,7 +21,8 @@ const props = defineProps({
 const fetchData = async () => {
   try {
 	tournament.value = await Backend.get(`/api/tournaments/${props.games[0].tournament.id}`);
-	playersTournament.value = tournament.value.players;
+	console.log("winner ranking : ", tournament.value.ranking)
+	/*playersTournament.value = tournament.value.players;
 	playersTournament.value.forEach(player => {
         playerWins.value.push({
             playerId: player.id,
@@ -28,14 +30,14 @@ const fetchData = async () => {
             points: null
         });
      });
-	calculateWinner();
+	calculateWinner();*/
   } catch (err) {
     console.error(err.message);
   }
 };
 
 const calculateWinner = async () => {
-	if (props.games && props.games.length > 0) {
+	/*if (props.games && props.games.length > 0) {
 			props.games.forEach(game => {
 				if (game.status === 'done') {
 					const player1Index = playerWins.value.findIndex(player => player.playerId === game.player1.id);
@@ -68,8 +70,9 @@ const calculateWinner = async () => {
 		playerWins.value = sortedPlayerWins;
 		podium.value = sortedPlayerWins.slice(0, 3).map(player => getPlayer(player.playerId));
 		winnerId.value = podium.value[0].id;
-		await Backend.patch(`/api/tournaments/${props.games[0].tournament.id}`, { "winner": winnerId.value });
-	}
+		if (!tournament.value.winner.id)
+			await Backend.patch(`/api/tournaments/${props.games[0].tournament.id}`, { "winner": winnerId.value });
+	}*/
 };
 
 const getPlayer = (playerId) => {

@@ -137,6 +137,17 @@ const setModal = async (title, msg) => {
     };
 };
 
+watch(games, (newGames, oldGames) => {
+    if (newGames && newGames.length > 0) {
+        const allGamesDone = newGames.every(game => game.status === 'done' || game.status === 'cancelled');
+        const allGamesCancelled = newGames.every(game => game.status === 'cancelled');
+       
+        if (allGamesCancelled)
+            tournament.value.status = 'cancelled';
+        else if (allGamesDone)
+            tournament.value.status = 'done';
+    }
+});
 
 onMounted(() => {
 	const route = useRoute();
@@ -192,7 +203,7 @@ onMounted(() => {
 
 				<div v-if="tournament.status === 'registration_closed'">
 					<div v-if="isCreator">
-						<button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#successModal" @click="startTournament(translatedStrings.tournamentWillStartGetReady)">{{useI18n().t('singletournamentsview.starttournament')}}</button>
+						<button type="button" class="btn btn-custom-start" data-bs-toggle="modal" data-bs-target="#successModal" @click="startTournament(translatedStrings.tournamentWillStartGetReady)">{{useI18n().t('singletournamentsview.starttournament')}}</button>
 						<span>&nbsp;&nbsp;</span>
 						<button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#successModal" @click="cancelTournament(translatedStrings.theTournamentHasBeenCancelled)">{{useI18n().t('singletournamentsview.canceltournament')}}</button>
 					</div>
@@ -281,11 +292,23 @@ onMounted(() => {
     color: #ffffff;
 }
 
+.btn-custom-start {
+    background-color: #4d20e9;
+    border-color: #4d20e9;
+    color: #ffffff;
+}
+
 /* Hover effect */
 .btn-custom:hover {
     background-color: #4d20e9;
     border-color: #4d20e9;
 	color: #ffffff;
+}
+
+.btn-custom-start:hover {
+    background-color: #FFD700;
+    border-color: #FFD700;
+    color: #ffffff;
 }
 
 

@@ -68,6 +68,7 @@ const cancelGame = async (game_id) => {
   }
 };
 
+
 watch(() => props.games, () => {
   fetchData();
 });
@@ -104,8 +105,8 @@ onMounted(fetchData)
 					<h3 class="tournament-bracket__round-status">{{ useI18n().t(`gameselection.${game.status}`)}} </h3>	
 				</table>
 			</div>
-			<div v-if="isClicked === (index + 1)">
-				<button v-if="is_Creator" class="btn btn-danger" @click="cancelGame(game.id)">{{useI18n().t(`gameselection.cancelgame`)}}</button>
+			<div v-if="isClicked === (index + 1)" class="tournament-button-div">
+				<button v-if="is_Creator" class="btn btn-danger tournament-button" @click="cancelGame(game.id)">{{useI18n().t(`gameselection.cancelgame`)}}</button>
 				<button class="btn btn-success" @click="auth.openModal();">{{useI18n().t(`gameselection.startgame`)}}</button>
 			</div>
 		</li>
@@ -534,4 +535,14 @@ onMounted(fetchData)
     border-color: spin(shade(#ffee58, 2%), -10);
   }
 }
+
+.tournament-button-div {
+  width: 201%;
+  display: flex;
+}
+
+.tournament-button {
+  margin-right: 0.5em;
+}
+
 </style>

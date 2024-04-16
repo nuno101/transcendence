@@ -15,7 +15,7 @@ const pastedPersonalTournaments = ref([]);
 const ongoingPersonalTournaments = ref([]);
 const pastedTournaments = ref([]);
 const ongoingTournaments = ref([]);
-const alerts = ref({ message: '', type: '' })
+const alerts = ref([])
 
 const currentUser = ref(false);
 
@@ -25,6 +25,7 @@ watch(route, (newRoute) => {
   bootstrap.Modal.getInstance("#CreateTournamentModal")?.hide()
   bootstrap.Modal.getInstance("#successModal")?.hide()
 })
+
 
 const fetchData = async () => {
   try {
@@ -43,8 +44,22 @@ const fetchData = async () => {
   }
 };
 
+const trimAlerts = () => {
+	alerts.value = alerts.value.map(item => {
+  	// Splitting the message by '\n' and filtering out empty strings
+  	let messages = item.message.split("\n").filter(msg => msg.trim() !== "");
+  
+  	// Creating new objects for each message
+  	return messages.map(message => {
+    return { message: message.trim() };
+  	});
+	}).flat();
+
+};
+
 const addNewTournament = async () => {
   try {
+	alerts.value = [];
     let data = await Backend.post('/api/tournaments', input.value);
     ongoingPersonalTournaments.value.push(data);
 	cancelModal();
@@ -52,16 +67,17 @@ const addNewTournament = async () => {
 	personalTournaments.value = userTournaments.value.tournaments;
 	tournaments.value = tournaments.value.filter(tournament => !personalTournaments.value.some(pt => pt.id === tournament.id));
   } catch (err) {
-		alerts.value = {
-			message: err.message,
-			type: { 'alert': true, 'alert-danger': true, 'alert-dismissible': true }
-		};
-    console.error(err.message);
+	alerts.value.push({
+		message: err.message,
+	})
+	trimAlerts();
+    console.error(err);
 	}
 };
 
 const cancelModal = () => {
 	resetInputFields();
+	alerts.value = []
 	const modal = bootstrap.Modal.getInstance("#CreateTournamentModal");
 	modal.hide();
 };
@@ -92,7 +108,15 @@ const deleteTournament = async (tournamentId) => {
   }
 };
 
-onMounted(fetchData)
+onMounted(() => {
+	const createTournamentModal = bootstrap.Modal.getInstance("#CreateTournamentModal");
+
+	createTournamentModal?.addEventListener('hidden.bs.modal', () => {
+  	// Clear alerts when the modal is hidden
+  	alerts.value = [];
+	});
+	fetchData();
+})
 
 </script>
 
@@ -160,14 +184,16 @@ onMounted(fetchData)
 	   <div class="modal-content">
 		   <div class="modal-header">
 			   <h1 class="modal-title fs-5" id="CreateTournamentModalLabel">{{ useI18n().t('tournamentsview.createatournament') }}</h1>
-			   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="cancelModal"></button>
 		   </div>
 		   <div class="modal-body">
-				<div :class="alerts.type">{{ useI18n().te(`err.${alerts.message}`) ? useI18n().t(`err.${alerts.message}`) :  alerts.message}}</div>
-					   <div class="form-group">
+						<div v-if="alerts.length > 0 && !input.title" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[0].message}`) ? useI18n().t(`err.${alerts[0].message}`) :  alerts[0].message}}</div>
+					   	<div class="form-group">
 						   <label for="title">{{ useI18n().t('tournamentsview.title') }}</label>
 						   <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
 					   </div>
+					   <br/>
+					   <div v-if="alerts.length > 0 && !input.description" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[0].message}`) ? useI18n().t(`err.${alerts[1].message}`) :  alerts[1].message}}</div>
 					   <div class="form-group">
 						   <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
 						   <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>

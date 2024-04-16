@@ -94,7 +94,7 @@ class Tournament(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	players = models.ManyToManyField(User, related_name='joined_tournaments', blank=True)
-	winner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='won_tournaments')
+	ranking = models.JSONField(null=True, blank=True)
 
 	def __str__(self):
 		return self.title
@@ -113,11 +113,7 @@ class Tournament(models.Model):
         'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
         'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
 		'players': [{'id': player.id, 'username': player.username, 'nickname': player.nickname} for player in self.players.all()],
-		'winner': {
-    		'id': self.winner.id if self.winner else None,
-    		'username': self.winner.username if self.winner else None,
-    		'nickname': self.winner.nickname if self.winner else None
-		},
+		'ranking': self.ranking
     }
 
 class Game(models.Model):
