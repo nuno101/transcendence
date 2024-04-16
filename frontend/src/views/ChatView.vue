@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { ref, onMounted } from 'vue'
 import Backend from '../js/Backend'
+import Friends from '../js/Friends'
 import Chat from '../js/Chat'
 import { globalUser } from '../main'
 import Channel from '../components/chat/Channel.vue'
@@ -20,6 +21,7 @@ const messageError = ref('')
 onMounted(() => {
     loadChannels();
     loadBlockedUsers();
+    loadFriends();
     Chat.messages.value = []
     Chat.selected_channel.value = null
 })
@@ -149,6 +151,20 @@ function getChannelMember() {
     }
     return Chat.selected_channel.value.members[0]
 }
+
+async function loadFriends() {
+    try {
+        Friends.friends.value = await Backend.get(`/api/users/me/friends`);
+    } catch {
+        console.error(`Failed to request: ${err.message}`)
+    }
+}
+
+function isFriend() {
+    if(Friends.friends.value.find(friend => friend.id === getChannelMember().id) !== undefined)
+        return true;
+    return false;
+}
 </script>
 
 <template>
@@ -187,7 +203,9 @@ function getChannelMember() {
                         <div class="input-group m-1 justify-content-end">
                             <button v-if="!dmUserBlocked" class="btn btn-primary"
                                 @click="inviteUser">{{ useI18n().t('chatview.invite') }}</button>
-                            <button v-if="!dmUserBlocked" class="btn btn-danger"
+                            <button v-if="!dmUserBlocked"
+                                class="btn btn-danger"
+                                :disabled="isFriend()"
                                 @click="blockUser">{{ useI18n().t('chatview.blockUser') }}</button>
                             <button v-else class="btn btn-success"
                                 @click="unblockUser">{{ useI18n().t('chatview.unblockUser') }}</button>
