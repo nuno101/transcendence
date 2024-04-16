@@ -107,7 +107,7 @@ onMounted(fetchData)
 			</div>
 			<div v-if="isClicked === (index + 1)" class="tournament-button-div">
 				<button v-if="is_Creator" class="btn btn-danger tournament-button" @click="cancelGame(game.id)">{{useI18n().t(`gameselection.cancelgame`)}}</button>
-				<button class="btn btn-success" @click="auth.openModal();">{{useI18n().t(`gameselection.startgame`)}}</button>
+				<button v-if="game.player1.username === currentUser.username || game.player2.username === currentUser.username" class="btn btn-success" @click="auth.openModal();">{{useI18n().t(`gameselection.startgame`)}}</button>
 			</div>
 		</li>
 	</ul>

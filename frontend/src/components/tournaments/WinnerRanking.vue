@@ -9,7 +9,7 @@ const playerWins = ref([]);
 const tournament = ref(null);
 const playersTournament = ref(null);
 const podium = ref(null);
-const noDataPlayerWins = ref([]);
+const DataPlayerWins = ref([]);
 const winnerId = ref(null);
 
 const props = defineProps({
@@ -21,58 +21,15 @@ const props = defineProps({
 const fetchData = async () => {
   try {
 	tournament.value = await Backend.get(`/api/tournaments/${props.games[0].tournament.id}`);
-	console.log("winner ranking : ", tournament.value.ranking)
-	/*playersTournament.value = tournament.value.players;
-	playersTournament.value.forEach(player => {
-        playerWins.value.push({
-            playerId: player.id,
-            wins: null,
-            points: null
-        });
-     });
-	calculateWinner();*/
+	playersTournament.value = tournament.value.players;
+	DataPlayerWins.value = tournament.value.ranking;
+	podium.value = tournament.value.ranking
+  		.filter(entry => entry.wins !== -1)
+  		.slice(0, 3)
+  		.map(entry => getPlayer(entry.user_id));
   } catch (err) {
     console.error(err.message);
   }
-};
-
-const calculateWinner = async () => {
-	/*if (props.games && props.games.length > 0) {
-			props.games.forEach(game => {
-				if (game.status === 'done') {
-					const player1Index = playerWins.value.findIndex(player => player.playerId === game.player1.id);
-					const player2Index = playerWins.value.findIndex(player => player.playerId === game.player2.id);
-					if (game.player1_score > game.player2_score) {
-						playerWins.value[player1Index].wins++;
-						playerWins.value[player1Index].points += (game.player1_score - game.player2_score);
-						playerWins.value[player2Index].points -= (game.player1_score - game.player2_score);
-						if (playerWins.value[player2Index].wins === null)
-							playerWins.value[player2Index].wins = 0;
-					} else if (game.player2_score > game.player1_score) {
-						playerWins.value[player2Index].wins++;
-						playerWins.value[player2Index].points += (game.player2_score - game.player1_score);
-						playerWins.value[player1Index].points -= (game.player2_score - game.player1_score);
-						if (playerWins.value[player1Index].wins === null)
-							playerWins.value[player1Index].wins = 0;
-					}
-				}
-			});
-		noDataPlayerWins.value = playerWins.value.filter(player => player.wins === null && player.points === null);
-		playerWins.value = playerWins.value.filter(player => player.wins !== null && player.points !== null);
-
-		const sortedPlayerWins = Object.values(playerWins.value).sort((a, b) => {
-    		if (a.wins !== b.wins) {
-        		return b.wins - a.wins;
-    		} else {
-        		return b.points - a.points;
-    		}
-		});
-		playerWins.value = sortedPlayerWins;
-		podium.value = sortedPlayerWins.slice(0, 3).map(player => getPlayer(player.playerId));
-		winnerId.value = podium.value[0].id;
-		if (!tournament.value.winner.id)
-			await Backend.patch(`/api/tournaments/${props.games[0].tournament.id}`, { "winner": winnerId.value });
-	}*/
 };
 
 const getPlayer = (playerId) => {
@@ -97,31 +54,20 @@ onMounted(fetchData)
 		  </tr>
 		</thead>
 		<tbody>
-			<tr v-for="(playerData, index) in playerWins" :key="playerData.playerId">
-				<td>{{ index + 1 }}</td>
+			<tr v-for="(player, index) in DataPlayerWins" :key="player.user_id">
+				<td>{{ player.wins !== -1 ? index + 1 : useI18n().t('winnerranking.nodata') }}</td>
 				<td>
-					<router-link :to="'/users/' + playerData.playerId"> 
-					{{ getPlayer(playerData.playerId).nickname }} 
+					<router-link :to="'/users/' + player.user_id"> 
+					{{ player.nickname }} 
 					</router-link>
 				</td>
-				<td>{{ playerData.wins }}</td>
-				<td>{{ playerData.points }}</td>
-		    </tr>
-			<tr v-for="(playerData, index) in noDataPlayerWins" :key="index">
-				<td>{{useI18n().t('winnerranking.nodata')}}</td>
-				<td>
-					<router-link :to="'/users/' + playerData.playerId"> 
-					{{ getPlayer(playerData.playerId).nickname }} 
-					</router-link>
-				</td>
-				<td>{{useI18n().t('winnerranking.nodata')}}</td>
-				<td>{{useI18n().t('winnerranking.nodata')}}</td>
+				<td>{{ player.wins !== -1 ? player.wins : useI18n().t('winnerranking.nodata') }}</td>
+				<td>{{ player.points !== -1 ? player.points : useI18n().t('winnerranking.nodata') }}</td>
 		    </tr>
 		</tbody>
 	  </table>
 	</div>
   </template>
-  
 
 
 

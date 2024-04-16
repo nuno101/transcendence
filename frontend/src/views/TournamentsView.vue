@@ -193,7 +193,7 @@ onMounted(() => {
 						   <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
 					   </div>
 					   <br/>
-					   <div v-if="alerts.length > 0 && !input.description" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[0].message}`) ? useI18n().t(`err.${alerts[1].message}`) :  alerts[1].message}}</div>
+					   <div v-if="alerts.length > 0 && !input.description" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[0].message}`) ? useI18n().t(`err.${alerts[0].message}`) :  alerts[0].message}}</div>
 					   <div class="form-group">
 						   <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
 						   <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
@@ -287,8 +287,8 @@ onMounted(() => {
 								<td>{{ formatDateTime(tournament.updated_at) }}</td>
 								<td>{{ useI18n().t(`singletournamentsview.${tournament.status}`)}}</td>
 								<td>
-									<router-link :to="'/users/' + tournament.winner.id"> 
-									{{ tournament.winner.nickname }} 
+									<router-link v-if="tournament.ranking && tournament.ranking.length > 0" :to="'/users/' + tournament.ranking[0].id"> 
+									{{ tournament.ranking[0].nickname }} 
 									</router-link>
 								</td>
 							</tr>
@@ -339,8 +339,8 @@ onMounted(() => {
                 					</template>
 								</td>
 								<td>
-									<router-link :to="'/users/' + tournament.winner.id"> 
-									{{ tournament.winner.nickname }} 
+									<router-link v-if="tournament.ranking && tournament.ranking.length > 0" :to="'/users/' + tournament.ranking[0].id"> 
+									{{ tournament.ranking[0].nickname }} 
 									</router-link>
 								</td>
 							</tr>
@@ -366,8 +366,8 @@ onMounted(() => {
 }
 
 .custom-button:hover {
-    background-color: #4d20e9; /* Change background color on hover */
-    border-color: #4d20e9; /* Change border color on hover */
+    background-color: #4d20e9;
+    border-color: #4d20e9;
 }
 
 .text-color-custom {
