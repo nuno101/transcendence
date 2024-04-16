@@ -26,11 +26,12 @@
             </router-link>
         </td>
         <td v-if="!game.tournament || game.tournament.status === 'ongoing'" class="align-middle px-2 text-center">
-          <router-link :to="`/ponggame/${game.id}`">{{useI18n().t('upcomingGames.play')}}</router-link>
+          <router-link :to="`/ponggame/${game.id}`">
+            <button type="button" class="btn py-1 btn-outline-primary">{{useI18n().t('upcomingGames.play')}}</button></router-link>
         </td>
       </tr>
     </tbody>
-    <tbody v-else><tr><td class="text-center" colspan="3">{{useI18n().t('upcomingGames.noUpcomingGames')}}</td></tr></tbody>
+    <tbody v-else><tr><td class="text-center" colspan="6">{{useI18n().t('upcomingGames.noUpcomingGames')}}</td></tr></tbody>
   </table>
   </div>
 </div>
@@ -81,6 +82,12 @@ th {
   padding: 0;
   margin: auto;
   overflow-y: auto;
-  height: max(calc(100vh - var(--header-height) - 88px - 210px), 110px);
+  height: calc(100vh - (var(--header-height) + var(--footer-height) + 170px));
+}
+
+@media screen and (max-height: 540px) {
+  .gamestable {
+    height: max(calc(100vh - (var(--header-height) + var(--footer-height))), 160px);
+  }
 }
 </style>

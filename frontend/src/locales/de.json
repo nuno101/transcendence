@@ -72,15 +72,15 @@
 	},
 	"userstats": {
 		"wins" : "Gewinne",
-		"defeats": "Niederlagen",
+		"defeats": "Verluste",
 		"noWins": "keine Gewinne",
-		"noDefeats": "keine Niederlagen",
+		"noDefeats": "keine Verluste",
 		"noGames": "keine Spiele"
 	},
 	"usersview": {
 		"listofusers": "Benutzerliste",
 		"username": "Benutzername",
-		"nickname": "Spitzname",
+		"nickname": "Nickname",
 		"created_at": "Erstellt am",
 		"updated_at": "Aktualisiert am"
 	},
@@ -282,7 +282,7 @@
 		"blockUser": "Blockieren",
 		"unblockUser": "Entblocken",
 		"create": "Erstellen",
-		"nickname": "Spitzname",
+		"nickname": "Nickname",
     "invite": "Einladen"
 	}
 }

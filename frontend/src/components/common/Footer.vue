@@ -32,4 +32,16 @@ footer {
     position: absolute;
     width: 100%;
 }
+
+@media screen and (max-height: 540px) {
+  footer {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 398px) {
+  footer {
+    display: none;
+  }
+}
 </style>

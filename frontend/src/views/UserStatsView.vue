@@ -86,7 +86,7 @@ const DefeatGames = computed(() => {
 					<div class="col-6">
 						<div class="bg-danger rounded-pill">
 							<div class="ms-4 p-2 ps-0 text-white d-flex justify-content-between">
-								<div class="p-0">{{useI18n().t('userstats.defeats')}}</div>
+								<div class="p-0 d-none d-sm-flex">{{useI18n().t('userstats.defeats')}}</div>
 								<div class="text-end pe-5">{{ DefeatGames.length }}</div>
 							</div>
 						</div>
@@ -94,8 +94,9 @@ const DefeatGames = computed(() => {
 					<div class="col-6"> 
 						<div class="bg-success rounded-pill">
 							<div class="me-4 p-2 pe-0 text-white d-flex justify-content-between">
-								<div class="ps-5">{{ WinGames.length }}</div>
-								<div class="text-end">{{useI18n().t('userstats.wins')}}</div>
+								<div class="ps-5 d-none d-sm-flex">{{ WinGames.length }}</div>
+								<div class="text-end d-none d-sm-flex">{{useI18n().t('userstats.wins')}}</div>
+								<div class="ms-auto d-sm-none">{{ WinGames.length }}</div>
 							</div>
 						</div>
 					</div>
@@ -110,13 +111,13 @@ const DefeatGames = computed(() => {
 				</div>
 				<div class="row mt-4">
 					<StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
-					<div class="col-lg-2 d-none d-lg-block">
+					<div class="col-lg-2 d-none d-lg-block border">
 						<div class="bar-chart rounded text-white">
 							<div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}">
-								<span v-if="defeatsRatio" class="d-flex align-items-center justify-content-center">{{defeatsRatio.toFixed(0)}}%</span>
+								<span v-if="defeatsRatio" class="d-flex align-items-center justify-content-center"><strong>{{defeatsRatio.toFixed(0)}}%</strong></span>
 							</div>
 							<div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}">
-								<span v-if="winsRatio"class="d-flex align-items-center justify-content-center">{{winsRatio.toFixed(0)}}%</span>
+								<span v-if="winsRatio"class="d-flex align-items-center justify-content-center"><strong>{{winsRatio.toFixed(0)}}%</strong></span>
 							</div>
 						</div>
 					</div>
@@ -129,24 +130,6 @@ const DefeatGames = computed(() => {
 </template>
 
 <style scoped>
-.cont {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	margin-top: 50px;
-	height: 100vh;
-	width: 100%;
-}
-
-.box {
-	box-sizing: border-box;
-	margin: 0;
-	width: 80%;
-	padding: 10px 20px;
-	padding-bottom: 20px;
-	background-color: white;
-}
-
 .curved-bg {
 	position: relative;
 	background: #007bff;
@@ -155,15 +138,17 @@ const DefeatGames = computed(() => {
 .bar-chart {
 	display: flex;
 	justify-content: center;
-	align-items: end;
 	background-color: #f0f0f0;
-	height: calc(100vh - var(--header-height) - 88px - 170px);
+	align-items: end;
+	height: 100%;
 }
 
 .bar {
+	flex: 1;
 	width: 50px;
 	border: 1px solid #fff;
 }
+
 .defeat-bar {
 	background-color: red;
 }
@@ -172,25 +157,19 @@ const DefeatGames = computed(() => {
 	background-color: green;
 }
 
-.gamestable {
-	overflow-y: scroll;
-	padding: 0;
-	height: calc(100vh - var(--header-height) - 88px - 170px);
-}
-
 .avatar-circle {
-  top: 180px;
+  top: 200px;
 }
 
 @media (max-width: 991.98px) {
   .avatar-circle {
-	top: 220px;
+	top: 238px;
   }
 }
 
 @media (max-width: 768px) {
   .avatar-circle {
-	top: 265px;
+	top: 285px;
   }
 }
 </style>
