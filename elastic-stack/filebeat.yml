@@ -26,15 +26,17 @@ filebeat.modules:
     enabled: true
     var.paths: ["/mnt/postgres/*.log"]
 
-processors:
-- add_docker_metadata: ~
-
 setup:
   dashboards.enabled: true
   kibana:
     host: ${KIBANA_HOSTS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
+  template.settings:
+    index.number_of_replicas: 0
+  ilm:
+    enabled: true
+    policy_name: transcendence
 
 output.elasticsearch:
   hosts: ${ELASTIC_HOSTS}

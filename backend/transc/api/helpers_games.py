@@ -12,7 +12,10 @@ def update_tournament_status(tournament):
 
   games_done = games.filter(status=Game.MatchStatus.DONE).count()
   games_cancelled = games.filter(status=Game.MatchStatus.CANCELLED).count()
-  if games_count == (games_done + games_cancelled):
+  if games_count == games_cancelled and games_done == 0:
+    tournament.status = Tournament.TournamentStatus.CANCELLED
+    tournament.save()
+  elif games_count == (games_done + games_cancelled):
     tournament.status = Tournament.TournamentStatus.DONE
     tournament.save()
 

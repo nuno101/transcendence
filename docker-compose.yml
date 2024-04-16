@@ -20,15 +20,13 @@ networks:
 volumes:
   database_device:
     driver: local
-    name: database_device
     driver_opts:
       type: none
       o: bind
-      device: $HOME/data/transcendence/volumes/E # FIXME: Why mount here?
+      device: $HOME/docker-data/transcendence/database
 
   backend_device:
     driver: local
-    name: backend_device
     driver_opts:
       type: none
       o: bind
@@ -36,7 +34,6 @@ volumes:
 
   redis_device:
     driver: local
-    name: redis_device
     driver_opts:
       type: none
       o: bind
@@ -71,7 +68,6 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
     volumes:
       - database_device:/var/lib/postgresql/data
-      - ./database/init-scripts/:/docker-entrypoint-initdb.d/
       - postgres_logs:/mnt/postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"]

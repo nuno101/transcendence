@@ -13,7 +13,6 @@ class ChannelCollection(View):
   def post(self, request):
     try:
       nickname = request.json.get('nickname')
-
       try:
         target = User.objects.get(nickname=nickname)
       except:
@@ -21,7 +20,6 @@ class ChannelCollection(View):
 
       if request.user.id == target.id:
         return JsonResponse({ERROR_FIELD: "Cannot add yourself"}, status=400)
-
       channels = Channel.objects.filter(members__in=[request.user])
       for channel in channels.all():
         if target in channel.members.all():
@@ -29,12 +27,8 @@ class ChannelCollection(View):
 
       if request.user in target.blocked.all():
         return JsonResponse({ERROR_FIELD: "You are blocked by this user"}, status=400)
-
-      name = f'DM-{request.user.nickname},{target.nickname}'
-      if request.user.id > target.id:
-        name = f'DM-{target.nickname},{request.user.nickname}'
         
-      channel = Channel(name=f'DM-{request.user.nickname},{target.nickname}') 
+      channel = Channel() 
       # Create DM channel
       channel.full_clean()
       channel.save()
@@ -42,7 +36,6 @@ class ChannelCollection(View):
       # Add members to DM channel
       channel.members.add(request.user)
       channel.members.add(target)
-
       websocket.add_consumer_to_group(request.user.id, f'channel_{channel.id}')
       websocket.add_consumer_to_group(target.id, f'channel_{channel.id}')
       websocket.send_user_event(target.id, CREATE_CHANNEL, channel.serialize())
