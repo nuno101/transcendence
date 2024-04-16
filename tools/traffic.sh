@@ -47,8 +47,8 @@ while true; do
 	printf "\033[0G"
 	i=$((i+1))
 
-	useragent="${useragents[$(($RANDOM % ${#useragents[@]}))]}"
-	endpoint="${endpoints[$((RANDOM % ${#endpoints[@]}))]}"
+	useragent="${useragents[$((${RANDOM} % ${#useragents[@]}))]}"
+	endpoint="${endpoints[$((${RANDOM} % ${#endpoints[@]}))]}"
 	basename=$(basename ${endpoint})
 
 	printf "request: ${i}, url: ${endpoint}\n"
