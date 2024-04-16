@@ -20,20 +20,6 @@ const fetchData = async () => {
 
 onMounted(() => {
 	fetchData();
-
-	const userTable = document.getElementById('userTable');
-	if(userTable){
-		// console.log(userTable);
-		// const headerHeight = document.querySelector('header').offsetHeight;
-		// console.log(headerHeight);
-		// const screenHeight = window.innerHeight;
-		// console.log(screenHeight);
-		const tableRect = userTable.getBoundingClientRect();
-		console.log(tableRect);
-		// const maxTableHeight = screenHeight - headerHeight - 80;
-        // userTable.style.maxHeight = `${maxTableHeight}px`;
-		// console.log(userTable.style.maxHeight);
-	}
 })
 
 </script>
@@ -42,7 +28,7 @@ onMounted(() => {
 	<div class="boxstyling">
 		<div class="box rounded">
 			<h6 class="text-center fw-bold text-uppercase">{{useI18n().t('usersview.listofusers')}}</h6>
-			<div class="mt-3 rounded img-thumbnail d-md-block usertable">
+			<div class="rounded img-thumbnail d-md-block usertable">
 				<table class="table m-0 table-striped table-hover">
 					<thead>
 						<tr class="align-middle">
@@ -77,6 +63,6 @@ th {
 	flex: 1;
 	padding: 0;
 	overflow-y: auto;
-	height: calc(100vh - var(--header-height) - 88px - 100px);
+	height: max(calc(100vh - var(--header-height) - 88px - 100px), 170px);
 }
 </style>

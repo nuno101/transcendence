@@ -1,7 +1,6 @@
 .DS_Store
 *.out
 volumes/*
-# .env # FIXME: Enable this for production
 __pycache__
 backend/transc/__pycache__
 backend/transc/transc/__pycache__
@@ -20,3 +19,9 @@ docker.mk
 
 # SSL certificate folder
 .ssl/
+
+# traffic.sh output files
+tools/output
+
+# Docker env files
+.env
