@@ -79,9 +79,11 @@ async function createChannel() {
 async function sendMessage() {
     let channel_id = Chat.selected_channel.value.id
     try {
-        let data = await Backend.post(`/api/channels/${channel_id}/messages`, {
-            content: messageInput.value
-        })
+        if(messageInput.value) {
+            let data = await Backend.post(`/api/channels/${channel_id}/messages`, {
+                content: messageInput.value
+            })
+        }
         messageInput.value = '';
         messageError.value = ''
     } catch (err) {
