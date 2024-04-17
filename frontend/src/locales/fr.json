@@ -60,13 +60,13 @@
 	},
 	"friendsview": {
 		"friends": "Amis",
-		"friendrequests": "Demandes d'Amis",
+		"friendrequests": "Demandes entrantes",
 		"pendingrequests": "Demandes en Attente",
 		"deleteFriend": "Voulez-vous supprimer cet ami ?",
 		"declineFriendRequest": "Voulez-vous refuser cette demande d'ami ?",
 		"cancelFriendRequest": "Voulez-vous retirer cette demande d'ami ?",
 		"noFriends": "aucun ami",
-		"noFriendRequests": "aucune demande d'ami",
+		"noFriendRequests": "aucune demande entrante",
 		"noPendingRequests": "aucune demande en attente",
 		"searchNickname": "Rechercher un pseudonyme"
 	},
