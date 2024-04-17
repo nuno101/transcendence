@@ -1,10 +1,12 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { defineProps } from 'vue';
 import formatTimestamp from '../../js/TimeFormat';
 import GetAvatar from '../common/GetAvatar.vue';
 import { globalUser } from '../../main';
 import Backend from '../../js/Backend'
 
+const i18n = useI18n()
 const props = defineProps({
   message: Object,
 })
@@ -41,13 +43,12 @@ async function acceptInvite() {
       </div>
       <div class="card-body message-body">
         <div v-if='message.content === "game-invite"' >
-          <div v-if="globalUser.id === message.author.id" class="alert alert-success d-flex align-items-center p-1 mb-0">Invite sent</div>
-          <button v-else class="btn btn-primary" @click="acceptInvite">{{ message.author.nickname }} invited you to play
-            a game (click to accept and go to the other pc)</button>
+          <div v-if="globalUser.id === message.author.id" class="alert alert-success d-flex align-items-center p-1 mb-0">{{i18n.t('chatview.inviteSent')}}</div>
+          <button v-else class="btn btn-primary" @click="acceptInvite">{{ message.author.nickname }} {{i18n.t('chatview.invitedYouToPlay')}}</button>
         </div>
         <div v-else-if='message.content === "invite-accept"' class="alert alert-success d-flex align-items-center p-1 mb-0">
-          <div v-if="globalUser.id === message.author.id">You accepted the invite</div>
-          <div v-else>{{ message.author.nickname }} accepted your invite</div>
+          <div v-if="globalUser.id === message.author.id"> {{i18n.t('chatview.youAcceptedTheInvite')}}</div>
+          <div v-else>{{ message.author.nickname }}  {{i18n.t('chatview.acceptedYourInvite')}}</div>
         </div>
         <div v-else>
           {{ message.content }}

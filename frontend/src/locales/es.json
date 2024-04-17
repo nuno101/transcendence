@@ -285,6 +285,10 @@
       "unblockUser": "Desatascar",
       "create": "Crear",
       "nickname": "Apodo",
-      "invite": "TODO"
+      "invite": "Invitar",
+      "inviteSent": "Invitación enviada",
+      "invitedYouToPlay": "te invitó a jugar a un juego (haz clic para aceptar e ir al otro PC)",
+      "youAcceptedTheInvite": "Has aceptado la invitación",
+      "acceptedYourInvite": "aceptó tu invitación"
     }
 }
