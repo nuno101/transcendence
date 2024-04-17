@@ -2,6 +2,14 @@
 				docker_fclean data_clean clean fclean re test help
 -include docker.mk
 
+.DEFAULT_GOAL :=  all
+ENV_FILES     := .env elastic-stack/.env
+
+build up down volume_clean docker_fclean: $(ENV_FILES)
+
+$(ENV_FILES):
+	$(error missing file: $@. you can create one based on $@.sample)
+
 all: build ssl_create up migrate
 
 build:

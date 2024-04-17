@@ -288,6 +288,10 @@
 		"unblockUser": "Entblocken",
 		"create": "Erstellen",
 		"nickname": "Nickname",
-    "invite": "Einladen"
+    	"invite": "Einladen",
+		"inviteSent": "Einladung gesendet",
+		"invitedYouToPlay": "hat dich zu einem Spiel eingeladen (klicke, um zu akzeptieren und zum anderen PC zu wechseln)",
+		"youAcceptedTheInvite": "Du hast die Einladung angenommen",
+		"acceptedYourInvite": "hat die Einladung angenommen"
 	}
 }

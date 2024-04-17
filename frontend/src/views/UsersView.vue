@@ -32,8 +32,8 @@ onMounted(() => {
 				<table class="table m-0 table-striped table-hover">
 					<thead>
 						<tr class="align-middle">
-							<th colspan="2">{{useI18n().t('usersview.username')}}</th>
-							<th>{{useI18n().t('usersview.nickname')}}</th>
+							<th colspan="2">{{useI18n().t('usersview.nickname')}}</th>
+							<th>{{useI18n().t('usersview.username')}}</th>
 							<th class="d-none d-md-table-cell">{{useI18n().t('usersview.created_at')}}</th>
 							<th class="d-none d-md-table-cell">{{useI18n().t('usersview.updated_at')}}</th>
 						</tr>
@@ -41,7 +41,7 @@ onMounted(() => {
 					<tbody>
 						<tr v-for="user in users" :key="user.id" class="align-middle">
 							<UserRow :user="user" bgColor=""/>
-							<td>{{ user.nickname }}</td>
+							<td>{{ user.username }}</td>
 							<td class="d-none d-md-table-cell">{{ user.created_at }}</td>
 							<td class="d-none d-md-table-cell">{{ user.updated_at }}</td>
 						</tr>

@@ -47,7 +47,7 @@ const submitChanges = async() => {
 			inputavatar.value = '';
 		}
 
-		if(requestBody !== {})
+		if(Object.keys(requestBody).length)
 			await Backend.patch(`/api/users/me`, requestBody);
 		if(input.value.nickname !== '') globalUser.value.nickname = input.value.nickname; input.value.nickname = '';
 		if(input.value.password !== '') {
