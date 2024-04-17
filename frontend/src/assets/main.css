@@ -20,6 +20,10 @@
     color: var(--COLOR1);
 } */
 
+body {
+    font-family: 'Courier New', monospace;
+}
+
 .boxstyling {
     display: flex;
     justify-content: center;

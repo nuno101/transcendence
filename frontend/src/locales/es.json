@@ -60,13 +60,13 @@
     },
     "friendsview": {
         "friends": "Amigos",
-        "friendrequests": "Solicitudes de Amistad",
+        "friendrequests": "Solicitudes Entrantes",
         "pendingrequests": "Solicitudes Pendientes",
         "deleteFriend": "¿Deseas eliminar a este amigo?",
         "declineFriendRequest": "¿Deseas rechazar esta solicitud de amistad?",
         "cancelFriendRequest": "¿Deseas cancelar esta solicitud de amistad?",
         "noFriends": "sin amigos",
-        "noFriendRequests": "sin solicitudes de amistad",
+        "noFriendRequests": "sin solicitudes entrantes",
         "noPendingRequests": "sin solicitudes pendientes",
         "searchNickname": "Buscar apodo"
     },
