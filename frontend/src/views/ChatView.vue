@@ -66,10 +66,12 @@ async function selectChannel(channel) {
 
 async function createChannel() {
     try {
-        let data = await Backend.post(`/api/channels`, {
-            nickname: targetNickname.value
-        })
-        Chat.channels.value.unshift(data)
+        if(targetNickname.value) {
+            let data = await Backend.post(`/api/channels`, {
+                nickname: targetNickname.value
+            })
+            Chat.channels.value.unshift(data)
+        }
         channelError.value = ''
     } catch (err) {
         channelError.value = err.message;
@@ -200,7 +202,7 @@ function isFriend() {
                     <div class="border rounded d-flex align-items-center mb-1">
                         <GetAvatar :id="getChannelMember().id" :size=40 class="m-1 mr-2" />
                         <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
-                                getChannelMember().username
+                                getChannelMember().nickname
                             }}</router-link>
                         <div class="input-group m-1 justify-content-end">
                             <button v-if="!dmUserBlocked" class="btn btn-primary"
