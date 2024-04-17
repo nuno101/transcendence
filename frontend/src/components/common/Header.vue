@@ -23,7 +23,7 @@
 						<button type="button" class="btn btn-secondary btn-empty disabled placeholder" data-bs-target="#signupModalToggle" data-bs-toggle="modal"></button>
 					</div>
 					<div v-else-if="globalUser">
-						<button type="button" class="btn me-2 btn-outline-light">
+						<button type="button" class="btn me-2 btn-outline-light userbutton">
 							<router-link :to="`/users/${globalUser.id}`" class="nav-link">{{ globalUser.nickname }}</router-link>
 						</button>
 						<button @click="router.push(logoutRoute)" type="button" class="btn btn-secondary">{{useI18n().t('login.logout')}}</button>
@@ -89,7 +89,7 @@ const logoutRoute = { name: 'logout' }
 		background-color: var(--COLOR1);
 	}
 
-	button {
+	.userbutton {
 		--bs-btn-hover-color: grey;
 		--bs-btn-hover-border-color: grey;
 	}
