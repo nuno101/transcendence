@@ -229,7 +229,7 @@
         "thisPageIsntAvailable": "Cette page n'est pas disponible"
     },
     "err": {
-        "Staff user required": "Utilisateur du personnel requis",
+        "Staff user required": "Compte administrateur requis",
         "Internal server error": "Erreur interne du serveur",
         "Invalid password (choose a better one)": "Mot de passe invalide (choisissez-en un meilleur)",
         "Not logged in": "Non connecté",

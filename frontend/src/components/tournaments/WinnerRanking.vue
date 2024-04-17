@@ -62,7 +62,7 @@ onMounted(fetchData)
 					</router-link>
 				</td>
 				<td>{{ player.wins !== -1 ? player.wins : useI18n().t('winnerranking.nodata') }}</td>
-				<td>{{ player.points !== -1 ? player.points : useI18n().t('winnerranking.nodata') }}</td>
+				<td>{{ player.wins !== -1 ? player.points : useI18n().t('winnerranking.nodata') }}</td>
 		    </tr>
 		</tbody>
 	  </table>
