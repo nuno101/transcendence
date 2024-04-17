@@ -60,7 +60,7 @@
 	},
 	"friendsview": {
 		"friends": "Amis",
-		"friendrequests": "Demandes entrantes",
+		"friendrequests": "Demandes d'Amis",
 		"pendingrequests": "Demandes en Attente",
 		"deleteFriend": "Voulez-vous supprimer cet ami ?",
 		"declineFriendRequest": "Voulez-vous refuser cette demande d'ami ?",
