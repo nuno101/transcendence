@@ -32,7 +32,7 @@ async function acceptInvite() {
       <div class="card-header message-header d-flex justify-content-between align-items-center">
         <div>
           <GetAvatar :id="message.author.id" :size=35 class="avatar" />
-          <router-link class="message-author" :to="'/users/' + message.author.id">{{ message.author.username
+          <router-link class="message-author" :to="'/users/' + message.author.id">{{ message.author.nickname
             }}</router-link>
           <small class="text-muted">{{ formatTimestamp(message.created_at) }}</small>
         </div>

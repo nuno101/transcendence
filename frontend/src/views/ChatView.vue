@@ -202,7 +202,7 @@ function isFriend() {
                     <div class="border rounded d-flex align-items-center mb-1">
                         <GetAvatar :id="getChannelMember().id" :size=40 class="m-1 mr-2" />
                         <router-link class="message-author" :to="'/users/' + getChannelMember().id">{{
-                                getChannelMember().username
+                                getChannelMember().nickname
                             }}</router-link>
                         <div class="input-group m-1 justify-content-end">
                             <button v-if="!dmUserBlocked" class="btn btn-primary"
