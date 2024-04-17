@@ -80,7 +80,7 @@ async function sendMessage() {
     let channel_id = Chat.selected_channel.value.id
     try {
         if(messageInput.value) {
-            let data = await Backend.post(`/api/channels/${channel_id}/messages`, {
+            await Backend.post(`/api/channels/${channel_id}/messages`, {
                 content: messageInput.value
             })
         }
