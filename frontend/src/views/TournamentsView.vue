@@ -127,10 +127,10 @@ onMounted(() => {
 		  <!-- Tabs -->
 		  <ul class="nav nav-tabs" id="myTab" role="tablist">
 			<li class="nav-item" role="presentation">
-			  <button class="nav-link active" id="all-tournaments-tab" data-bs-toggle="tab" data-bs-target="#all-tournaments" type="button" role="tab" aria-controls="all-tournaments" aria-selected="true">{{useI18n().t('tournamentsview.ongoingtournaments')}}</button>
+			  <button class="nav-link nav-link-custom active" id="all-tournaments-tab" data-bs-toggle="tab" data-bs-target="#all-tournaments" type="button" role="tab" aria-controls="all-tournaments" aria-selected="true">{{useI18n().t('tournamentsview.ongoingtournaments')}}</button>
 			</li>
 			<li class="nav-item" role="presentation">
-			  <button class="nav-link" id="my-tournaments-tab" data-bs-toggle="tab" data-bs-target="#my-tournaments" type="button" role="tab" aria-controls="my-tournaments" aria-selected="false">{{useI18n().t('tournamentsview.pasttournaments')}}</button>
+			  <button class="nav-link nav-link-custom" id="my-tournaments-tab" data-bs-toggle="tab" data-bs-target="#my-tournaments" type="button" role="tab" aria-controls="my-tournaments" aria-selected="false">{{useI18n().t('tournamentsview.pasttournaments')}}</button>
 			</li>
 		  </ul>
 		  
@@ -376,12 +376,12 @@ onMounted(() => {
 	padding-top: 0.5em;
 }
 
-.nav-link:hover {
+.nav-link-custom:hover {
     color: #ffffff;
 	background-color: #4d20e9;
 }
 
-.nav-link {
+.nav-link-custom {
     color: #4d20e9;
 }
 
