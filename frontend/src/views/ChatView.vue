@@ -66,10 +66,12 @@ async function selectChannel(channel) {
 
 async function createChannel() {
     try {
-        let data = await Backend.post(`/api/channels`, {
-            nickname: targetNickname.value
-        })
-        Chat.channels.value.unshift(data)
+        if(targetNickname.value) {
+            let data = await Backend.post(`/api/channels`, {
+                nickname: targetNickname.value
+            })
+            Chat.channels.value.unshift(data)
+        }
         channelError.value = ''
     } catch (err) {
         channelError.value = err.message;
