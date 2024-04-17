@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import { ref, onMounted } from 'vue';
 import { globalUser } from '../main';
-import UserRow from '../components/common/UserRow.vue';
 import GetAvatar from '../components/common/GetAvatar.vue';
 
 
