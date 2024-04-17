@@ -5,6 +5,8 @@ import Backend from '../js/Backend';
 import { ref, onMounted } from 'vue';
 import { globalUser } from '../main';
 import UserRow from '../components/common/UserRow.vue';
+import GetAvatar from '../components/common/GetAvatar.vue';
+
 
 const users = ref([])
 
@@ -32,7 +34,7 @@ onMounted(() => {
 				<table class="table m-0 table-striped table-hover">
 					<thead>
 						<tr class="align-middle">
-							<th colspan="2">{{useI18n().t('usersview.nickname')}}</th>
+							<th>{{useI18n().t('usersview.nickname')}}</th>
 							<th>{{useI18n().t('usersview.username')}}</th>
 							<th class="d-none d-md-table-cell">{{useI18n().t('usersview.created_at')}}</th>
 							<th class="d-none d-md-table-cell">{{useI18n().t('usersview.updated_at')}}</th>
@@ -40,7 +42,10 @@ onMounted(() => {
 					</thead>
 					<tbody>
 						<tr v-for="user in users" :key="user.id" class="align-middle">
-							<UserRow :user="user" bgColor=""/>
+							<td class="">
+								<GetAvatar :id="user.id" :size="50" />
+								<router-link :class="linkColor" :to="`/users/${user.id}`" style="margin-left: 10px;">{{user.nickname }}</router-link>
+							</td>
 							<td>{{ user.username }}</td>
 							<td class="d-none d-md-table-cell">{{ user.created_at }}</td>
 							<td class="d-none d-md-table-cell">{{ user.updated_at }}</td>
@@ -54,9 +59,9 @@ onMounted(() => {
 
 <style scoped>
 th {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+	position: sticky;
+	top: 0;
+	z-index: 1;
 }
 
 .usertable {
