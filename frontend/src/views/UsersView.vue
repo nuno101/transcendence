@@ -43,7 +43,7 @@ onMounted(() => {
 						<tr v-for="user in users" :key="user.id" class="align-middle">
 							<td class="">
 								<GetAvatar :id="user.id" :size="50" />
-								<router-link :class="linkColor" :to="`/users/${user.id}`" style="margin-left: 10px;">{{user.nickname }}</router-link>
+								<router-link :to="`/users/${user.id}`" style="margin-left: 10px;">{{user.nickname }}</router-link>
 							</td>
 							<td>{{ user.username }}</td>
 							<td class="d-none d-md-table-cell">{{ user.created_at }}</td>
