@@ -28,7 +28,7 @@
 						{{player.user.username}} {{useI18n().t('auth.withNickname')}} <strong>{{player.user.nickname}}</strong> {{useI18n().t('auth.successfullyAuth')}}
 					</div>
 				</div>
-				<div class="mx-auto mb-2 text-center pb-5" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
+				<div class="mx-auto mb-2 text-center px-5 pb-5" v-if="areAllPlayersAuthenticated && authPlayers.length === 2">
 					<InstructionInfo :firstplayer="authPlayers[0].user.nickname" :secondplayer="authPlayers[1].user.nickname"/>
 					<button type="button" class="btn btn-success" @click="startGame">{{useI18n().t('auth.startGame')}}</button>
 				</div>

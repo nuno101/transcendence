@@ -60,13 +60,13 @@
     },
     "friendsview": {
         "friends": "Amigos",
-        "friendrequests": "Solicitudes de Amistad",
+        "friendrequests": "Solicitudes Entrantes",
         "pendingrequests": "Solicitudes Pendientes",
         "deleteFriend": "¿Deseas eliminar a este amigo?",
         "declineFriendRequest": "¿Deseas rechazar esta solicitud de amistad?",
         "cancelFriendRequest": "¿Deseas cancelar esta solicitud de amistad?",
         "noFriends": "sin amigos",
-        "noFriendRequests": "sin solicitudes de amistad",
+        "noFriendRequests": "sin solicitudes entrantes",
         "noPendingRequests": "sin solicitudes pendientes",
         "searchNickname": "Buscar apodo"
     },
@@ -91,7 +91,7 @@
 				"description" : "Descripción",
 				"status" : "Estado",
 				"register" : "Regístrese en",		
-				"listoftournaments": "Lista de torneos",
+				"alltournaments": "Todos los torneos",
 				"title": "Título",
 				"creator": "Creado por",
 				"createatournament" : "Crear un torneo",
@@ -102,7 +102,11 @@
 				"mytournaments" : "Mis torneos",
 				"(you)" : "(Usted)",
 				"entertitle" : "Introducir título",
-				"enterdescription" : "Introducir descripción"
+				"enterdescription" : "Introducir descripción",
+				"winner" : "Ganador",
+				"nodataavailable" : "No hay datos disponibles",
+				"pasttournaments" : "Torneos anteriores",
+				"ongoingtournaments" : "Torneos en curso"
 				
 			},
 			"singletournamentsview": {
@@ -124,6 +128,7 @@
 				"starttournament" : "Iniciar torneo",
 				"tournamentwillstartgetready" : "¡El torneo va a comenzar, prepárate para jugar!",
 				"success" : "Éxito",
+				"errormodal" : "Error",
 				"tournamentnickname" : "Apodo",
 				"created" : "Creado",
 				"registration_open" : "Inscripción abierta",
@@ -285,6 +290,10 @@
       "unblockUser": "Desatascar",
       "create": "Crear",
       "nickname": "Apodo",
-      "invite": "TODO"
+      "invite": "Invitar",
+      "inviteSent": "Invitación enviada",
+      "invitedYouToPlay": "te invitó a jugar a un juego (haz clic para aceptar e ir al otro PC)",
+      "youAcceptedTheInvite": "Has aceptado la invitación",
+      "acceptedYourInvite": "aceptó tu invitación"
     }
 }

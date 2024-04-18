@@ -60,27 +60,27 @@
 	},
 	"friendsview": {
 		"friends": "Freunde",
-		"friendrequests": "Freundschaftsanfragen",
+		"friendrequests": "Eingehende Anfragen",
 		"pendingrequests": "Ausstehende Anfragen",
 		"deleteFriend": "Möchtest du diesen Freund entfernen?",
 		"declineFriendRequest": "Möchtest du diese Freundschaftsanfrage ablehnen?",
 		"cancelFriendRequest": "Möchtest du diese Freundschaftsanfrage zurückziehen?",
 		"noFriends": "keine Freunde",
-		"noFriendRequests": "keine Freundschaftsanfragen",
+		"noFriendRequests": "keine eingehenden Anfragen",
 		"noPendingRequests": "keine ausstehenden Anfragen",
 		"searchNickname": "Nickname suchen"
 	},
 	"userstats": {
 		"wins" : "Gewinne",
-		"defeats": "Niederlagen",
+		"defeats": "Verluste",
 		"noWins": "keine Gewinne",
-		"noDefeats": "keine Niederlagen",
+		"noDefeats": "keine Verluste",
 		"noGames": "keine Spiele"
 	},
 	"usersview": {
 		"listofusers": "Benutzerliste",
 		"username": "Benutzername",
-		"nickname": "Spitzname",
+		"nickname": "Nickname",
 		"created_at": "Erstellt am",
 		"updated_at": "Aktualisiert am"
 	},
@@ -91,7 +91,7 @@
 		"description" : "Beschreibung",
 		"status" : "Status",
 		"register" : "Registrieren",
-		"listoftournaments": "Liste der Turniere",
+		"alltournaments": "Alle Turniere",
 		"title": "Titel",
 		"creator": "Erstellt von",
 		"createatournament" : "Ein Turnier erstellen",
@@ -102,7 +102,11 @@
 		"mytournaments" : "Meine Turniere",
 		"(you)" : "(Sie)",
 		"entertitle" : "Titel eingeben",
-		"enterdescription" : "Beschreibung eingeben"
+		"enterdescription" : "Beschreibung eingeben",
+		"winner" : "Gewinner",
+		"nodataavailable" : "Keine Daten verfügbar",
+		"pasttournaments" : "Vergangene Turniere",
+		"ongoingtournaments" : "Laufende Turniere"
     },
 	"singletournamentsview": {
         "openregistration" : "Offene Registrierung",
@@ -122,6 +126,7 @@
 		"starttournament" : "Turnier starten",
 		"tournamentwillstartgetready" : "Das Turnier wird beginnen, mach dich bereit zu spielen!",
 		"success" : "Erfolg",
+		"errormodal" : "Fehler",
 		"tournamentnickname" : "Nickname",
 		"created" : "Erstellt",
 		"registration_open" : "Registrierung geöffnet",
@@ -282,7 +287,11 @@
 		"blockUser": "Blockieren",
 		"unblockUser": "Entblocken",
 		"create": "Erstellen",
-		"nickname": "Spitzname",
-    "invite": "Einladen"
+		"nickname": "Nickname",
+    	"invite": "Einladen",
+		"inviteSent": "Einladung gesendet",
+		"invitedYouToPlay": "hat dich zu einem Spiel eingeladen (klicke, um zu akzeptieren und zum anderen PC zu wechseln)",
+		"youAcceptedTheInvite": "Du hast die Einladung angenommen",
+		"acceptedYourInvite": "hat die Einladung angenommen"
 	}
 }

@@ -80,117 +80,67 @@ const DefeatGames = computed(() => {
 <template>
 	<div class="boxstyling">
 		<Loading v-if="!isLoaded"/>
-		<div v-if="isLoaded && user.id" class="box rounded" style="overflow:hidden;">
-			<div class="con mt-5">
-				<div class="row">
-					<div class="col-6">
-						<div class="bg-danger rounded-pill">
-							<div class="ms-4 p-2 ps-0 text-white d-flex justify-content-between">
-								<div class="p-0">{{useI18n().t('userstats.defeats')}}</div>
-								<div class="text-end pe-5">{{ DefeatGames.length }}</div>
-							</div>
+		<div v-if="isLoaded && user.id" class="box rounded">
+			<div class="row align-items-center">
+                <div class="col bg-danger rounded-pill rounded-end-0 pt-2 " style="height:40px;">
+                    <div class="text-white d-flex" style="width: 100%;">
+                        <div class="p-0 d-none d-sm-flex" style="width: 50%;">{{useI18n().t('userstats.defeats')}}</div>
+                        <div class="text-end pe-5" style="width: 50%;">{{ DefeatGames.length }}</div>
+                    </div>
+                </div>
+                <GetAvatar class="col-auto" :id="user.id" :size="100" />
+                <div class="col bg-success rounded-pill rounded-start-0 pt-2 " style="height:40px;"> 
+                    <div class="text-white d-flex" style="width: 100%;">
+                        <div class="d-none d-sm-flex ps-5" style="width: 50%;">{{ WinGames.length }}</div>
+                        <div class="d-none d-sm-block text-end" style="width: 50%;">{{useI18n().t('userstats.wins')}}</div>
+                        <div class="text-end pe-3 d-sm-none" style="width: 100%;">{{ WinGames.length }}</div>
+                    </div>
+                </div>
+            </div>
+			<div class="text-center">
+				<div class="bg-dark px-4 pb-1 text-white d-inline-block rounded-bottom">
+					{{ user.nickname }}
+				</div>
+			</div>
+			<div class="row mt-4">
+				<StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
+				<div class="col-lg-2 d-none d-lg-block border">
+					<div class="bar-chart rounded text-white">
+						<div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}">
+							<span v-if="defeatsRatio" class="d-flex align-items-center justify-content-center"><strong>{{defeatsRatio.toFixed(0)}}%</strong></span>
+						</div>
+						<div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}">
+							<span v-if="winsRatio"class="d-flex align-items-center justify-content-center"><strong>{{winsRatio.toFixed(0)}}%</strong></span>
 						</div>
 					</div>
-					<div class="col-6"> 
-						<div class="bg-success rounded-pill">
-							<div class="me-4 p-2 pe-0 text-white d-flex justify-content-between">
-								<div class="ps-5">{{ WinGames.length }}</div>
-								<div class="text-end">{{useI18n().t('userstats.wins')}}</div>
-							</div>
-						</div>
-					</div>
 				</div>
-				<div class="avatar-circle position-absolute start-50 translate-middle">
-					<GetAvatar class="float-start" :id="user.id" :size="100" />
-				</div>
-				<div class="text-center">
-					<div class="name bg-dark pe-4 ps-4 pt-3 pb-1 text-white d-inline-block rounded-bottom">
-						{{ user.nickname }}
-					</div>
-				</div>
-				<div class="row mt-4">
-					<StatsTable :id="Number(userId)" :games="games" :flag="'DEFEATS'" />
-					<div class="col-lg-2 d-none d-lg-block">
-						<div class="bar-chart rounded text-white">
-							<div class="bar defeat-bar rounded" :style="{height: `${defeatsRatio}%`}">
-								<span v-if="defeatsRatio" class="d-flex align-items-center justify-content-center">{{defeatsRatio.toFixed(0)}}%</span>
-							</div>
-							<div class="bar wins-bar rounded" :style="{height: `${winsRatio}%`}">
-								<span v-if="winsRatio"class="d-flex align-items-center justify-content-center">{{winsRatio.toFixed(0)}}%</span>
-							</div>
-						</div>
-					</div>
-					<StatsTable :id="Number(userId)" :games="games" :flag="'WINS'" />
-					<StatsTable :id="Number(userId)" :games="games" :flag="'GAMES'" />
-				</div>
+				<StatsTable :id="Number(userId)" :games="games" :flag="'WINS'" />
+				<StatsTable :id="Number(userId)" :games="games" :flag="'GAMES'" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-.cont {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	margin-top: 50px;
-	height: 100vh;
-	width: 100%;
-}
-
-.box {
-	box-sizing: border-box;
-	margin: 0;
-	width: 80%;
-	padding: 10px 20px;
-	padding-bottom: 20px;
-	background-color: white;
-}
-
-.curved-bg {
-	position: relative;
-	background: #007bff;
-}
-
 .bar-chart {
 	display: flex;
 	justify-content: center;
-	align-items: end;
 	background-color: #f0f0f0;
-	height: calc(100vh - var(--header-height) - 88px - 170px);
+	align-items: end;
+	height: 100%;
 }
 
 .bar {
+	flex: 1;
 	width: 50px;
 	border: 1px solid #fff;
 }
+
 .defeat-bar {
 	background-color: red;
 }
 
 .wins-bar {
 	background-color: green;
-}
-
-.gamestable {
-	overflow-y: scroll;
-	padding: 0;
-	height: calc(100vh - var(--header-height) - 88px - 170px);
-}
-
-.avatar-circle {
-  top: 180px;
-}
-
-@media (max-width: 991.98px) {
-  .avatar-circle {
-	top: 220px;
-  }
-}
-
-@media (max-width: 768px) {
-  .avatar-circle {
-	top: 265px;
-  }
 }
 </style>

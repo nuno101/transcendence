@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n';
 import Backend from '../js/Backend';
 import { ref, onMounted } from 'vue';
 import { globalUser } from '../main';
-import UserRow from '../components/common/UserRow.vue';
+import GetAvatar from '../components/common/GetAvatar.vue';
+
 
 const users = ref([])
 
@@ -20,20 +21,6 @@ const fetchData = async () => {
 
 onMounted(() => {
 	fetchData();
-
-	const userTable = document.getElementById('userTable');
-	if(userTable){
-		// console.log(userTable);
-		// const headerHeight = document.querySelector('header').offsetHeight;
-		// console.log(headerHeight);
-		// const screenHeight = window.innerHeight;
-		// console.log(screenHeight);
-		const tableRect = userTable.getBoundingClientRect();
-		console.log(tableRect);
-		// const maxTableHeight = screenHeight - headerHeight - 80;
-        // userTable.style.maxHeight = `${maxTableHeight}px`;
-		// console.log(userTable.style.maxHeight);
-	}
 })
 
 </script>
@@ -42,20 +29,23 @@ onMounted(() => {
 	<div class="boxstyling">
 		<div class="box rounded">
 			<h6 class="text-center fw-bold text-uppercase">{{useI18n().t('usersview.listofusers')}}</h6>
-			<div class="mt-3 rounded img-thumbnail d-md-block usertable">
+			<div class="rounded img-thumbnail d-md-block usertable">
 				<table class="table m-0 table-striped table-hover">
 					<thead>
 						<tr class="align-middle">
-							<th colspan="2">{{useI18n().t('usersview.username')}}</th>
 							<th>{{useI18n().t('usersview.nickname')}}</th>
+							<th>{{useI18n().t('usersview.username')}}</th>
 							<th class="d-none d-md-table-cell">{{useI18n().t('usersview.created_at')}}</th>
 							<th class="d-none d-md-table-cell">{{useI18n().t('usersview.updated_at')}}</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="user in users" :key="user.id" class="align-middle">
-							<UserRow :user="user" bgColor=""/>
-							<td>{{ user.nickname }}</td>
+							<td class="">
+								<GetAvatar :id="user.id" :size="50" />
+								<router-link :to="`/users/${user.id}`" style="margin-left: 10px;">{{user.nickname }}</router-link>
+							</td>
+							<td>{{ user.username }}</td>
 							<td class="d-none d-md-table-cell">{{ user.created_at }}</td>
 							<td class="d-none d-md-table-cell">{{ user.updated_at }}</td>
 						</tr>
@@ -68,15 +58,15 @@ onMounted(() => {
 
 <style scoped>
 th {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+	position: sticky;
+	top: 0;
+	z-index: 1;
 }
 
 .usertable {
 	flex: 1;
 	padding: 0;
 	overflow-y: auto;
-	height: calc(100vh - var(--header-height) - 88px - 100px);
+	height: max(calc(100vh - var(--header-height) - 88px - 100px), 170px);
 }
 </style>

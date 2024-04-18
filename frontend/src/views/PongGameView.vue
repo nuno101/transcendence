@@ -159,30 +159,6 @@ const keyhook = (key) => {
 			Scene.pause = true
 		}
 	}
-
-	// TODO: remove
-	if (key === 'e') {
-		if (Scores.winner()) return
-		const leftScore = Math.floor(Math.random() * Scores.max)
-		for (let i = 0; i < leftScore; ++i) {
-			Scores.leftScored(onscored)
-		}
-		while (!Scores.winner()) {
-			Scores.rightScored(onscored)
-		}
-	}
-
-	// TODO: remove
-	if (key === 'q') {
-		if (Scores.winner()) return
-		const rightScore = Math.floor(Math.random() * Scores.max)
-		for (let i = 0; i < rightScore; ++i) {
-			Scores.rightScored(onscored)
-		}
-		while (!Scores.winner()) {
-			Scores.leftScored(onscored)
-		}
-	}
 }
 
 const paddleInput = (keys, deltaTime) => {
@@ -228,7 +204,6 @@ const fetchData = async (gameId) => {
 	}
 	try {
 		showGameLoading.value = 'ponggameview.loadingfetch'
-		await new Promise(t => setTimeout(t, 1000)) // TODO remove
 		game = await Backend.get('/api/games/' + route.params.id)
 		isGlobalUserPartOfGame(game)
 		endpoint = '/games/' + game.id
@@ -293,7 +268,6 @@ const sendData = async () => {
 		player2_score: Scores.rightScore()
 	}
 	try {
-		await new Promise(t => setTimeout(t, 1000)) // TODO remove
 		game = await Backend.patch(endpoint, scores)
 		showGameLoading.value = ''
 	} catch (err) {

@@ -3,7 +3,25 @@
     --COLOR2: #071de4ff;
     --COLOR3: #26ffe6ff;
     --COLOR4: #caa7f5ff;
+    --COLOR5: rgb(212, 212, 218);
     --header-height: 72px;
+    --footer-height: 127.2px;
+    --bs-btn-primary: var(--COLOR3);
+}
+
+/* .btn-primary {
+    background-color: var(--COLOR1);
+    border-color: var(--COLOR1);
+}
+
+.btn-primary:hover {
+    border-color: var(--COLOR1);
+    background-color: var(--COLOR5);
+    color: var(--COLOR1);
+} */
+
+body {
+    font-family: 'Courier New', monospace;
 }
 
 .boxstyling {
@@ -37,5 +55,11 @@ thead {
 @media (max-width: 767px) {
     :root {
         --header-height: 158px;
+    }
+}
+
+@media (max-width: 604px) {
+    :root {
+        --footer-height: 167.2px;
     }
 }
