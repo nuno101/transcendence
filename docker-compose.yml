@@ -14,9 +14,6 @@ networks:
   proxy-network:
     name: proxy-network
 
-  elastic:
-    external: true
-
 volumes:
   database_device:
     driver: local
@@ -147,10 +144,8 @@ services:
       - frontend
     ports:
       - "443:443"
-      - "5601:5601"
     networks:
       - proxy-network
-      - elastic
     volumes:
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
