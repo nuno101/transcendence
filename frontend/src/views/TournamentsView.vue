@@ -161,7 +161,7 @@ onMounted(() => {
 									{{ tournament.title }}
 								</router-link>
 							</td>
-							<td>{{ tournament.creator.username }}</td>
+							<td>{{ tournament.creator.nickname }}</td>
 							<td>{{ formatDateTime(tournament.created_at) }}</td>
 							<td>{{ formatDateTime(tournament.updated_at) }}</td>
 							<td>{{ useI18n().t(`singletournamentsview.${tournament.status}`)}}</td>
@@ -235,10 +235,10 @@ onMounted(() => {
 							</td>
 							<td>
 							<template v-if="tournament.creator.username === currentUser">
-								<b>{{ tournament.creator.username }} {{useI18n().t('tournamentsview.(you)')}}</b>
+								<b>{{ tournament.creator.nickname }} {{useI18n().t('tournamentsview.(you)')}}</b>
 							</template>
 							<template v-else>
-								{{ tournament.creator.username }}
+								{{ tournament.creator.nickname }}
 							</template>
                     	</td>
 							<td>{{ formatDateTime(tournament.created_at) }}</td>
@@ -277,10 +277,10 @@ onMounted(() => {
 								</td>
 								<td>
 									<template v-if="tournament.creator.username === currentUser">
-										<b>{{ tournament.creator.username }} {{useI18n().t('tournamentsview.(you)')}}</b>
+										<b>{{ tournament.creator.nickname }} {{useI18n().t('tournamentsview.(you)')}}</b>
 									</template>
 									<template v-else>
-										{{ tournament.creator.username }}
+										{{ tournament.creator.nickname }}
 									</template>
 								</td>
 								<td>{{ formatDateTime(tournament.created_at) }}</td>
@@ -324,10 +324,10 @@ onMounted(() => {
 								</td>
 								<td>
 									<template v-if="tournament.creator.username === currentUser">
-										<b>{{ tournament.creator.username }} {{useI18n().t('tournamentsview.(you)')}}</b>
+										<b>{{ tournament.creator.nickname }} {{useI18n().t('tournamentsview.(you)')}}</b>
 									</template>
 									<template v-else>
-										{{ tournament.creator.username }}
+										{{ tournament.creator.nickname }}
 									</template>
 								</td>
 								<td>{{ formatDateTime(tournament.created_at) }}</td>
