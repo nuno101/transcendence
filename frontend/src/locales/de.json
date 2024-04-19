@@ -276,7 +276,8 @@
 		"No permission to access message": "Keine Berechtigung zum Zugriff auf die Nachricht",
 		"413 Request Entity Too Large": "413 Anforderung zu groß",
 		"User with this Nickname already exists.": "Benutzer mit diesem Nicknamen existiert bereits.",
-		"Avatar is too large": "Avatar ist zu groß"
+		"Avatar is too large": "Avatar ist zu groß",
+		"Username too shot, must contain at least 3 characters": "Benutzername zu kurz, muss mindestens 3 Zeichen enthalten"
 	},
 	"succ": {
 		"Hello, world. You're at the transcendence index.": "Hallo Welt. Du bist auf dem Transzendenz-Index.",
