@@ -16,7 +16,7 @@ class User(AbstractUser):
 		return f'{AVATAR_PATH}{instance.id}.{ext}'
 
 	username = models.CharField(max_length=12, unique=True, null=False,validators=[
-            MinLengthValidator(3, 'Username too shot, must contain at least 3 characters')
+            MinLengthValidator(3, 'Username too short, must contain at least 3 characters')
             ])
 	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
