@@ -16,9 +16,8 @@ def index(request):
 	logger.debug("Hello world from the custom debug log")
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
-# DEBUG entryoint
-#def test_websocket(request):
-#	return render(request, 'api/custom_ws.html')
+def test_websocket(request):
+	return render(request, 'api/custom_ws.html')
 
 # Endpoint: /login
 @method_decorator(check_structure("/login"), name='dispatch')
