@@ -23,7 +23,7 @@ class UserCollection(View):
 			try:
 					validate_password(password, user)
 			except Exception as e:
-					return JsonResponse({ERROR_FIELD: "Invalid password (choose a better one)"}, status=400)
+					return JsonResponse({ERROR_FIELD: "Password too easy"}, status=400)
 			user.set_password(password)	
 			user.full_clean()
 			user.save()

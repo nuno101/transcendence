@@ -231,7 +231,7 @@
     "err": {
         "Staff user required": "Compte administrateur requis",
         "Internal server error": "Erreur interne du serveur",
-        "Invalid password (choose a better one)": "Mot de passe invalide (choisissez-en un meilleur)",
+		"Password too easy": "Choisissez un mot de passe d'au moins 9 caractères, qui ne ressemble pas à votre nom d'utilisateur, évite les mots de passe courants et ne se compose pas uniquement de chiffres.",
         "Not logged in": "Non connecté",
         "Invalid JSON body syntax": "Syntaxe JSON du corps invalide",
         "Cannot add yourself": "Vous ne pouvez pas vous ajouter vous-même",
