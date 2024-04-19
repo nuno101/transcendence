@@ -40,10 +40,8 @@ async function loadBlockedUsers() {
     try {
         blockedUsers.value = []
         blockedUsers.value = await Backend.get(`/api/users/me/blocked`)
-        console.log("Loaded blocked users")
     } catch (err) {
         console.error(err.message)
-        // TODO: Display error message
     }
 }
 
@@ -55,7 +53,6 @@ async function loadMessages(channel) {
     } catch (err) {
         console.error(err.message)
         Chat.messages.value = []
-        // TODO: Display error message
     }
 }
 
@@ -122,7 +119,6 @@ async function blockUser() {
         blockedUsers.value.unshift(dm_user)
         dmUserBlocked.value = true
     } catch (err) {
-        // TODO: Error handling
         console.error(`Failed to block: ${err.message}`)
     }
 
@@ -138,7 +134,6 @@ async function unblockUser() {
         blockedUsers.value = blockedUsers.value.filter(u => u.id !== dm_user.id)
         dmUserBlocked.value = false
     } catch (err) {
-        // TODO: Error handling
         console.error("Failed to unblock")
     }
 }

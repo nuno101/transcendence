@@ -135,8 +135,7 @@
 			"done" : "Done",
 			"cancelled" : "Cancelled",
 			"youarenotpartofthistournament" : "This tournament is ongoing but you are not part of it",
-			"youplayedallyourgames" : "You played all your games"
-			
+			"youplayedallyourgames" : "You played all your games"	
 		},
 		"gameselection": {
 			"selectagame" : "Select a game",

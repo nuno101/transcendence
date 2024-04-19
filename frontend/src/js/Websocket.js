@@ -7,7 +7,6 @@ class Websocket {
   }
 
   init() { 
-    // FIXME: Replace ws with wss before evaluation
     this.ws = new WebSocket('wss://' + window.location.host + this.url)
 
     this.ws.addEventListener('message', async (event) => {
