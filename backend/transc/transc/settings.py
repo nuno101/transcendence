@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 from django.core.management.utils import get_random_secret_key
 from django.utils.translation import gettext_lazy as _
-from socket import gethostname, gethostbyname
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +30,8 @@ if SECRET_KEY == '':
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.environ.get('DJANGO_DEBUG', "False").lower() == "true") 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1',gethostname(), gethostbyname(gethostname())]
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
 
 # Application definition
