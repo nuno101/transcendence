@@ -1,6 +1,5 @@
 .PHONY: all build up init migrate superuser ssl_create down blog documentation volume_clean docker_clean \
 				docker_fclean data_clean clean fclean re test help
--include docker.mk
 
 .DEFAULT_GOAL :=  all
 ENV_FILES     := .env elastic-stack/.env
