@@ -40,10 +40,8 @@ async function loadBlockedUsers() {
     try {
         blockedUsers.value = []
         blockedUsers.value = await Backend.get(`/api/users/me/blocked`)
-        console.log("Loaded blocked users")
     } catch (err) {
         console.error(err.message)
-        // TODO: Display error message
     }
 }
 
@@ -55,7 +53,6 @@ async function loadMessages(channel) {
     } catch (err) {
         console.error(err.message)
         Chat.messages.value = []
-        // TODO: Display error message
     }
 }
 

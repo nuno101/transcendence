@@ -13,12 +13,10 @@ const props = defineProps({
 
 async function acceptInvite() {
   let channel_id = props.message.channel_id
-  console.log("Hellop")
   try {
     await Backend.post(`/api/channels/${channel_id}/messages`, {
       content: "invite-accept"
     })
-    console.log("Hellop")
   } catch (err) {
     // TODO: Visual error handling?
     console.error(err)
@@ -36,7 +34,6 @@ async function acceptInvite() {
             }}</router-link>
           <small class="text-muted">{{ formatTimestamp(message.created_at) }}</small>
         </div>
-        <!-- TODO: Only display if message belongs to currently logged in user-->
         <button v-if="globalUser.id === message.author.id" class="btn btn-sm btn-danger" @click="$emit('deleted')">
           <i class="bi bi-trash"></i>
         </button>
