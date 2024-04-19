@@ -88,7 +88,7 @@ const DefeatGames = computed(() => {
                         <div class="text-end pe-5" style="width: 50%;">{{ DefeatGames.length }}</div>
                     </div>
                 </div>
-                <GetAvatar class="col-auto" :id="user.id" :size="100" />
+                <GetAvatar class="col-auto p-0" :id="user.id" :size="100" />
                 <div class="col bg-success rounded-pill rounded-start-0 pt-2 " style="height:40px;"> 
                     <div class="text-white d-flex" style="width: 100%;">
                         <div class="d-none d-sm-flex ps-5" style="width: 50%;">{{ WinGames.length }}</div>
