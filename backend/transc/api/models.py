@@ -16,7 +16,6 @@ class User(AbstractUser):
 
 	username = models.CharField(max_length=12, unique=True, null=False)
 	nickname = models.CharField(max_length=12, unique=True, null=True)
-	nickname = models.CharField(max_length=11, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	avatar = models.ImageField(upload_to=get_avatar_path, null=True, blank=True)
@@ -53,7 +52,6 @@ class User(AbstractUser):
 			'id': self.id,
 			'username': self.username,
 			'nickname': self.nickname,
-			'number': self.number,
 			'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
 			'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
 			'status': self.status if private else None,
