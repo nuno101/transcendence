@@ -112,7 +112,6 @@ onMounted(() => {
 	const createTournamentModal = bootstrap.Modal.getInstance("#CreateTournamentModal");
 
 	createTournamentModal?.addEventListener('hidden.bs.modal', () => {
-  	// Clear alerts when the modal is hidden
   	alerts.value = [];
 	});
 	fetchData();

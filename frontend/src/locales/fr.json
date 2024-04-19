@@ -18,13 +18,13 @@
 	"home": {
 		"ourTranscendenceProject": "Notre Projet Transcendence",
 		"transcendenceDescription": "Transcendence est le dernier projet du cursus principal à 42. Le but de ce projet est de développer une application web qui permet aux utilisateurs de jouer à un jeu de Pong de base tout en offrant une plateforme d'interaction sociale avec d'autres utilisateurs. Cela implique la mise en œuvre de différents modules, la prise de décisions concernant les technologies et les bibliothèques, et la garantie que toutes les décisions sont conformes aux exigences et aux limitations du projet.",
-		"connectOnGithub": "Connectez-vous avec nous sur Github"
+		"connectOnGithub": "Retrouvez nous sur Github"
 	},
 	"upcomingGames": {
-		"upcomingGames": "Prochains jeux",
+		"upcomingGames": "Prochains matchs",
 		"opponent": "Adversaire",
 		"tournament": "Tournoi",
-		"noUpcomingGames": "Aucun jeu à venir",
+		"noUpcomingGames": "Aucun match à venir",
 		"play": "jouer"
 	},
 	"login": {
@@ -32,7 +32,7 @@
 		"new?": "Nouveau?",
 		"rememberMe": "Se souvenir de moi",
 		"signUp": "S'inscrire",
-		"alreadyHaveAnAccount": "Vous avez déjà un compte ?",
+		"alreadyHaveAnAccount": "Avez-vous déjà un compte ?",
 		"logout": "Se déconnecter",
 		"successfullySignedUp": "Inscription réussie"
 	},
@@ -68,7 +68,7 @@
 		"noFriends": "aucun ami",
 		"noFriendRequests": "aucune demande d'ami",
 		"noPendingRequests": "aucune demande en attente",
-		"searchNickname": "Rechercher un pseudonyme"
+		"searchNickname": "Rechercher un pseudo"
 	},
 	"userstats": {
 		"wins" : "Victoires",
@@ -80,7 +80,7 @@
 	"usersview": {
 		"listofusers" : "Liste des utilisateurs",
 		"username" : "Nom d'utilisateur",
-		"nickname" : "pseudo",
+		"nickname" : "Pseudo",
 		"created_at" : "Créé le",
 		"updated_at" : "Mis à jour le"
 	},
@@ -98,7 +98,6 @@
 				"created_at": "Créé le",
 				"last_update": "Dernière mise à jour",
 				"players" : "Joueurs",
-				"titlealreadytaken" : "Le titre est déjà pris. Veuillez choisir un autre titre.",
 				"mytournaments" : "Mes tournois",
 				"(you)" : "(Vous)",
 				"entertitle" : "Saisir le titre",
@@ -164,12 +163,12 @@
         "unexpectederror": "Erreur inattendue",
         "accuredduring": "Survenue pendant",
         "paused": "En pause",
-        "wonthegame": "a remporté le jeu",
-        "youwonthegame": "vous avez remporté le jeu",
+        "wonthegame": "a remporté le match",
+        "youwonthegame": "vous avez remporté le match",
         "press": "appuyez sur",
         "tocontinue": "pour continuer",
         "ai": "L'IA",
-        "wronguser": "vous ne participez pas à ce jeu"
+        "wronguser": "vous ne faites pas partie de ce match'"
     },
     "aisettings": {
         "ai": "IA",
@@ -183,7 +182,7 @@
         "inaccuracy": "Inexactitude",
         "explenation": "Cette valeur détermine l'inexactitude dans le calcul. Une valeur de 0 signifie qu'il n'y a pas d'inexactitude.",
         "tip": "Conseil",
-        "tipvalue": "Une inexactitude positive augmente la probabilité que la balle touche un coin de la raquette de l'IA. Cela rend le jeu plus intéressant."
+        "tipvalue": "Une inexactitude positive augmente la probabilité que la balle touche un coin du paddle de l'IA. Cela rend le jeu plus intéressant."
     },
     "auth": {
         "authentication": "Authentification",
@@ -207,7 +206,7 @@
         "showOrHide": "afficher/masquer",
         "theGame": "le jeu",
         "theseInstructions": "ces instructions",
-        "fpsCounter": "compteur de FPS",
+        "fpsCounter": "compteur d'images par seconde'",
         "spacebar": "barre d'espace",
         "wkey": "touche w",
         "skey": "touche s",
@@ -219,9 +218,9 @@
     "notif": {
         "noNotifications": "Pas de notifications",
         "newMessage": "Allez dans le chat pour voir les nouveaux messages",
-        "newFriendRequest": "Allez dans les amis pour voir les nouvelles demandes d'amitié",
-        "newFriends": "Allez dans les amis pour voir les nouveaux amis",
-        "tournamentStarting": "Un tournoi commence. Allez jeter un coup d'œil à la page du tournoi"
+        "newFriendRequest": "Allez dans l'onglet Amis pour voir les nouvelles demandes d'amis",
+        "newFriends": "Allez dans l'onglet Amis pour voir les nouveaux amis",
+        "tournamentStarting": "Un tournoi commence. Allez jeter un coup d'œil au tableau de bord du tournoi"
     },
     "notfound": {
         "pageNotFound": "Page non trouvée",
@@ -248,50 +247,50 @@
         "Invalid player(s) score": "Score de joueur(s) invalide",
         "Change not allowed": "Changement non autorisé",
         "You are not the creator of this tournament": "Vous n'êtes pas le créateur de ce tournoi",
-        "You can't delete a game that is done": "Vous ne pouvez pas supprimer un jeu qui est terminé",
+        "You can't delete a game that is done": "Vous ne pouvez pas supprimer un match qui est terminé",
         "No avatar provided (needs to be a multipart/form-data field with key 'avatar')": "Aucun avatar fourni (doit être un champ multipart/form-data avec la clé 'avatar')",
         "Invalid file extension": "Extension de fichier invalide",
         "Cannot block yourself": "Vous ne pouvez pas vous bloquer vous-même",
         "User is already blocked": "L'utilisateur est déjà bloqué",
         "User is a friend": "L'utilisateur est un ami",
-        "Outgoing friend request exists": "Une demande d'ami sortante existe déjà",
+        "Outgoing friend request exists": "Une demande d'ami existe déjà",
         "User is not blocked": "L'utilisateur n'est pas bloqué",
-        "Not enough players": "Pas assez de joueurs",
+        "Not enough players": "Il n'y a pas assez de joueurs",
         "Invalid status": "Statut invalide",
         "Invalid login credentials": "Informations de connexion invalides",
         "Not authenticated": "Non authentifié",
         "User not found": "Utilisateur non trouvé",
         "Friend request not found": "Demande d'ami non trouvée",
-        "No permission to access friend request": "Pas de permission pour accéder à la demande d'ami",
+        "No permission to access friend request": "Pas d'autorisation pour accéder à la demande d'ami",
         "Notification not found": "Notification non trouvée",
-        "No permission to access notification": "Pas de permission pour accéder à la notification",
+        "No permission to access notification": "Pas d'autorisation pour accéder à la notification",
         "Tournament not found": "Tournoi non trouvé",
-        "No permission to access tournament": "Pas de permission pour accéder au tournoi",
-        "Game not found": "Jeu non trouvé",
-        "No permission to access game": "Pas de permission pour accéder au jeu",
+        "No permission to access tournament": "Pas d'autorisation pour accéder au tournoi",
+        "Game not found": "Match non trouvé",
+        "No permission to access game": "Pas d'autorisation pour accéder au match",
         "Channel not found": "Chaîne non trouvée",
-        "No permission to access channel": "Pas de permission pour accéder à la chaîne",
+        "No permission to access channel": "Pas d'autorisation pour accéder à la chaîne",
         "Message not found": "Message non trouvé",
-        "No permission to access message": "Pas de permission pour accéder au message",
+        "No permission to access message": "Pas d'autorisation pour accéder au message",
         "413 Request Entity Too Large": "413 Demande d'entité trop volumineuse",
-        "User with this Nickname already exists.": "L'utilisateur avec ce pseudonyme existe déjà.",
+        "User with this Nickname already exists.": "L'utilisateur avec ce pseudo existe déjà.",
         "Avatar is too large": "L'avatar est trop grand",
 	"Username too short, must contain at least 3 characters": "Nom d'utilisateur trop court, doit contenir au moins 3 caractères"
     },
     "succ": {
-        "Hello, world. You're at the transcendence index.": "Bonjour, monde. Vous êtes à l'index de la transcendance.",
+        "Hello, world. You're at the transcendence index.": "Bonjour, le monde. Vous êtes à l'accueil de Transcendence.",
         "Successfully logged out": "Déconnexion réussie"
     },
     "chatview": {
-		"sendMessage": "Envoyer un message",
-		"blockUser": "Bloc",
-		"unblockUser": "Débloquer",
-		"create": "Créer",
-		"nickname": "Surnom",
-		"invite": "Inviter",
-		"inviteSent": "Invitation envoyée",
-		"invitedYouToPlay": "vous a invité à jouer à un jeu (cliquez pour accepter et aller à l'autre PC)",
-		"youAcceptedTheInvite": "Vous avez accepté l'invitation",
-		"acceptedYourInvite": "a accepté votre invitation"
+      "sendMessage": "Envoyer un message",
+      "blockUser": "Bloquer",
+      "unblockUser": "Débloquer",
+      "create": "Créer",
+      "nickname": "Pseudo",
+      "invite": "Inviter",
+	  "inviteSent": "Invitation envoyée",
+	  "invitedYouToPlay": "vous a invité à jouer un match (cliquez pour accepter et allez sur l'autre pc)",
+	  "youAcceptedTheInvite": "Vous avez accepté l'invitation ",
+      "acceptedYourInvite": "a accepté votre invitation "
     }
 }
