@@ -1,7 +1,8 @@
 version: "3.8"
 
-include:
-  - elastic-stack/docker-compose.yml
+# FIXME: this syntax is not allowed at scholl due to older Docker version
+#include:
+#  - elastic-stack/docker-compose.yml
 
 networks:
   database-network:
@@ -92,7 +93,8 @@ services:
 
     volumes:
       - backend_device:/data/
-      - ./backend/transc:/app/transc # FIXME: for development to allow editing the code outside the container
+      # DEBUG: for development to allow editing the code outside the container
+      - ./backend/transc:/app/transc
     depends_on:
       database:
         condition: service_healthy
