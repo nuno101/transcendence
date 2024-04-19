@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinLengthValidator
 import os
 
 # cCONF: Avatar file path config
@@ -14,7 +15,9 @@ class User(AbstractUser):
 		ext = filename.split('.')[-1]
 		return f'{AVATAR_PATH}{instance.id}.{ext}'
 
-	username = models.CharField(max_length=12, unique=True, null=False)
+	username = models.CharField(max_length=12, unique=True, null=False,validators=[
+            MinLengthValidator(3, 'Username too short, must contain at least 3 characters')
+            ])
 	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
