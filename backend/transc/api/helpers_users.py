@@ -18,7 +18,7 @@ def update_user(user: User, parameters: dict):
       try:
           validate_password(password, user)
       except Exception as e:
-          return JsonResponse({ERROR_FIELD: "Invalid password (choose a better one)"}, status=400)
+          return JsonResponse({ERROR_FIELD: "Password too easy"}, status=400)
       user.set_password(password)
     tournament_id = parameters.get('tournament_id')
     if tournament_id is not None:
@@ -34,7 +34,7 @@ def update_user(user: User, parameters: dict):
   except Exception as e:
     return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 
-  # TODO: Implement websocket notification?
+  # TODO: consider implementing websocket notification
 
   return JsonResponse(user.serialize())
 

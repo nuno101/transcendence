@@ -20,7 +20,14 @@
 							<input v-model="input.password" type="password" class="form-control rounded-3" id="floatingSignupPassword" :placeholder="useI18n().t('password')">
 							<label for="floatingSignupPassword">{{useI18n().t('password')}}</label>
 						</div>
-						<SubmitButton :loading="loading">{{useI18n().t('login.signUp')}}</SubmitButton>
+						<div class="form-floating mb-3">
+							<input v-model="password2" type="password" class="form-control rounded-3" id="confirmpwd" :placeholder="useI18n().t('settings.confirmNewPassword')">
+							<label for="confirmpwd">{{useI18n().t('settings.confirmNewPassword')}}</label>
+						</div>
+						<div v-if="input.password !== password2" class="p-2 mt-1 alert alert-danger" role="alert">
+							{{useI18n().t('settings.passwordsDoNotMatch')}}
+						</div>
+						<SubmitButton :disabled="input.password !== password2" :loading="loading">{{useI18n().t('login.signUp')}}</SubmitButton>
 						<small class="text-body-secondary">
 							{{useI18n().t('login.alreadyHaveAnAccount')}} <a href="#loginModalToggle" data-bs-target="#loginModalToggle" data-bs-toggle="modal">{{useI18n().t('login.login')}}</a>
 						</small>
@@ -44,10 +51,12 @@ const input = ref({ username: '', password: '' })
 const signupModal = ref(null)
 const loading = ref(false)
 const alerts = ref([])
+const password2 = ref('')
 
 onMounted(() => {
 	signupModal.value.addEventListener('hidden.bs.modal', () => {
 		Object.keys(input.value).forEach(k => input.value[k] = '')
+		password2.value = '';
 		alerts.value = []
 	})
 })

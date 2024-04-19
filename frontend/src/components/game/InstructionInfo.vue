@@ -27,11 +27,6 @@ const props = defineProps(['firstplayer', 'secondplayer', 'ai']);
 		<img width="90" src="../../assets/img/Space_Key.svg" :alt="useI18n().t('instruction.spacebar')" :title="useI18n().t('instruction.spacebar')"/> {{useI18n().t('instruction.startOrPause')}} {{useI18n().t('instruction.theGame')}}<br>
 		<img width="25" src="../../assets/img/H_Key.svg"  :alt="useI18n().t('instruction.hkey')" :title="useI18n().t('instruction.hkey')"/>  {{useI18n().t('instruction.showOrHide')}} {{useI18n().t('instruction.theseInstructions')}}<br>
 		<img width="25" src="../../assets/img/F_Key.svg"  :alt="useI18n().t('instruction.fkey')" :title="useI18n().t('instruction.fkey')"/>  {{useI18n().t('instruction.showOrHide')}} {{useI18n().t('instruction.fpsCounter')}}
-		<!-- TODO remove -->
-		<hr>
-		<strong>during development</strong><br>
-		press [q] to set scores [ 11 : ? ]<br>
-		press [e] to set scores [ ? : 11 ]
 	</div>
 </template>
 

@@ -60,13 +60,13 @@
     },
     "friendsview": {
         "friends": "Amigos",
-        "friendrequests": "Solicitudes de Amistad",
+        "friendrequests": "Solicitudes Entrantes",
         "pendingrequests": "Solicitudes Pendientes",
         "deleteFriend": "¿Deseas eliminar a este amigo?",
         "declineFriendRequest": "¿Deseas rechazar esta solicitud de amistad?",
         "cancelFriendRequest": "¿Deseas cancelar esta solicitud de amistad?",
         "noFriends": "sin amigos",
-        "noFriendRequests": "sin solicitudes de amistad",
+        "noFriendRequests": "sin solicitudes entrantes",
         "noPendingRequests": "sin solicitudes pendientes",
         "searchNickname": "Buscar apodo"
     },
@@ -91,7 +91,7 @@
 				"description" : "Descripción",
 				"status" : "Estado",
 				"register" : "Regístrese en",		
-				"listoftournaments": "Lista de torneos",
+				"alltournaments": "Todos los torneos",
 				"title": "Título",
 				"creator": "Creado por",
 				"createatournament" : "Crear un torneo",
@@ -101,7 +101,11 @@
 				"mytournaments" : "Mis torneos",
 				"(you)" : "(Usted)",
 				"entertitle" : "Introducir título",
-				"enterdescription" : "Introducir descripción"
+				"enterdescription" : "Introducir descripción",
+				"winner" : "Ganador",
+				"nodataavailable" : "No hay datos disponibles",
+				"pasttournaments" : "Torneos anteriores",
+				"ongoingtournaments" : "Torneos en curso"
 				
 			},
 			"singletournamentsview": {
@@ -123,6 +127,7 @@
 				"starttournament" : "Iniciar torneo",
 				"tournamentwillstartgetready" : "¡El torneo va a comenzar, prepárate para jugar!",
 				"success" : "Éxito",
+				"errormodal" : "Error",
 				"tournamentnickname" : "Apodo",
 				"created" : "Creado",
 				"registration_open" : "Inscripción abierta",
@@ -217,7 +222,8 @@
         "noNotifications": "Sin notificaciones",
         "newMessage": "Ve al chat para ver nuevos mensajes",
         "newFriendRequest": "Ve a amigos para ver nuevas solicitudes de amistad",
-        "newFriends": "Ve a amigos para ver nuevos amigos"
+        "newFriends": "Ve a amigos para ver nuevos amigos",
+        "tournamentStarting": "Comienza un torneo. Echa un vistazo a la página del torneo"
     },
     "notfound": {
         "pageNotFound": "Página no encontrada",
@@ -226,7 +232,7 @@
     "err": {
         "Staff user required": "Se requiere usuario de personal",
         "Internal server error": "Error interno del servidor",
-        "Invalid password (choose a better one)": "Contraseña no válida (elige una mejor)",
+        "Password too easy": "Elija una contraseña con al menos 8 caracteres, que no se parezca a su nombre de usuario, evite contraseñas comunes y no consista únicamente en números.",
         "Not logged in": "No has iniciado sesión",
         "Invalid JSON body syntax": "Sintaxis JSON del cuerpo no válida",
         "Cannot add yourself": "No puedes agregarte a ti mismo",
@@ -278,10 +284,15 @@
         "Successfully logged out": "Cierre de sesión exitoso"
     },
     "chatview": {
-        "sendMessage": "Enviar un mensaje",
-        "blockUser": "Bloquear",
-        "unblockUser": "Desatascar",
-        "create": "Crear",
-        "nickname": "Apodo"
+      "sendMessage": "Enviar un mensaje",
+      "blockUser": "Bloquear",
+      "unblockUser": "Desatascar",
+      "create": "Crear",
+      "nickname": "Apodo",
+      "invite": "Invitar",
+      "inviteSent": "Invitación enviada",
+      "invitedYouToPlay": "te invitó a jugar a un juego (haz clic para aceptar e ir al otro PC)",
+      "youAcceptedTheInvite": "Has aceptado la invitación",
+      "acceptedYourInvite": "aceptó tu invitación"
     }
 }

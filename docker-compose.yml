@@ -1,4 +1,8 @@
-version: '3'
+version: "3.8"
+
+# FIXME: this syntax is not allowed at scholl due to older Docker version
+#include:
+#  - elastic-stack/docker-compose.yml
 
 networks:
   database-network:
@@ -14,15 +18,13 @@ networks:
 volumes:
   database_device:
     driver: local
-    name: database_device
     driver_opts:
       type: none
       o: bind
-      device: $HOME/data/transcendence/volumes/E # FIXME: Why mount here?
+      device: $HOME/docker-data/transcendence/database
 
   backend_device:
     driver: local
-    name: backend_device
     driver_opts:
       type: none
       o: bind
@@ -30,15 +32,27 @@ volumes:
 
   redis_device:
     driver: local
-    name: redis_device
     driver_opts:
       type: none
       o: bind
       device: $HOME/docker-data/transcendence/redis
 
+  nginx_logs:
+    driver: local
+
+  redis_logs:
+    driver: local
+
+  postgres_logs:
+    driver: local
+
 services:
   database:
-    image: postgres:16.0-alpine3.18
+    image: database
+    build:
+      context: ./database/
+    labels:
+      co.elastic.logs/module: postgresql
     container_name: transc-db
     hostname: ${POSTGRES_DB}
     networks:
@@ -52,16 +66,9 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
     volumes:
       - database_device:/var/lib/postgresql/data
-      - ./database/init-scripts/:/docker-entrypoint-initdb.d/
+      - postgres_logs:/mnt/postgres
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"
-        ]
-      interval: 10s
-      timeout: 30s
-      retries: 30
+      test: ["CMD-SHELL", "pg_isready -U '${POSTGRES_USER}' -d '${POSTGRES_DB}'"]
     restart: always
 
   backend:
@@ -82,12 +89,12 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_URL: ${POSTGRES_URL}
       REDIS_HOST: ${REDIS_HOST}
-
       DEFAULT_AVATAR_NAME: ${DEFAULT_AVATAR_NAME}
 
     volumes:
       - backend_device:/data/
-      - ./backend/transc:/app/transc # FIXME: for development to allow editing the code outside the container
+      # DEBUG: for development to allow editing the code outside the container
+      - ./backend/transc:/app/transc
     depends_on:
       database:
         condition: service_healthy
@@ -98,12 +105,17 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:7.2.4
+    image: redis
+    build:
+      context: ./redis/
+    labels:
+      co.elastic.logs/module: redis
     container_name: ${REDIS_HOST}
     networks:
       - redis-network
     volumes:
       - redis_device:/var/lib/redis
+      - redis_logs:/mnt/redis
     restart: unless-stopped
 
   frontend:
@@ -111,17 +123,21 @@ services:
     image: frontend
     build:
       context: ./frontend
+      dockerfile: "Dockerfile.${FRONTEND_ENV:-dev}"
     depends_on:
       - backend
     volumes:
       - ./frontend/src/:/app/src/:ro
       - ./frontend/public/:/app/public/:ro
+      - ./frontend/index.html:/app/index.html:ro
     networks:
       - proxy-network
     restart: unless-stopped
 
   proxy:
     container_name: proxy
+    labels:
+      co.elastic.logs/module: nginx
     image: proxy
     build:
       context: ./proxy
@@ -133,7 +149,7 @@ services:
     networks:
       - proxy-network
     volumes:
-      - ./proxy/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
       - ./.ssl/ssl-cert-snakeoil.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem:ro
       - ./.ssl/ssl-cert-snakeoil.key:/etc/ssl/private/ssl-cert-snakeoil.key:ro
+      - nginx_logs:/mnt/nginx
     restart: unless-stopped

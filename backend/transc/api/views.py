@@ -16,7 +16,7 @@ def index(request):
 	logger.debug("Hello world from the custom debug log")
 	return JsonResponse({'response': "Hello, world. You're at the transcendence index."})
 
-def test_websocket(request): # FIXME: DEBUG: Remove later
+def test_websocket(request):
 	return render(request, 'api/custom_ws.html')
 
 # Endpoint: /login
@@ -42,7 +42,6 @@ class Logout(View):
 
 		return JsonResponse({'response': "Successfully logged out"})
 
-# TODO - test: Endpoint: /authenticate
 @method_decorator(check_structure("/authenticate"), name='dispatch')
 class Authenticate(View):
 	def post(self, request):

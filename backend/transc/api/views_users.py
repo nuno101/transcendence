@@ -23,7 +23,7 @@ class UserCollection(View):
 			try:
 					validate_password(password, user)
 			except Exception as e:
-					return JsonResponse({ERROR_FIELD: "Invalid password (choose a better one)"}, status=400)
+					return JsonResponse({ERROR_FIELD: "Password too easy"}, status=400)
 			user.set_password(password)	
 			user.full_clean()
 			user.save()
@@ -42,7 +42,11 @@ class UserCollection(View):
 class UserSingle(View):
 	def get(self, request, user_id):
 		u = User.objects.get(id=user_id)
-		return JsonResponse(u.serialize())
+		response = JsonResponse(u.serialize())
+		response['Cache-Control'] = 'no-store, no-cache, must-revalidate'
+		response['Pragma'] = 'no-cache'
+		response['Expires'] = '0'
+		return response
 
 	@method_decorator(staff_required, name='dispatch')
 	def patch(self, request, user_id):
@@ -61,7 +65,11 @@ class AvatarUser(View):
 		u = User.objects.get(id=user_id)
 		url = u.get_avatar_url()
 		ext = url.split('.')[-1]
-		return HttpResponse(status=301, headers={'Location': url})
+		response = HttpResponse(status=301, headers={'Location': url})
+		response['Cache-Control'] = 'no-store, no-cache, must-revalidate'
+		response['Pragma'] = 'no-cache'
+		response['Expires'] = '0'
+		return response
 
 # Endpoint: /users/USER_ID/games
 @method_decorator(check_structure("/users/USER_ID/games"), name='dispatch')

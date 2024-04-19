@@ -1,11 +1,18 @@
-.PHONY: all build up init migrate superuser down blog documentation volume_clean docker_clean \
+.PHONY: all build up init migrate superuser ssl_create down blog documentation volume_clean docker_clean \
 				docker_fclean data_clean clean fclean re test help
--include docker.mk
+
+.DEFAULT_GOAL :=  all
+ENV_FILES     := .env elastic-stack/.env
+
+build up down volume_clean docker_fclean: $(ENV_FILES)
+
+$(ENV_FILES):
+	$(error missing file: $@. you can create one based on $@.sample)
 
 all: build ssl_create up migrate
 
 build:
-	mkdir -p  $(HOME)/data/transcendence/volumes/E
+	mkdir -p  $(HOME)/docker-data/transcendence/database
 	mkdir -p  $(HOME)/docker-data/transcendence/backend
 	mkdir -p  $(HOME)/docker-data/transcendence/redis
 	docker compose build
@@ -40,9 +47,7 @@ documentation:
 	@echo "Working directory changed to $(PWD)"
 
 volume_clean:
-	docker volume rm database_device -f
-	docker volume rm redis_device -f
-	docker volume rm backend_device -f
+	docker compose down -v
 
 docker_clean: down volume_clean
 	docker system prune -f
@@ -51,17 +56,20 @@ docker_fclean: docker_clean
 	docker compose -f ./docker-compose.yml down --volumes --rmi all
 
 data_clean: volume_clean
-	rm -rf $(HOME)/data/transcendence/volumes
 	rm -rf  $(HOME)/docker-data/transcendence
+
+ssl_clean:
+	rm -rf .ssl
 
 clean: docker_clean
 
-fclean: docker_fclean data_clean
+fclean: docker_fclean data_clean ssl_clean
 
 re: clean all
 
-test:
-	@echo "$(HOME)"
+validate:
+	@echo "Searching for files with endings that should not be in the repo"
+	@find . -name "*.key" -print -quit && find . -name "*.crt" -print -quit
 
 help:
 	@echo "all: build up migrate"
@@ -71,6 +79,7 @@ help:
 	@echo "init: migrate superuser"
 	@echo "migrate: run the migrations"
 	@echo "superuser: create a superuser"
+	@echo "ssl_create: create ssl credentials if they do not exist already"
 	@echo "down: stop the docker containers"
 	@echo ""
 	@echo "blog: follow the backend logs"
@@ -80,6 +89,7 @@ help:
 	@echo "docker_clean: down & volume_clean & delete project docker containers"
 	@echo "docker_fclean: docker_clean & delete project docker images"
 	@echo "data_clean: volume_clean & delete project data folders on host"
+	@echo "ssl_clean: remove existing ssl files"
 	@echo ""
 	@echo "clean: remove all docker compose containers and volumes"	
 	@echo "fclean: remove all docker compose containers, volumes and images"

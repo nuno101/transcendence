@@ -17,6 +17,9 @@ ACCEPT_FRIEND_REQUEST = "accept_friend_request" # Expected payload: SERIALIZED_F
 CANCEL_FRIEND_REQUEST = "cancel_friend_request" # Expected payload: { "id": FRIEND_REQUEST_ID }
 DECLINE_FRIEND_REQUEST = "decline_friend_request" # Expected payload: { "id": FRIEND_REQUEST_ID }
 
+# Tournament/Game events
+TOURNAMENT_STARTING = "tournament_starting" # Expected payload: { "id": TOURNAMENT_ID}
+
 # Message events
 CREATE_MESSAGE = "create_message" # Expected payload: SERIALIZED_MESSAGE
 UPDATE_MESSAGE = "update_message" # Expected payload: SERIALIZED_MESSAGE

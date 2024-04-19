@@ -85,7 +85,7 @@ class Tournament(models.Model):
 
 	title = models.CharField(max_length=150)
 	description = models.CharField(max_length=900)
-	creator = models.ForeignKey(User, on_delete=models.CASCADE)
+	creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_tournaments')
 	status = models.CharField(
         max_length=36,
         choices=TournamentStatus.choices,
@@ -94,6 +94,7 @@ class Tournament(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	players = models.ManyToManyField(User, related_name='joined_tournaments', blank=True)
+	ranking = models.JSONField(null=True, blank=True)
 
 	def __str__(self):
 		return self.title
@@ -111,7 +112,8 @@ class Tournament(models.Model):
         'status': self.status,
         'created_at': str(self.created_at.strftime("%Y-%m-%d %H:%M:%S")),
         'updated_at': str(self.updated_at.strftime("%Y-%m-%d %H:%M:%S")),
-		'players': [{'id': player.id, 'username': player.username, 'nickname': player.nickname} for player in self.players.all()]
+		'players': [{'id': player.id, 'username': player.username, 'nickname': player.nickname} for player in self.players.all()],
+		'ranking': self.ranking
     }
 
 class Game(models.Model):
@@ -180,18 +182,16 @@ class Notification(models.Model):
 		}
 
 class Channel(models.Model):
-    name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     members = models.ManyToManyField(User, related_name="channels")
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
     def serialize(self):
       return {
           'id': self.id,
-          'name': self.name,
           'created_at': str(self.created_at),
           'updated_at': str(self.updated_at),
           'members': [m.serialize() for m in self.members.all()]

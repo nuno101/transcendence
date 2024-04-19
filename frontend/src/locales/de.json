@@ -60,27 +60,27 @@
 	},
 	"friendsview": {
 		"friends": "Freunde",
-		"friendrequests": "Freundschaftsanfragen",
+		"friendrequests": "Eingehende Anfragen",
 		"pendingrequests": "Ausstehende Anfragen",
 		"deleteFriend": "Möchtest du diesen Freund entfernen?",
 		"declineFriendRequest": "Möchtest du diese Freundschaftsanfrage ablehnen?",
 		"cancelFriendRequest": "Möchtest du diese Freundschaftsanfrage zurückziehen?",
 		"noFriends": "keine Freunde",
-		"noFriendRequests": "keine Freundschaftsanfragen",
+		"noFriendRequests": "keine eingehenden Anfragen",
 		"noPendingRequests": "keine ausstehenden Anfragen",
 		"searchNickname": "Nickname suchen"
 	},
 	"userstats": {
 		"wins" : "Gewinne",
-		"defeats": "Niederlagen",
+		"defeats": "Verluste",
 		"noWins": "keine Gewinne",
-		"noDefeats": "keine Niederlagen",
+		"noDefeats": "keine Verluste",
 		"noGames": "keine Spiele"
 	},
 	"usersview": {
 		"listofusers": "Benutzerliste",
 		"username": "Benutzername",
-		"nickname": "Spitzname",
+		"nickname": "Nickname",
 		"created_at": "Erstellt am",
 		"updated_at": "Aktualisiert am"
 	},
@@ -91,7 +91,7 @@
 		"description" : "Beschreibung",
 		"status" : "Status",
 		"register" : "Registrieren",
-		"listoftournaments": "Liste der Turniere",
+		"alltournaments": "Alle Turniere",
 		"title": "Titel",
 		"creator": "Erstellt von",
 		"createatournament" : "Ein Turnier erstellen",
@@ -101,7 +101,11 @@
 		"mytournaments" : "Meine Turniere",
 		"(you)" : "(Sie)",
 		"entertitle" : "Titel eingeben",
-		"enterdescription" : "Beschreibung eingeben"
+		"enterdescription" : "Beschreibung eingeben",
+		"winner" : "Gewinner",
+		"nodataavailable" : "Keine Daten verfügbar",
+		"pasttournaments" : "Vergangene Turniere",
+		"ongoingtournaments" : "Laufende Turniere"
     },
 	"singletournamentsview": {
         "openregistration" : "Offene Registrierung",
@@ -121,6 +125,7 @@
 		"starttournament" : "Turnier starten",
 		"tournamentwillstartgetready" : "Das Turnier wird beginnen, mach dich bereit zu spielen!",
 		"success" : "Erfolg",
+		"errormodal" : "Fehler",
 		"tournamentnickname" : "Nickname",
 		"created" : "Erstellt",
 		"registration_open" : "Registrierung geöffnet",
@@ -215,7 +220,8 @@
 		"noNotifications": "Keine Benachrichtigungen",
 		"newMessage": "Gehe zum Chat, um neue Nachrichten zu sehen",
 		"newFriendRequest": "Gehe zu Freunden, um neue Freundesanfragen zu sehen",
-		"newFriends": "Gehe zu Freunden, um neue Freunde zu sehen"
+		"newFriends": "Gehe zu Freunden, um neue Freunde zu sehen",
+		"tournamentStarting": "Ein Tunier startet. Geh zur Tunierseite"
 	},
 	"notfound": {
 		"pageNotFound": "Seite nicht gefunden",
@@ -224,12 +230,12 @@
 	"err": {
 		"Staff user required": "Mitarbeiterbenutzer erforderlich",
 		"Internal server error": "Interner Serverfehler",
-		"Invalid password (choose a better one)": "Ungültiges Passwort (wählen Sie ein besseres)",
+		"Password too easy": "Wähle ein Passwort mit mindestens 8 Zeichen, das nicht deinem Benutzernamen ähnelt, gängige Passwörter vermeidet und nicht nur Zahlen enthält.",
 		"Not logged in": "Nicht eingeloggt",
 		"Invalid JSON body syntax": "Ungültige JSON-Syntax im Body",
 		"Cannot add yourself": "Du kannst dich nicht selbst hinzufügen",
 		"You are blocked by this user": "Du wurdest von diesem Benutzer blockiert",
-		"You are blocked by users in the channel": "Du wurdest von Benutzern im Kanal blockiert",
+		"You are blocked by users in the channel": "Du wurdest von Benutzern im Channel blockiert",
 		"User is not a friend": "Benutzer ist kein Freund",
 		"Missing query parameter 'type'": "Fehlender Abfrageparameter 'Typ'",
 		"User is blocked": "Benutzer ist blockiert",
@@ -280,6 +286,11 @@
 		"blockUser": "Blockieren",
 		"unblockUser": "Entblocken",
 		"create": "Erstellen",
-		"nickname": "Spitzname"
+		"nickname": "Nickname",
+    	"invite": "Einladen",
+		"inviteSent": "Einladung gesendet",
+		"invitedYouToPlay": "hat dich zu einem Spiel eingeladen (klicke, um zu akzeptieren und zum anderen PC zu wechseln)",
+		"youAcceptedTheInvite": "Du hast die Einladung angenommen",
+		"acceptedYourInvite": "hat die Einladung angenommen"
 	}
 }

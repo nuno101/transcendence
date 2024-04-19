@@ -23,10 +23,10 @@
 						<button type="button" class="btn btn-secondary btn-empty disabled placeholder" data-bs-target="#signupModalToggle" data-bs-toggle="modal"></button>
 					</div>
 					<div v-else-if="globalUser">
-						<button type="button" class="btn me-2 btn-outline-light">
+						<button type="button" class="btn me-2 btn-outline-light userbutton">
 							<router-link :to="`/users/${globalUser.id}`" class="nav-link">{{ globalUser.nickname }}</router-link>
 						</button>
-						<button @click="LogOut" type="button" class="btn btn-secondary">{{useI18n().t('login.logout')}}</button>
+						<button @click="router.push(logoutRoute)" type="button" class="btn btn-secondary">{{useI18n().t('login.logout')}}</button>
 					</div>
 					<div v-else class="text-end">
 						<button type="button" class="btn btn-outline-light me-2" data-bs-target="#loginModalToggle" data-bs-toggle="modal">{{useI18n().t('login.login')}}</button>
@@ -78,16 +78,6 @@ const navRoutes = [
 	], button: 'header.game'}
 ]
 const logoutRoute = { name: 'logout' }
-
-const LogOut = async () => {
-	try {
-		await Backend.post('/api/logout', {})
-		globalUser.value = null;
-		router.push(logoutRoute)
-	} catch (err) {
-		console.error(err.message)
-	}
-}
 </script>
 
 <style scoped>
@@ -99,7 +89,7 @@ const LogOut = async () => {
 		background-color: var(--COLOR1);
 	}
 
-	button {
+	.userbutton {
 		--bs-btn-hover-color: grey;
 		--bs-btn-hover-border-color: grey;
 	}

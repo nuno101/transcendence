@@ -1,0 +1,53 @@
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+metricbeat.modules:
+- module: elasticsearch
+  xpack.enabled: true
+  period: 10s
+  hosts: ${ELASTIC_HOSTS}
+  ssl.certificate_authorities: "certs/ca/ca.crt"
+  ssl.certificate: "certs/es01/es01.crt"
+  ssl.key: "certs/es01/es01.key"
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  ssl.enabled: true
+
+- module: logstash
+  xpack.enabled: true
+  period: 10s
+  hosts: ${LOGSTASH_HOSTS}
+
+- module: kibana
+  metricsets: 
+    - stats
+  period: 10s
+  hosts: ${KIBANA_HOSTS}
+  ssl.certificate_authorities: "certs/ca/ca.crt"
+  ssl.certificate: "certs/kibana/kibana.crt"
+  ssl.key: "certs/kibana/kibana.key"
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  xpack.enabled: true
+
+processors:
+  - add_host_metadata: ~
+
+setup:
+  dashboards.enabled: true
+  kibana:
+    host: ${KIBANA_HOSTS}
+    username: ${ELASTIC_USER}
+    password: ${ELASTIC_PASSWORD}
+    ssl:
+      certificate: "certs/metricbeat/metricbeat.crt"
+      certificate_authorities: "certs/ca/ca.crt"
+      key: "certs/metricbeat/metricbeat.key"
+
+output.elasticsearch:
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  ssl.enabled: true
+  ssl.certificate_authorities: "certs/ca/ca.crt"
