@@ -277,7 +277,7 @@
         "413 Request Entity Too Large": "413 Demande d'entité trop volumineuse",
         "User with this Nickname already exists.": "L'utilisateur avec ce pseudonyme existe déjà.",
         "Avatar is too large": "L'avatar est trop grand",
-		"Username too shot, must contain at least 3 characters": "Nom d'utilisateur trop court, doit contenir au moins 3 caractères"
+	"Username too short, must contain at least 3 characters": "Nom d'utilisateur trop court, doit contenir au moins 3 caractères"
     },
     "succ": {
         "Hello, world. You're at the transcendence index.": "Bonjour, monde. Vous êtes à l'index de la transcendance.",
