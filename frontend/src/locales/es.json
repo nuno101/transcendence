@@ -85,9 +85,9 @@
         "updated_at": "Actualizado en"
     },
     "tournamentsview": {
+                "descriptionoftournament" : "Descripción del torneo",
 				"cancel" : "Cancelar",
 				"addtournament" : "Añadir torneo",
-				"descriptionoftournament" : "Descripción del torneo",
 				"description" : "Descripción",
 				"status" : "Estado",
 				"register" : "Regístrese en",		
@@ -107,10 +107,8 @@
 				"nodataavailable" : "No hay datos disponibles",
 				"pasttournaments" : "Torneos anteriores",
 				"ongoingtournaments" : "Torneos en curso"
-				
 			},
 			"singletournamentsview": {
-				"descriptionoftournament": "Descripción del torneo",
 				"openregistration" : "Autorizar inscripciones",
 				"registrationisnowopen" : "Inscripciones abiertas",
 				"deletetournament" : "Borrar torneo",
@@ -138,7 +136,6 @@
 				"cancelled" : "Cancelado",
 				"youarenotpartofthistournament" : "Este torneo está en curso pero usted no forma parte de él",
 				"youplayedallyourgames" : "Jugaste todos tus partidos"
-		
 			},
 			"gameselection": {
 				"selectagame" : "Seleccione un juego",

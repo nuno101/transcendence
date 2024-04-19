@@ -107,7 +107,6 @@
 				"nodataavailable" : "Pas de données disponibles",
 				"pasttournaments" : "Tournois passés",
 				"ongoingtournaments" : "Tournois en cours"
-		
 			},
 			"singletournamentsview": {
 				"openregistration" : "Autoriser les inscriptions",
@@ -283,11 +282,15 @@
         "Successfully logged out": "Déconnexion réussie"
     },
     "chatview": {
-      "sendMessage": "Envoyer un message",
-      "blockUser": "Bloc",
-      "unblockUser": "Débloquer",
-      "create": "Créer",
-      "nickname": "Surnom",
-      "invite": "TODO"
+		"sendMessage": "Envoyer un message",
+		"blockUser": "Bloc",
+		"unblockUser": "Débloquer",
+		"create": "Créer",
+		"nickname": "Surnom",
+		"invite": "Inviter",
+		"inviteSent": "Invitation envoyée",
+		"invitedYouToPlay": "vous a invité à jouer à un jeu (cliquez pour accepter et aller à l'autre PC)",
+		"youAcceptedTheInvite": "Vous avez accepté l'invitation",
+		"acceptedYourInvite": "a accepté votre invitation"
     }
 }
