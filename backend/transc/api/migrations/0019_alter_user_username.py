@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='username',
-            field=models.CharField(max_length=12, unique=True, validators=[django.core.validators.MinLengthValidator(3, 'Username too shot, must contain at least 3 characters')]),
+            field=models.CharField(max_length=12, unique=True, validators=[django.core.validators.MinLengthValidator(3, 'Username too short, must contain at least 3 characters')]),
         ),
     ]
