@@ -31,8 +31,8 @@ if SECRET_KEY == '':
 DEBUG = (os.environ.get('DJANGO_DEBUG', "False").lower() == "true") 
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_CIDR_NETS = ['10.12.0.0/16']
 
 # Application definition
 
@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'api.middleware.LoggedInCheckMiddleware',
     'api.middleware.JsonSyntaxCheckMiddleware',
+    'allow_cidr.middleware.AllowCIDRMiddleware',
 ]
 
 ROOT_URLCONF = 'transc.urls'

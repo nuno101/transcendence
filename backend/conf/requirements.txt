@@ -21,3 +21,6 @@ Daphne>=4.0.0
 
 # Needed for django image field
 Pillow==10.2.0
+
+#Allow CIDR's on ALLOWED_HOSTS setting
+django-allow-cidr==0.5.0
