@@ -20,7 +20,14 @@
 								<input v-model="input.password" type="password" class="form-control rounded-3" id="floatingSignupPassword" :placeholder="useI18n().t('password')">
 								<label for="floatingSignupPassword">{{useI18n().t('password')}}</label>
 						</div>
-						<SubmitButton :loading="loading">{{useI18n().t('login.signUp')}}</SubmitButton>
+						<div class="form-floating mb-3">
+							<input v-model="password2" type="password" class="form-control rounded-3" id="confirmpwd" :placeholder="useI18n().t('settings.confirmNewPassword')">
+							<label for="confirmpwd">{{useI18n().t('settings.confirmNewPassword')}}</label>
+						</div>
+						<div v-if="input.password !== password2" class="p-2 mt-1 alert alert-danger" role="alert">
+							{{useI18n().t('settings.passwordsDoNotMatch')}}
+						</div>
+						<SubmitButton :disabled="input.password !== password2" :loading="loading">{{useI18n().t('login.signUp')}}</SubmitButton>
 						<small class="text-body-secondary">
 							{{useI18n().t('login.alreadyHaveAnAccount')}} <router-link :to="{ name: 'login', query: { continue: route.query.continue } }" replace>{{useI18n().t('login.login')}}</router-link>
 						</small>
@@ -43,6 +50,7 @@ const router = useRouter()
 const input = ref({ username: '', password: '' })
 const alerts = ref([])
 const loading = ref(false)
+const password2 = ref('')
 
 const SignUp = async () => {
 	try {
