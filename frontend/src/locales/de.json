@@ -231,7 +231,7 @@
 	"err": {
 		"Staff user required": "Mitarbeiterbenutzer erforderlich",
 		"Internal server error": "Interner Serverfehler",
-		"Password too easy": "Wähle ein Passwort mit mindestens 9 Zeichen, das nicht deinem Benutzernamen ähnelt, gängige Passwörter vermeidet und nicht nur Zahlen enthält.",
+		"Password too easy": "Wähle ein Passwort mit mindestens 8 Zeichen, das nicht deinem Benutzernamen ähnelt, gängige Passwörter vermeidet und nicht nur Zahlen enthält.",
 		"Not logged in": "Nicht eingeloggt",
 		"Invalid JSON body syntax": "Ungültige JSON-Syntax im Body",
 		"Cannot add yourself": "Du kannst dich nicht selbst hinzufügen",
