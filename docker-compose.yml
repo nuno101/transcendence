@@ -3,7 +3,6 @@ version: "3.8"
 networks:
   database-network:
     name: database-network
-    #driver: bridge
 
   redis-network:
     name: redis-network
@@ -13,7 +12,6 @@ networks:
 
   elastic:
     name: elastic
-    external: false
 
 volumes:
   database_device:
@@ -39,10 +37,8 @@ volumes:
 
   nginx_logs:
     driver: local
-
   redis_logs:
     driver: local
-
   postgres_logs:
     driver: local
  
@@ -186,6 +182,8 @@ services:
       interval: 1s
       timeout: 5s
       retries: 120
+    networks:
+      - elastic
 
   es01:
     depends_on:
@@ -227,6 +225,8 @@ services:
       timeout: 10s
       retries: 120
     restart: unless-stopped
+    networks:
+      - elastic
 
   kibana:
     depends_on:
@@ -263,6 +263,8 @@ services:
       timeout: 10s
       retries: 120
     restart: unless-stopped
+    networks:
+      - elastic
 
   metricbeat01:
     depends_on:
@@ -286,6 +288,8 @@ services:
       - KIBANA_HOSTS=https://kibana:5601
       - LOGSTASH_HOSTS=http://logstash01:9600
     restart: unless-stopped
+    networks:
+      - elastic
 
   filebeat01:
     depends_on:
@@ -298,7 +302,7 @@ services:
     volumes:
       - certs:/usr/share/filebeat/certs
       - filebeatdata01:/usr/share/filebeat/data
-      - "./filebeat_ingest_data/:/usr/share/filebeat/ingest_data/"
+      - "./elastic-stack/filebeat_ingest_data/:/usr/share/filebeat/ingest_data/"
       - "./elastic-stack/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
       - nginx_logs:/mnt/nginx
       - redis_logs:/mnt/redis
@@ -310,6 +314,8 @@ services:
       - KIBANA_HOSTS=https://kibana:5601
       - LOGSTASH_HOSTS=http://logstash01:9600
     restart: unless-stopped
+    networks:
+      - elastic
 
   logstash01:
     depends_on:
@@ -324,7 +330,7 @@ services:
     volumes:
       - certs:/usr/share/logstash/certs
       - logstashdata01:/usr/share/logstash/data
-      - "./logstash_ingest_data/:/usr/share/logstash/ingest_data/"
+      - "./elastic-stack/logstash_ingest_data/:/usr/share/logstash/ingest_data/"
       - "./elastic-stack/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro"
     environment:
       - xpack.monitoring.enabled=false
@@ -332,3 +338,5 @@ services:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://es01:9200
     restart: unless-stopped
+    networks:
+      - elastic

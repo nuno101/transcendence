@@ -2,7 +2,7 @@
 				docker_fclean data_clean clean fclean re test help
 
 .DEFAULT_GOAL :=  all
-ENV_FILES     := .env elastic-stack/.env
+ENV_FILES     := .env
 
 build up down volume_clean docker_fclean: $(ENV_FILES)
 
