@@ -34,7 +34,7 @@ def update_user(user: User, parameters: dict):
   except Exception as e:
     return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 
-  # TODO: Implement websocket notification?
+  # TODO: consider implementing websocket notification
 
   return JsonResponse(user.serialize())
 
