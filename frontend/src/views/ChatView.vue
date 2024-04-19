@@ -119,7 +119,6 @@ async function blockUser() {
         blockedUsers.value.unshift(dm_user)
         dmUserBlocked.value = true
     } catch (err) {
-        // TODO: Error handling
         console.error(`Failed to block: ${err.message}`)
     }
 
@@ -135,7 +134,6 @@ async function unblockUser() {
         blockedUsers.value = blockedUsers.value.filter(u => u.id !== dm_user.id)
         dmUserBlocked.value = false
     } catch (err) {
-        // TODO: Error handling
         console.error("Failed to unblock")
     }
 }

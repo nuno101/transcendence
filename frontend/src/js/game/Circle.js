@@ -19,8 +19,6 @@ class Circle {
 
         polygon.edges.forEach((edge, i) => {
             const delta = edge.orthogonal(false)
-            // delta.normalize()
-            // delta.scalarMul(this.radius) RTODO
             delta.length = this.radius
             const factors = Vector.factorsToEdge(Vector.add(delta, this.position), this.direction, polygon.vertices[i], edge, new Vector())
             if (!factors.length) return

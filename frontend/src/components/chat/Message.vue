@@ -18,7 +18,6 @@ async function acceptInvite() {
       content: "invite-accept"
     })
   } catch (err) {
-    // TODO: Visual error handling?
     console.error(err)
   }
 }
