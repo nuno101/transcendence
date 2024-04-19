@@ -31,7 +31,7 @@ class TournamentCollection(View):
 		except Exception as e:
 			return JsonResponse({ERROR_FIELD: str(e)}, status=500)
 
-		# TODO: Implement websocket notification?
+		# TODO: consider implementing websocket notification
 
 		return JsonResponse(tournament.serialize(), status=201)
 
@@ -94,7 +94,7 @@ class TournamentSingle(View):
 		except Exception as e:
 			return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
 
-		# TODO: Implement websocket notification?
+		# TODO: consider implementing websocket notification
 
 		return JsonResponse(tournament.serialize())
 
@@ -106,7 +106,7 @@ class TournamentSingle(View):
 
 		tournament.delete()
 
-		# TODO: Implement websocket notification?
+		# TODO: consider implementing websocket notification
 
 		return HttpResponse(status=204)
 	

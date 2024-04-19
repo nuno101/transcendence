@@ -24,27 +24,15 @@ metricbeat.modules:
     - stats
   period: 10s
   hosts: ${KIBANA_HOSTS}
+  ssl.certificate_authorities: "certs/ca/ca.crt"
+  ssl.certificate: "certs/kibana/kibana.crt"
+  ssl.key: "certs/kibana/kibana.key"
   username: ${ELASTIC_USER}
   password: ${ELASTIC_PASSWORD}
   xpack.enabled: true
 
-- module: docker
-  metricsets:
-    - "container"
-    - "cpu"
-    - "diskio"
-    - "healthcheck"
-    - "info"
-    #- "image"
-    - "memory"
-    - "network"
-  hosts: ["unix:///var/run/docker.sock"]
-  period: 10s
-  enabled: true
-
 processors:
   - add_host_metadata: ~
-  - add_docker_metadata: ~
 
 setup:
   dashboards.enabled: true
@@ -52,12 +40,14 @@ setup:
     host: ${KIBANA_HOSTS}
     username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
+    ssl:
+      certificate: "certs/metricbeat/metricbeat.crt"
+      certificate_authorities: "certs/ca/ca.crt"
+      key: "certs/metricbeat/metricbeat.key"
 
 output.elasticsearch:
   hosts: ${ELASTIC_HOSTS}
   username: ${ELASTIC_USER}
   password: ${ELASTIC_PASSWORD}
-  ssl:
-    certificate: "certs/es01/es01.crt"
-    certificate_authorities: "certs/ca/ca.crt"
-    key: "certs/es01/es01.key"
+  ssl.enabled: true
+  ssl.certificate_authorities: "certs/ca/ca.crt"

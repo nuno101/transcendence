@@ -233,7 +233,7 @@
     "err": {
         "Staff user required": "Se requiere usuario de personal",
         "Internal server error": "Error interno del servidor",
-        "Invalid password (choose a better one)": "Contraseña no válida (elige una mejor)",
+        "Password too easy": "Elija una contraseña con al menos 8 caracteres, que no se parezca a su nombre de usuario, evite contraseñas comunes y no consista únicamente en números.",
         "Not logged in": "No has iniciado sesión",
         "Invalid JSON body syntax": "Sintaxis JSON del cuerpo no válida",
         "Cannot add yourself": "No puedes agregarte a ti mismo",
