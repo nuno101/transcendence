@@ -85,9 +85,9 @@
         "updated_at": "Actualizado en"
     },
     "tournamentsview": {
+                "descriptionoftournament" : "Descripción del torneo",
 				"cancel" : "Cancelar",
 				"addtournament" : "Añadir torneo",
-				"descriptionoftournament" : "Descripción del torneo",
 				"description" : "Descripción",
 				"status" : "Estado",
 				"register" : "Regístrese en",		
@@ -106,10 +106,8 @@
 				"nodataavailable" : "No hay datos disponibles",
 				"pasttournaments" : "Torneos anteriores",
 				"ongoingtournaments" : "Torneos en curso"
-				
 			},
 			"singletournamentsview": {
-				"descriptionoftournament": "Descripción del torneo",
 				"openregistration" : "Autorizar inscripciones",
 				"registrationisnowopen" : "Inscripciones abiertas",
 				"deletetournament" : "Borrar torneo",
@@ -137,7 +135,6 @@
 				"cancelled" : "Cancelado",
 				"youarenotpartofthistournament" : "Este torneo está en curso pero usted no forma parte de él",
 				"youplayedallyourgames" : "Jugaste todos tus partidos"
-		
 			},
 			"gameselection": {
 				"selectagame" : "Seleccione un juego",
@@ -277,7 +274,8 @@
         "No permission to access message": "No tienes permiso para acceder al mensaje",
         "413 Request Entity Too Large": "413 Solicitud de entidad demasiado grande",
         "User with this Nickname already exists.": "Usuario con este apodo ya existe.",
-        "Avatar is too large": "El avatar es demasiado grande"
+        "Avatar is too large": "El avatar es demasiado grande",
+        "Username too short, must contain at least 3 characters": "Nombre de usuario demasiado corto, debe contener al menos 3 caracteres"
     },
     "succ": {
         "Hello, world. You're at the transcendence index.": "Hola mundo. Estás en el índice de trascendencia.",

@@ -102,8 +102,6 @@ class Polygon {
 
         this.edges.forEach((edge, i) => {
             const delta = edge.orthogonal(false)
-            // delta.normalize()
-            // delta.scalarMul(circle.radius) RTODO
             delta.length = circle.radius
             const factors = Vector.factorsToEdge(Vector.add(delta, circle.position), new Vector(), this.vertices[i], edge, this.direction)
             if (!factors.length) return

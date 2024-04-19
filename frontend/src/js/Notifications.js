@@ -62,7 +62,6 @@ class Notifications {
             this.messages.value = [...this.messages.value, response];
         } catch (err) {
             console.error(err.message);
-            // TODO: ADD ERROR ALERT
         }
     }
 } 

@@ -134,8 +134,7 @@
 			"done" : "Done",
 			"cancelled" : "Cancelled",
 			"youarenotpartofthistournament" : "This tournament is ongoing but you are not part of it",
-			"youplayedallyourgames" : "You played all your games"
-			
+			"youplayedallyourgames" : "You played all your games"	
 		},
 		"gameselection": {
 			"selectagame" : "Select a game",
@@ -275,7 +274,8 @@
 		"No permission to access message": "No permission to access message",
 		"413 Request Entity Too Large": "413 Request Entity Too Large",
 		"User with this Nickname already exists.": "User with this Nickname already exists.",
-		"Avatar is too large": "Avatar is too large"
+		"Avatar is too large": "Avatar is too large",
+		"Username too short, must contain at least 3 characters": "Username too short, must contain at least 3 characters"
 	},
 	"succ": {
 		"Hello, world. You're at the transcendence index.": "Hello, world. You're at the transcendence index.",
