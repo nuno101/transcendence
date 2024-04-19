@@ -87,9 +87,6 @@ const resetInputFields = () => {
    input.value.description = '';
 };
 
-<<<<<<< HEAD
-onMounted(fetchData)
-=======
 const formatDateTime = (dateTimeString) => {
   const date = new Date(dateTimeString);
   const formattedDateTime = date.toLocaleString('en-US', {
@@ -115,12 +112,10 @@ onMounted(() => {
 	const createTournamentModal = bootstrap.Modal.getInstance("#CreateTournamentModal");
 
 	createTournamentModal?.addEventListener('hidden.bs.modal', () => {
-  	// Clear alerts when the modal is hidden
   	alerts.value = [];
 	});
 	fetchData();
 })
->>>>>>> 1aa407da95a6d8d6f90473279b656866eef1b42e
 
 </script>
 

@@ -118,6 +118,14 @@ const changeAvatar = async(event) => {
 								</div>
 							</div>
 						</div>
+						<div class="col-6 col-sm-12">
+							<div class="form-group row mt-3 align-items-center">
+								<label class="col-md-4 col-sm-12 control-label">Number: </label>
+								<div class="col-md-8  col-sm-12">
+									<input type="text" class="form-control" :placeholder="'Your number'" v-model="input.nickname">
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="form-group row mt-2 mt-sm-3 align-items-center">
 						<label class="col-md-4 col-sm-12 control-label">{{useI18n().t('password')}}</label>
