@@ -25,8 +25,12 @@
               {{ game.tournament.title }}
             </router-link>
         </td>
-        <td v-if="!game.tournament || game.tournament.status === 'ongoing'" class="align-middle px-2 text-center">
+        <td v-if="!game.tournament" class="align-middle px-2 text-center">
           <router-link :to="`/ponggame/${game.id}`">
+            <button type="button" class="btn py-1 btn-outline-primary">{{useI18n().t('upcomingGames.play')}}</button></router-link>
+        </td>
+        <td v-else-if="game.tournament.status === 'ongoing'" class="align-middle px-2 text-center">
+          <router-link :to="`/tournaments/${game.tournament.id}`">
             <button type="button" class="btn py-1 btn-outline-primary">{{useI18n().t('upcomingGames.play')}}</button></router-link>
         </td>
       </tr>
