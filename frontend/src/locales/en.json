@@ -276,7 +276,9 @@
 		"User with this Nickname already exists.": "User with this Nickname already exists.",
 		"Avatar is too large": "Avatar is too large",
 		"Username too short, must contain at least 3 characters": "Username too short, must contain at least 3 characters",
-		"Username should be a combination of alphanumeric characters": "Username should be a combination of alphanumeric characters",
+		"Username should be a combination of low case letters": "Username should be a combination of low case letters",
+		"Nickname should be a combination of alphanumeric characters": "Nickname should be a combination of alphanumeric characters",
+		"Nickname is too short, must contain at least 3 characters": "Nickname is too short, must contain at least 3 characters",
 		"Title is too short, must contain at least 3 characters": "Title is too short, must contain at least 3 characters",
 		"Title should be a combination of alphanumeric characters, spaces and/or dashes": "Title should be a combination of alphanumeric characters, spaces and/or dashes"
 	},

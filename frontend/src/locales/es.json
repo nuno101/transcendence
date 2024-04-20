@@ -276,7 +276,9 @@
         "User with this Nickname already exists.": "Usuario con este apodo ya existe.",
         "Avatar is too large": "El avatar es demasiado grande",
         "Username too short, must contain at least 3 characters": "Nombre de usuario demasiado corto, debe contener al menos 3 caracteres",
-        "Username should be a combination of alphanumeric characters": "El nombre de usuario debe ser una combinación de caracteres alfanuméricos",
+        "Username should be a combination of low case letters": "El nombre de usuario debe ser una combinación de letras minúsculas",
+        "Nickname should be a combination of alphanumeric characters": "El apodo debe ser una combinación de caracteres alfanuméricos",
+		"Nickname is too short, must contain at least 3 characters": "El apodo es demasiado corto, debe contener al menos 3 caracteres",
         "Title is too short, must contain at least 3 characters": "El título es demasiado corto, debe contener al menos 3 caracteres",
         "Title should be a combination of alphanumeric characters, spaces and/or dashes": "El título debe ser una combinación de caracteres alfanuméricos, espacios y/o guiones"
     },
