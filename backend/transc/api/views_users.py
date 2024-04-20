@@ -29,7 +29,6 @@ class UserCollection(View):
 			user.save()
 		except ValidationError as e:
 			error_object = e.message_dict
-			error_object.pop('nickname', None)
 			return JsonResponse({"type": "object", ERROR_FIELD: error_object}, status=400)
 		except Exception as e:
 			return JsonResponse({ERROR_FIELD: "Internal server error"}, status=500)
