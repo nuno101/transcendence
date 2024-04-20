@@ -275,7 +275,8 @@
 		"413 Request Entity Too Large": "413 Request Entity Too Large",
 		"User with this Nickname already exists.": "User with this Nickname already exists.",
 		"Avatar is too large": "Avatar is too large",
-		"Username too short, must contain at least 3 characters": "Username too short, must contain at least 3 characters"
+		"Username too short, must contain at least 3 characters": "Username too short, must contain at least 3 characters",
+		"Username should be a combination of alphanumeric characters": "Der Benutzername sollte eine Kombination aus alphanumerischen Zeichen sein"
 	},
 	"succ": {
 		"Hello, world. You're at the transcendence index.": "Hello, world. You're at the transcendence index.",
