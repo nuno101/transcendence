@@ -71,7 +71,7 @@ const addNewTournament = async () => {
 		message: err.message,
 	})
 	trimAlerts();
-    console.error(err);
+    console.error(err.message);
 	}
 };
 
@@ -186,13 +186,13 @@ onMounted(() => {
 			   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="cancelModal"></button>
 		   </div>
 		   <div class="modal-body">
-						<div v-if="alerts.length > 0 && !input.title" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[0].message}`) ? useI18n().t(`err.${alerts[0].message}`) :  alerts[0].message}}</div>
+						<div v-if="alerts.length > 0" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[0].message}`) ? useI18n().t(`err.${alerts[0].message}`) :  alerts[0].message}}</div>
 					   	<div class="form-group">
 						   <label for="title">{{ useI18n().t('tournamentsview.title') }}</label>
 						   <input type="text" class="form-control" id="title" placeholder="Enter title" v-model="input.title" required>
 					   </div>
 					   <br/>
-					   <div v-if="alerts.length > 0 && !input.description" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[0].message}`) ? useI18n().t(`err.${alerts[0].message}`) :  alerts[0].message}}</div>
+					   <div v-if="alerts.length > 1" class="alert alert-danger" style="margin-bottom: 0.5em;">{{ useI18n().te(`err.${alerts[1].message}`) ? useI18n().t(`err.${alerts[1].message}`) :  alerts[1].message}}</div>
 					   <div class="form-group">
 						   <label for="description">{{ useI18n().t('tournamentsview.descriptionoftournament') }}</label>
 						   <input class="form-control" id="description" placeholder="Enter description" v-model="input.description" required>
