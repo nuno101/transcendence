@@ -8,7 +8,7 @@ COPY src/ ./src/
 COPY index.html ./
 COPY package*.json ./
 COPY vite.config.js ./
-RUN npm install --production
+RUN npm install
 RUN npm run build
 
 FROM nginx:1.24-alpine3.17
