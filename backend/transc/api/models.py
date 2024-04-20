@@ -18,9 +18,12 @@ class User(AbstractUser):
 
 	username = models.CharField(max_length=12, unique=True, null=False,validators=[
             MinLengthValidator(3, 'Username too short, must contain at least 3 characters'),
-			RegexValidator('^([a-z]+)([\w\d]+)+$', message="Username should be a combination of alphanumeric characters")
+			RegexValidator('^[a-z]+$', message="Username should be a combination of low case letters")
             ])
-	nickname = models.CharField(max_length=12, unique=True, null=True)
+	nickname = models.CharField(max_length=12, unique=True, null=True, validators=[
+            MinLengthValidator(3, 'Nickname is too short, must contain at least 3 characters'),
+			RegexValidator('^([a-zA-Z]+)([\w\d\s\-_]+)+$', message="Nickname should be a combination of alphanumeric characters")
+            ])
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	avatar = models.ImageField(upload_to=get_avatar_path, null=True, blank=True)
