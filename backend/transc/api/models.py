@@ -18,7 +18,7 @@ class User(AbstractUser):
 
 	username = models.CharField(max_length=12, unique=True, null=False,validators=[
             MinLengthValidator(3, 'Username too short, must contain at least 3 characters'),
-			RegexValidator('^(\w+\d+|\d+\w+)+$', message="Username should be a combination of alphanumeric characters")
+			RegexValidator('^([a-z]+)([\w\d]+)+$', message="Username should be a combination of alphanumeric characters")
             ])
 	nickname = models.CharField(max_length=12, unique=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -88,7 +88,10 @@ class Tournament(models.Model):
 			DONE = "done"
 			CANCELLED = "cancelled"
 
-	title = models.CharField(max_length=150)
+	title = models.CharField(max_length=150, unique=True, null=False, validators=[
+            MinLengthValidator(3, 'Title is too short, must contain at least 3 characters'),
+			RegexValidator('^(\w+)([\w\-_\ ])+$', message="Title should be a combination of alphanumeric characters, spaces and/or dashes")
+            ])
 	description = models.CharField(max_length=900)
 	creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_tournaments')
 	status = models.CharField(

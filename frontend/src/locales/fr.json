@@ -276,7 +276,9 @@
         "User with this Nickname already exists.": "L'utilisateur avec ce pseudo existe déjà.",
         "Avatar is too large": "L'avatar est trop grand",
         "Username too short, must contain at least 3 characters": "Nom d'utilisateur trop court, doit contenir au moins 3 caractères",
-        "Username should be a combination of alphanumeric characters": "Le nom d'utilisateur doit être une combinaison de caractères alphanumériques"
+        "Username should be a combination of alphanumeric characters": "Le nom d'utilisateur doit être une combinaison de caractères alphanumériques",
+		"Title is too short, must contain at least 3 characters": "Le titre est trop court, doit contenir au moins 3 caractères",
+		"Title should be a combination of alphanumeric characters, spaces and/or dashes": "Le titre doit être une combinaison de caractères alphanumériques, d'espaces et/ou de tirets"
     },
     "succ": {
         "Hello, world. You're at the transcendence index.": "Bonjour, le monde. Vous êtes à l'accueil de Transcendence.",
