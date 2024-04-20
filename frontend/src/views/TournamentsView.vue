@@ -286,8 +286,8 @@ onMounted(() => {
 								<td>{{ formatDateTime(tournament.updated_at) }}</td>
 								<td>{{ useI18n().t(`singletournamentsview.${tournament.status}`)}}</td>
 								<td>
-									<router-link v-if="tournament.ranking && tournament.ranking.length > 0" :to="'/users/' + tournament.ranking[0].id"> 
-									{{ tournament.ranking[0].nickname }} 
+									<router-link v-if="tournament.ranking && tournament.ranking.length > 0" :to="'/users/' + tournament.ranking[0].user_id">
+									{{ tournament.ranking[0].nickname }}
 									</router-link>
 								</td>
 							</tr>
@@ -338,8 +338,8 @@ onMounted(() => {
                 					</template>
 								</td>
 								<td>
-									<router-link v-if="tournament.ranking && tournament.ranking.length > 0" :to="'/users/' + tournament.ranking[0].id"> 
-									{{ tournament.ranking[0].nickname }} 
+									<router-link v-if="tournament.ranking && tournament.ranking.length > 0" :to="'/users/' + tournament.ranking[0].user_id">
+									{{ tournament.ranking[0].nickname }}
 									</router-link>
 								</td>
 							</tr>
